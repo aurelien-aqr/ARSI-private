@@ -1,0 +1,15 @@
+# ARSI-VLM - Python libraries
+#
+# NOTE: this installs the Ollama *Python client* only. The Ollama *server* is a
+# separate program (installed by setup.sh via the official install script).
+
+ollama>=0.3.0
+pillow>=10.0.0
+
+# Open-vocabulary object detector (YOLO-World) used by vlm_04_hybrid_detect.py.
+# Weights auto-download at runtime; only the library is installed here.
+ultralytics>=8.3.0
+
+# Numerical arrays for the reference-difference change detection in
+# vlm_05_reference_diff.py (also pulled in by ultralytics, listed for clarity).
+numpy>=1.24.0

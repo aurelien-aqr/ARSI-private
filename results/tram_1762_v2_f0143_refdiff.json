@@ -1,0 +1,90 @@
+[
+  {
+    "bbox": [
+      568,
+      24,
+      692,
+      164
+    ],
+    "area": 10816,
+    "vlm_label": "backpack",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      808,
+      84,
+      896,
+      200
+    ],
+    "area": 7120,
+    "vlm_label": "black backpack",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      1040,
+      680,
+      1128,
+      728
+    ],
+    "area": 3488,
+    "vlm_label": "black phone",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      696,
+      84,
+      748,
+      112
+    ],
+    "area": 1248,
+    "vlm_label": "backpack",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      508,
+      28,
+      536,
+      64
+    ],
+    "area": 1008,
+    "vlm_label": "bag",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      884,
+      76,
+      916,
+      104
+    ],
+    "area": 832,
+    "vlm_label": "black bag",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      916,
+      120,
+      944,
+      148
+    ],
+    "area": 768,
+    "vlm_label": "black bag",
+    "vlm_is_object": true
+  },
+  {
+    "bbox": [
+      776,
+      92,
+      804,
+      116
+    ],
+    "area": 656,
+    "vlm_label": "black bag",
+    "vlm_is_object": true
+  }
+]

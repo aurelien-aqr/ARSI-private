@@ -1,0 +1,23 @@
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Large model weights (exceed GitHub 100MB file limit)
+weights/
+yolov8x-worldv2.pt
+*.pt
+
+# Large raw data
+data/videos/
+data/raw/
+data/masked/
+
+# Temp probe/crop images
+results/_*.jpg
+
+# OS
+.DS_Store

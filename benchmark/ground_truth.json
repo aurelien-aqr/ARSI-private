@@ -1,0 +1,81 @@
+{
+  "_about": "Ground-truth labels for the vlm_05 reference-diff anomaly benchmark. Each case pairs an inspection image with the clean reference it is diffed against. has_anomaly = frame-level label (primary binary metric). instances = OBJECT-level ground truth: one entry per real anomaly, with its type and an approximate bounding box in the REFERENCE image's pixel space (real ref = 1920x1080; variant ref = 1672x941; GPT frames are resized onto the real ref, so their boxes are also in 1920x1080). Boxes are intentionally generous; a detected instance = any kept region overlapping it. Types: object=forgotten object, graffiti, damage=vandalism/torn seat, litter=trash on floor. People are NOT instances (a kept box on a person is a false positive).",
+  "references": {
+    "real": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+    "variant": "data/reference/tram_variant/tram_variant_reference.png"
+  },
+  "cases": [
+    {"id": "real_f0037", "image": "data/anomalies/tram_1762_v2_f0037_masked.jpg", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "phone L seat, wallet R seat, bag near validator, backpack far-right", "instances": [
+      {"type": "object", "bbox": [525, 420, 670, 505], "note": "phone on left-mid seat"},
+      {"type": "object", "bbox": [940, 405, 1060, 490], "note": "wallet on right-mid seat"},
+      {"type": "object", "bbox": [535, 25, 695, 165], "note": "bag near validator (far-left)"},
+      {"type": "object", "bbox": [875, 0, 1040, 150], "note": "backpack on far-right seat"}]},
+    {"id": "real_f0053", "image": "data/anomalies/tram_1762_v2_f0053_masked.jpg", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "phone, wallet, bag on floor, bag near validator", "instances": [
+      {"type": "object", "bbox": [525, 420, 670, 505], "note": "phone on left-mid seat"},
+      {"type": "object", "bbox": [940, 405, 1060, 490], "note": "wallet on right-mid seat"},
+      {"type": "object", "bbox": [775, 70, 915, 215], "note": "backpack on the floor mid-back"},
+      {"type": "object", "bbox": [535, 25, 695, 165], "note": "bag near validator"}]},
+    {"id": "real_f0100", "image": "data/anomalies/tram_1762_v2_f0100_masked.jpg", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "phone L, wallet, bag on floor, bag near validator", "instances": [
+      {"type": "object", "bbox": [285, 445, 390, 540], "note": "phone on left seat"},
+      {"type": "object", "bbox": [940, 405, 1060, 490], "note": "wallet on right-mid seat"},
+      {"type": "object", "bbox": [785, 80, 910, 210], "note": "backpack on the floor mid-back"},
+      {"type": "object", "bbox": [535, 25, 695, 165], "note": "bag near validator"}]},
+    {"id": "real_f0112", "image": "data/anomalies/tram_1762_v2_f0112_masked.jpg", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "backpack on floor, phones on seats, bag near validator", "instances": [
+      {"type": "object", "bbox": [780, 0, 915, 195], "note": "backpack on the floor mid-back"},
+      {"type": "object", "bbox": [290, 445, 390, 540], "note": "phone on left seat"},
+      {"type": "object", "bbox": [1020, 650, 1120, 750], "note": "phone on right foreground seat"},
+      {"type": "object", "bbox": [535, 25, 695, 165], "note": "bag near validator"}]},
+    {"id": "real_f0205", "image": "data/anomalies/tram_1762_v3_f0205_masked.jpg", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "grey jacket draped over right-mid seat, backpack in front-left seat", "instances": [
+      {"type": "object", "bbox": [872, 0, 1384, 584], "note": "jacket draped over right seats"},
+      {"type": "object", "bbox": [36, 788, 480, 1080], "note": "backpack in front-left seat"}]},
+    {"id": "real_f0219", "image": "data/anomalies/tram_1762_v3_f0219_masked.jpg", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "jacket + backpack; a real seated person must be rejected", "instances": [
+      {"type": "object", "bbox": [1040, 90, 1384, 540], "note": "jacket draped over right seats"},
+      {"type": "object", "bbox": [60, 930, 310, 1080], "note": "backpack in front-left seat"},
+      {"type": "object", "bbox": [615, 0, 770, 80], "note": "phone on far seat"}]},
+
+    {"id": "gpt_01_suitcase", "image": "data/anomalies/tram_anomalies_1.png", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "black suitcase standing in the aisle", "instances": [
+      {"type": "object", "bbox": [700, 405, 925, 885], "note": "suitcase in the aisle"}]},
+    {"id": "gpt_02_multi", "image": "data/anomalies/tram_anomalies_2.png", "reference": "real", "has_anomaly": true, "types": ["object"], "note": "backpack, water bottle, paper bag, smartphone", "instances": [
+      {"type": "object", "bbox": [445, 315, 655, 545], "note": "backpack on left seat"},
+      {"type": "object", "bbox": [950, 450, 1070, 535], "note": "water bottle on right seat"},
+      {"type": "object", "bbox": [810, 595, 945, 765], "note": "paper shopping bag on floor"},
+      {"type": "object", "bbox": [995, 695, 1085, 775], "note": "smartphone"}]},
+    {"id": "gpt_03_faint_tag", "image": "data/anomalies/tram_anomalies_3.png", "reference": "real", "has_anomaly": true, "types": ["graffiti"], "note": "faint 'XRP' tag on right seat pod (subtle / hard)", "instances": [
+      {"type": "graffiti", "bbox": [1120, 520, 1240, 620], "note": "faint XRP tag on right pod"}]},
+    {"id": "gpt_04_graffiti", "image": "data/anomalies/tram_anomalies_4.png", "reference": "real", "has_anomaly": true, "types": ["graffiti"], "note": "large multicolour graffiti covering the right-side wall", "instances": [
+      {"type": "graffiti", "bbox": [1268, 0, 1920, 920], "note": "graffiti covering the whole right wall"}]},
+    {"id": "gpt_05_slash", "image": "data/anomalies/tram_anomalies_5.png", "reference": "real", "has_anomaly": true, "types": ["damage"], "note": "slashed seat cushion on left-mid seat", "instances": [
+      {"type": "damage", "bbox": [470, 460, 630, 570], "note": "slashed cushion on left-mid seat"}]},
+    {"id": "gpt_07_multi", "image": "data/anomalies/tram_anomalies_7.png", "reference": "real", "has_anomaly": true, "types": ["object", "damage", "graffiti"], "note": "backpack, slashed seat, 'HOBO' tag, bottle", "instances": [
+      {"type": "object", "bbox": [465, 295, 665, 565], "note": "backpack on left seat"},
+      {"type": "damage", "bbox": [1020, 460, 1190, 545], "note": "slashed right-mid seat"},
+      {"type": "graffiti", "bbox": [1330, 460, 1460, 630], "note": "HOBO tag on right pod"},
+      {"type": "object", "bbox": [720, 695, 800, 785], "note": "bottle on floor"}]},
+    {"id": "gpt_08_phone_tag", "image": "data/anomalies/tram_anomalies_8.png", "reference": "real", "has_anomaly": true, "types": ["object", "graffiti"], "note": "smartphone on right-mid seat, 'ZORK' tag on right pod", "instances": [
+      {"type": "object", "bbox": [1135, 405, 1225, 495], "note": "smartphone on right-mid seat"},
+      {"type": "graffiti", "bbox": [1320, 500, 1440, 610], "note": "ZORK tag on right pod"}]},
+    {"id": "gpt_09_litter", "image": "data/anomalies/tram_anomalies_9.png", "reference": "real", "has_anomaly": true, "types": ["litter"], "note": "green can + scattered trash on the floor", "instances": [
+      {"type": "litter", "bbox": [715, 585, 915, 985], "note": "can + scattered trash on floor (cluster)"}]},
+    {"id": "gpt_10_litter", "image": "data/anomalies/tram_anomalies_10.png", "reference": "real", "has_anomaly": true, "types": ["litter"], "note": "can + crumpled paper on the floor", "instances": [
+      {"type": "litter", "bbox": [680, 200, 915, 350], "note": "can + trash on floor mid-back (cluster)"}]},
+    {"id": "gpt_11_crowd", "image": "data/anomalies/tram_anomalies_11.png", "reference": "real", "has_anomaly": true, "types": ["object", "damage", "graffiti"], "note": "backpack, slashed seat, 'HOBO' tag, bottle; three real people must be rejected", "instances": [
+      {"type": "object", "bbox": [430, 295, 695, 565], "note": "backpack on left seat"},
+      {"type": "damage", "bbox": [895, 455, 1185, 545], "note": "slashed right-mid seat"},
+      {"type": "graffiti", "bbox": [1325, 460, 1455, 630], "note": "HOBO tag on right pod"},
+      {"type": "object", "bbox": [715, 715, 805, 795], "note": "bottle on floor"}]},
+
+    {"id": "variant_01", "image": "data/anomalies/tram_variant/tram_variant_anomalies.png", "reference": "variant", "has_anomaly": true, "types": ["object", "graffiti", "damage"], "note": "backpack, 'KEPP' graffiti, torn seat, bottle (variant scene, own reference, 1672x941 space)", "instances": [
+      {"type": "object", "bbox": [250, 585, 475, 795], "note": "backpack on left seat"},
+      {"type": "graffiti", "bbox": [1355, 310, 1535, 425], "note": "KEPP graffiti on right panel"},
+      {"type": "damage", "bbox": [1315, 745, 1455, 865], "note": "torn seat on right"},
+      {"type": "object", "bbox": [720, 330, 815, 390], "note": "bottle on floor"}]},
+
+    {"id": "neg_real_ref_self", "image": "data/reference/tram_1762_v1_f0227_masked_reference.jpg", "reference": "real", "has_anomaly": false, "types": [], "note": "reference vs itself: must yield 0 anomalies", "instances": []},
+    {"id": "neg_variant_ref_self", "image": "data/reference/tram_variant/tram_variant_reference.png", "reference": "variant", "has_anomaly": false, "types": [], "note": "variant reference vs itself: must yield 0", "instances": []},
+    {"id": "neg_gpt_06_clean", "image": "data/anomalies/tram_anomalies_6.png", "reference": "real", "has_anomaly": false, "types": [], "note": "clean AI-generated frame: tests robustness to render artifacts", "instances": []},
+    {"id": "neg_v1_f0151", "image": "data/masked/tram_1762_v1_f0151_masked.jpg", "reference": "real", "has_anomaly": false, "types": [], "note": "empty tram, same session as the reference, camera-aligned", "instances": []},
+    {"id": "neg_v1_f0181", "image": "data/masked/tram_1762_v1_f0181_masked.jpg", "reference": "real", "has_anomaly": false, "types": [], "note": "empty tram, same session, aligned", "instances": []},
+    {"id": "neg_v1_f0211", "image": "data/masked/tram_1762_v1_f0211_masked.jpg", "reference": "real", "has_anomaly": false, "types": [], "note": "empty tram, same session, aligned", "instances": []},
+    {"id": "neg_v1_f0241", "image": "data/masked/tram_1762_v1_f0241_masked.jpg", "reference": "real", "has_anomaly": false, "types": [], "note": "empty tram, same session, aligned", "instances": []}
+  ]
+}

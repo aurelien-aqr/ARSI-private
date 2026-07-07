@@ -1,0 +1,1146 @@
+{
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0211_masked.jpg|[1668, 936, 1780, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0211_masked.jpg|[1848, 1016, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0241_masked.jpg|[1668, 932, 1780, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0241_masked.jpg|[1136, 1032, 1376, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0241_masked.jpg|[1848, 1016, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0151_masked.jpg|[1664, 936, 1724, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0151_masked.jpg|[1848, 1016, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0151_masked.jpg|[1728, 1024, 1776, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0151_masked.jpg|[1896, 120, 1920, 152]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0181_masked.jpg|[1668, 936, 1732, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0181_masked.jpg|[1848, 1016, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0181_masked.jpg|[1732, 1052, 1780, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0181_masked.jpg|[648, 1024, 676, 1048]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[556, 476, 616, 548]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "damage to seat cushion."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[436, 536, 476, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[884, 0, 912, 40]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[812, 0, 840, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[892, 72, 920, 100]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[724, 84, 748, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[336, 1016, 592, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[904, 20, 1016, 132]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[568, 48, 668, 144]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[1668, 936, 1740, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[556, 444, 648, 488]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[964, 424, 1040, 472]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "wallet on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[1848, 1020, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[1732, 1052, 1784, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[440, 536, 476, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[884, 0, 912, 40]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[812, 0, 844, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[988, 800, 1012, 832]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[724, 84, 752, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[892, 64, 916, 88]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[980, 748, 1004, 772]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[656, 76, 680, 100]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[748, 740, 808, 792]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "battery on floor"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[840, 932, 896, 980]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "SIM CARD ON FLOOR"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[872, 816, 912, 848]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "small white object"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[1140, 500, 1180, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[440, 540, 472, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[812, 4, 840, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[724, 896, 752, 924]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "small object on surface"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_9.png|[1128, 556, 1152, 580]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag on vent"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[820, 336, 864, 376]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "a can appeared."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[860, 280, 908, 320]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "trash on floor"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[436, 536, 476, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[812, 0, 840, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[888, 0, 912, 28]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[896, 72, 920, 96]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[656, 76, 680, 100]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_10.png|[824, 244, 848, 268]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "rolled-up banknote"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[884, 0, 916, 40]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[440, 536, 476, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[812, 0, 844, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[724, 80, 752, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[896, 72, 920, 96]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[656, 76, 680, 100]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[880, 380, 904, 404]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[988, 800, 1012, 824]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[712, 720, 916, 876]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black suitcase appeared."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[744, 536, 904, 628]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black suitcase appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[796, 412, 872, 472]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "suitcase appears."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[740, 508, 828, 560]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black suitcase appears."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[572, 48, 596, 88]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[812, 0, 840, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[700, 548, 724, 584]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[444, 540, 472, 564]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[724, 84, 752, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1224, 104, 1264, 196]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti on window"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1240, 28, 1312, 96]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "colorful abstract pattern"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[724, 0, 764, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[812, 4, 840, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1352, 652, 1380, 676]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti or tag"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[668, 428, 692, 452]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[448, 540, 472, 564]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[312, 60, 336, 84]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1144, 504, 1172, 524]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[1140, 428, 1204, 488]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[980, 748, 1016, 836]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[888, 60, 916, 104]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[436, 536, 476, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[884, 0, 912, 36]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[812, 0, 840, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[1088, 400, 1112, 432]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[724, 84, 752, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[976, 24, 1000, 52]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[880, 380, 904, 404]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[368, 600, 468, 796]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack on seat"
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[1364, 304, 1464, 400]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag \"KLEP\""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[1340, 792, 1444, 868]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "tear in seat fabric"
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[1332, 76, 1408, 128]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[280, 772, 364, 808]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack on seat"
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[736, 344, 804, 380]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "bottle on floor"
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[364, 404, 436, 432]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[872, 8, 896, 52]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[864, 536, 888, 580]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[684, 424, 720, 448]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[292, 588, 320, 620]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appears"
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[700, 528, 724, 552]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[880, 624, 904, 648]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[468, 304, 692, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack and bottle"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[336, 1016, 584, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1340, 488, 1444, 656]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[436, 524, 484, 572]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black bag on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1396, 428, 1424, 480]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[884, 0, 912, 40]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[812, 0, 844, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1232, 500, 1272, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[648, 524, 680, 556]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black backpack appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1036, 476, 1072, 496]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "damage to seat surface"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[724, 84, 752, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[972, 20, 996, 48]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1148, 504, 1172, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[988, 800, 1012, 824]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[460, 304, 652, 520]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black backpack appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[1000, 724, 1072, 796]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone and paper bag"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[980, 460, 1068, 508]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "water bottle appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[916, 732, 968, 768]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "brown paper bag"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[436, 532, 476, 572]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black bag appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[664, 424, 692, 468]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black backpack strap"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[884, 0, 912, 40]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[812, 0, 844, 32]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[1232, 500, 1272, 524]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[652, 524, 680, 556]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[724, 80, 752, 108]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[656, 72, 680, 100]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[1144, 504, 1172, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[1640, 616, 1668, 640]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[892, 76, 916, 100]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[988, 800, 1012, 824]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on surface"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1116, 20, 1244, 312]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[336, 1012, 604, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1440, 228, 1528, 584]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[568, 8, 672, 144]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1664, 932, 1724, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[804, 108, 892, 200]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black backpack appeared."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1104, 392, 1224, 436]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "wallet on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[556, 444, 648, 488]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[964, 416, 1040, 472]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "wallet on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1724, 1012, 1784, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1848, 1016, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1048, 0, 1076, 112]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1404, 836, 1480, 896]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1276, 644, 1352, 680]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1048, 512, 1120, 540]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[500, 712, 552, 748]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[424, 532, 476, 572]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1180, 656, 1240, 684]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1156, 504, 1212, 532]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[280, 680, 316, 732]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[992, 0, 1016, 48]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[644, 520, 680, 556]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1228, 500, 1264, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1896, 120, 1920, 152]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1096, 684, 1128, 708]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[336, 1012, 592, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack disappeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[564, 4, 684, 160]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appears."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1668, 936, 1736, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[808, 84, 892, 200]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack on floor"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1512, 800, 1664, 848]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1512, 616, 1656, 656]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[964, 420, 1040, 472]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "wallet on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1008, 508, 1128, 540]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[304, 456, 368, 516]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1848, 1020, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1420, 840, 1480, 896]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[316, 548, 408, 580]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1136, 496, 1212, 532]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[488, 544, 572, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1232, 500, 1304, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[420, 536, 476, 572]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1152, 184, 1212, 208]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[108, 708, 160, 736]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1328, 652, 1384, 680]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[172, 628, 200, 676]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1732, 1052, 1788, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[52, 708, 104, 732]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[124, 912, 152, 956]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1096, 684, 1128, 712]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[644, 532, 672, 556]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[112, 800, 420, 1048]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[504, 0, 752, 168]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack on floor"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[328, 1000, 616, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1644, 868, 1784, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[760, 0, 932, 204]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black backpack appeared."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[120, 416, 204, 692]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[512, 176, 676, 300]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appears."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[476, 512, 672, 572]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on left seat."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[380, 92, 448, 276]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1228, 444, 1328, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1004, 176, 1116, 324]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1064, 480, 1216, 536]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[456, 244, 508, 376]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[992, 800, 1056, 916]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1040, 680, 1136, 728]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone appeared"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[16, 708, 160, 736]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[992, 28, 1100, 148]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[304, 448, 384, 516]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[36, 980, 84, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[640, 800, 672, 940]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[300, 548, 408, 580]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[480, 424, 572, 468]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1844, 1012, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[404, 932, 512, 964]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1140, 180, 1240, 208]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[512, 0, 748, 280]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1164, 572, 1404, 712]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "person sitting on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1644, 872, 1784, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1436, 592, 1656, 688]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[416, 508, 680, 604]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1500, 756, 1668, 872]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[336, 1012, 548, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack handle visible"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[380, 88, 452, 280]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[396, 432, 604, 476]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[140, 492, 204, 692]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[264, 656, 428, 752]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[504, 0, 556, 132]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[976, 728, 1028, 896]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[300, 544, 412, 580]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1840, 1012, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1108, 1052, 1260, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[408, 936, 512, 968]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1308, 856, 1396, 900]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[920, 496, 964, 572]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[96, 704, 172, 756]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[76, 60, 104, 160]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1092, 896, 1144, 960]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1080, 676, 1140, 728]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[756, 168, 820, 208]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[16, 704, 92, 736]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1052, 100, 1260, 488]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "jacket draped over seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[876, 0, 1044, 228]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "a person sitting down."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1228, 256, 1376, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "jacket draped over seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[76, 976, 296, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black backpack appeared."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[920, 484, 1216, 544]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "person sitting on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[416, 524, 684, 576]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[576, 72, 752, 196]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "person standing on right side"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1668, 940, 1724, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[116, 876, 244, 932]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black bag appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[336, 1016, 512, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1516, 800, 1664, 848]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[844, 168, 912, 244]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "person sitting down"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[300, 548, 408, 580]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1280, 644, 1384, 684]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1104, 1056, 1252, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[272, 704, 372, 748]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[260, 908, 356, 952]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1508, 628, 1600, 660]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1308, 856, 1396, 900]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[172, 620, 204, 684]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1412, 836, 1484, 872]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[380, 220, 444, 248]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1728, 1048, 1788, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[664, 0, 704, 56]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone appears on right."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[584, 200, 636, 228]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[420, 280, 700, 576]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack and bottle"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[968, 8, 1232, 448]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti on wall"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[336, 1016, 588, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1340, 488, 1440, 656]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[380, 696, 616, 824]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "bottle on floor"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1024, 480, 1216, 544]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "damage on seat cushion"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[972, 732, 1028, 908]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1228, 488, 1328, 528]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag on wall"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[616, 864, 672, 932]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[908, 472, 964, 540]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "torn blue seat cushion"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[376, 592, 412, 644]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "a person appears."
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1396, 428, 1424, 480]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti tag on surface"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[632, 768, 660, 820]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1628, 608, 1664, 640]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[504, 32, 536, 64]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1200, 656, 1240, 680]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[488, 544, 524, 568]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[180, 148, 212, 176]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[472, 636, 496, 668]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "black jacket appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[552, 140, 580, 168]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[928, 196, 956, 220]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[500, 220, 528, 244]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1032, 476, 1064, 496]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "damage on seat surface"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[372, 224, 396, 248]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[652, 1024, 676, 1048]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1268, 0, 1920, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "graffiti on wall"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[1224, 572, 1668, 1032]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "phone on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[872, 0, 1384, 584]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "jacket on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[36, 788, 480, 1080]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[540, 0, 1008, 448]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "backpack on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[124, 380, 408, 920]|qwen3-vl:8b-instruct|7dcdec029e39": {
+  "yes": true,
+  "label": "man sitting with backpack"
+ }
+}

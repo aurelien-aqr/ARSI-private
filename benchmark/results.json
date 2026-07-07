@@ -1,0 +1,664 @@
+{
+  "generated": 1783293411.4428675,
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, undamaged tram).\n- RIGHT half = the same spot now.\nDid an ANOMALY appear on the right that is NOT on the left? An anomaly is any of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- graffiti or a tag / scribble drawn on a surface,\n- damage or vandalism (a torn or slashed seat, a broken part).\nAnswer NO if the only difference is a person or body part, a shadow, a\nreflection, or a lighting/exposure change.\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "model": "qwen3-vl:8b-instruct",
+  "rows": [
+    {
+      "id": "neg_real_ref_self",
+      "reference": "real",
+      "image": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 0,
+      "n_classified": 0,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {}
+    },
+    {
+      "id": "neg_variant_ref_self",
+      "reference": "variant",
+      "image": "data/reference/tram_variant/tram_variant_reference.png",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 0,
+      "n_classified": 0,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {}
+    },
+    {
+      "id": "neg_v1_f0211",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0211_masked.jpg",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 2,
+      "n_classified": 2,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {}
+    },
+    {
+      "id": "neg_v1_f0241",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0241_masked.jpg",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 3,
+      "n_classified": 3,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {}
+    },
+    {
+      "id": "neg_v1_f0151",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0151_masked.jpg",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 4,
+      "n_classified": 4,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {}
+    },
+    {
+      "id": "neg_v1_f0181",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0181_masked.jpg",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 4,
+      "n_classified": 4,
+      "n_kept": 1,
+      "flagged": true,
+      "outcome": "FP",
+      "kept_labels": [
+        "graffiti tag appears"
+      ],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 1,
+      "type_detect": {}
+    },
+    {
+      "id": "gpt_05_slash",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_5.png",
+      "has_anomaly": true,
+      "types": [
+        "damage"
+      ],
+      "n_regions": 6,
+      "n_classified": 6,
+      "n_kept": 1,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "damage to seat cushion."
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "fp_regions": 0,
+      "type_detect": {
+        "damage": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "real_f0037",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0037_masked.jpg",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 4,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack appeared",
+        "backpack appeared",
+        "phone on seat",
+        "wallet on seat"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "id": "gpt_03_faint_tag",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_3.png",
+      "has_anomaly": true,
+      "types": [
+        "graffiti"
+      ],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "FN",
+      "kept_labels": [],
+      "instances_total": 1,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "graffiti": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "gpt_09_litter",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_9.png",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 5,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "battery on floor",
+        "SIM CARD ON FLOOR",
+        "small white object",
+        "small object on surface",
+        "graffiti tag on vent"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "fp_regions": 1,
+      "type_detect": {
+        "litter": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "gpt_10_litter",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_10.png",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 3,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a can appeared.",
+        "trash on floor",
+        "rolled-up banknote"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "fp_regions": 1,
+      "type_detect": {
+        "litter": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "neg_gpt_06_clean",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_6.png",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 0,
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "fp_regions": 0,
+      "type_detect": {}
+    },
+    {
+      "id": "gpt_01_suitcase",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_1.png",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 9,
+      "n_classified": 9,
+      "n_kept": 4,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black suitcase appeared.",
+        "black suitcase appeared",
+        "suitcase appears.",
+        "black suitcase appears."
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "gpt_04_graffiti",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_4.png",
+      "has_anomaly": true,
+      "types": [
+        "graffiti"
+      ],
+      "n_regions": 10,
+      "n_classified": 10,
+      "n_kept": 4,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "graffiti on wall",
+        "graffiti on window",
+        "colorful abstract pattern",
+        "graffiti or tag"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "fp_regions": 1,
+      "type_detect": {
+        "graffiti": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "gpt_08_phone_tag",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_8.png",
+      "has_anomaly": true,
+      "types": [
+        "object",
+        "graffiti"
+      ],
+      "n_regions": 10,
+      "n_classified": 10,
+      "n_kept": 2,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "phone on seat",
+        "phone on seat"
+      ],
+      "instances_total": 2,
+      "instances_detected": 1,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          1,
+          1
+        ],
+        "graffiti": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "id": "variant_01",
+      "reference": "variant",
+      "image": "data/anomalies/tram_variant/tram_variant_anomalies.png",
+      "has_anomaly": true,
+      "types": [
+        "object",
+        "graffiti",
+        "damage"
+      ],
+      "n_regions": 13,
+      "n_classified": 13,
+      "n_kept": 6,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack on seat",
+        "graffiti tag \"KLEP\"",
+        "tear in seat fabric",
+        "backpack on seat",
+        "bottle on floor",
+        "backpack appears"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ],
+        "graffiti": [
+          1,
+          1
+        ],
+        "damage": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "gpt_07_multi",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_7.png",
+      "has_anomaly": true,
+      "types": [
+        "object",
+        "damage",
+        "graffiti"
+      ],
+      "n_regions": 14,
+      "n_classified": 14,
+      "n_kept": 6,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack and bottle",
+        "graffiti tag appears",
+        "black bag on seat",
+        "graffiti tag appears",
+        "black backpack appears",
+        "damage to seat surface"
+      ],
+      "instances_total": 4,
+      "instances_detected": 3,
+      "fp_regions": 2,
+      "type_detect": {
+        "object": [
+          1,
+          2
+        ],
+        "graffiti": [
+          1,
+          1
+        ],
+        "damage": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "id": "gpt_02_multi",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_2.png",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 16,
+      "n_classified": 16,
+      "n_kept": 8,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black backpack appeared",
+        "phone and paper bag",
+        "water bottle appeared",
+        "brown paper bag",
+        "black bag appears",
+        "black backpack strap",
+        "backpack appears",
+        "phone on surface"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "fp_regions": 4,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "id": "real_f0053",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0053_masked.jpg",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 30,
+      "n_classified": 25,
+      "n_kept": 5,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack appeared",
+        "black backpack appeared.",
+        "wallet on seat",
+        "phone on seat",
+        "wallet on seat"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "id": "real_f0100",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0100_masked.jpg",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 28,
+      "n_classified": 25,
+      "n_kept": 5,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack appears.",
+        "backpack on floor",
+        "wallet on seat",
+        "phone on seat",
+        "phone on seat"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "id": "real_f0112",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0112_masked.jpg",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 65,
+      "n_classified": 25,
+      "n_kept": 5,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack on floor",
+        "black backpack appeared.",
+        "backpack appears.",
+        "phone appeared",
+        "phone on seat"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "id": "real_f0205",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v3_f0205_masked.jpg",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 52,
+      "n_classified": 25,
+      "n_kept": 3,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "jacket on seat",
+        "backpack appears",
+        "backpack handle visible"
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "id": "real_f0219",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v3_f0219_masked.jpg",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 54,
+      "n_classified": 25,
+      "n_kept": 5,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "jacket draped over seat",
+        "jacket draped over seat",
+        "black backpack appeared.",
+        "black bag appears",
+        "phone appears on right."
+      ],
+      "instances_total": 3,
+      "instances_detected": 3,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          3,
+          3
+        ]
+      }
+    },
+    {
+      "id": "gpt_11_crowd",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_11.png",
+      "has_anomaly": true,
+      "types": [
+        "object",
+        "damage",
+        "graffiti"
+      ],
+      "n_regions": 28,
+      "n_classified": 25,
+      "n_kept": 11,
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack on seat",
+        "backpack and bottle",
+        "graffiti on wall",
+        "graffiti tag appears",
+        "bottle on floor",
+        "damage on seat cushion",
+        "graffiti tag on wall",
+        "torn blue seat cushion",
+        "graffiti tag on surface",
+        "black jacket appears",
+        "damage on seat surface"
+      ],
+      "instances_total": 4,
+      "instances_detected": 3,
+      "fp_regions": 5,
+      "type_detect": {
+        "object": [
+          1,
+          2
+        ],
+        "graffiti": [
+          1,
+          1
+        ],
+        "damage": [
+          1,
+          1
+        ]
+      }
+    }
+  ]
+}
