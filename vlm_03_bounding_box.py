@@ -92,7 +92,10 @@ def check_model(model_name: str) -> None:
         if name:
             names.append(name)
 
-    if model_name not in names:
+    # Ollama resolves a tag-less name to ":latest" - accept both forms, so
+    # "owner/model" passes when "owner/model:latest" is installed (an exact
+    # string compare here aborted valid model-sweep runs on the GPU machine).
+    if model_name not in names and f"{model_name}:latest" not in names:
         print(f"ERROR: model '{model_name}' is not installed.")
         print(f"Install it with:  ollama pull {model_name}")
         sys.exit(1)

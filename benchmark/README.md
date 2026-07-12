@@ -79,19 +79,37 @@ recovers low-contrast floor bottles) + an added-edge-energy channel
 (≤ 4 additions/frame, recovers the ZORK faint tag: 12× above noise in edge
 domain) + a YOLOv8n person veto (IoA ≥ 0.6, loses zero GT instances) + a
 salience-ranked MAX_REGIONS cap on the base channel only.
-**Localization recall 41/45 → 44/45**; the one stay-miss is gpt_03's
-deliberately subtle XRP tag (below every signal tested — the honest hard FN).
+**Localization recall 41/45 → 45/45** (the XRP tag of gpt_03 was long scored
+as a miss because its GT box was misplaced onto the ventilation grille next to
+it — fixed 2026-07-12; the channels box the real tag and every judge names it).
 
-## Prompt A/B status
+## GPU results (2026-07-12, 29 cases, multi-channel localizer, corrected GT)
 
-- `PROMPT_LENIENT` (original): scored on the old 24-case GT + single-channel
-  localizer → frame F1 0.941, object recall 0.911, region precision 0.744
-  (see the preserved `report_lenient_qwen3vl.md`).
-- `PROMPT` (conservative anti-hallucination, current default): first full
-  scoring run launched 2026-07-12 on CPU (24-case GT, single-channel localizer
-  of that date — comparable to the lenient baseline).
-- Next (GPU): re-run on the 29-case GT + multi-channel localizer, both
-  prompts, and A/B per-type recall vs region precision.
+| judge × prompt | frame F1 | specificity | object recall | region precision | s/call |
+|---|---|---|---|---|---|
+| qwen3-vl:8b × conservative | 0.829 | 0.417 | 0.978 | 0.355 | 1.1 |
+| qwen3-vl:8b × lenient      | 0.872 | 0.583 | 0.978 | 0.534 | 1.1 |
+| **qwen3.5:9b × conservative** | **0.919** | **0.750** | **0.978** | **0.549** | **0.7** |
+| InternVL3_5:8b × conservative | 0.970¹ | 1.000 | 0.733¹ | 0.759 | 0.8 |
+
+¹ InternVL's frame-level scores flatter it: object recall 0.733 means it
+systematically says NO to real phones (2/4 instances on every real multi-object
+frame, full-frame FN on real_f0205). Frame recall is 1.000 for both qwen judges
+under both prompts.
+
+Findings:
+- **The "conservative" prompt backfires on qwen3-vl** — asked to "name a
+  specific new object", it actively finds one ("Blue seat cushion slightly
+  shifted", "Black cable snake-like") and answers YES: region precision 0.355
+  vs 0.534 for the shorter lenient prompt. Prompt A/B must be measured, never
+  assumed.
+- **qwen3.5:9b is the best judge tested** (its lack of grounding is irrelevant
+  here — vlm_05 never asks for coordinates) and the fastest.
+- Missing cell to run on GPU: **qwen3.5:9b × lenient** (likely champion).
+  GLM-4.6V-Flash and minicpm-v4.6 sweeps aborted on the ":latest" check_model
+  bug (fixed) and still need their first real run.
+- The preserved `report_lenient_qwen3vl.md` is the OLD baseline (24-case GT,
+  single-channel localizer, CPU) — not comparable to the table above.
 
 ## Extending the dataset
 

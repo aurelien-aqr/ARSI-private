@@ -32,7 +32,7 @@ ollama run qwen3-vl:8b-instruct "hi" && ollama ps
 
 ```bash
 python benchmark/eval_localization.py --variants shipped --quiet
-# expected: instance recall 44/45 (the miss = gpt_03 faint XRP tag, known-hard)
+# expected: instance recall 45/45 (GT box of gpt_03 fixed 2026-07-12)
 ```
 
 ## 2) Benchmark: conservative prompt × new localizer (~20-40 min)
@@ -117,9 +117,11 @@ supervisor which interpretation he wants in the sheet; the grid records both
 
 ## Known facts to not rediscover
 
-- gpt_03's faint XRP tag is below every localizer signal tested (photometric
-  amplitude ~9 vs thr 40 = noise level; edge-energy 0.11 = noise level). It is
-  the accepted hard FN; don't burn GPU time chasing it with prompts.
+- gpt_03's faint XRP tag IS catchable — the multi-channel localizer boxes it at
+  [1332,536,1412,628] and every judge names it "XRP graffiti". The earlier
+  "unreachable" claim came from a misplaced GT box (it covered the ventilation
+  grille 200 px to the left; fixed 2026-07-12). Expected localization recall
+  is now **45/45**.
 - Lowering the BASE threshold below ~30 MERGES busy frames into mega-blobs
   that MAX_AREA then deletes (real_f0112 4/4 -> 0/4 at thr 25). Extra recall
   must come from the bounded ADD channels, never from the base threshold.

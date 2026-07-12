@@ -115,11 +115,11 @@ MAX_REGIONS = 25
 #     put it BELOW noise). Catches faint graffiti that no global photometric
 #     threshold can reach without flooding.
 #
-# Measured on the 24-case GT: localization recall 41/45 -> 44/45 (ZORK tag +
-# both floor bottles recovered; the deliberately-subtle XRP tag of gpt_03 stays
-# missed - it is below every signal tested, photometric AND structural), at
-# +52% candidate regions on anomaly frames. Set a threshold to 0 to disable
-# that channel.
+# Measured on the GT: localization recall 41/45 -> 45/45 (ZORK + XRP faint
+# tags and both floor bottles recovered; the XRP tag was first thought
+# unreachable, but that probe measured a misplaced GT box - the channels box
+# the real tag and every judge names it), at +52% candidate regions on anomaly
+# frames. Set a threshold to 0 to disable that channel.
 SECOND_PASS_THRESHOLD = 30
 SECOND_PASS_MAX_ADD   = 8
 EDGE_THRESHOLD        = 1.5
@@ -290,7 +290,10 @@ def check_model(model_name: str) -> None:
         if name:
             names.append(name)
 
-    if model_name not in names:
+    # Ollama resolves a tag-less name to ":latest" - accept both forms, so
+    # "owner/model" passes when "owner/model:latest" is installed (an exact
+    # string compare here aborted valid model-sweep runs on the GPU machine).
+    if model_name not in names and f"{model_name}:latest" not in names:
         print(f"ERROR: model '{model_name}' is not installed.")
         print(f"Install it with:  ollama pull {model_name}")
         sys.exit(1)

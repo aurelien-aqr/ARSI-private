@@ -239,7 +239,7 @@ def write_report(rows, frame, obj, elapsed, done, total):
     L.append(f"**Diff / region params:** DIFF_THRESHOLD={m.DIFF_THRESHOLD}, "
              f"BLUR_RADIUS={m.BLUR_RADIUS}, MIN_AREA={m.MIN_AREA}, "
              f"MAX_AREA={m.MAX_AREA}, MAX_REGIONS={m.MAX_REGIONS}.  ")
-    L.append(f"**Wall-clock:** {elapsed/60:.1f} min (CPU-only Ollama).\n")
+    L.append(f"**Wall-clock:** {elapsed/60:.1f} min.\n")
 
     L.append("## Prompt\n")
     L.append("```\n" + m.PROMPT + "\n```\n")

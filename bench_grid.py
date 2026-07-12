@@ -259,7 +259,8 @@ def main():
     new_rows = []
     next_id = max_id + 1
     for n, (model, (task, prompt, images, test, ref, bbox)) in enumerate(plan, 1):
-        if installed is not None and model not in installed:
+        if installed is not None and model not in installed \
+                and f"{model}:latest" not in installed:
             print(f"[{n}/{len(plan)}] SKIP {model} (not installed - "
                   f"ollama pull {model})")
             continue

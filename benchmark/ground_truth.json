@@ -40,8 +40,8 @@
       {"type": "object", "bbox": [950, 450, 1070, 535], "note": "water bottle on right seat"},
       {"type": "object", "bbox": [810, 595, 945, 765], "note": "paper shopping bag on floor"},
       {"type": "object", "bbox": [995, 695, 1085, 775], "note": "smartphone"}]},
-    {"id": "gpt_03_faint_tag", "image": "data/anomalies/tram_anomalies_3.png", "reference": "real", "source": "gpt", "has_anomaly": true, "types": ["graffiti"], "note": "faint 'XRP' tag on right seat pod - KNOWN-HARD: below every localizer signal tested (photometric mean diff ~9 vs thr 40; edge-energy 0.11 vs noise 0.11-0.26). Kept as the honest hard FN.", "instances": [
-      {"type": "graffiti", "bbox": [1120, 520, 1240, 620], "note": "faint XRP tag on right pod"}]},
+    {"id": "gpt_03_faint_tag", "image": "data/anomalies/tram_anomalies_3.png", "reference": "real", "source": "gpt", "has_anomaly": true, "types": ["graffiti"], "note": "faint 'XRP' tag on the right seat-pod side panel. GT-FIX 2026-07-12: the box previously pointed at the ventilation grille ~200px left of the tag - every 'XRP unreachable' probe measured the WRONG box. The multi-channel localizer boxes the tag at [1332,536,1412,628] and all judges name it 'XRP graffiti'.", "instances": [
+      {"type": "graffiti", "bbox": [1310, 515, 1435, 650], "note": "faint XRP tag on right pod side panel"}]},
     {"id": "gpt_04_graffiti", "image": "data/anomalies/tram_anomalies_4.png", "reference": "real", "source": "gpt", "has_anomaly": true, "types": ["graffiti"], "note": "large multicolour graffiti covering the right-side wall", "instances": [
       {"type": "graffiti", "bbox": [1268, 0, 1920, 920], "note": "graffiti covering the whole right wall"}]},
     {"id": "gpt_05_slash", "image": "data/anomalies/tram_anomalies_5.png", "reference": "real", "source": "gpt", "has_anomaly": true, "types": ["damage"], "note": "slashed seat cushion on left-mid seat", "instances": [
