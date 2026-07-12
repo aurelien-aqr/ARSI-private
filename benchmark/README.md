@@ -64,9 +64,11 @@ are skipped. Changing the model or prompt invalidates the cache automatically
 (the key includes both); changing localizer thresholds only re-evaluates the
 regions whose boxes changed.
 
-Measured cost per VLM call (side-by-side crop): **~15 s on CPU** (this
-laptop, 8 cores), ~1–2 s expected on the target RTX 3080 Ti. A full fresh run
-is ~300–450 calls ≈ 1.5–2 h CPU / minutes on GPU.
+Measured cost per FRESH VLM call (side-by-side crop): **~2–4 min on CPU**
+(this laptop, 8 cores, shared load), ~1–2 s expected on the target RTX
+3080 Ti. A full fresh run is ~300–450 calls ≈ **12–24 h CPU / 10–20 min
+GPU** — fresh full runs are GPU work; CPU is fine for cache-only re-scoring
+(minutes) and for the localizer-only eval (seconds).
 
 ## Localizer (multi-channel, since 2026-07-12)
 
