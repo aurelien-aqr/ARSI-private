@@ -41,6 +41,8 @@ ANNOT_DIR  = BENCH_DIR / "annotated"
 ANNOT_DIR.mkdir(exist_ok=True)
 
 TYPES = ["object", "graffiti", "damage", "litter"]
+STRICT_IOU = 0.3      # secondary, stricter box-match criterion reported alongside
+VLM_TIMES = []        # wall-clock seconds of UNCACHED VLM calls (GPU timing data)
 
 
 def prompt_fingerprint():
@@ -80,8 +82,10 @@ def classify_cached(image, reference, region, cache, fp, img_key, ref_key):
     is_obj, label = None, ""
     for attempt in range(3):
         try:
+            t0 = time.time()
             is_obj, label = m.classify_with_vlm(image, reference, region,
                                                 m.CROP_MARGIN, m.CROP_CONTEXT)
+            VLM_TIMES.append(time.time() - t0)
             break
         except Exception as exc:
             print(f"      retry {attempt+1}/3 ({type(exc).__name__})", flush=True)
@@ -95,6 +99,7 @@ def classify_cached(image, reference, region, cache, fp, img_key, ref_key):
 
 
 def run_case(case, refmap, cache, fp):
+    t_case = time.time()
     ref_path = resolve(refmap[case["reference"]])
     img_path = resolve(case["image"])
     reference = Image.open(ref_path).convert("RGB")
@@ -102,10 +107,11 @@ def run_case(case, refmap, cache, fp):
     if image.size != reference.size:
         image = image.resize(reference.size)
 
-    mask = m.change_mask(ref_path, img_path)
-    regions = m.find_regions(mask, m.DOWNSCALE, m.DILATE, m.MIN_AREA, m.MAX_AREA)
-    n_regions = len(regions)
-    regions = regions[:m.MAX_REGIONS]
+    # Same multi-channel localizer as the live script (base + low-threshold +
+    # edge channels, person veto, salience-capped) so the benchmark measures
+    # exactly what vlm_05_reference_diff.py ships.
+    regions, loc = m.localize(ref_path, img_path)
+    n_regions = loc["total"]
 
     ref_key, img_key = Path(ref_path).name, Path(img_path).name
     kept = []
@@ -122,12 +128,15 @@ def run_case(case, refmap, cache, fp):
     # ---- object-level scoring against instance ground truth -----------------
     instances = case.get("instances", [])
     inst_hit = [False] * len(instances)
+    inst_hit_strict = [False] * len(instances)
     kept_matched = [False] * len(kept)
     for gi, inst in enumerate(instances):
         for ki, r in enumerate(kept):
             if overlaps(r["bbox"], inst["bbox"]):
                 inst_hit[gi] = True
                 kept_matched[ki] = True
+            if m._iou(r["bbox"], inst["bbox"]) >= STRICT_IOU:
+                inst_hit_strict[gi] = True
     detected = sum(inst_hit)
     fp_regions = sum(1 for mtd in kept_matched if not mtd)
     type_detect = {}
@@ -155,15 +164,19 @@ def run_case(case, refmap, cache, fp):
     flagged = len(kept) > 0
     return {
         "id": case["id"], "reference": case["reference"], "image": case["image"],
+        "source": case.get("source", case["id"].split("_")[0]),
         "has_anomaly": case["has_anomaly"], "types": case["types"],
         "n_regions": n_regions, "n_classified": len(regions), "n_kept": len(kept),
+        "localizer": loc,
         "flagged": flagged,
         "outcome": ("TP" if case["has_anomaly"] and flagged else
                     "FN" if case["has_anomaly"] and not flagged else
                     "FP" if (not case["has_anomaly"]) and flagged else "TN"),
         "kept_labels": [r["vlm_label"] for r in kept],
         "instances_total": len(instances), "instances_detected": detected,
+        "instances_detected_strict": sum(inst_hit_strict),
         "fp_regions": fp_regions, "type_detect": type_detect,
+        "case_seconds": round(time.time() - t_case, 1),
     }
 
 
@@ -182,6 +195,7 @@ def metrics(rows):
 
     inst_total = sum(r["instances_total"] for r in rows)
     inst_det = sum(r["instances_detected"] for r in rows)
+    inst_strict = sum(r.get("instances_detected_strict", 0) for r in rows)
     fp_regions = sum(r["fp_regions"] for r in rows)
     kept_total = sum(r["n_kept"] for r in rows)
     per_type = {}
@@ -194,11 +208,22 @@ def metrics(rows):
                 tot += tt
         if tot:
             per_type[t] = {"detected": det, "total": tot, "recall": d(det, tot)}
+    per_source = {}
+    for r in rows:
+        s = per_source.setdefault(r.get("source", "?"),
+                                  {"cases": 0, "inst_total": 0, "inst_detected": 0,
+                                   "fp_regions": 0})
+        s["cases"] += 1
+        s["inst_total"] += r["instances_total"]
+        s["inst_detected"] += r["instances_detected"]
+        s["fp_regions"] += r["fp_regions"]
     obj = {"inst_total": inst_total, "inst_detected": inst_det,
            "recall": d(inst_det, inst_total),
+           "inst_detected_strict": inst_strict,
+           "recall_strict": d(inst_strict, inst_total),
            "fp_regions": fp_regions, "kept_total": kept_total,
            "region_precision": d(kept_total - fp_regions, kept_total),
-           "per_type": per_type}
+           "per_type": per_type, "per_source": per_source}
     return frame, obj
 
 
@@ -233,15 +258,29 @@ def write_report(rows, frame, obj, elapsed, done, total):
 
     L.append("## 2) Object-level (did we box each real anomaly?)\n")
     L.append(f"- Instances detected: **{obj['inst_detected']} / {obj['inst_total']}** "
-             f"→ **object recall {obj['recall']:.3f}**")
+             f"→ **object recall {obj['recall']:.3f}** "
+             f"(strict IoU≥{STRICT_IOU}: {obj['inst_detected_strict']} / "
+             f"{obj['inst_total']} = {obj['recall_strict']:.3f})")
     L.append(f"- False-positive regions (kept boxes matching no real anomaly): "
              f"**{obj['fp_regions']}** of {obj['kept_total']} kept "
-             f"→ region precision {obj['region_precision']:.3f}\n")
+             f"→ region precision {obj['region_precision']:.3f}")
+    if VLM_TIMES:
+        L.append(f"- Uncached VLM calls this run: {len(VLM_TIMES)}, "
+                 f"mean {sum(VLM_TIMES)/len(VLM_TIMES):.1f} s/call\n")
+    else:
+        L.append("- All VLM verdicts served from cache (0 new calls).\n")
     if obj["per_type"]:
         L.append("| type | instances detected | recall |")
         L.append("|---|---|---|")
         for t, dd in obj["per_type"].items():
             L.append(f"| {t} | {dd['detected']} / {dd['total']} | {dd['recall']:.2f} |")
+        L.append("")
+    if obj.get("per_source"):
+        L.append("| source | cases | instances detected | FP regions |")
+        L.append("|---|---|---|---|")
+        for s, dd in sorted(obj["per_source"].items()):
+            L.append(f"| {s} | {dd['cases']} | {dd['inst_detected']} / "
+                     f"{dd['inst_total']} | {dd['fp_regions']} |")
         L.append("")
 
     L.append("## Per-case results\n")
@@ -270,6 +309,9 @@ def main():
     if m.USE_VLM:
         m.check_model(m.MODEL_NAME)
 
+    # Cheap-first ordering uses the BASE photometric channel only (close enough
+    # as a cost proxy; running the full multi-channel localizer twice per case
+    # would double the localization work).
     print("Ordering cases by region count...", flush=True)
     costed = []
     for case in cases:

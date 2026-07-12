@@ -8,14 +8,16 @@ using a local **vision-language model (VLM)** — Qwen2.5-VL served through
 
 ## Target hardware
 
-| Item  | Value                                   |
-|-------|-----------------------------------------|
-| OS    | Ubuntu (x86_64)                         |
-| GPU   | NVIDIA RTX 3080 Ti, 12 GB VRAM          |
-| Model | `qwen2.5vl:7b` (locked in every script) |
+| Item  | Value                                                  |
+|-------|--------------------------------------------------------|
+| OS    | Ubuntu (x86_64)                                        |
+| GPU   | NVIDIA RTX 3080 Ti, 12 GB VRAM (CPU-only works, slow)  |
+| Model | `qwen3-vl:8b-instruct` default; override with `--model`|
 
-> The model is **hardware-locked**. Do not change `MODEL_NAME`, `NUM_CTX`, or
-> `NUM_PREDICT` — they are tuned for this GPU.
+> `NUM_CTX` / `NUM_PREDICT` / `TEMPERATURE` are shared runtime settings tuned
+> for 8-9B models on the target GPU. The model itself is a per-run choice:
+> every script accepts `--model <ollama-name>` (see also `bench_grid.py` for
+> sweeping several models). GPU-day procedure: **RUNBOOK_GPU.md**.
 
 ---
 
@@ -70,9 +72,16 @@ and the local **VLM confirms/labels** each surviving crop.
 `vlm_05` takes a different route that works when the camera is **fixed**: it
 **diffs** the inspection frame against the clean reference to localize whatever
 changed (YOLO-World misses tiny objects like a wallet on the floor; the diff
-does not), then the **VLM classifies** each changed region as an abandoned
-object or not (person / reflection / lighting are rejected). High recall; tune
-`DIFF_THRESHOLD` / `MIN_AREA` and the prompt for precision.
+does not), then the **VLM classifies** each changed region as an anomaly or not
+(person / reflection / lighting are rejected). Localization is multi-channel
+(base photometric diff + a bounded low-threshold channel for low-contrast
+objects + an added-edge channel for faint graffiti) with a YOLOv8n **person
+veto** — design rationale and measured numbers live in the USER CONFIG comments.
+
+Benchmarking lives in `benchmark/` (frame- and object-level metrics against a
+29-case hand-labelled ground truth, resumable VLM cache, localizer-only eval)
+and `bench_grid.py` (model × task × image sweep that fills the ARSI results
+spreadsheet). See `benchmark/README.md` and `RUNBOOK_GPU.md`.
 
 Structured text format:
 

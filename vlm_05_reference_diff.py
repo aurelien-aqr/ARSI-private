@@ -89,9 +89,58 @@ MAX_AREA  = 400000
 
 # Safety cap for rush hour: a crowded frame can differ from the empty reference
 # in dozens of regions (people everywhere), and each region costs one VLM call.
-# Only the MAX_REGIONS largest changed regions are classified (applied AFTER the
-# MAX_AREA gate above). Raise it if you would rather be exhaustive than fast.
+# Only the MAX_REGIONS best-ranked changed regions are classified (applied AFTER
+# the MAX_AREA gate above). Raise it if you would rather be exhaustive than fast.
+# Ranking is by SALIENCE (mean diff intensity x sqrt(area)), not raw area: with
+# area-ranking a dim whole-seat lighting blob could push a small bright phone
+# out of the cap in a busy cross-session frame.
 MAX_REGIONS = 25
+
+# --- Multi-channel localization (measured on benchmark/ground_truth.json) -----
+# A single global threshold cannot both catch faint anomalies and keep the
+# region count sane: LOWERING the base threshold to 25 merges busy frames into
+# giant blobs that the MAX_AREA gate then deletes (real_f0112 went 4/4 -> 0/4).
+# So the base detector at DIFF_THRESHOLD stays UNTOUCHED and extra channels only
+# ADD candidate boxes (region-LIST union, never mask union - masks would merge):
+#
+#  channel 2: the photometric diff again at SECOND_PASS_THRESHOLD. Catches
+#     low-contrast solid objects (a dark bottle on the dark floor appears at
+#     thr 30-35 but not at 40). Additions that overlap no base region are kept,
+#     best SECOND_PASS_MAX_ADD by salience.
+#  channel 3: added-EDGE-energy relu(|grad insp| - |grad ref|) restricted to
+#     areas where the reference is locally FLAT, blurred and thresholded.
+#     Sensor/JPEG noise is symmetric between the two frames and cancels; a
+#     faint tag ADDS one-sided stroke edges on a flat panel (the ZORK tag sits
+#     12x above the strongest noise box in this domain; the photometric diff
+#     put it BELOW noise). Catches faint graffiti that no global photometric
+#     threshold can reach without flooding.
+#
+# Measured on the 24-case GT: localization recall 41/45 -> 44/45 (ZORK tag +
+# both floor bottles recovered; the deliberately-subtle XRP tag of gpt_03 stays
+# missed - it is below every signal tested, photometric AND structural), at
+# +52% candidate regions on anomaly frames. Set a threshold to 0 to disable
+# that channel.
+SECOND_PASS_THRESHOLD = 30
+SECOND_PASS_MAX_ADD   = 8
+EDGE_THRESHOLD        = 1.5
+EDGE_FLAT_THR         = 6.0     # reference |grad| above this = not a flat surface
+EDGE_MAX_ADD          = 4
+
+# --- Person filter -------------------------------------------------------------
+# A cheap person detector (YOLOv8-nano, ~2-6 s/frame on CPU, ~20 ms on GPU) runs
+# once per inspection frame; candidate regions mostly contained in a person box
+# (intersection-over-region-area >= PERSON_IOA) are dropped BEFORE the VLM.
+# This is what cleanly separates "jacket worn by a passenger" (inside the person
+# box -> vetoed) from "jacket forgotten on a seat" (no person box -> kept), which
+# no label blacklist can do - a forgotten jacket is a real anomaly. Also saves
+# the VLM calls those regions would have cost. Verified on GT: vetoes person
+# regions on real_f0219 / gpt_11 while losing ZERO ground-truth instances.
+# If ultralytics or the weights are unavailable the filter degrades gracefully
+# (warns once and keeps every region).
+PERSON_FILTER  = True
+PERSON_CONF    = 0.35
+PERSON_IOA     = 0.6
+PERSON_WEIGHTS = "yolov8n.pt"   # auto-downloaded by ultralytics on first use
 
 # --- VLM classification ------------------------------------------------------
 # If True, crop each changed region and send it to the local VLM.
@@ -247,23 +296,187 @@ def check_model(model_name: str) -> None:
         sys.exit(1)
 
 
-def change_mask(reference_path: str, inspection_path: str):
-    """Return a boolean full-resolution mask of pixels that changed vs reference.
-
-    Areas that are black in BOTH images (the masked-out windows) are forced to
-    'no change' so the black borders never register as differences.
-    """
+def _gray_pair(reference_path: str, inspection_path: str):
+    """Grayscale float arrays of (reference, inspection-resized-to-reference) and
+    the both-black mask of the already-masked window areas."""
     ref = Image.open(reference_path).convert("L")
     insp = Image.open(inspection_path).convert("L")
     if ref.size != insp.size:
         insp = insp.resize(ref.size)
-    a = np.asarray(ref, dtype=np.int16)
-    b = np.asarray(insp, dtype=np.int16)
-    diff = np.abs(a - b).astype(np.uint8)
-    diff[(a < 12) & (b < 12)] = 0  # ignore the masked (black) window regions
-    blurred = np.asarray(Image.fromarray(diff).filter(
-        ImageFilter.GaussianBlur(BLUR_RADIUS)))
-    return blurred > DIFF_THRESHOLD
+    a = np.asarray(ref, dtype=np.float32)
+    b = np.asarray(insp, dtype=np.float32)
+    black = (a < 12) & (b < 12)
+    return a, b, black
+
+
+def _blur_f(arr, radius, scale=1.0):
+    """Gaussian blur of a float array via PIL (uint8 transport; `scale` keeps
+    sub-integer detail for low-amplitude maps)."""
+    u8 = np.clip(arr * scale, 0, 255).astype(np.uint8)
+    out = np.asarray(Image.fromarray(u8).filter(ImageFilter.GaussianBlur(radius)),
+                     dtype=np.float32)
+    return out / scale
+
+
+def photo_data(a, b, black, thr=None):
+    """Photometric change: (mask, blurred-diff map). The vlm_05 base detector."""
+    thr = DIFF_THRESHOLD if thr is None else thr
+    d = np.abs(a - b)
+    d[black] = 0
+    d = _blur_f(d, BLUR_RADIUS)
+    return d > thr, d
+
+
+def edge_energy_map(a, b, black):
+    """Added-edge energy: relu(|grad insp| - |grad ref|) where the reference is
+    locally flat, blurred. Symmetric sensor/JPEG noise cancels in the one-sided
+    subtraction; faint strokes drawn on a flat panel survive (see the channel-3
+    comment in USER CONFIG)."""
+    gya, gxa = np.gradient(a)
+    ga = np.hypot(gxa, gya)
+    gyb, gxb = np.gradient(b)
+    gb = np.hypot(gxb, gyb)
+    ga_smooth = _blur_f(ga, 3, scale=8.0)
+    e = np.maximum(gb - ga, 0.0)
+    e[ga_smooth > EDGE_FLAT_THR] = 0.0   # only trust flat-reference surfaces
+    e[black] = 0.0
+    return _blur_f(e, 6, scale=8.0)
+
+
+def change_mask(reference_path: str, inspection_path: str):
+    """Boolean full-resolution mask of pixels that changed vs the reference
+    (base photometric channel only - kept for backward compatibility)."""
+    a, b, black = _gray_pair(reference_path, inspection_path)
+    mask, _ = photo_data(a, b, black)
+    return mask
+
+
+def salience(region, dmap) -> float:
+    """Region rank key: mean diff intensity x sqrt(area). Prefers small-but-sharp
+    real objects over large dim lighting blobs when the MAX_REGIONS cap bites."""
+    x0, y0, x1, y1 = region["bbox"]
+    patch = dmap[y0:y1, x0:x1]
+    mean = float(patch.mean()) if patch.size else 0.0
+    return mean * (region["area"] ** 0.5)
+
+
+def _ioa(inner, outer) -> float:
+    """Intersection area over `inner`'s area (how much of inner lies in outer)."""
+    ix0, iy0 = max(inner[0], outer[0]), max(inner[1], outer[1])
+    ix1, iy1 = min(inner[2], outer[2]), min(inner[3], outer[3])
+    inter = max(0, ix1 - ix0) * max(0, iy1 - iy0)
+    area = (inner[2] - inner[0]) * (inner[3] - inner[1])
+    return inter / area if area > 0 else 0.0
+
+
+_person_model = None
+_person_warned = False
+
+
+def person_boxes(inspection_path: str, ref_size):
+    """Person boxes from YOLOv8-nano, scaled into the REFERENCE pixel space (the
+    inspection may have a different native size). Returns [] and warns once if
+    ultralytics / the weights are unavailable, so the pipeline still runs."""
+    global _person_model, _person_warned
+    if not PERSON_FILTER:
+        return []
+    try:
+        if _person_model is None:
+            from ultralytics import YOLO
+            _person_model = YOLO(_p(PERSON_WEIGHTS))
+        res = _person_model.predict(inspection_path, classes=[0],
+                                    conf=PERSON_CONF, verbose=False)[0]
+        sx = ref_size[0] / res.orig_shape[1]
+        sy = ref_size[1] / res.orig_shape[0]
+        return [(int(x0 * sx), int(y0 * sy), int(x1 * sx), int(y1 * sy))
+                for x0, y0, x1, y1 in res.boxes.xyxy.tolist()]
+    except Exception as exc:
+        if not _person_warned:
+            print(f"WARNING: person filter unavailable ({type(exc).__name__}: "
+                  f"{exc}); continuing without it.")
+            _person_warned = True
+        return []
+
+
+def _boxes_overlap(box_a, box_b) -> bool:
+    """Lenient overlap (IoU > 0.1 or either centre inside the other box) - the
+    same rule the benchmark uses to match regions to ground-truth instances."""
+    if _iou(box_a, box_b) > 0.1:
+        return True
+    for inner, outer in ((box_a, box_b), (box_b, box_a)):
+        cx = (inner[0] + inner[2]) / 2
+        cy = (inner[1] + inner[3]) / 2
+        if outer[0] <= cx <= outer[2] and outer[1] <= cy <= outer[3]:
+            return True
+    return False
+
+
+def localize(reference_path: str, inspection_path: str):
+    """Full multi-channel localization: base photometric regions (person-vetoed,
+    then capped to MAX_REGIONS by salience), plus bounded additions from the
+    low-threshold and added-edge channels (region-list union, so the proven base
+    channel is never disturbed). The channel additions ride ON TOP of the cap -
+    capping the merged list instead was measured to evict a small real object
+    (the far phone in real_f0219) once 12 additions crowded in. Worst-case VLM
+    budget per frame = MAX_REGIONS + SECOND_PASS_MAX_ADD + EDGE_MAX_ADD.
+
+    Returns (regions, info) where info carries per-channel counts for logging.
+    """
+    a, b, black = _gray_pair(reference_path, inspection_path)
+    persons = person_boxes(inspection_path, (a.shape[1], a.shape[0]))
+    info = {"persons": len(persons), "person_veto": 0}
+
+    def veto(rs):
+        if not persons:
+            return rs
+        kept = [r for r in rs
+                if not any(_ioa(r["bbox"], p) >= PERSON_IOA for p in persons)]
+        info["person_veto"] += len(rs) - len(kept)
+        return kept
+
+    base_mask, base_dmap = photo_data(a, b, black)
+    base = find_regions(base_mask, DOWNSCALE, DILATE, MIN_AREA, MAX_AREA)
+    info["base"] = len(base)
+    for r in base:
+        r["channel"] = "photo"
+        r["salience"] = salience(r, base_dmap)
+    base = veto(base)
+    base.sort(key=lambda r: -r["salience"])
+    capped = len(base) > MAX_REGIONS
+    regions = base[:MAX_REGIONS]
+
+    info["second"] = 0
+    if SECOND_PASS_THRESHOLD:
+        mask2, dmap2 = photo_data(a, b, black, thr=SECOND_PASS_THRESHOLD)
+        adds = [r for r in find_regions(mask2, DOWNSCALE, DILATE, MIN_AREA, MAX_AREA)
+                if not any(_boxes_overlap(r["bbox"], q["bbox"]) for q in base)]
+        for r in adds:
+            r["channel"] = "photo_lo"
+            r["salience"] = salience(r, dmap2)
+        adds = veto(adds)
+        adds.sort(key=lambda r: -r["salience"])
+        regions += adds[:SECOND_PASS_MAX_ADD]
+        info["second"] = min(len(adds), SECOND_PASS_MAX_ADD)
+
+    info["edge"] = 0
+    if EDGE_THRESHOLD:
+        emap = edge_energy_map(a, b, black)
+        adds = [r for r in find_regions(emap > EDGE_THRESHOLD,
+                                        DOWNSCALE, DILATE, MIN_AREA, MAX_AREA)
+                if not any(_boxes_overlap(r["bbox"], q["bbox"]) for q in regions)]
+        for r in adds:
+            r["channel"] = "edge"
+            # edge energies live on a ~0-8 scale vs 0-255 photometric: rescale so
+            # the salience fields stay comparable across channels in the output.
+            r["salience"] = salience(r, emap) * 30.0
+        adds = veto(adds)
+        adds.sort(key=lambda r: -r["salience"])
+        regions += adds[:EDGE_MAX_ADD]
+        info["edge"] = min(len(adds), EDGE_MAX_ADD)
+
+    info["total"] = info["base"] + info["second"] + info["edge"]
+    info["capped"] = capped
+    return regions, info
 
 
 def find_regions(mask, downscale: int, dilate: int, min_area: int, max_area: int = 0):
@@ -485,15 +698,13 @@ def main() -> None:
         image = image.resize(reference.size)
 
     # --- 1+2) Localize changed regions ---------------------------------------
-    mask = change_mask(reference_path, inspection_path)
-    regions = find_regions(mask, DOWNSCALE, DILATE, MIN_AREA, MAX_AREA)
-    print(f"Change detection: {len(regions)} region(s) "
-          f"({MIN_AREA} <= area <= {MAX_AREA or 'inf'} px) differ from the reference.")
-
-    if len(regions) > MAX_REGIONS:
-        print(f"Rush-hour cap: classifying only the {MAX_REGIONS} largest "
-              f"of {len(regions)} regions.")
-        regions = regions[:MAX_REGIONS]
+    regions, loc = localize(reference_path, inspection_path)
+    print(f"Change detection: base {loc['base']} region(s) "
+          f"+ {loc['second']} low-threshold + {loc['edge']} edge-channel, "
+          f"{loc['person_veto']} vetoed by {loc['persons']} person box(es).")
+    if loc["capped"]:
+        print(f"Rush-hour cap: only the {MAX_REGIONS} most salient base regions "
+              f"(of {loc['base']}) are classified; channel additions ride on top.")
 
     # --- 3) VLM classification -----------------------------------------------
     kept = []

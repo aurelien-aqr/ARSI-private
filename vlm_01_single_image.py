@@ -53,9 +53,11 @@ SEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>
 """
 
 # =============================================================================
-#  HARDWARE-LOCK  ---  DO NOT CHANGE
+#  MODEL / RUNTIME  ---  MODEL_NAME is only the DEFAULT: override with --model
+#  (the ctx/predict/temperature values are tuned for 8-9B models on the target
+#  RTX 3080 Ti and are shared by every model in the benchmark grid)
 # =============================================================================
-MODEL_NAME  = "qwen3.5:9b"   # locked to this machine's GPU (RTX 3080 Ti)
+MODEL_NAME  = "qwen3-vl:8b-instruct"
 NUM_CTX     = 4096
 NUM_PREDICT = 512
 TEMPERATURE = 0.1
@@ -128,4 +130,19 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    import argparse
+    ap = argparse.ArgumentParser(
+        description="Single-image tram anomaly analysis via a local VLM. "
+                    "Defaults come from the USER CONFIG block in this file.")
+    ap.add_argument("--model", default=MODEL_NAME,
+                    help="Ollama model name (default: %(default)s)")
+    ap.add_argument("--image", default=IMAGE_PATH,
+                    help="image to analyse (default: %(default)s)")
+    ap.add_argument("--prompt-file", default=None,
+                    help="read the prompt from this text file instead of PROMPT")
+    args = ap.parse_args()
+    MODEL_NAME = args.model
+    IMAGE_PATH = args.image
+    if args.prompt_file:
+        PROMPT = Path(args.prompt_file).read_text(encoding="utf-8")
     main()

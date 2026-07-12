@@ -1,0 +1,98 @@
+{
+ "_about": "Zones of interest for the official Task 3 (zones as INPUT to the model), exported from ARSI_results_EN.xlsx 'Bbox Zones (example)' (LabelMe export, translated). Pixel coords for the 1920x1080 reference framing of camera tram_1762. The official prompt wants them converted to [ymin,xmin,ymax,xmax] normalized 0-1000 - bench_grid.py does that conversion.",
+ "image_width": 1920,
+ "image_height": 1080,
+ "zones": [
+  {
+   "label": "seat_1_front",
+   "x": 289,
+   "y": 232,
+   "w": 209,
+   "h": 337
+  },
+  {
+   "label": "seat_2_front",
+   "x": 499,
+   "y": 213,
+   "w": 181,
+   "h": 358
+  },
+  {
+   "label": "seat_3_front",
+   "x": 902,
+   "y": 186,
+   "w": 214,
+   "h": 347
+  },
+  {
+   "label": "seat_4_front",
+   "x": 1122,
+   "y": 187,
+   "w": 197,
+   "h": 335
+  },
+  {
+   "label": "floor",
+   "x": 664,
+   "y": 115,
+   "w": 259,
+   "h": 965
+  },
+  {
+   "label": "window_left_front",
+   "x": 0,
+   "y": 0,
+   "w": 173,
+   "h": 1080
+  },
+  {
+   "label": "window_right_front",
+   "x": 1493,
+   "y": 0,
+   "w": 427,
+   "h": 1080
+  },
+  {
+   "label": "seat_1_rear",
+   "x": 572,
+   "y": 27,
+   "w": 81,
+   "h": 124
+  },
+  {
+   "label": "seat_2_rear",
+   "x": 664,
+   "y": 1,
+   "w": 79,
+   "h": 111
+  },
+  {
+   "label": "seat_3_rear",
+   "x": 817,
+   "y": 1,
+   "w": 93,
+   "h": 100
+  },
+  {
+   "label": "seat_4_rear",
+   "x": 912,
+   "y": 8,
+   "w": 83,
+   "h": 126
+  },
+  {
+   "label": "floor_seats_right",
+   "x": 961,
+   "y": 666,
+   "w": 268,
+   "h": 79
+  },
+  {
+   "label": "floor_seats_left",
+   "x": 334,
+   "y": 699,
+   "w": 320,
+   "h": 59
+  }
+ ]
+}

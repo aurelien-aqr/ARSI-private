@@ -11,10 +11,26 @@ weights/
 yolov8x-worldv2.pt
 *.pt
 
-# Large raw data
+# Large raw data - EXCEPT the specific frames the benchmark ground truth and
+# the grid driver reference (negation only works with dir/* patterns, not dir/)
 data/videos/
-data/raw/
-data/masked/
+data/raw/*
+!data/raw/tram_1762_v1_f0001.jpg
+!data/raw/tram_1762_v2_f0037.jpg
+data/masked/*
+!data/masked/tram_1762_v1_f0151_masked.jpg
+!data/masked/tram_1762_v1_f0181_masked.jpg
+!data/masked/tram_1762_v1_f0211_masked.jpg
+!data/masked/tram_1762_v1_f0241_masked.jpg
+!data/masked/tram_1762_v2_f0001_masked.jpg
+!data/masked/tram_1762_v2_f0032_masked.jpg
+!data/masked/tram_1762_v3_f0001_masked.jpg
+!data/masked/tram_1762_v4_f0004_masked.jpg
+!data/masked/tram_1762_v4_f0016_masked.jpg
+!data/masked/tram_1762_v4_f0022_masked.jpg
+
+# Spreadsheet backups made by bench_grid.py --to-xlsx
+*.bak-*.xlsx
 
 # Temp probe/crop images
 results/_*.jpg
