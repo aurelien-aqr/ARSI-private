@@ -37,3 +37,9 @@ results/_*.jpg
 
 # OS
 .DS_Store
+
+# App runtime data (jobs, verdict cache, extracted videos) - masks presets ARE tracked
+data/app/jobs/
+data/app/cache/
+data/app/videos/
+.pytest_cache/
