@@ -1,14 +1,55 @@
 [
   {
     "bbox": [
+      1244,
+      944,
+      1528,
+      1080
+    ],
+    "area": 28976,
+    "channel": "photo",
+    "salience": 6608.628155958963,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      336,
+      1012,
+      596,
+      1080
+    ],
+    "area": 13472,
+    "channel": "photo",
+    "salience": 5140.941631587879,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
       568,
       24,
       692,
       164
     ],
     "area": 10816,
-    "vlm_label": "backpack",
-    "vlm_is_object": true
+    "channel": "photo",
+    "salience": 2918.8054809570312,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1664,
+      936,
+      1780,
+      1080
+    ],
+    "area": 9984,
+    "channel": "photo",
+    "salience": 2895.3701677305326,
+    "vlm_label": "",
+    "vlm_is_object": null
   },
   {
     "bbox": [
@@ -18,8 +59,10 @@
       200
     ],
     "area": 7120,
-    "vlm_label": "black backpack",
-    "vlm_is_object": true
+    "channel": "photo",
+    "salience": 2542.08257925509,
+    "vlm_label": "",
+    "vlm_is_object": null
   },
   {
     "bbox": [
@@ -29,41 +72,114 @@
       728
     ],
     "area": 3488,
-    "vlm_label": "black phone",
-    "vlm_is_object": true
+    "channel": "photo",
+    "salience": 1691.8725207966897,
+    "vlm_label": "",
+    "vlm_is_object": null
   },
   {
     "bbox": [
-      696,
-      84,
-      748,
-      112
+      1844,
+      1016,
+      1920,
+      1080
     ],
-    "area": 1248,
-    "vlm_label": "backpack",
-    "vlm_is_object": true
+    "area": 3104,
+    "channel": "photo",
+    "salience": 1531.0230785178082,
+    "vlm_label": "",
+    "vlm_is_object": null
   },
   {
     "bbox": [
-      508,
-      28,
+      308,
+      548,
+      408,
+      576
+    ],
+    "area": 2656,
+    "channel": "photo",
+    "salience": 1250.9355781947686,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      308,
+      456,
+      364,
+      512
+    ],
+    "area": 2544,
+    "channel": "photo",
+    "salience": 1128.600352964491,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1040,
+      512,
+      1120,
+      540
+    ],
+    "area": 1936,
+    "channel": "photo",
+    "salience": 1050.3821716308594,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1132,
+      492,
+      1216,
+      532
+    ],
+    "area": 2560,
+    "channel": "photo",
+    "salience": 1048.942593268539,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1228,
+      496,
+      1320,
+      528
+    ],
+    "area": 2352,
+    "channel": "photo",
+    "salience": 1000.0452004153942,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      488,
+      544,
+      544,
+      568
+    ],
+    "area": 1280,
+    "channel": "photo",
+    "salience": 997.0467295045486,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      420,
       536,
-      64
+      476,
+      572
     ],
-    "area": 1008,
-    "vlm_label": "bag",
-    "vlm_is_object": true
-  },
-  {
-    "bbox": [
-      884,
-      76,
-      916,
-      104
-    ],
-    "area": 832,
-    "vlm_label": "black bag",
-    "vlm_is_object": true
+    "area": 1696,
+    "channel": "photo",
+    "salience": 835.7027992942694,
+    "vlm_label": "",
+    "vlm_is_object": null
   },
   {
     "bbox": [
@@ -73,18 +189,295 @@
       148
     ],
     "area": 768,
-    "vlm_label": "black bag",
-    "vlm_is_object": true
+    "channel": "photo",
+    "salience": 763.1627924427769,
+    "vlm_label": "",
+    "vlm_is_object": null
   },
   {
     "bbox": [
-      776,
-      92,
-      804,
-      116
+      696,
+      84,
+      748,
+      112
     ],
-    "area": 656,
-    "vlm_label": "black bag",
-    "vlm_is_object": true
+    "area": 1248,
+    "channel": "photo",
+    "salience": 762.7827019398185,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      736,
+      4,
+      764,
+      32
+    ],
+    "area": 784,
+    "channel": "photo",
+    "salience": 730.8571548461914,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      508,
+      28,
+      536,
+      64
+    ],
+    "area": 1008,
+    "channel": "photo",
+    "salience": 729.4714357914487,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1112,
+      1064,
+      1152,
+      1080
+    ],
+    "area": 608,
+    "channel": "photo",
+    "salience": 721.9299537350028,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1892,
+      120,
+      1920,
+      152
+    ],
+    "area": 848,
+    "channel": "photo",
+    "salience": 699.4755820053886,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      928,
+      512,
+      956,
+      540
+    ],
+    "area": 736,
+    "channel": "photo",
+    "salience": 680.3784524580373,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      884,
+      76,
+      916,
+      104
+    ],
+    "area": 832,
+    "channel": "photo",
+    "salience": 666.0612290167234,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1100,
+      912,
+      1128,
+      948
+    ],
+    "area": 912,
+    "channel": "photo",
+    "salience": 655.5473569834782,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      644,
+      528,
+      672,
+      556
+    ],
+    "area": 752,
+    "channel": "photo",
+    "salience": 637.0862031671238,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      812,
+      4,
+      836,
+      28
+    ],
+    "area": 576,
+    "channel": "photo",
+    "salience": 634.7916870117188,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      128,
+      876,
+      236,
+      932
+    ],
+    "area": 4080,
+    "channel": "photo_lo",
+    "salience": 1503.2457730495269,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      268,
+      908,
+      336,
+      956
+    ],
+    "area": 2192,
+    "channel": "photo_lo",
+    "salience": 1095.0492776785934,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      268,
+      704,
+      372,
+      744
+    ],
+    "area": 2784,
+    "channel": "photo_lo",
+    "salience": 906.9762283660498,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      512,
+      208,
+      572,
+      260
+    ],
+    "area": 2128,
+    "channel": "photo_lo",
+    "salience": 881.2208353727693,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1100,
+      164,
+      1156,
+      232
+    ],
+    "area": 2672,
+    "channel": "photo_lo",
+    "salience": 837.731764342298,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1280,
+      644,
+      1352,
+      672
+    ],
+    "area": 1824,
+    "channel": "photo_lo",
+    "salience": 789.2140069761003,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      924,
+      184,
+      996,
+      224
+    ],
+    "area": 2112,
+    "channel": "photo_lo",
+    "salience": 724.4372006309836,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      68,
+      708,
+      152,
+      736
+    ],
+    "area": 1888,
+    "channel": "photo_lo",
+    "salience": 693.4813999916358,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      760,
+      784,
+      896,
+      912
+    ],
+    "area": 10576,
+    "channel": "edge",
+    "salience": 3522.72280199653,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      72,
+      48,
+      120,
+      264
+    ],
+    "area": 7680,
+    "channel": "edge",
+    "salience": 2838.9017982368077,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      1576,
+      952,
+      1660,
+      1080
+    ],
+    "area": 6336,
+    "channel": "edge",
+    "salience": 2430.8619437915872,
+    "vlm_label": "",
+    "vlm_is_object": null
+  },
+  {
+    "bbox": [
+      908,
+      808,
+      960,
+      896
+    ],
+    "area": 3632,
+    "channel": "edge",
+    "salience": 2258.2986951248063,
+    "vlm_label": "",
+    "vlm_is_object": null
   }
 ]
