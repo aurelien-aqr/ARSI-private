@@ -1,5 +1,12 @@
 # GPU day runbook — ARSI-vlm
 
+> **STATUS 2026-07-13: steps 1–5 are DONE.** Benchmarked: qwen3-vl (both
+> prompts), qwen3.5:9b (both prompts), InternVL3_5, GLM-4.6V-Flash-9B,
+> minicpm-v4.6 (disqualified — see report note). The spreadsheet grid was
+> filled by hand instead of bench_grid.py (11 models in ARSI_results_EN.xlsx).
+> Results + verdicts: benchmark/README.md "GPU results" section.
+> Remaining GPU work = step 6 (optional) and future precision levers.
+
 Everything below was prepared and smoke-tested on CPU (2026-07-12). On the
 RTX 3080 Ti workstation each step is minutes, not hours. Do them in order —
 each produces a result the next one uses.

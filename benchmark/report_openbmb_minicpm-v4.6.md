@@ -1,10 +1,22 @@
 # vlm_05 reference-diff — anomaly detection benchmark
 
+> **DISQUALIFIED — do not read the scores below as a model ranking.**
+> minicpm-v4.6 ignores the "Reply with YES or NO" format on side-by-side
+> crops (its replies lead with the object, so the parser scores every verdict
+> NO → the all-FN table below), and — worse — its raw replies claim an object
+> appeared on **198 of the 199 crops from CLEAN frames** ("bag visible on
+> right, absent left." on empty seats, often the same sentence verbatim).
+> Fixing the parser would only flip it to flagging 100 % of regions.
+> It is unusable as a crop judge via Ollama; note that it DOES answer sensibly
+> on whole frames (see the Task-1/2 rows in ARSI_results_EN.xlsx), so the
+> failure is specific to the side-by-side crop protocol. Diagnosed 2026-07-13
+> from `cache.json`; no GPU re-run needed.
+
 **Status:** COMPLETE  
-**Model:** `haervwe/GLM-4.6V-Flash-9B:latest` (Ollama)  
+**Model:** `openbmb/minicpm-v4.6:latest` (Ollama)  
 **Decision rule:** frame flagged if the VLM keeps ≥1 region (`filter` mode) after dropping person/"disappeared" labels and de-duplicating overlapping boxes.  
 **Diff / region params:** DIFF_THRESHOLD=40, BLUR_RADIUS=3, MIN_AREA=500, MAX_AREA=400000, MAX_REGIONS=25.  
-**Wall-clock:** 0.2 min (cache-only re-score with the corrected gpt_03 GT box; original GPU run 2026-07-13: 7.8 min, 651 fresh calls, mean 0.7 s/call).
+**Wall-clock:** 0.2 min (CPU-only Ollama).
 
 ## Prompt
 
@@ -35,55 +47,55 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 ## 1) Frame-level (binary: is the frame anomalous?)
 
-- Cases: **29**  (TP=17, FP=0, TN=12, FN=0)
-- **Accuracy** 1.000 · **Precision** 1.000 · **Recall** 1.000 · **Specificity** 1.000 · **F1** 1.000
+- Cases: **29**  (TP=0, FP=0, TN=12, FN=17)
+- **Accuracy** 0.414 · **Precision** 0.000 · **Recall** 0.000 · **Specificity** 1.000 · **F1** 0.000
 
 | | predicted anomaly | predicted clean |
 |---|---|---|
-| **actual anomaly** | TP = 17 | FN = 0 |
+| **actual anomaly** | TP = 0 | FN = 17 |
 | **actual clean**   | FP = 0 | TN = 12 |
 
 ## 2) Object-level (did we box each real anomaly?)
 
-- Instances detected: **40 / 45** → **object recall 0.889** (strict IoU≥0.3: 33 / 45 = 0.733)
-- False-positive regions (kept boxes matching no real anomaly): **29** of 86 kept → region precision 0.663
+- Instances detected: **0 / 45** → **object recall 0.000** (strict IoU≥0.3: 0 / 45 = 0.000)
+- False-positive regions (kept boxes matching no real anomaly): **0** of 0 kept → region precision 0.000
 - All VLM verdicts served from cache (0 new calls).
 
 | type | instances detected | recall |
 |---|---|---|
-| object | 28 / 33 | 0.85 |
-| graffiti | 6 / 6 | 1.00 |
-| damage | 4 / 4 | 1.00 |
-| litter | 2 / 2 | 1.00 |
+| object | 0 / 33 | 0.00 |
+| graffiti | 0 / 6 | 0.00 |
+| damage | 0 / 4 | 0.00 |
+| litter | 0 / 2 | 0.00 |
 
 | source | cases | instances detected | FP regions |
 |---|---|---|---|
-| gpt | 11 | 20 / 20 | 16 |
-| real | 15 | 16 / 21 | 7 |
+| gpt | 11 | 0 / 20 | 0 |
+| real | 15 | 0 / 21 | 0 |
 | self | 2 | 0 / 0 | 0 |
-| variant | 1 | 4 / 4 | 6 |
+| variant | 1 | 0 / 4 | 0 |
 
 ## Per-case results
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| gpt_01_suitcase | anomaly | **TP** | 1/1 | 0 | black suitcase, black suitcase, suitcase, black suitcase, black suitcase |
-| gpt_02_multi | anomaly | **TP** | 4/4 | 4 | black backpack, brown paper bag, phone, bottle, plastic bottle, brown paper bag, black bag, plastic bottle, phone |
-| gpt_03_faint_tag | anomaly | **TP** | 1/1 | 0 | graffiti (letters XRP) |
-| gpt_04_graffiti | anomaly | **TP** | 1/1 | 0 | colorful graffiti on the wall |
-| gpt_05_slash | anomaly | **TP** | 1/1 | 0 | torn seat |
-| gpt_07_multi | anomaly | **TP** | 4/4 | 4 | a bottle, black backpack, a plastic bottle, graffiti "HOBBO", black bag, torn seat, graffiti "Hob*", backpack, torn seat |
-| gpt_08_phone_tag | anomaly | **TP** | 2/2 | 1 | graffiti "ZONK", a black wallet/package, graffiti "Zebr" |
-| gpt_09_litter | anomaly | **TP** | 1/1 | 0 | a can, a can, a small white wrapper, wrapper |
-| gpt_10_litter | anomaly | **TP** | 1/1 | 1 | a can, litter (can, wrapper, paper), two pieces of litter (a tube and a crumpled item). |
-| gpt_11_crowd | anomaly | **TP** | 4/4 | 6 | black backpack, bottle, black backpack, torn seat, black backpack, graffiti "Hobg", plastic bottle, graffiti, torn seat, graffiti "HOPE", torn seat, graffiti "Hob", torn seat |
-| real_f0037 | anomaly | **TP** | 3/4 | 0 | backpack, phone, wallet |
-| real_f0053 | anomaly | **TP** | 3/4 | 3 | black backpack, backpack, wallet, phone, wallet, wallet |
-| real_f0100 | anomaly | **TP** | 3/4 | 1 | black backpack, wallet, phone, a black wallet |
-| real_f0112 | anomaly | **TP** | 4/4 | 1 | black backpack, black backpack, phone, phone, phone |
-| real_f0205 | anomaly | **TP** | 1/2 | 1 | jacket on seat, jacket on seat |
-| real_f0219 | anomaly | **TP** | 2/3 | 1 | jacket on seat, clothes on seat, backpack, backpack on seat, backpack |
-| variant_01 | anomaly | **TP** | 4/4 | 6 | bottle, backpack, backpack, graffiti "keep", torn seat fabric, bottle, bottle, backpack, plastic bottle, torn seat, torn seat, backpack |
+| gpt_01_suitcase | anomaly | **FN** | 0/1 | 0 | — |
+| gpt_02_multi | anomaly | **FN** | 0/4 | 0 | — |
+| gpt_03_faint_tag | anomaly | **FN** | 0/1 | 0 | — |
+| gpt_04_graffiti | anomaly | **FN** | 0/1 | 0 | — |
+| gpt_05_slash | anomaly | **FN** | 0/1 | 0 | — |
+| gpt_07_multi | anomaly | **FN** | 0/4 | 0 | — |
+| gpt_08_phone_tag | anomaly | **FN** | 0/2 | 0 | — |
+| gpt_09_litter | anomaly | **FN** | 0/1 | 0 | — |
+| gpt_10_litter | anomaly | **FN** | 0/1 | 0 | — |
+| gpt_11_crowd | anomaly | **FN** | 0/4 | 0 | — |
+| real_f0037 | anomaly | **FN** | 0/4 | 0 | — |
+| real_f0053 | anomaly | **FN** | 0/4 | 0 | — |
+| real_f0100 | anomaly | **FN** | 0/4 | 0 | — |
+| real_f0112 | anomaly | **FN** | 0/4 | 0 | — |
+| real_f0205 | anomaly | **FN** | 0/2 | 0 | — |
+| real_f0219 | anomaly | **FN** | 0/3 | 0 | — |
+| variant_01 | anomaly | **FN** | 0/4 | 0 | — |
 | neg_gpt_06_clean | clean | **TN** | — | 0 | — |
 | neg_real_ref_self | clean | **TN** | — | 0 | — |
 | neg_v1_f0151 | clean | **TN** | — | 0 | — |

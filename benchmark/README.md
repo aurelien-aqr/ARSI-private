@@ -83,31 +83,46 @@ salience-ranked MAX_REGIONS cap on the base channel only.
 as a miss because its GT box was misplaced onto the ventilation grille next to
 it — fixed 2026-07-12; the channels box the real tag and every judge names it).
 
-## GPU results (2026-07-12, 29 cases, multi-channel localizer, corrected GT)
+## GPU results (2026-07-12/13, 29 cases, multi-channel localizer, corrected GT)
 
-| judge × prompt | frame F1 | specificity | object recall | region precision | s/call |
-|---|---|---|---|---|---|
-| qwen3-vl:8b × conservative | 0.829 | 0.417 | 0.978 | 0.355 | 1.1 |
-| qwen3-vl:8b × lenient      | 0.872 | 0.583 | 0.978 | 0.534 | 1.1 |
-| **qwen3.5:9b × conservative** | **0.919** | **0.750** | **0.978** | **0.549** | **0.7** |
-| InternVL3_5:8b × conservative | 0.970¹ | 1.000 | 0.733¹ | 0.759 | 0.8 |
+| judge × prompt | frame F1 | frame recall | specificity | object recall | region precision | s/call |
+|---|---|---|---|---|---|---|
+| qwen3-vl:8b × conservative | 0.829 | 1.000 | 0.417 | 0.978 | 0.355 | 1.1 |
+| qwen3-vl:8b × lenient      | 0.872 | 1.000 | 0.583 | 0.978 | 0.534 | 1.1 |
+| qwen3.5:9b × conservative  | 0.919 | 1.000 | 0.750 | 0.978 | 0.549 | 0.7 |
+| qwen3.5:9b × lenient       | 0.872 | 1.000 | 0.583 | 0.978 | 0.496 | 0.6 |
+| **GLM-4.6V-Flash-9B × conservative** | **1.000** | **1.000** | **1.000** | 0.889¹ | 0.663 | 0.7 |
+| InternVL3_5:8b × conservative | 0.970 | 0.941² | 1.000 | 0.733² | 0.759 | 0.8 |
+| minicpm-v4.6 × conservative | disqualified³ | | | | | |
 
-¹ InternVL's frame-level scores flatter it: object recall 0.733 means it
-systematically says NO to real phones (2/4 instances on every real multi-object
-frame, full-frame FN on real_f0205). Frame recall is 1.000 for both qwen judges
-under both prompts.
+¹ GLM's 5 missed instances are all small items (phone/wallet) inside real
+multi-object frames that it flags anyway — frame-level detection stays perfect.
+² InternVL's frame F1 flatters it: it systematically says NO to real phones
+(2/4 instances on every real multi-object frame) and misses real_f0205 whole.
+³ minicpm-v4.6 ignores the reply format AND claims an object appeared on 198 of
+199 crops from CLEAN frames ("bag visible on right" on empty seats) — unusable
+as a crop judge via Ollama, though it answers sensibly on whole frames (see the
+xlsx grid). Details in the note atop `report_openbmb_minicpm-v4.6.md`.
 
 Findings:
-- **The "conservative" prompt backfires on qwen3-vl** — asked to "name a
-  specific new object", it actively finds one ("Blue seat cushion slightly
-  shifted", "Black cable snake-like") and answers YES: region precision 0.355
-  vs 0.534 for the shorter lenient prompt. Prompt A/B must be measured, never
-  assumed.
-- **qwen3.5:9b is the best judge tested** (its lack of grounding is irrelevant
-  here — vlm_05 never asks for coordinates) and the fastest.
-- Missing cell to run on GPU: **qwen3.5:9b × lenient** (likely champion).
-  GLM-4.6V-Flash and minicpm-v4.6 sweeps aborted on the ":latest" check_model
-  bug (fixed) and still need their first real run.
+- **The prompt effect is model-dependent — measure, never assume.** The
+  "conservative" prompt (name a specific object, if unsure say NO) *helps*
+  qwen3.5 (F1 0.919 vs 0.872 lenient) but *backfires* on qwen3-vl — asked to
+  name a specific new object, it actively finds one ("Blue seat cushion
+  slightly shifted", "Black cable snake-like") and answers YES: region
+  precision 0.355 vs 0.534 for the shorter lenient prompt.
+- **GLM-4.6V-Flash-9B × conservative is the best frame-level judge**: 17/17
+  anomalous frames flagged, 0 false alarms on 12 clean frames (including all
+  5 cross-session negatives). Caveat: 29 cases is small — a perfect confusion
+  matrix here is a strong signal, not a guarantee.
+- **qwen3.5:9b × conservative is the best instance-inventory judge** (object
+  recall 0.978 at the best specificity of the high-recall group) and the
+  fastest. Its lack of grounding is irrelevant here — vlm_05 never asks for
+  coordinates.
+- Deployment recommendation: **GLM as the alarm judge**; qwen3.5 ×
+  conservative when a per-object inventory matters more than false-alarm
+  rate. A GLM-then-qwen3.5 two-stage (qwen3.5 only on GLM-flagged frames)
+  would give both at +0.7 s/region on flagged frames only.
 - The preserved `report_lenient_qwen3vl.md` is the OLD baseline (24-case GT,
   single-channel localizer, CPU) — not comparable to the table above.
 

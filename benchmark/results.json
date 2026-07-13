@@ -1,7 +1,7 @@
 {
-  "generated": 1783891932.573568,
+  "generated": 1783951111.6410415,
   "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
-  "model": "blaifa/InternVL3_5:8b",
+  "model": "haervwe/GLM-4.6V-Flash-9B:latest",
   "rows": [
     {
       "id": "neg_real_ref_self",
@@ -30,7 +30,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.3
+      "case_seconds": 1.8
     },
     {
       "id": "neg_variant_ref_self",
@@ -59,7 +59,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.4
+      "case_seconds": 0.3
     },
     {
       "id": "neg_v1_f0211",
@@ -117,7 +117,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.4
+      "case_seconds": 0.3
     },
     {
       "id": "neg_v1_f0151",
@@ -146,7 +146,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.4
+      "case_seconds": 0.3
     },
     {
       "id": "neg_v1_f0181",
@@ -188,7 +188,7 @@
       ],
       "n_regions": 18,
       "n_classified": 18,
-      "n_kept": 2,
+      "n_kept": 1,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -201,20 +201,19 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "damaged seat.",
-        "hole in seat."
+        "torn seat"
       ],
       "instances_total": 1,
       "instances_detected": 1,
       "instances_detected_strict": 0,
-      "fp_regions": 1,
+      "fp_regions": 0,
       "type_detect": {
         "damage": [
           1,
           1
         ]
       },
-      "case_seconds": 0.5
+      "case_seconds": 0.4
     },
     {
       "id": "neg_v2_f0001_person",
@@ -256,7 +255,7 @@
       ],
       "n_regions": 20,
       "n_classified": 20,
-      "n_kept": 2,
+      "n_kept": 3,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -269,16 +268,17 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "backpack.",
-        "wallet."
+        "backpack",
+        "phone",
+        "wallet"
       ],
       "instances_total": 4,
-      "instances_detected": 2,
-      "instances_detected_strict": 2,
+      "instances_detected": 3,
+      "instances_detected_strict": 3,
       "fp_regions": 0,
       "type_detect": {
         "object": [
-          2,
+          3,
           4
         ]
       },
@@ -308,7 +308,7 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "graffiti."
+        "graffiti (letters XRP)"
       ],
       "instances_total": 1,
       "instances_detected": 1,
@@ -320,12 +320,53 @@
           1
         ]
       },
-      "case_seconds": 0.5
+      "case_seconds": 0.4
     },
     {
       "id": "gpt_09_litter",
       "reference": "real",
       "image": "data/anomalies/tram_anomalies_9.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 4,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 8,
+        "edge": 1,
+        "total": 17,
+        "capped": false
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a can",
+        "a can",
+        "a small white wrapper",
+        "wrapper"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "gpt_10_litter",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_10.png",
       "source": "gpt",
       "has_anomaly": true,
       "types": [
@@ -346,48 +387,9 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "bottle.",
-        "bottle.",
-        "object on floor."
-      ],
-      "instances_total": 1,
-      "instances_detected": 1,
-      "instances_detected_strict": 0,
-      "fp_regions": 0,
-      "type_detect": {
-        "litter": [
-          1,
-          1
-        ]
-      },
-      "case_seconds": 0.5
-    },
-    {
-      "id": "gpt_10_litter",
-      "reference": "real",
-      "image": "data/anomalies/tram_anomalies_10.png",
-      "source": "gpt",
-      "has_anomaly": true,
-      "types": [
-        "litter"
-      ],
-      "n_regions": 17,
-      "n_classified": 17,
-      "n_kept": 2,
-      "localizer": {
-        "persons": 0,
-        "person_veto": 0,
-        "base": 8,
-        "second": 8,
-        "edge": 1,
-        "total": 17,
-        "capped": false
-      },
-      "flagged": true,
-      "outcome": "TP",
-      "kept_labels": [
-        "bottle on floor.",
-        "litter left behind."
+        "a can",
+        "litter (can, wrapper, paper)",
+        "two pieces of litter (a tube and a crumpled item)."
       ],
       "instances_total": 1,
       "instances_detected": 1,
@@ -399,7 +401,7 @@
           1
         ]
       },
-      "case_seconds": 0.5
+      "case_seconds": 0.4
     },
     {
       "id": "neg_gpt_06_clean",
@@ -428,7 +430,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.5
+      "case_seconds": 0.4
     },
     {
       "id": "gpt_01_suitcase",
@@ -441,7 +443,7 @@
       ],
       "n_regions": 18,
       "n_classified": 18,
-      "n_kept": 2,
+      "n_kept": 5,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -454,8 +456,11 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
+        "black suitcase",
+        "black suitcase",
         "suitcase",
-        "suitcase"
+        "black suitcase",
+        "black suitcase"
       ],
       "instances_total": 1,
       "instances_detected": 1,
@@ -493,7 +498,7 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "graffiti on wall."
+        "colorful graffiti on the wall"
       ],
       "instances_total": 1,
       "instances_detected": 1,
@@ -505,7 +510,7 @@
           1
         ]
       },
-      "case_seconds": 0.7
+      "case_seconds": 0.6
     },
     {
       "id": "gpt_08_phone_tag",
@@ -532,9 +537,9 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "graffiti.",
-        "phone.",
-        "graffiti appears on the right side of the image. The graffiti is visible on the metal surface near the bottom right corner of the tram's interior panel. This marking differs from the clean and undamaged state seen on the left half of the image."
+        "graffiti \"ZONK\"",
+        "a black wallet/package",
+        "graffiti \"Zebr\""
       ],
       "instances_total": 2,
       "instances_detected": 2,
@@ -550,7 +555,7 @@
           1
         ]
       },
-      "case_seconds": 0.5
+      "case_seconds": 0.4
     },
     {
       "id": "neg_v4_f0004",
@@ -579,7 +584,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.8
+      "case_seconds": 0.7
     },
     {
       "id": "variant_01",
@@ -594,7 +599,7 @@
       ],
       "n_regions": 25,
       "n_classified": 25,
-      "n_kept": 10,
+      "n_kept": 12,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -607,21 +612,23 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "bottle on floor.",
-        "backpack.",
-        "backpack.",
-        "graffiti appears on the right half of the image. The graffiti reads \"Kepp\" and is present on the wall where there was no such marking on the left half.",
-        "torn seat cover.",
-        "bottle on floor.",
-        "bottle on right.",
-        "backpack.",
         "bottle",
-        "backpack."
+        "backpack",
+        "backpack",
+        "graffiti \"keep\"",
+        "torn seat fabric",
+        "bottle",
+        "bottle",
+        "backpack",
+        "plastic bottle",
+        "torn seat",
+        "torn seat",
+        "backpack"
       ],
       "instances_total": 4,
       "instances_detected": 4,
       "instances_detected_strict": 4,
-      "fp_regions": 4,
+      "fp_regions": 6,
       "type_detect": {
         "object": [
           2,
@@ -651,7 +658,7 @@
       ],
       "n_regions": 26,
       "n_classified": 26,
-      "n_kept": 5,
+      "n_kept": 9,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -664,16 +671,20 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "bottle on floor.",
-        "backpack.",
-        "graffiti on wall.",
-        "graffiti.",
-        "torn seat cover."
+        "a bottle",
+        "black backpack",
+        "a plastic bottle",
+        "graffiti \"HOBBO\"",
+        "black bag",
+        "torn seat",
+        "graffiti \"Hob*\"",
+        "backpack",
+        "torn seat"
       ],
       "instances_total": 4,
       "instances_detected": 4,
       "instances_detected_strict": 2,
-      "fp_regions": 1,
+      "fp_regions": 4,
       "type_detect": {
         "object": [
           2,
@@ -701,7 +712,7 @@
       ],
       "n_regions": 28,
       "n_classified": 28,
-      "n_kept": 5,
+      "n_kept": 9,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -714,16 +725,20 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "backpack.",
-        "paper bag.",
-        "smartphone",
-        "bottle.",
-        "brown paper bag."
+        "black backpack",
+        "brown paper bag",
+        "phone",
+        "bottle",
+        "plastic bottle",
+        "brown paper bag",
+        "black bag",
+        "plastic bottle",
+        "phone"
       ],
       "instances_total": 4,
       "instances_detected": 4,
       "instances_detected_strict": 4,
-      "fp_regions": 0,
+      "fp_regions": 4,
       "type_detect": {
         "object": [
           4,
@@ -743,7 +758,7 @@
       ],
       "n_regions": 42,
       "n_classified": 37,
-      "n_kept": 2,
+      "n_kept": 6,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -756,16 +771,20 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "backpack.",
-        "wallet."
+        "black backpack",
+        "backpack",
+        "wallet",
+        "phone",
+        "wallet",
+        "wallet"
       ],
       "instances_total": 4,
-      "instances_detected": 2,
-      "instances_detected_strict": 2,
-      "fp_regions": 0,
+      "instances_detected": 3,
+      "instances_detected_strict": 3,
+      "fp_regions": 3,
       "type_detect": {
         "object": [
-          2,
+          3,
           4
         ]
       },
@@ -782,7 +801,7 @@
       ],
       "n_regions": 40,
       "n_classified": 37,
-      "n_kept": 2,
+      "n_kept": 4,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -795,16 +814,18 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "backpack.",
-        "wallet."
+        "black backpack",
+        "wallet",
+        "phone",
+        "a black wallet"
       ],
       "instances_total": 4,
-      "instances_detected": 2,
-      "instances_detected_strict": 2,
-      "fp_regions": 0,
+      "instances_detected": 3,
+      "instances_detected_strict": 3,
+      "fp_regions": 1,
       "type_detect": {
         "object": [
-          2,
+          3,
           4
         ]
       },
@@ -821,7 +842,7 @@
       ],
       "n_regions": 77,
       "n_classified": 37,
-      "n_kept": 2,
+      "n_kept": 5,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -834,16 +855,19 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "backpack.",
-        "backpack."
+        "black backpack",
+        "black backpack",
+        "phone",
+        "phone",
+        "phone"
       ],
       "instances_total": 4,
-      "instances_detected": 2,
-      "instances_detected_strict": 2,
-      "fp_regions": 0,
+      "instances_detected": 4,
+      "instances_detected_strict": 4,
+      "fp_regions": 1,
       "type_detect": {
         "object": [
-          2,
+          4,
           4
         ]
       },
@@ -860,7 +884,7 @@
       ],
       "n_regions": 64,
       "n_classified": 37,
-      "n_kept": 0,
+      "n_kept": 2,
       "localizer": {
         "persons": 0,
         "person_veto": 0,
@@ -870,20 +894,23 @@
         "total": 64,
         "capped": true
       },
-      "flagged": false,
-      "outcome": "FN",
-      "kept_labels": [],
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "jacket on seat",
+        "jacket on seat"
+      ],
       "instances_total": 2,
-      "instances_detected": 0,
-      "instances_detected_strict": 0,
-      "fp_regions": 0,
+      "instances_detected": 1,
+      "instances_detected_strict": 1,
+      "fp_regions": 1,
       "type_detect": {
         "object": [
-          0,
+          1,
           2
         ]
       },
-      "case_seconds": 0.6
+      "case_seconds": 0.5
     },
     {
       "id": "real_f0219",
@@ -896,7 +923,7 @@
       ],
       "n_regions": 66,
       "n_classified": 37,
-      "n_kept": 2,
+      "n_kept": 5,
       "localizer": {
         "persons": 1,
         "person_veto": 3,
@@ -909,20 +936,23 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "jacket",
-        "jacket."
+        "jacket on seat",
+        "clothes on seat",
+        "backpack",
+        "backpack on seat",
+        "backpack"
       ],
       "instances_total": 3,
-      "instances_detected": 1,
-      "instances_detected_strict": 1,
-      "fp_regions": 0,
+      "instances_detected": 2,
+      "instances_detected_strict": 2,
+      "fp_regions": 1,
       "type_detect": {
         "object": [
-          1,
+          2,
           3
         ]
       },
-      "case_seconds": 0.5
+      "case_seconds": 0.4
     },
     {
       "id": "gpt_11_crowd",
@@ -937,7 +967,7 @@
       ],
       "n_regions": 40,
       "n_classified": 37,
-      "n_kept": 10,
+      "n_kept": 13,
       "localizer": {
         "persons": 4,
         "person_veto": 4,
@@ -950,21 +980,24 @@
       "flagged": true,
       "outcome": "TP",
       "kept_labels": [
-        "backpack.",
-        "backpack.",
-        "bottle on floor.",
+        "black backpack",
+        "bottle",
+        "black backpack",
+        "torn seat",
+        "black backpack",
+        "graffiti \"Hobg\"",
+        "plastic bottle",
         "graffiti",
-        "bottle on floor.",
-        "graffiti.",
-        "graffiti on pole.",
-        "graffiti.",
-        "graffiti.",
-        "torn seat cover."
+        "torn seat",
+        "graffiti \"HOPE\"",
+        "torn seat",
+        "graffiti \"Hob\"",
+        "torn seat"
       ],
       "instances_total": 4,
       "instances_detected": 4,
       "instances_detected_strict": 3,
-      "fp_regions": 5,
+      "fp_regions": 6,
       "type_detect": {
         "object": [
           2,
@@ -1066,7 +1099,7 @@
       "instances_detected_strict": 0,
       "fp_regions": 0,
       "type_detect": {},
-      "case_seconds": 0.6
+      "case_seconds": 0.5
     }
   ]
 }
