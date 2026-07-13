@@ -23,10 +23,31 @@ The UI never imports vlm_0x directly; only `arsi_core` does.
 
 ### Video → frames
 - Input: uploaded video file (mp4/avi) or an existing frames directory.
-- Params: `every_n` frames OR `every_s` seconds, `start`/`end` trim, optional
-  privacy mask (reuse the existing masked-frame convention), output size.
+- Params: `every_n` frames OR `every_s` seconds, `start`/`end` trim, output
+  size.
 - Output: `data/app/videos/<video_id>/frames/f%04d.jpg` + `meta.json`
   (fps, duration, frame count, extraction params).
+
+### Masking (user-drawn, camera-wide)
+Black out zones that must not influence detection (windows: exterior
+movement + light changes). The camera is fixed, so a mask is drawn ONCE on
+any frame and applies to every frame of that camera/video.
+
+- Mask spec = named JSON preset: `data/app/masks/<name>.json` →
+  `{name, camera, image_size: [w, h], zones: [{id, label, polygon: [[x,y],…]}]}`.
+  Polygons (not just rectangles) in reference pixel space — the existing
+  `data/masked/` frames follow exactly this convention (pure-black window
+  contours) but were produced outside the repo; the app reproduces and
+  replaces that external step.
+- `apply_mask(image, mask) -> image`: fill polygons with black; scales
+  zones if the frame size differs from `image_size` (same aspect).
+- **Applied identically to the reference AND every inspection frame, at
+  pipeline input** (not at extraction — raw frames stay reusable with a
+  different mask). If only one side were masked, the diff pipelines
+  (02/05) would detect the mask itself as change.
+- vlm_05 verdict-cache keys must include a hash of the active mask
+  (a mask change invalidates verdicts, same as a prompt change).
+- Job config gets `mask: <name>|null`; report + export record it.
 
 ### Pipeline adapters
 One uniform interface over the five scripts:
@@ -93,8 +114,11 @@ Every failure is logged (structured JSONL per job under
 - `POST /api/videos` (upload) / `POST /api/videos/{id}/extract {params}`
 - `GET  /api/demo-frames` → curated anomaly frames shipped with the repo
   (benchmark ground-truth cases, grouped real/gpt/variant/clean)
-- `POST /api/jobs {script, model, prompt, frames[], reference?, params, mode}`
-  → `{job_id}`; mode = single | batch | compare (two configs, same frames)
+- `GET/POST/PUT/DELETE /api/masks` (named presets);
+  `POST /api/masks/preview {frame, zones}` → masked image for live preview
+- `POST /api/jobs {script, model, prompt, frames[], reference?, mask?,
+  params, mode}` → `{job_id}`; mode = single | batch | compare (two
+  configs, same frames)
 - `GET  /api/jobs/{id}` state; `GET /api/jobs/{id}/events` SSE progress
   (per-frame: index, status, thumbnail ready)
 - `POST /api/jobs/{id}/cancel`
@@ -107,7 +131,8 @@ Every failure is logged (structured JSONL per job under
 
 1. **Home / dashboard** — health status, quick-start cards, recent jobs.
 2. **New analysis wizard** — source (upload video | demo frames | previous
-   extraction) → extraction params → pipeline config (script, model with
+   extraction) → extraction params → mask step (pick a saved mask, draw a
+   new one on any frame, or none) → pipeline config (script, model with
    installed-badge + pull button, prompt preset dropdown + editable text,
    advanced params) → review + launch.
 3. **Run view** — progress bar + ETA, per-frame counters (done/anomalous/

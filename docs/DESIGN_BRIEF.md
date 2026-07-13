@@ -25,6 +25,15 @@ readable; keyboard-friendly galleries.
      "synthetic: graffiti") OR reuse a previous extraction.
    - Step 2 extraction (video only): every-N-frames / every-N-seconds,
      trim range with a filmstrip preview, estimated frame count.
+   - Step 2b **mask editor**: the camera is fixed, so the user draws mask
+     zones ONCE on a sample frame and they apply to every frame. Canvas
+     with the frame large; draw polygons or rectangles over zones to black
+     out (typically the windows, to stop outside movement/light from
+     triggering detections); zone list on the side (label, delete,
+     re-edit); live preview toggle (masked ⟷ original); save as a named
+     per-camera preset; or pick an existing preset from a dropdown; "no
+     mask" is a valid choice. Design both states: drawing mode and
+     preset-picked summary.
    - Step 3 pipeline: script selector (5 pipelines, one-line description
      each, "vlm_05 reference-diff — recommended" highlighted); model
      dropdown where NOT-installed models show a "Pull (4.7 GB)" button with
@@ -60,6 +69,9 @@ readable; keyboard-friendly galleries.
    sizes, pull/remove), default script/model/prompt, storage usage.
 
 ## Components that need care
+- Mask editor canvas: polygon drawing with vertex handles, semi-transparent
+  fill while editing, pure black in preview; must feel precise (the real
+  masks trace window contours, see the uploaded masked frame example).
 - Model selector with installed/not-installed state and inline pull progress.
 - Prompt editor: preset dropdown + textarea + "reset to preset" + a note
   that changing the prompt invalidates the verdict cache.
@@ -71,6 +83,8 @@ readable; keyboard-friendly galleries.
 ## Real data to design with (uploaded alongside this brief)
 - Annotated CCTV frames with boxes (green/red/blue) — use these as the
   gallery/detail imagery, they are the real output.
+- One raw frame + its masked counterpart (black windows) — the mask
+  editor's before/after reference.
 - A sample results JSON and a sample markdown report — use their real
   field names and realistic numbers (e.g. "29 cases, F1 0.919, 0.7 s/call").
 - Real label strings for verdict lists: "phone on seat", "graffiti tag
