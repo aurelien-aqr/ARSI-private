@@ -67,8 +67,20 @@ const hint = (text) => `<span class="hint" data-tip="${esc(text)}">?</span>`;
 const fmtGB = (b) => (b / 1e9).toFixed(1);
 const fmtEta = (sec) => {
   sec = Math.max(0, Math.round(sec));
-  const m = Math.floor(sec / 60), r = sec % 60;
-  return m > 0 ? m + "m " + r + "s" : r + "s";
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  if (h > 0) return `${h}h ${m}m`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
+};
+const fmtDur = (sec) => {   // coarse, for pre-launch estimates (avoids false precision)
+  if (sec < 45) return `~${Math.max(1, Math.round(sec))} s`;
+  if (sec < 90 * 60) return `~${Math.round(sec / 60)} min`;
+  return `~${(sec / 3600).toFixed(1)} h`;
+};
+const median = (arr) => {
+  if (!arr.length) return 0;
+  const a = arr.slice().sort((x, y) => x - y);
+  return a[Math.floor(a.length / 2)];
 };
 async function jget(url) {
   const r = await fetch(url);
@@ -443,11 +455,56 @@ function needRef() {
   const p = S.pipelines.find(x => x.key === S.wiz.pipeline);
   return !!(p && p.ref);
 }
+/* Real seconds-per-frame from past jobs of the same pipeline. The gpu flag is
+   unreliable and per-frame cost depends on model/region-count/cache, all
+   captured by a real wall_seconds/n_frames. We take the MAX across matching
+   jobs: the verdict cache only ever makes a run FASTER, so the slowest
+   observation best predicts a fresh (uncached) video. */
+function histPerFrame(script, model) {
+  let done = S.jobs.filter(j => j.config && j.config.script === script
+    && j.summary && j.summary.n_frames > 0 && j.summary.wall_seconds > 0);
+  if (!done.length) return null;
+  const sameModel = done.filter(j => j.config.model === model);
+  if (sameModel.length) done = sameModel;
+  const perFrame = Math.max(...done.map(j => j.summary.wall_seconds / j.summary.n_frames));
+  return { perFrame, sameModel: sameModel.length > 0 };
+}
+// rough per-frame fallback (no usable history yet); replaced after run 1
+const ROUGH_PER_FRAME = {
+  gpu: { vlm_05: 12, vlm_04: 8, _: 3 },
+  cpu: { vlm_05: 180, vlm_04: 120, _: 40 },
+};
+// below this, a crop pipeline's history is cache-flattered, not a real run
+const CROP_MIN_CREDIBLE = 4;
 function estimate() {
   const frames = estFrames();
-  const perFrame = S.wiz.pipeline === "vlm_05" ? 8 : (S.wiz.pipeline === "vlm_04" ? 3 : 1);
-  const calls = frames * perFrame;
-  return { calls, gpuMin: (calls * 0.8 / 60).toFixed(1), cpuH: (calls * 180 / 3600).toFixed(1) };
+  const script = S.wiz.pipeline;
+  const cropPipe = script === "vlm_05" || script === "vlm_04";
+  const h = histPerFrame(script, S.wiz.model);
+  let perFrame, basis, rough;
+  if (h && !(cropPipe && h.perFrame < CROP_MIN_CREDIBLE)) {
+    perFrame = h.perFrame; rough = false;
+    basis = `based on your ${script} history${h.sameModel ? " with this model" : ""} · ${fmtEta(perFrame)}/frame`;
+  } else {
+    const t = ROUGH_PER_FRAME[(S.health && S.health.gpu) ? "gpu" : "cpu"];
+    perFrame = t[script] || t._; rough = true;
+    basis = "rough guess — the real speed appears as soon as the run starts";
+  }
+  return { frames, perFrame, total: frames * perFrame, basis, rough };
+}
+/* Live ETA: median of the recently measured frame times (drops the first-call
+   model-load spike and adapts if the pace changes); seeded by the pre-launch
+   estimate until the first frame lands. */
+function runPerFrame(run) {
+  if (run.times && run.times.length) return median(run.times.slice(-12));
+  return run.estPerFrame || 0;
+}
+function runEta(run) {
+  if (run.done) return "done";
+  const remaining = run.total - run.processed;
+  if (remaining <= 0) return "finishing…";
+  const per = runPerFrame(run);
+  return per ? fmtEta(remaining * per) : "…";
 }
 ACT.launchRun = async () => {
   const w = S.wiz;
@@ -473,7 +530,8 @@ ACT.launchRun = async () => {
     S.run = { jobId: job_id, total: w.frames.length, processed: 0, anomalous: 0,
               failed: 0, retried: 0, done: false, cancelled: false,
               thumbs: [], log: [`[start] job ${job_id} · ${w.pipeline} · ${w.model}`],
-              frames: w.frames.slice() };
+              frames: w.frames.slice(),
+              times: [], estPerFrame: estimate().perFrame, t0: Date.now() };
     setScreen("run");
     watchRun(job_id);
   } catch (e) {
@@ -505,6 +563,7 @@ function handleRunEvent(e) {
     run.retried++; run.log.unshift(`[${fid}] retry: ${e.error}`);
   } else if (e.event === "frame_done") {
     run.processed++;
+    if (typeof e.seconds === "number") run.times.push(e.seconds);
     const f = run.frames[e.index] || {};
     let ring = "green";
     if (e.status === "failed") { run.failed++; ring = "grey";
@@ -1182,8 +1241,12 @@ function wizStep5() {
   return `
   <div style="max-width:720px;">
     <div style="border:1px solid ${C.bd}; border-radius:12px; overflow:hidden; background:${C.bgCard2}; margin-bottom:20px;">${rows}</div>
-    <div style="display:flex; align-items:center; gap:16px; padding:16px 20px; border-radius:12px; background:oklch(0.2 0.03 225); border:1px solid ${C.accBd}; margin-bottom:22px;">
-      <div style="font-size:13.5px; color:oklch(0.85 0.05 225);"><span style="font-family:${C.mono}; font-weight:700;">~${est.calls} VLM calls</span> ≈ <span style="font-weight:600;">${est.gpuMin} min on GPU</span> · <span style="color:${C.amber};">~${est.cpuH} h on CPU</span>${S.health && !S.health.gpu ? ` — <b style="color:${C.amber};">this machine is CPU-only</b>` : ""}</div>
+    <div style="display:flex; align-items:center; gap:14px; padding:16px 20px; border-radius:12px; background:oklch(0.2 0.03 225); border:1px solid ${C.accBd}; margin-bottom:22px;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:0 0 18px;"><circle cx="9" cy="9" r="7.3" stroke="oklch(0.75 0.1 225)" stroke-width="1.4"/><path d="M9 5 V9 L12 11" stroke="oklch(0.75 0.1 225)" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <div style="font-size:13.5px; color:oklch(0.85 0.05 225); line-height:1.5;">
+        <span style="font-family:${C.mono}; font-weight:700;">${est.frames} frames</span> · estimated <span style="font-weight:700;">${fmtDur(est.total)}</span>
+        <div style="font-size:11.5px; color:${est.rough ? C.amber : "oklch(0.68 0.04 225)"}; margin-top:2px;">${est.basis}</div>
+      </div>
     </div>
     <button data-act="launchRun" style="width:100%; font-size:16px; font-weight:700; color:${C.accDark}; background:${C.acc}; border:none; padding:16px; border-radius:12px; cursor:pointer; letter-spacing:0.01em;">Launch analysis</button>
   </div>`;
@@ -1202,7 +1265,12 @@ function runView() {
       </div>
     </div>`;
   const pct = run.total ? Math.round(run.processed / run.total * 100) : 0;
-  const eta = run.done ? "done" : fmtEta((run.total - run.processed) * (S.health && S.health.gpu ? 6 : 180));
+  const eta = runEta(run);
+  const per = runPerFrame(run);
+  const measured = run.times && run.times.length
+    ? `${per < 10 ? per.toFixed(1) : Math.round(per)} s/frame`
+    : "";
+  const elapsed = run.t0 ? fmtEta((Date.now() - run.t0) / 1000) : "";
   const ringColor = { red: "oklch(0.62 0.17 22)", grey: "oklch(0.4 0.012 250)", green: "oklch(0.6 0.15 150)" };
   return `
   <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
@@ -1211,7 +1279,7 @@ function runView() {
         <span style="font-family:${C.mono}; font-size:15px; color:oklch(0.92 0.006 250); font-weight:600;">${esc(run.jobId)}</span>
         ${!run.done ? `<span style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:${C.acc};"><span style="width:6px; height:6px; border-radius:50%; background:${C.acc}; animation:arsipulse 1.3s infinite;"></span>running</span>`
           : `<span style="font-size:11.5px; color:${run.cancelled ? C.fg2 : "oklch(0.82 0.1 150)"};">${run.cancelled ? "cancelled" : "complete"}</span>`}
-        <span style="margin-left:auto; font-family:${C.mono}; font-size:13px; color:${C.fg2};">${run.processed}/${run.total} · ETA ${eta}</span>
+        <span style="margin-left:auto; font-family:${C.mono}; font-size:13px; color:${C.fg2};">${run.processed}/${run.total}${measured ? ` · ${measured}` : ""} · ${run.done ? (run.cancelled ? "stopped" : "done") + (elapsed ? " in " + elapsed : "") : "ETA " + eta}</span>
       </div>
       <div style="height:9px; border-radius:6px; background:${C.bg}; overflow:hidden; margin-bottom:16px;">
         <div style="height:100%; width:${pct}%; background:linear-gradient(90deg, oklch(0.6 0.13 225), oklch(0.75 0.13 225)); border-radius:6px; transition:width .2s;"></div>
