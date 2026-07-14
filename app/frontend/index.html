@@ -52,6 +52,11 @@
 </head>
 <body>
 <div id="app"></div>
+<!-- file inputs live OUTSIDE #app: a re-render (health poll, SSE event) while
+     the file dialog is open would otherwise destroy the input the dialog is
+     bound to, and its change event would never reach the app -->
+<input type="file" id="videoFile" data-change="videoFile" accept="video/*" style="display:none;">
+<input type="file" id="refFile" data-change="refFile" accept="image/*" style="display:none;">
 <script src="app.js"></script>
 </body>
 </html>

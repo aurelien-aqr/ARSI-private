@@ -133,8 +133,11 @@ async function boot() {
   setInterval(refreshHealth, 15000);
 }
 async function refreshHealth() {
-  try { S.health = await jget("/api/health"); } catch { S.health = { ollama: false, models: [], gpu: false }; }
-  render();
+  let h;
+  try { h = await jget("/api/health"); } catch { h = { ollama: false, models: [], gpu: false }; }
+  const changed = JSON.stringify(h) !== JSON.stringify(S.health);
+  S.health = h;
+  if (changed) render();   // a silent poll must not disturb open dialogs/drawing
 }
 async function refreshModels() {
   try { S.models = (await jget("/api/models")).models; } catch { S.models = []; }
@@ -696,9 +699,7 @@ function render() {
       </div>
     </div>
     ${S.toast ? `<div style="position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:60; background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(S.toast)}</div>` : ""}
-  </div>
-  <input type="file" id="videoFile" data-change="videoFile" accept="video/*" style="display:none;">
-  <input type="file" id="refFile" data-change="refFile" accept="image/*" style="display:none;">`;
+  </div>`;
   app.querySelectorAll("[data-scroll]").forEach(el => {
     const p = scrollPos[el.dataset.scroll];
     if (p) { el.scrollTop = p.top; el.scrollLeft = p.left; }
