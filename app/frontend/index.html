@@ -32,9 +32,10 @@
     border:1px solid oklch(0.34 0.014 250); cursor:help; position:relative;
     vertical-align:middle; margin-left:6px; }
   .hint:hover { color:oklch(0.9 0.006 250); }
-  .hint:hover::after {
-    content:attr(data-tip); position:absolute; bottom:130%; left:50%;
-    transform:translateX(-50%); z-index:80; width:max-content; max-width:280px;
+  /* the bubble itself is a floating fixed-position div managed by app.js
+     (a CSS ::after bubble gets clipped by overflow:auto/hidden ancestors) */
+  #arsi-tip {
+    position:fixed; z-index:99; display:none; max-width:300px;
     white-space:normal; font-size:11.5px; font-weight:400; line-height:1.45;
     text-align:left; padding:8px 11px; border-radius:8px;
     background:oklch(0.22 0.012 250); color:oklch(0.92 0.006 250);

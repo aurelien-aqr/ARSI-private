@@ -171,12 +171,16 @@ function resetWizardSource() {
   if (w.maskPreview) { URL.revokeObjectURL(w.maskPreview); }
   Object.assign(w, { step: 1, source: null, demoSel: [], video: null,
                      frames: [], extracting: false, uploading: false,
-                     maskPreview: null });
+                     maskPreview: null, reuseId: null, framePool: [], frameSel: [] });
   S._videos = null;
-  if (S.run && S.run.done) S.run = null;   // finished run: clear the Run tab
 }
-ACT.goWizard = () => { resetWizardSource(); setScreen("wizard"); };
-ACT.goWizardDemo = () => { resetWizardSource(); S.wiz.source = "demo"; setScreen("wizard"); };
+function maybeResetWizard() {
+  // reset ONLY after a finished run (fresh start); plain tab navigation must
+  // keep the in-progress wizard exactly as the user left it
+  if (S.run && S.run.done) { resetWizardSource(); S.run = null; }
+}
+ACT.goWizard = () => { maybeResetWizard(); setScreen("wizard"); };
+ACT.goWizardDemo = () => { maybeResetWizard(); S.wiz.source = "demo"; S.wiz.step = 1; setScreen("wizard"); };
 ACT.toggleTheme = () => {
   S.theme = S.theme === "dark" ? "light" : "dark";
   localStorage.setItem("arsi-theme", S.theme); render();
@@ -229,9 +233,11 @@ ACT.pickVideoFile = () => document.getElementById("videoFile").click();
 ACT.reuseVideo = async (videoId) => {
   try {
     const d = await jget(`/api/videos/${videoId}/frames`);
-    Object.assign(S.wiz, { source: "reuse", framePool: d.frames,
+    // reuseId is separate from `video` (the uploaded-video state): mixing them
+    // broke the "Upload a video" card after picking an extraction
+    Object.assign(S.wiz, { source: "reuse", reuseId: videoId, framePool: d.frames,
                            frameSel: d.frames.map(f => f.path),   // all selected by default
-                           frames: [], video: { video_id: videoId } });
+                           frames: [] });
     render();
   } catch (e) { toast("Could not load extraction: " + e.message); }
 };
@@ -699,6 +705,7 @@ function render() {
   });
   const gsel = app.querySelector("#gsel");
   if (gsel && S._kbNav) { gsel.scrollIntoView({ block: "nearest" }); S._kbNav = false; }
+  hideTip();   // the hovered ? icon may not exist in the new DOM
 }
 
 function navItem(key, label, icon, extra = "") {
@@ -833,7 +840,7 @@ function dashboard() {
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px;">
       ${stat(total, "Jobs total")}
       ${stat(anom, "Anomalous frames", C.red)}
-      ${stat("0.919", "Best F1 (vlm_05 benchmark)", C.green)}
+      ${stat(S.jobs.reduce((a, j) => a + ((j.summary || {}).n_frames || 0), 0), "Frames analyzed", C.green)}
       ${stat(S.health && S.health.gpu ? "0.7<span style='font-size:13px; color:" + C.fg3 + "'>s</span>" : "2-4<span style='font-size:13px; color:" + C.fg3 + "'>min</span>", "Per VLM call (" + (S.health && S.health.gpu ? "GPU" : "CPU") + ")")}
     </div>
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
@@ -921,7 +928,7 @@ function wizStep1() {
     body = `<div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:12px;">Previous extractions</div>
       <div style="display:flex; flex-direction:column; gap:8px;">${
       (S._videos || []).map(v => `
-        <div class="hoverable" data-act="reuseVideo" data-arg="${esc(v.video_id)}" style="padding:13px 15px; border-radius:10px; cursor:pointer; background:${w.video && w.video.video_id === v.video_id ? C.accBg : C.bgCard}; border:1px solid ${w.video && w.video.video_id === v.video_id ? C.accSelBd : C.bd}; display:flex; justify-content:space-between; font-size:13px;">
+        <div class="hoverable" data-act="reuseVideo" data-arg="${esc(v.video_id)}" style="padding:13px 15px; border-radius:10px; cursor:pointer; background:${w.reuseId === v.video_id ? C.accBg : C.bgCard}; border:1px solid ${w.reuseId === v.video_id ? C.accSelBd : C.bd}; display:flex; justify-content:space-between; font-size:13px;">
           <span style="font-family:${C.mono};">${esc(v.video_id)}</span><span style="color:${C.fg3};">${v.n_frames} frames</span>
         </div>`).join("") || `<div style="color:${C.fg4}; font-size:12.5px;">No previous extraction found.</div>`}</div>
       ${poolGrid}`;
@@ -1585,10 +1592,28 @@ document.addEventListener("keydown", (ev) => {
 document.addEventListener("mouseover", (ev) => {
   const el = ev.target.closest("[data-hover]");
   if (el && S.res.hoverV !== +el.dataset.hover) ACT.hoverV(el.dataset.hover);
+  const h = ev.target.closest(".hint");
+  if (h) showTip(h);
 });
 document.addEventListener("mouseout", (ev) => {
   const el = ev.target.closest("[data-hover]");
   if (el && !ev.relatedTarget?.closest?.("[data-hover]")) ACT.unhoverV();
+  if (ev.target.closest(".hint")) hideTip();
 });
+function showTip(el) {
+  let t = document.getElementById("arsi-tip");
+  if (!t) { t = document.createElement("div"); t.id = "arsi-tip"; document.body.appendChild(t); }
+  t.textContent = el.dataset.tip || "";
+  t.style.visibility = "hidden"; t.style.display = "block";
+  const r = el.getBoundingClientRect(), tw = t.offsetWidth, th = t.offsetHeight;
+  const x = Math.min(Math.max(8, r.left + r.width / 2 - tw / 2), innerWidth - tw - 8);
+  const y = r.top - th - 9 >= 8 ? r.top - th - 9 : r.bottom + 9;
+  t.style.left = x + "px"; t.style.top = y + "px"; t.style.visibility = "visible";
+}
+function hideTip() {
+  const t = document.getElementById("arsi-tip");
+  if (t) t.style.display = "none";
+}
+document.addEventListener("scroll", hideTip, true);
 
 boot();
