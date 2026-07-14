@@ -158,8 +158,19 @@ const ACT = {};
 
 /* --- nav + theme --- */
 ACT.go = (arg) => { if (arg === "results") openResults(); else setScreen(arg); };
-ACT.goWizard = () => { S.screen = "wizard"; S.wiz.step = 1; render(); };
-ACT.goWizardDemo = () => { S.screen = "wizard"; S.wiz.step = 1; S.wiz.source = "demo"; render(); };
+function resetWizardSource() {
+  // a fresh analysis starts from a clean source; pipeline/model/prompt/mask
+  // choices are kept (they are per-camera, not per-run)
+  const w = S.wiz;
+  if (w.maskPreview) { URL.revokeObjectURL(w.maskPreview); }
+  Object.assign(w, { step: 1, source: null, demoSel: [], video: null,
+                     frames: [], extracting: false, uploading: false,
+                     maskPreview: null });
+  S._videos = null;
+  if (S.run && S.run.done) S.run = null;   // finished run: clear the Run tab
+}
+ACT.goWizard = () => { resetWizardSource(); setScreen("wizard"); };
+ACT.goWizardDemo = () => { resetWizardSource(); S.wiz.source = "demo"; setScreen("wizard"); };
 ACT.toggleTheme = () => {
   S.theme = S.theme === "dark" ? "light" : "dark";
   localStorage.setItem("arsi-theme", S.theme); render();
@@ -564,13 +575,15 @@ const CHANGE = {
     if (!file) return;
     const fd = new FormData();
     fd.append("file", file);
-    toast("Uploading video…");
+    S.wiz.uploading = file.name; render();     // persistent spinner in step 1
     try {
       const r = await fetch("/api/videos", { method: "POST", body: fd });
       if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
       S.wiz.video = await r.json(); S.wiz.frames = [];
       toast(`Video loaded: ${S.wiz.video.info.frame_count} frames, ${S.wiz.video.info.duration_s.toFixed(1)}s.`);
     } catch (e) { toast("Upload failed: " + e.message); }
+    S.wiz.uploading = false;
+    input.value = "";      // allow re-selecting the same file later
     render();
   },
 };
@@ -579,6 +592,12 @@ const CHANGE = {
 function render() {
   const app = $app();
   if (!app) return;
+  // full re-render loses scroll positions: save/restore containers that
+  // declare data-scroll="key" (the gallery bug: clicking a frame reset it)
+  const scrollPos = {};
+  app.querySelectorAll("[data-scroll]").forEach(el => {
+    scrollPos[el.dataset.scroll] = { top: el.scrollTop, left: el.scrollLeft };
+  });
   app.innerHTML = `
   <div class="arsi-app${S.theme === "light" ? " light" : ""}">
     ${sidebar()}
@@ -596,6 +615,12 @@ function render() {
     ${S.toast ? `<div style="position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:60; background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(S.toast)}</div>` : ""}
   </div>
   <input type="file" id="videoFile" data-change="videoFile" accept="video/*" style="display:none;">`;
+  app.querySelectorAll("[data-scroll]").forEach(el => {
+    const p = scrollPos[el.dataset.scroll];
+    if (p) { el.scrollTop = p.top; el.scrollLeft = p.left; }
+  });
+  const gsel = app.querySelector("#gsel");
+  if (gsel && S._kbNav) { gsel.scrollIntoView({ block: "nearest" }); S._kbNav = false; }
 }
 
 function navItem(key, label, icon, extra = "") {
@@ -721,7 +746,7 @@ function dashboard() {
       <div style="font-family:${C.mono}; font-size:24px; font-weight:700; ${color ? "color:" + color : ""}">${v}</div>
       <div style="font-size:11.5px; color:${C.fg3}; margin-top:2px;">${label}</div></div>`;
   return `
-  <div style="height:100%; overflow:auto; padding:24px 28px;">
+  <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px;">
       ${card("goWizard", "Analyze a video", "Upload, extract, run a pipeline", true)}
       ${card("goWizardDemo", `Try demo frames`, `${S.demo.length} bundled cases`, false)}
@@ -759,7 +784,7 @@ function wizard() {
   return `
   <div style="height:100%; display:flex; flex-direction:column;">
     <div style="flex:0 0 auto; padding:16px 28px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:6px;">${stepper}</div>
-    <div style="flex:1; min-height:0; overflow:auto; padding:26px 28px 40px;">
+    <div data-scroll="wiz" style="flex:1; min-height:0; overflow:auto; padding:26px 28px 40px;">
       ${w.step === 1 ? wizStep1() : ""}${w.step === 2 ? wizStep2() : ""}${w.step === 3 ? wizStep3() : ""}${w.step === 4 ? wizStep4() : ""}${w.step === 5 ? wizStep5() : ""}
     </div>
     <div style="flex:0 0 auto; padding:14px 28px; border-top:1px solid ${C.bd2}; display:flex; align-items:center; gap:12px; background:oklch(0.13 0.008 250);">
@@ -782,7 +807,12 @@ function wizStep1() {
     </div>`).join("");
   let body = "";
   if (w.source === "video") {
-    body = w.video ? `
+    body = w.uploading ? `
+      <div style="border:1.5px dashed ${C.accBd}; border-radius:12px; padding:44px; text-align:center; background:${C.bgCard2};">
+        <div style="width:34px; height:34px; margin:0 auto 14px; border-radius:50%; border:3px solid ${C.bd3}; border-top-color:${C.acc}; animation:arsispin 0.9s linear infinite;"></div>
+        <div style="font-size:14px; font-weight:500; margin-bottom:4px;">Uploading &amp; probing <span style="font-family:${C.mono};">${esc(w.uploading)}</span>…</div>
+        <div style="font-size:12px; color:${C.fg3};">Large files take a while — the filmstrip appears when it's done.</div>
+      </div>` : w.video ? `
       <div style="padding:16px 18px; border-radius:11px; background:${C.accBg}; border:1px solid ${C.accBd};">
         <div style="font-size:13.5px; font-weight:600; margin-bottom:4px;">Video loaded</div>
         <div style="font-family:${C.mono}; font-size:12px; color:oklch(0.8 0.05 225);">${w.video.info.frame_count} frames · ${w.video.info.duration_s.toFixed(1)}s · ${w.video.info.width}×${w.video.info.height} · ${w.video.info.fps.toFixed(1)} fps</div>
@@ -1032,7 +1062,7 @@ function wizStep5() {
 function runView() {
   const run = S.run;
   if (!run) return `
-    <div style="height:100%; overflow:auto; padding:24px 28px;">
+    <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
       <div style="max-width:520px; margin:80px auto 0; text-align:center;">
         <div style="width:54px; height:54px; margin:0 auto 18px; border-radius:14px; background:${C.bgBtn}; border:1px solid ${C.bd3}; display:flex; align-items:center; justify-content:center; color:${C.fg3};">${I.play}</div>
         <div style="font-size:15px; font-weight:600; margin-bottom:6px;">No active run</div>
@@ -1044,7 +1074,7 @@ function runView() {
   const eta = run.done ? "done" : fmtEta((run.total - run.processed) * (S.health && S.health.gpu ? 6 : 180));
   const ringColor = { red: "oklch(0.62 0.17 22)", grey: "oklch(0.4 0.012 250)", green: "oklch(0.6 0.15 150)" };
   return `
-  <div style="height:100%; overflow:auto; padding:24px 28px;">
+  <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
     <div style="border:1px solid ${C.bd3}; border-radius:12px; padding:18px 20px; background:${C.bgCard2}; margin-bottom:18px;">
       <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:12px;">
         <span style="font-family:${C.mono}; font-size:15px; color:oklch(0.92 0.006 250); font-weight:600;">${esc(run.jobId)}</span>
@@ -1071,13 +1101,14 @@ function runView() {
     </div>
     <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden; background:oklch(0.1 0.008 250); margin-bottom:20px;">
       <div style="padding:9px 14px; border-bottom:1px solid ${C.bd2}; font-size:11px; font-family:${C.mono}; text-transform:uppercase; letter-spacing:0.07em; color:${C.fg4};">Live log</div>
-      <div style="max-height:180px; overflow:auto; padding:10px 14px; font-family:${C.mono}; font-size:11.5px; line-height:1.7; color:oklch(0.68 0.012 250);">
+      <div data-scroll="runlog" style="max-height:180px; overflow:auto; padding:10px 14px; font-family:${C.mono}; font-size:11.5px; line-height:1.7; color:oklch(0.68 0.012 250);">
         ${run.log.map(l => `<div>${esc(l)}</div>`).join("")}
       </div>
     </div>
     <div style="display:flex; gap:12px;">
       ${!run.done ? `<button data-act="cancelRun" style="font-size:13px; color:oklch(0.85 0.1 22); background:oklch(0.2 0.03 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:pointer;">Cancel (keep partial results)</button>` : ""}
-      ${run.done ? `<button data-act="viewRunResults" style="font-size:13px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:11px 22px; border-radius:9px; cursor:pointer;">Open results</button>` : ""}
+      ${run.done ? `<button data-act="viewRunResults" style="font-size:13px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:11px 22px; border-radius:9px; cursor:pointer;">Open results</button>
+      <button data-act="goWizard" style="font-size:13px; color:oklch(0.82 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:11px 20px; border-radius:9px; cursor:pointer;">New analysis</button>` : ""}
     </div>
   </div>`;
 }
@@ -1115,7 +1146,7 @@ function resultsView() {
     const badge = f.status === "failed" ? ["FAIL", "oklch(0.3 0.012 250)", C.fg2]
       : f.anomaly ? ["ANOM", "oklch(0.3 0.1 22)", "oklch(0.9 0.12 22)"] : ["clean", "oklch(0.26 0.06 150)", "oklch(0.88 0.09 150)"];
     return `
-    <div data-act="selFrame" data-arg="${i}" style="margin-bottom:9px; border-radius:9px; overflow:hidden; cursor:pointer; border:2px solid ${ring}; outline:${i === selIdx ? "2px solid oklch(0.8 0.13 225)" : "none"}; outline-offset:1px;">
+    <div data-act="selFrame" data-arg="${i}" ${i === selIdx ? 'id="gsel"' : ""} style="margin-bottom:9px; border-radius:9px; overflow:hidden; cursor:pointer; border:2px solid ${ring}; outline:${i === selIdx ? "2px solid oklch(0.8 0.13 225)" : "none"}; outline-offset:1px;">
       <div style="position:relative;">
         <img src="${f.img}" loading="lazy" style="width:100%; height:76px; object-fit:cover; display:block;">
         <span style="position:absolute; top:5px; right:5px; font-size:9px; font-family:${C.mono}; padding:1px 5px; border-radius:6px; background:${badge[1]}; color:${badge[2]};">${badge[0]}</span>
@@ -1147,17 +1178,23 @@ function resultsView() {
       <span style="margin-left:auto; font-family:${C.mono}; font-size:11px; color:${C.green}; font-weight:700;">YES</span>
     </div>`;
   }).join("");
+  const cfg = data.config || {};
+  const jobMeta = `${esc(cfg.script || "")} · ${esc(cfg.model || "")} · ${esc(cfg.prompt_name || "")} prompt${cfg.mask ? " · mask" : ""}`;
   return `
   <div style="height:100%; display:flex; flex-direction:column;">
     <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px; overflow-x:auto;">
-      <span style="font-size:11.5px; color:${C.fg5}; font-family:${C.mono}; margin-right:4px;">${esc(R.jobId)}</span>${tabs}
+      <span style="margin-right:4px; white-space:nowrap;">
+        <span style="font-size:11.5px; color:${C.fg5}; font-family:${C.mono};">${esc(R.jobId)}</span>
+        <span style="display:block; font-size:10.5px; color:${C.fg3}; font-family:${C.mono}; margin-top:2px;">${jobMeta}</span>
+      </span>${tabs}
+      <span style="margin-left:auto; font-size:10.5px; color:${C.fg5}; white-space:nowrap;">←/→ navigate frames</span>
     </div>
     <div style="flex:1; min-height:0; display:flex;">
-      <div style="width:212px; flex:0 0 212px; border-right:1px solid ${C.bd2}; overflow:auto; padding:12px;">
+      <div data-scroll="gallery" style="width:212px; flex:0 0 212px; border-right:1px solid ${C.bd2}; overflow:auto; padding:12px;">
         ${gallery || `<div style="padding:40px 12px; text-align:center; color:${C.fg5}; font-size:12.5px;"><div style="width:40px; height:40px; margin:0 auto 12px; border-radius:10px; border:1.5px dashed oklch(0.34 0.014 250);"></div>No frames match this filter.</div>`}
       </div>
       <div style="flex:1; min-width:0; display:flex; flex-direction:column;">
-        <div style="flex:1; min-height:0; overflow:auto; padding:16px 18px;">
+        <div data-scroll="rescenter" style="flex:1; min-height:0; overflow:auto; padding:16px 18px;">
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
             <span style="font-family:${C.mono}; font-size:13px; color:oklch(0.92 0.006 250); font-weight:600;">${esc(sel.frame_id)}</span>
             <span style="font-size:10.5px; padding:2px 8px; border-radius:10px; background:oklch(0.22 0.012 250); border:1px solid ${C.bdBtn}; color:${C.fg2};">${sel.seconds}s · ${sel.attempts} attempt${sel.attempts > 1 ? "s" : ""}</span>
@@ -1194,7 +1231,7 @@ function resultsView() {
           </div>
         </div>
       </div>
-      <div style="width:288px; flex:0 0 288px; border-left:1px solid ${C.bd2}; overflow:auto; display:flex; flex-direction:column;">
+      <div data-scroll="resside" style="width:288px; flex:0 0 288px; border-left:1px solid ${C.bd2}; overflow:auto; display:flex; flex-direction:column;">
         <div style="padding:14px 16px 10px; border-bottom:1px solid oklch(0.22 0.01 250);">
           <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3}; font-family:${C.mono};">Regions</div>
           <div style="font-size:11.5px; color:${C.fg4}; margin-top:3px;">${sel.detections.length} kept detection(s) · ${sel.seconds}s${sel.error ? " · " + esc(sel.error) : ""}</div>
@@ -1252,7 +1289,7 @@ function compareView(tabs, gallery, sel, selIdx) {
       <select data-change="compareJob" style="padding:5px 8px; border-radius:7px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:12px; font-family:${C.mono};">${jobOpts}</select>
     </div>
     <div style="flex:1; min-height:0; display:flex;">
-      <div style="width:170px; flex:0 0 170px; border-right:1px solid ${C.bd2}; overflow:auto; padding:10px;">${gallery}</div>
+      <div data-scroll="gallery" style="width:170px; flex:0 0 170px; border-right:1px solid ${C.bd2}; overflow:auto; padding:10px;">${gallery}</div>
       <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:${C.bd2};">
         ${col(S.res.data, sel, C.acc)}
         ${col(other, otherSel, "oklch(0.7 0.15 300)")}
@@ -1267,7 +1304,7 @@ function historyView() {
   const selJob = S.jobs.find(j => j.job_id === selId);
   const s = selJob && selJob.summary;
   return `
-  <div style="height:100%; overflow:auto; padding:24px 28px;">
+  <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
     <div style="display:grid; grid-template-columns:1.15fr 1fr; gap:22px; align-items:start;">
       <div>
         <h3 style="margin:0 0 12px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3};">All jobs</h3>
@@ -1335,7 +1372,7 @@ function settingsView() {
           : `<button data-act="pullModel" data-arg="${esc(m.tag)}" style="font-size:11.5px; font-weight:600; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2}; padding:6px 12px; border-radius:7px; cursor:pointer;">Pull</button>`)}
     </div>`).join("");
   return `
-  <div style="height:100%; overflow:auto; padding:24px 28px;">
+  <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
     <div style="max-width:760px;">
       <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; padding:18px 20px; margin-bottom:18px;">
         <div style="font-size:14px; font-weight:600; margin-bottom:14px;">Ollama connection</div>
@@ -1355,9 +1392,8 @@ function settingsView() {
           <div style="font-size:14px; font-weight:600; margin-bottom:14px;">Defaults</div>
           <div style="display:flex; flex-direction:column; gap:12px; font-size:12.5px; color:${C.fg2};">
             <div style="display:flex; justify-content:space-between;"><span>Script</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">vlm_05</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Judge (frame alarm)</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">GLM-4.6V-Flash</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Judge (inventory)</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">qwen3.5:9b</span></div>
             <div style="display:flex; justify-content:space-between;"><span>Prompt</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">Conservative</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>Retries</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">2</span></div>
           </div>
         </div>
         <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; padding:18px 20px;">
@@ -1390,6 +1426,25 @@ document.addEventListener("change", (ev) => {
   if (!el) return;
   const fn = CHANGE[el.dataset.change];
   if (fn) fn(el.value, el);
+});
+document.addEventListener("keydown", (ev) => {
+  if (S.screen !== "results" || !S.res.data) return;
+  const t = ev.target;
+  if (t && ("value" in t) && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+  if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(ev.key)) return;
+  ev.preventDefault();
+  const R = S.res, frames = R.data.frames;
+  const match = (f) => R.filter === "all" ? true
+    : R.filter === "anomalous" ? !!f.anomaly
+    : R.filter === "failed" ? f.status === "failed"
+    : frameTypes(f).includes(R.filter);
+  const visible = frames.map((f, i) => i).filter(i => match(frames[i]));
+  if (!visible.length) return;
+  const pos = Math.max(0, visible.indexOf(Math.min(R.sel, frames.length - 1)));
+  const dir = (ev.key === "ArrowRight" || ev.key === "ArrowDown") ? 1 : -1;
+  const next = visible[Math.min(visible.length - 1, Math.max(0, pos + dir))];
+  S._kbNav = true;
+  ACT.selFrame(next);
 });
 document.addEventListener("mouseover", (ev) => {
   const el = ev.target.closest("[data-hover]");

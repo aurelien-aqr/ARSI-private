@@ -24,6 +24,7 @@
   ::-webkit-scrollbar-track { background: transparent; }
   @keyframes arsipulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
   @keyframes arsislide { from { opacity:0; transform:translateY(8px) scale(0.96); } to { opacity:1; transform:none; } }
+  @keyframes arsispin { to { transform:rotate(360deg); } }
   /* Light mode: invert the whole UI, then restore real photos so CCTV frames stay true */
   .arsi-app.light { filter: invert(1) hue-rotate(180deg); }
   .arsi-app.light img { filter: invert(1) hue-rotate(180deg); }

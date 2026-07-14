@@ -34,20 +34,18 @@ manager = JobManager()
 VIDEOS_DIR = APP_DATA / "videos"
 FRONTEND_DIR = REPO_ROOT / "app" / "frontend"
 
-# Curated wizard catalog: benchmark verdicts baked in (benchmark/README.md).
+# Curated wizard catalog (sizes shown before pulling; notes stay factual).
 MODEL_CATALOG = [
     {"name": "GLM-4.6V-Flash 9B", "tag": "haervwe/GLM-4.6V-Flash-9B", "size": "6.1 GB",
-     "note": "best frame-level judge (benchmark F1 1.000)", "recommended": True},
+     "note": "", "recommended": True},
     {"name": "Qwen3-VL 8B Instruct", "tag": "qwen3-vl:8b-instruct", "size": "6.5 GB",
-     "note": "grounded all-rounder"},
-    {"name": "Qwen3.5 9B", "tag": "qwen3.5:9b", "size": "6.3 GB",
-     "note": "best instance inventory (object recall 0.978), fastest"},
+     "note": ""},
+    {"name": "Qwen3.5 9B", "tag": "qwen3.5:9b", "size": "6.3 GB", "note": ""},
     {"name": "InternVL3.5 8B", "tag": "blaifa/InternVL3_5:8b", "size": "5.9 GB",
-     "note": "precision-extreme, misses small objects"},
-    {"name": "Qwen2.5-VL 7B", "tag": "qwen2.5vl:7b", "size": "6.0 GB",
-     "note": "original baseline"},
+     "note": ""},
+    {"name": "Qwen2.5-VL 7B", "tag": "qwen2.5vl:7b", "size": "6.0 GB", "note": ""},
     {"name": "Llama 3.2 Vision 11B", "tag": "llama3.2-vision:11b", "size": "7.8 GB",
-     "note": "untested as crop judge"},
+     "note": ""},
 ]
 
 PIPELINES = [

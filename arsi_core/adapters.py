@@ -172,21 +172,52 @@ _LABEL_TO_TYPE = {"graffiti": "graffiti", "vandalism": "damage",
 
 
 def parse_bbox_json(text: str):
-    """Strict version of vlm_03's parse_json: a broken reply raises ParseError
-    (the lenient script returns [] there, which would silently score a real
-    reply as 'clean'); an explicit empty array stays a valid 'nothing found'."""
+    """Tolerant-but-honest version of vlm_03's parse_json. Unlike the script
+    (which returns [] on any decode error, silently scoring a broken reply as
+    'clean'), an unusable reply raises ParseError so the runner retries.
+    Tolerated deviations, all observed in real model output:
+    - Markdown code fences around the JSON;
+    - a single object instead of an array, or {"detections": [...]};
+    - an array TRUNCATED mid-object by the generation limit -> repaired by
+      cutting at the last complete element (partial results beat a failure).
+    """
     t = text.strip()
     if t.startswith("```"):
         t = t.strip("`")
         if t.lstrip().lower().startswith("json"):
             t = t.lstrip()[4:]
-    start, end = t.find("["), t.rfind("]")
-    if start == -1 or end == -1 or end < start:
-        raise ParseError("no JSON array in reply", raw=text)
+    start = t.find("[")
+    obj_start = t.find("{")
+    if start == -1 and obj_start == -1:
+        raise ParseError("no JSON in reply", raw=text)
+    if start == -1 or (obj_start != -1 and obj_start < start):
+        # a bare object: either a wrapper ({"detections": [...]}) or one item
+        end = t.rfind("}")
+        try:
+            data = json.loads(t[obj_start:end + 1])
+        except json.JSONDecodeError as exc:
+            raise ParseError(f"invalid JSON: {exc}", raw=text) from exc
+        if isinstance(data, dict):
+            for key in ("detections", "anomalies", "items", "results"):
+                if isinstance(data.get(key), list):
+                    return data[key]
+            return [data]
+        data = [data]
+        return data
+    end = t.rfind("]")
     try:
-        data = json.loads(t[start:end + 1])
-    except json.JSONDecodeError as exc:
-        raise ParseError(f"invalid JSON: {exc}", raw=text) from exc
+        data = json.loads(t[start:end + 1] if end > start else t[start:])
+    except json.JSONDecodeError:
+        # likely truncated by the token limit (note: rfind("]") may have hit an
+        # inner bbox array) — repair on the FULL tail: keep complete elements.
+        tail = t[start:]
+        cut = tail.rfind("}")
+        if cut == -1:
+            raise ParseError("unparseable JSON array", raw=text)
+        try:
+            data = json.loads(tail[:cut + 1] + "]")
+        except json.JSONDecodeError as exc:
+            raise ParseError(f"invalid JSON: {exc}", raw=text) from exc
     if not isinstance(data, list):
         raise ParseError("JSON is not an array", raw=text)
     return data
@@ -222,7 +253,11 @@ def scale_bboxes(items: list, width: int, height: int):
 def _run_vlm03(image, model, prompt, params, client):
     module = get_module("vlm_03")
     img = _open_image(image)
-    with configured(module, ollama=client, **_module_overrides(module, params)):
+    overrides = _module_overrides(module, params)
+    # A busy frame can need more than the script's 512-token budget for its
+    # JSON array; a truncated array was the main cause of failed frames.
+    overrides.setdefault("NUM_PREDICT", max(module.NUM_PREDICT, 1024))
+    with configured(module, ollama=client, **overrides):
         text = _chat_text(client, model, prompt, [image], module)
     detections = scale_bboxes(parse_bbox_json(text), img.width, img.height)
     return FrameResult(frame_id=Path(image).stem, image=str(image),

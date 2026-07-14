@@ -97,3 +97,16 @@ def test_parse_structured_report_inline_object_note():
         "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes - a black phone on a seat")
     assert anomaly is True
     assert [d.label for d in dets] == ["a black phone on a seat"]
+
+
+def test_parse_bbox_json_tolerant_variants():
+    # truncated mid-object by the token limit -> repaired to complete elements
+    truncated = ('[{"label": "forgotten_object", "bbox": [1,2,3,4], "severity": 2},'
+                 ' {"label": "graffiti", "bbox": [5,6')
+    assert len(parse_bbox_json(truncated)) == 1
+    # wrapper object
+    assert parse_bbox_json('{"detections": [{"label": "graffiti", "bbox": [0,0,1,1]}]}')[0]["label"] == "graffiti"
+    # single bare object
+    assert len(parse_bbox_json('{"label": "vandalism", "bbox": [0,0,1,1]}')) == 1
+    # text around the array still works
+    assert parse_bbox_json('Here are the anomalies: [] — nothing found.') == []
