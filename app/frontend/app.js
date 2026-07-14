@@ -52,7 +52,9 @@ const S = {
   res: {
     jobId: null, data: null, filter: "all", sel: 0, split: false,
     compare: false, compareJob: null, compareData: null, hoverV: -1,
-    coordSize: null,   // {w,h} of the bbox coordinate space
+    coordSize: null,          // {w,h} of the bbox coordinate space
+    compareCoordSize: null,   // same, for the compared job
+    playing: false,
   },
   ollamaTest: null,
 };
@@ -61,6 +63,7 @@ const S = {
 const $app = () => document.getElementById("app");
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;")
   .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const hint = (text) => `<span class="hint" data-tip="${esc(text)}">?</span>`;
 const fmtGB = (b) => (b / 1e9).toFixed(1);
 const fmtEta = (sec) => {
   sec = Math.max(0, Math.round(sec));
@@ -104,6 +107,9 @@ function toast(msg) {
 }
 function setScreen(s) {
   S.screen = s;
+  if (s !== "results" && playTimer) {   // leaving results stops playback
+    clearInterval(playTimer); playTimer = null; S.res.playing = false;
+  }
   if (("#" + s) !== location.hash) history.replaceState(null, "", "#" + s);
   render();
 }
@@ -190,6 +196,10 @@ ACT.wizNext = async () => {
     if (!w.source) { toast("Pick a source first."); return; }
     if (w.source === "demo" && !w.demoSel.length) { toast("Select at least one demo frame."); return; }
     if (w.source === "video" && !w.video) { toast("Upload a video first."); return; }
+    if (w.source === "reuse") {
+      if (!(w.frameSel || []).length) { toast("Select at least one frame."); return; }
+      w.frames = (w.framePool || []).filter(f => w.frameSel.includes(f.path));
+    }
     if (w.source === "demo") {
       w.frames = w.demoSel.map(id => {
         const d = S.demo.find(x => x.id === id);
@@ -219,10 +229,20 @@ ACT.pickVideoFile = () => document.getElementById("videoFile").click();
 ACT.reuseVideo = async (videoId) => {
   try {
     const d = await jget(`/api/videos/${videoId}/frames`);
-    S.wiz.source = "reuse"; S.wiz.frames = d.frames; S.wiz.video = { video_id: videoId };
-    toast(`${d.frames.length} frames loaded from ${videoId}.`); render();
+    Object.assign(S.wiz, { source: "reuse", framePool: d.frames,
+                           frameSel: d.frames.map(f => f.path),   // all selected by default
+                           frames: [], video: { video_id: videoId } });
+    render();
   } catch (e) { toast("Could not load extraction: " + e.message); }
 };
+ACT.togglePoolFrame = (path) => {
+  const sel = S.wiz.frameSel || [];
+  const i = sel.indexOf(path);
+  if (i >= 0) sel.splice(i, 1); else sel.push(path);
+  S.wiz.frameSel = sel; render();
+};
+ACT.poolAll = () => { S.wiz.frameSel = (S.wiz.framePool || []).map(f => f.path); render(); };
+ACT.poolNone = () => { S.wiz.frameSel = []; render(); };
 
 /* --- extraction --- */
 ACT.setExtMode = (m) => { S.wiz.extractMode = m; render(); };
@@ -406,6 +426,8 @@ ACT.resetPrompt = () => {
   S.wiz.promptPreset = name; S.wiz.promptText = p.prompts[name]; render();
 };
 ACT.toggleAdv = () => { S.wiz.advOpen = !S.wiz.advOpen; render(); };
+ACT.setRefFromFrame = (path) => { S.wiz.refPath = path; render(); };
+ACT.pickRefFile = () => document.getElementById("refFile").click();
 
 /* --- launch + run --- */
 function needRef() {
@@ -470,7 +492,8 @@ function handleRunEvent(e) {
   const run = S.run;
   if (!run) return;
   if (e.event === "frame_retry") {
-    run.retried++; run.log.unshift(`[${e.frame ? e.frame.split("/").pop() : e.index}] retry: ${e.error}`);
+    const fid = e.frame ? e.frame.split("/").pop().replace(/\.[^.]+$/, "") : e.index;
+    run.retried++; run.log.unshift(`[${fid}] retry: ${e.error}`);
   } else if (e.event === "frame_done") {
     run.processed++;
     const f = run.frames[e.index] || {};
@@ -524,6 +547,36 @@ async function openResults(jobId) {
 ACT.openJob = (jobId) => openResults(jobId);
 ACT.setFilter = (f) => { S.res.filter = f; S.res.sel = 0; render(); };
 ACT.selFrame = (i) => { S.res.sel = +i; S.res.hoverV = -1; render(); };
+
+/* play: auto-advance through the filtered frames (wraps; stops on toggle,
+   filter click keeps playing, leaving the screen stops it) */
+let playTimer = null;
+function visibleIndices() {
+  const R = S.res, frames = (R.data && R.data.frames) || [];
+  const match = (f) => R.filter === "all" ? true
+    : R.filter === "anomalous" ? !!f.anomaly
+    : R.filter === "failed" ? f.status === "failed"
+    : frameTypes(f).includes(R.filter);
+  return frames.map((f, i) => i).filter(i => match(frames[i]));
+}
+function stopPlay() {
+  clearInterval(playTimer); playTimer = null;
+  if (S.res.playing) { S.res.playing = false; render(); }
+}
+ACT.togglePlay = () => {
+  if (S.res.playing) { stopPlay(); return; }
+  S.res.playing = true;
+  playTimer = setInterval(() => {
+    if (S.screen !== "results" || !S.res.data) { stopPlay(); return; }
+    const vis = visibleIndices();
+    if (!vis.length) { stopPlay(); return; }
+    const pos = vis.indexOf(Math.min(S.res.sel, S.res.data.frames.length - 1));
+    S.res.sel = vis[(pos + 1) % vis.length];
+    S._kbNav = true;
+    render();
+  }, 900);
+  render();
+};
 ACT.toggleSplit = () => { S.res.split = !S.res.split; render(); };
 ACT.toggleCompare = async () => {
   S.res.compare = !S.res.compare;
@@ -534,8 +587,14 @@ ACT.toggleCompare = async () => {
   render();
 };
 ACT.setCompareJob = async (jobId) => {
-  try { S.res.compareData = await jget("/api/jobs/" + jobId); S.res.compareJob = jobId; }
-  catch (e) { toast(e.message); }
+  try {
+    const data = await jget("/api/jobs/" + jobId);
+    S.res.compareData = data; S.res.compareJob = jobId;
+    S.res.compareCoordSize = null;
+    const first = (data.frames || [])[0];
+    const spaceUrl = (data.config && data.config.reference_img) || (first && first.img);
+    if (spaceUrl) imageSize(spaceUrl).then(sz => { S.res.compareCoordSize = sz; render(); });
+  } catch (e) { toast(e.message); }
   render();
 };
 ACT.exportReport = () => window.open(`/api/jobs/${S.res.jobId}/report.html`, "_blank");
@@ -570,6 +629,24 @@ const CHANGE = {
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
   compareJob: v => ACT.setCompareJob(v),
   ollamaUrl: v => ACT.saveOllamaUrl(v),
+  refFile: async (_, input) => {
+    const file = input.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append("file", file);
+    S.wiz.refUploading = true; render();
+    try {
+      const r = await fetch("/api/references", { method: "POST", body: fd });
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+      const ref = await r.json();
+      S.refs.push(ref);
+      S.wiz.refPath = ref.path;
+      toast(`Reference '${ref.name}' uploaded.`);
+    } catch (e) { toast("Upload failed: " + e.message); }
+    S.wiz.refUploading = false;
+    input.value = "";
+    render();
+  },
   videoFile: async (_, input) => {
     const file = input.files[0];
     if (!file) return;
@@ -614,7 +691,8 @@ function render() {
     </div>
     ${S.toast ? `<div style="position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:60; background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(S.toast)}</div>` : ""}
   </div>
-  <input type="file" id="videoFile" data-change="videoFile" accept="video/*" style="display:none;">`;
+  <input type="file" id="videoFile" data-change="videoFile" accept="video/*" style="display:none;">
+  <input type="file" id="refFile" data-change="refFile" accept="image/*" style="display:none;">`;
   app.querySelectorAll("[data-scroll]").forEach(el => {
     const p = scrollPos[el.dataset.scroll];
     if (p) { el.scrollTop = p.top; el.scrollLeft = p.left; }
@@ -823,13 +901,30 @@ function wizStep1() {
         <div style="font-size:12px; color:${C.fg3};">.mp4 .mkv .avi — or <span style="color:${C.acc};">browse</span></div>
       </div>`;
   } else if (w.source === "reuse") {
-    const vids = S.settings ? null : null;
+    const pool = w.framePool || [], sel = w.frameSel || [];
+    const poolGrid = pool.length ? `
+      <div style="display:flex; align-items:center; justify-content:space-between; margin:16px 0 10px;">
+        <span style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono};">Frames · ${sel.length}/${pool.length} selected</span>
+        <span><span data-act="poolAll" style="font-size:12px; color:${C.acc}; cursor:pointer; margin-right:12px;">Select all</span><span data-act="poolNone" style="font-size:12px; color:${C.fg3}; cursor:pointer;">Clear</span></span>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(118px,1fr)); gap:8px;">
+        ${pool.map(f => {
+          const on = sel.includes(f.path);
+          return `
+          <div data-act="togglePoolFrame" data-arg="${esc(f.path)}" style="border-radius:8px; overflow:hidden; cursor:pointer; position:relative; outline:${on ? "2px solid oklch(0.8 0.13 225)" : "2px solid transparent"}; outline-offset:1px; opacity:${on ? 1 : 0.55};">
+            <img src="${f.img}" loading="lazy" style="width:100%; height:64px; object-fit:cover; display:block;">
+            ${on ? `<span style="position:absolute; top:4px; right:4px; width:16px; height:16px; border-radius:50%; background:${C.acc}; color:${C.accDark}; font-size:11px; font-weight:800; display:flex; align-items:center; justify-content:center;">✓</span>` : ""}
+            <div style="font-family:${C.mono}; font-size:9px; color:${C.fg3}; padding:3px 5px; background:${C.bg}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(f.path.split("/").pop())} · ${f.time_s.toFixed(1)}s</div>
+          </div>`;
+        }).join("")}
+      </div>` : "";
     body = `<div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:12px;">Previous extractions</div>
-      <div id="reuseList" style="display:flex; flex-direction:column; gap:8px;">${
+      <div style="display:flex; flex-direction:column; gap:8px;">${
       (S._videos || []).map(v => `
-        <div class="hoverable" data-act="reuseVideo" data-arg="${esc(v.video_id)}" style="padding:13px 15px; border-radius:10px; cursor:pointer; background:${C.bgCard}; border:1px solid ${C.bd}; display:flex; justify-content:space-between; font-size:13px;">
+        <div class="hoverable" data-act="reuseVideo" data-arg="${esc(v.video_id)}" style="padding:13px 15px; border-radius:10px; cursor:pointer; background:${w.video && w.video.video_id === v.video_id ? C.accBg : C.bgCard}; border:1px solid ${w.video && w.video.video_id === v.video_id ? C.accSelBd : C.bd}; display:flex; justify-content:space-between; font-size:13px;">
           <span style="font-family:${C.mono};">${esc(v.video_id)}</span><span style="color:${C.fg3};">${v.n_frames} frames</span>
-        </div>`).join("") || `<div style="color:${C.fg4}; font-size:12.5px;">No previous extraction found.</div>`}</div>`;
+        </div>`).join("") || `<div style="color:${C.fg4}; font-size:12.5px;">No previous extraction found.</div>`}</div>
+      ${poolGrid}`;
     if (!S._videos) jget("/api/videos").then(d => { S._videos = d.videos; render(); });
   } else {
     body = `
@@ -867,7 +962,7 @@ function wizStep2() {
   const seg = (on) => on ? `background:${C.accSel}; color:${C.accFg};` : `background:transparent; color:oklch(0.65 0.012 250);`;
   return `
   <div style="max-width:820px;">
-    <div style="font-size:13px; color:${C.fg3}; margin-bottom:16px;">Sampling rate</div>
+    <div style="font-size:13px; color:${C.fg3}; margin-bottom:16px;">Sampling rate ${hint("How many frames to analyze. 'Every N seconds' keeps 1 frame per N seconds of video (usual choice: 1-3 s — a forgotten object stays visible for many seconds). 'Every N frames' counts in raw video frames (25-30 per second).")}</div>
     <div style="display:inline-flex; padding:3px; border-radius:9px; background:${C.bg}; border:1px solid ${C.bd}; margin-bottom:20px;">
       <div data-act="setExtMode" data-arg="seconds" style="padding:7px 15px; border-radius:7px; font-size:12.5px; cursor:pointer; ${seg(w.extractMode === "seconds")}">Every N seconds</div>
       <div data-act="setExtMode" data-arg="frames" style="padding:7px 15px; border-radius:7px; font-size:12.5px; cursor:pointer; ${seg(w.extractMode === "frames")}">Every N frames</div>
@@ -945,7 +1040,7 @@ function wizStep3() {
             <span data-act="maskDelete" data-arg="${z.id}" style="cursor:pointer; color:${C.fg3}; font-size:15px; line-height:1;">×</span>
           </div>`).join("")}
       </div>
-      <label style="font-size:11.5px; color:${C.fg3}; display:block; margin-bottom:6px;">Camera preset</label>
+      <label style="font-size:11.5px; color:${C.fg3}; display:block; margin-bottom:6px;">Camera preset ${hint("Masks are saved per camera: the camera is fixed, so the same window zones apply to every video from it. Save your drawing once, reuse it for every future run.")}</label>
       <select data-change="maskPreset" style="width:100%; padding:9px 11px; border-radius:8px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:13px; margin-bottom:12px;">${presetOpts}</select>
       <div style="display:flex; gap:8px;">
         <button data-act="saveMaskPreset" style="flex:1; font-size:12px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:9px; border-radius:8px; cursor:pointer;">Save preset</button>
@@ -999,7 +1094,7 @@ function wizStep4() {
       </div>
       <div>
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-          <span style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono};">Prompt</span>
+          <span style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono};">Prompt ${hint("The instruction sent to the model for every frame/region. Conservative = strict, fewer false alarms; Lenient = flags more, more false alarms. Edit freely — but a changed prompt means cached verdicts no longer apply, so the run recomputes every call.")}</span>
           <select data-change="promptPreset" style="padding:6px 9px; border-radius:7px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:12px;">
             ${promptOpts}<option value="custom" ${w.promptPreset === "custom" ? "selected" : ""}>Custom</option>
           </select>
@@ -1011,21 +1106,49 @@ function wizStep4() {
         </div>
       </div>
     </div>
-    ${needRef() ? `
-    <div style="padding:14px 16px; border-radius:10px; background:oklch(0.18 0.01 250); border:1px solid ${C.bd3}; margin-bottom:16px; display:flex; align-items:center; gap:14px;">
-      ${(() => { const r = S.refs.find(x => x.path === w.refPath); return r ? `<img src="${r.img}" style="width:96px; height:54px; object-fit:cover; border-radius:6px; border:1px solid ${C.bd3};">` : ""; })()}
-      <div style="flex:1;">
-        <div style="font-size:13px; font-weight:600; margin-bottom:3px;">Reference frame <span style="font-size:11px; color:${C.redFg};">required for this pipeline</span></div>
-        <select data-change="refPath" style="width:100%; padding:8px 10px; border-radius:8px; background:${C.bg}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-family:${C.mono}; font-size:12px;">${refOpts}</select>
+    ${needRef() ? (() => {
+      const refFromFrames = w.frames.some(f => f.path === w.refPath);
+      const cur = S.refs.find(x => x.path === w.refPath)
+        || (refFromFrames ? w.frames.find(f => f.path === w.refPath) : null);
+      const frameStrip = w.frames.length ? `
+        <div style="margin-top:10px;">
+          <div style="font-size:11px; color:${C.fg4}; margin-bottom:6px;">…or pick a CLEAN frame from this video ${hint("The reference must show the same camera view, EMPTY and undamaged. If a mask is set, it is applied to the reference too, automatically.")}</div>
+          <div data-scroll="refstrip" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:4px;">
+            ${w.frames.slice(0, 60).map(f => `
+              <img data-act="setRefFromFrame" data-arg="${esc(f.path)}" src="${f.img}" title="${esc(f.path.split("/").pop())}"
+                   style="width:86px; height:48px; object-fit:cover; border-radius:6px; cursor:pointer; flex:0 0 86px; border:2px solid ${w.refPath === f.path ? "oklch(0.8 0.13 225)" : "transparent"}; opacity:${w.refPath === f.path ? 1 : 0.75};">`).join("")}
+          </div>
+        </div>` : "";
+      return `
+    <div style="padding:14px 16px; border-radius:10px; background:oklch(0.18 0.01 250); border:1px solid ${C.bd3}; margin-bottom:16px;">
+      <div style="display:flex; align-items:center; gap:14px;">
+        ${cur ? `<img src="${cur.img}" style="width:96px; height:54px; object-fit:cover; border-radius:6px; border:1px solid ${C.bd3};">` : ""}
+        <div style="flex:1;">
+          <div style="font-size:13px; font-weight:600; margin-bottom:3px;">Reference frame <span style="font-size:11px; color:${C.redFg};">required for this pipeline</span> ${hint("The clean 'before' image the pipeline compares against: same fixed camera, empty tram, no anomalies, ideally same lighting session as the inspected frames.")}</div>
+          <div style="display:flex; gap:8px;">
+            <select data-change="refPath" style="flex:1; padding:8px 10px; border-radius:8px; background:${C.bg}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-family:${C.mono}; font-size:12px;">
+              ${refOpts}
+              ${refFromFrames ? `<option value="${esc(w.refPath)}" selected>[video frame] ${esc(w.refPath.split("/").pop())}</option>` : ""}
+            </select>
+            <button data-act="pickRefFile" style="font-size:12px; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2}; padding:8px 13px; border-radius:8px; cursor:pointer; white-space:nowrap;">${w.refUploading ? "Uploading…" : "Upload"}</button>
+          </div>
+        </div>
       </div>
-    </div>` : ""}
+      ${frameStrip}
+    </div>`; })() : ""}
     <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden; background:${C.bgCard2};">
       <div data-act="toggleAdv" style="padding:12px 15px; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:8px; color:oklch(0.8 0.012 250);"><span style="font-family:${C.mono}; color:${C.fg3};">${w.advOpen ? "▾" : "▸"}</span> Advanced parameters</div>
       ${w.advOpen ? `
       <div style="padding:4px 15px 16px; display:grid; grid-template-columns:repeat(4,1fr); gap:14px;">
-        ${[["Diff threshold", "diff", w.diff], ["Min region area", "minArea", w.minArea],
-           ["Max regions", "maxRegions", w.maxRegions], ["Retries on fail", "retries", w.retries]]
-          .map(([lb, k, v]) => `<label style="font-size:11.5px; color:${C.fg3}; display:flex; flex-direction:column; gap:5px;">${lb}<input type="number" value="${v}" data-change="${k}" style="padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-family:${C.mono}; font-size:12px;"></label>`).join("")}
+        ${[["Diff threshold", "diff", w.diff,
+            "vlm_05 only. Minimum pixel brightness difference (0-255) between reference and frame for a pixel to count as changed. Lower = more sensitive but more noise regions sent to the VLM. Benchmark-tuned default: 40."],
+           ["Min region area", "minArea", w.minArea,
+            "vlm_05 only. Changed regions smaller than this (in pixels) are dropped as specks/noise. Default 500 ≈ a phone seen from the ceiling camera."],
+           ["Max regions", "maxRegions", w.maxRegions,
+            "vlm_05 only. Budget cap: at most this many regions per frame are sent to the VLM (most salient first). Protects against rush-hour frames exploding the cost. Default 25."],
+           ["Retries on fail", "retries", w.retries,
+            "All pipelines. How many times a frame is retried when the model's reply is unusable (bad format) or the call times out, before the frame is marked failed and the batch continues. Default 2."]]
+          .map(([lb, k, v, tip]) => `<label style="font-size:11.5px; color:${C.fg3}; display:flex; flex-direction:column; gap:5px;"><span>${lb} ${hint(tip)}</span><input type="number" value="${v}" data-change="${k}" style="padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-family:${C.mono}; font-size:12px;"></label>`).join("")}
       </div>` : ""}
     </div>
   </div>`;
@@ -1115,6 +1238,16 @@ function runView() {
 
 /* --------------- results --------------- */
 function frameTypes(f) { return Array.from(new Set(f.detections.map(d => d.type))); }
+function bboxOverlay(frame, cs, hoverIdx = -1) {
+  if (!cs || !frame || !frame.detections.length) return "";
+  return frame.detections.map((d, i) => {
+    if (!d.bbox) return "";
+    const [x0, y0, x1, y1] = d.bbox;
+    const hl = hoverIdx === i;
+    return `<div style="position:absolute; left:${x0 / cs.w * 100}%; top:${y0 / cs.h * 100}%; width:${(x1 - x0) / cs.w * 100}%; height:${(y1 - y0) / cs.h * 100}%; border:2px solid ${hl ? "oklch(0.95 0.12 90)" : "oklch(0.7 0.18 150)"}; ${hl ? "box-shadow:0 0 0 9999px rgba(8,10,14,0.45);" : ""} border-radius:2px; pointer-events:none;">
+      <span style="position:absolute; top:-18px; left:0; font-size:10px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.85); color:oklch(0.85 0.1 150); padding:1px 5px; border-radius:4px; white-space:nowrap;">${esc(d.label)}</span></div>`;
+  }).join("");
+}
 function resultsView() {
   const R = S.res;
   if (!R.data || !R.data.frames || !R.data.frames.length) return `
@@ -1157,14 +1290,7 @@ function resultsView() {
   if (R.compare) return compareView(tabs, gallery, sel, selIdx);
   const outcome = sel.status === "failed" ? ["FAILED", C.fg2, "oklch(0.22 0.012 250)", C.bdBtn]
     : sel.anomaly ? ["ANOMALY", "oklch(0.85 0.05 22)", C.redBg, C.redBd] : ["CLEAN", "oklch(0.82 0.05 150)", C.greenBg, C.greenBd];
-  const cs = R.coordSize;
-  const boxes = (cs && sel.detections.length) ? sel.detections.map((d, i) => {
-    if (!d.bbox) return "";
-    const [x0, y0, x1, y1] = d.bbox;
-    const hl = R.hoverV === i;
-    return `<div style="position:absolute; left:${x0 / cs.w * 100}%; top:${y0 / cs.h * 100}%; width:${(x1 - x0) / cs.w * 100}%; height:${(y1 - y0) / cs.h * 100}%; border:2px solid ${hl ? "oklch(0.95 0.12 90)" : "oklch(0.7 0.18 150)"}; ${hl ? "box-shadow:0 0 0 9999px rgba(8,10,14,0.45);" : ""} border-radius:2px; pointer-events:none;">
-      <span style="position:absolute; top:-18px; left:0; font-size:10px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.85); color:oklch(0.85 0.1 150); padding:1px 5px; border-radius:4px; white-space:nowrap;">${esc(d.label)}</span></div>`;
-  }).join("") : "";
+  const boxes = bboxOverlay(sel, R.coordSize, R.hoverV);
   const refImg = data.config.reference_img;
   const timeline = frames.map((f, i) => `
     <div data-act="selFrame" data-arg="${i}" style="flex:1; height:${f.anomaly ? "100%" : "46%"}; background:${f.status === "failed" ? "oklch(0.45 0.03 250)" : f.anomaly ? "oklch(0.62 0.17 22)" : "oklch(0.32 0.02 250)"}; border-radius:1px; cursor:pointer; outline:${i === selIdx ? "1.5px solid oklch(0.85 0.13 225)" : "none"};"></div>`).join("");
@@ -1187,7 +1313,14 @@ function resultsView() {
         <span style="font-size:11.5px; color:${C.fg5}; font-family:${C.mono};">${esc(R.jobId)}</span>
         <span style="display:block; font-size:10.5px; color:${C.fg3}; font-family:${C.mono}; margin-top:2px;">${jobMeta}</span>
       </span>${tabs}
-      <span style="margin-left:auto; font-size:10.5px; color:${C.fg5}; white-space:nowrap;">←/→ navigate frames</span>
+      <span style="margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap;">
+        <button data-act="togglePlay" title="${R.playing ? "Pause" : "Play through frames"}" style="display:flex; align-items:center; gap:7px; font-size:12px; color:${R.playing ? C.accDark : C.accFg}; background:${R.playing ? C.acc : C.accBg}; border:1px solid ${C.accBd2}; padding:6px 12px; border-radius:8px; cursor:pointer;">
+          ${R.playing
+            ? `<svg width="11" height="11" viewBox="0 0 12 12"><rect x="1" y="1" width="3.5" height="10" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="10" rx="1" fill="currentColor"/></svg>Pause`
+            : `<svg width="11" height="11" viewBox="0 0 12 12"><path d="M2 1 L11 6 L2 11 Z" fill="currentColor"/></svg>Play`}
+        </button>
+        <span style="font-size:10.5px; color:${C.fg5};">←/→ navigate</span>
+      </span>
     </div>
     <div style="flex:1; min-height:0; display:flex;">
       <div data-scroll="gallery" style="width:212px; flex:0 0 212px; border-right:1px solid ${C.bd2}; overflow:auto; padding:12px;">
@@ -1256,8 +1389,9 @@ function compareView(tabs, gallery, sel, selIdx) {
   const R = S.res;
   const other = R.compareData;
   const otherSel = other ? (other.frames || []).find(f => f.frame_id === sel.frame_id) : null;
-  const col = (data, frame, dot) => {
+  const col = (data, frame, dot, coordSize) => {
     const model = data ? (data.config.model || "?") : "—";
+    const script = data ? (data.config.script || "") : "";
     const verdictRows = frame ? frame.detections.map(d => {
       const tm = TYPE_META[d.type] || TYPE_META.unknown;
       return `<div style="display:flex; align-items:center; gap:8px; padding:7px 0; border-top:1px solid oklch(0.2 0.01 250); font-size:12.5px;">
@@ -1273,9 +1407,11 @@ function compareView(tabs, gallery, sel, selIdx) {
       <div style="padding:10px 14px; display:flex; align-items:center; gap:8px; border-bottom:1px solid oklch(0.22 0.01 250);">
         <span style="width:8px; height:8px; border-radius:2px; background:${dot};"></span>
         <span style="font-size:12.5px; font-weight:600;">${esc(model)}</span>
+        <span style="font-family:${C.mono}; font-size:10.5px; color:${C.fg4};">${esc(script)}</span>
         <span style="margin-left:auto; font-family:${C.mono}; font-size:11px; color:${C.fg3};">${data ? esc(data.job_id) : ""}</span>
       </div>
-      ${frame ? `<img src="${frame.img}" style="width:100%; display:block;">` : `<div style="padding:40px; text-align:center; color:${C.fg4}; font-size:12px;">no matching frame</div>`}
+      ${frame ? `<div style="position:relative;"><img src="${frame.img}" style="width:100%; display:block;">${bboxOverlay(frame, coordSize)}</div>`
+              : `<div style="padding:40px; text-align:center; color:${C.fg4}; font-size:12px;">no matching frame</div>`}
       <div style="padding:10px 14px;">${verdictRows}${empty}</div>
     </div>`;
   };
@@ -1291,8 +1427,8 @@ function compareView(tabs, gallery, sel, selIdx) {
     <div style="flex:1; min-height:0; display:flex;">
       <div data-scroll="gallery" style="width:170px; flex:0 0 170px; border-right:1px solid ${C.bd2}; overflow:auto; padding:10px;">${gallery}</div>
       <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:${C.bd2};">
-        ${col(S.res.data, sel, C.acc)}
-        ${col(other, otherSel, "oklch(0.7 0.15 300)")}
+        ${col(S.res.data, sel, C.acc, R.coordSize)}
+        ${col(other, otherSel, "oklch(0.7 0.15 300)", R.compareCoordSize)}
       </div>
     </div>
   </div>`;

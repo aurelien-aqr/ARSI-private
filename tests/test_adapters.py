@@ -110,3 +110,30 @@ def test_parse_bbox_json_tolerant_variants():
     assert len(parse_bbox_json('{"label": "vandalism", "bbox": [0,0,1,1]}')) == 1
     # text around the array still works
     assert parse_bbox_json('Here are the anomalies: [] — nothing found.') == []
+
+
+GLM_REPORT = """GRAFFITI: <no> - No visible graffiti on walls or seats.  
+VANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  
+FORGOTTEN OBJECT: <yes>  
+  - Phone (<left middle seat>)  
+  - Wallet (<right middle seat>)  
+DESCRIPTION: The tram interior appears clean and orderly.  
+SEVERITY: <2> - Minor issue due to personal belongings left behind.
+"""
+
+
+def test_parse_structured_report_glm_angle_brackets():
+    # verbatim GLM-4.6V-Flash output (it copies the template's <> literally)
+    anomaly, dets = parse_structured_report(GLM_REPORT)
+    assert anomaly is True
+    assert [(d.label, d.zone) for d in dets] == [
+        ("Phone", "left middle seat"), ("Wallet", "right middle seat")]
+    assert all(d.severity == 2 for d in dets)
+
+
+def test_parse_structured_report_markdown_decorations():
+    anomaly, dets = parse_structured_report(
+        "**GRAFFITI:** no\n2. **VANDALISM**: **yes** - torn seat\n"
+        "* FORGOTTEN OBJECTS: none\n**SEVERITY:** 3")
+    assert anomaly is True
+    assert dets[0].label == "torn seat" and dets[0].type == "damage"

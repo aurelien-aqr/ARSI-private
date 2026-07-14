@@ -208,6 +208,26 @@ def references():
     return {"references": out}
 
 
+@app.post("/api/references")
+async def upload_reference(file: UploadFile):
+    """User-provided clean reference frame (wizard step 4 'Upload')."""
+    name = Path(file.filename or "reference.jpg").name.replace(" ", "_")
+    dest = REPO_ROOT / "data" / "reference" / "uploaded" / name
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with open(dest, "wb") as fh:
+        while chunk := await file.read(1 << 20):
+            fh.write(chunk)
+    try:
+        from PIL import Image
+        with Image.open(dest) as im:
+            im.verify()
+    except Exception:
+        dest.unlink(missing_ok=True)
+        raise HTTPException(400, "not a readable image")
+    return {"path": str(dest.relative_to(REPO_ROOT)), "img": media_url(dest),
+            "name": dest.stem}
+
+
 # ---------------------------------------------------------------- videos
 
 @app.post("/api/videos")

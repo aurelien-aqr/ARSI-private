@@ -94,11 +94,23 @@ def _chat_text(client, model: str, prompt: str, images: list, module) -> str:
 # vlm_01 / vlm_02 — structured whole-frame report
 # ---------------------------------------------------------------------------
 
+# Tolerant of the decorations real models add around the requested format:
+# GLM-4.6V copies the template's angle brackets literally ("GRAFFITI: <no>",
+# "SEVERITY: <2>", "- Phone (<left middle seat>)"); others bold the section
+# names ("**GRAFFITI:** no") or number them. The verdict word is what matters.
 _SECTION_RE = re.compile(
-    r"^\s*(GRAFFITI|VANDALISM|FORGOTTEN OBJECT)\s*:\s*(yes|no)\b\s*-?\s*(.*)$",
+    r"^[\s>#*\-\d.]*[*_]*\s*(GRAFFITI|VANDALISM|FORGOTTEN OBJECTS?)\s*[*_]*\s*:\s*"
+    r"[<\[({*_\s]*(yes|no|none)\b[>\])}*_]*\s*[-–—:]?\s*(.*)$",
     re.IGNORECASE)
-_ITEM_RE = re.compile(r"^\s*-\s+(.*?)(?:\(([^)]*)\))?\s*$")
-_SEVERITY_RE = re.compile(r"^\s*SEVERITY\s*:\s*(\d)", re.IGNORECASE)
+_ITEM_RE = re.compile(r"^\s*[-*•]\s+(.*?)(?:\(([^)]*)\))?\s*$")
+_SEVERITY_RE = re.compile(
+    r"^[\s>#*\-\d.]*[*_]*\s*SEVERITY\s*[*_]*\s*:\s*[<\[({*_\s]*(\d)", re.IGNORECASE)
+_DESCRIPTION_RE = re.compile(r"^[\s>#*\-\d.]*[*_]*\s*DESCRIPTION\s*[*_]*\s*:", re.IGNORECASE)
+
+
+def _clean(s: str) -> str:
+    """Strip the template brackets/emphasis a model may echo around a value."""
+    return (s or "").strip().strip("<>[]{}*_").strip()
 
 _TYPE_OF_SECTION = {"GRAFFITI": "graffiti", "VANDALISM": "damage",
                     "FORGOTTEN OBJECT": "object"}
@@ -113,9 +125,11 @@ def parse_structured_report(text: str):
         m = _SECTION_RE.match(line)
         if m:
             name = m.group(1).upper()
+            if name.startswith("FORGOTTEN"):
+                name = "FORGOTTEN OBJECT"
             yes = m.group(2).lower() == "yes"
             sections[name] = yes
-            note = m.group(3).strip()
+            note = _clean(m.group(3))
             current = name if name == "FORGOTTEN OBJECT" else None
             if yes and name != "FORGOTTEN OBJECT":
                 detections.append(Detection(label=note or name.lower(),
@@ -128,15 +142,15 @@ def parse_structured_report(text: str):
             severity = int(s.group(1))
             current = None
             continue
-        if line.strip().upper().startswith("DESCRIPTION"):
+        if _DESCRIPTION_RE.match(line):
             current = None
             continue
         if current == "FORGOTTEN OBJECT":
             m = _ITEM_RE.match(line)
-            if m and m.group(1).strip():
-                detections.append(Detection(label=m.group(1).strip(" .,-"),
+            if m and _clean(m.group(1)):
+                detections.append(Detection(label=_clean(m.group(1)).strip(" .,-"),
                                             type="object",
-                                            zone=(m.group(2) or "").strip() or None))
+                                            zone=_clean(m.group(2)) or None))
     if not sections:
         raise ParseError("no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply", raw=text)
     # model answered "FORGOTTEN OBJECT: yes - a phone" inline, without the
@@ -241,9 +255,12 @@ def scale_bboxes(items: list, width: int, height: int):
         bbox = d.get("bbox")
         if not (isinstance(bbox, list) and len(bbox) == 4):
             continue
+        label = str(d.get("label", "?"))
+        # some models copy the enum literally ("graffiti|vandalism") or invent
+        # variants; fall back to keyword typing instead of "unknown"
         out.append(Detection(
-            label=str(d.get("label", "?")),
-            type=_LABEL_TO_TYPE.get(str(d.get("label", "")).lower(), "unknown"),
+            label=label,
+            type=_LABEL_TO_TYPE.get(label.lower(), guess_type(label)),
             bbox=[round(bbox[0] * sx), round(bbox[1] * sy),
                   round(bbox[2] * sx), round(bbox[3] * sy)],
             severity=d.get("severity") if isinstance(d.get("severity"), int) else None))
