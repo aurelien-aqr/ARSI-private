@@ -92,3 +92,21 @@ def test_transport_retry_keeps_original_prompt(fake_client, img_factory, tmp_pat
     # no format reminder on a transport retry (it would change the vlm_05
     # cache fingerprint); the reminder is reserved for ParseError retries
     assert "REMINDER" not in client._impl.calls[1]["messages"][0]["content"]
+
+
+def test_cancel_between_frames_keeps_partials(fake_client, img_factory, tmp_path):
+    frames = [img_factory(f"f{i}.jpg") for i in range(3)]
+    client = fake_client([CLEAN, CLEAN, CLEAN])
+    stop_after = {"n": 1}
+
+    def stop():
+        return sum(1 for _ in ()) or stop_after["n"] <= 0
+
+    def on_event(e):
+        if e["event"] == "frame_done":
+            stop_after["n"] -= 1
+
+    result = run_job(make_cfg(tmp_path, frames), client=client,
+                     on_event=on_event, stop=stop)
+    assert result.status == "cancelled"
+    assert len(result.frames) == 1 and result.frames[0].status == "ok"

@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARSI Studio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%235ba3d9'/><text x='16' y='22' font-family='monospace' font-weight='800' font-size='18' fill='%23131720' text-anchor='middle'>A</text></svg>">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; height:100%; }
+  body {
+    background: oklch(0.15 0.008 250);
+    color: oklch(0.93 0.006 250);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  a { color: oklch(0.72 0.13 225); text-decoration:none; }
+  a:hover { color: oklch(0.82 0.13 225); }
+  input, textarea, button, select { font-family: inherit; }
+  textarea:focus, input:focus { outline: 1px solid oklch(0.55 0.1 225); }
+  ::-webkit-scrollbar { width:9px; height:9px; }
+  ::-webkit-scrollbar-thumb { background: oklch(0.32 0.014 250); border-radius:6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  @keyframes arsipulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+  @keyframes arsislide { from { opacity:0; transform:translateY(8px) scale(0.96); } to { opacity:1; transform:none; } }
+  /* Light mode: invert the whole UI, then restore real photos so CCTV frames stay true */
+  .arsi-app.light { filter: invert(1) hue-rotate(180deg); }
+  .arsi-app.light img { filter: invert(1) hue-rotate(180deg); }
+  .arsi-app { transition: filter .18s ease; height:100vh; display:flex; background:oklch(0.15 0.008 250); }
+  .hoverable:hover { background: oklch(0.19 0.012 250) !important; }
+  .navitem:hover { color: oklch(0.88 0.006 250) !important; }
+  button:hover { filter: brightness(1.12); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="app.js"></script>
+</body>
+</html>

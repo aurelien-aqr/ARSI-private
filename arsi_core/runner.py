@@ -89,9 +89,12 @@ def _materialize_mask(cfg: JobConfig, log) -> tuple:
     return frames, reference, spec.hash
 
 
-def run_job(cfg: JobConfig, on_event=None, client=None, cache=None) -> JobResult:
+def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
+            stop=None) -> JobResult:
     """Execute the batch. Job-fatal errors (Ollama down, model missing) raise
-    BEFORE any frame runs; per-frame errors never stop the batch."""
+    BEFORE any frame runs; per-frame errors never stop the batch. `stop` is an
+    optional callable checked between frames: when it returns True the job
+    ends with status "cancelled", keeping the partial results."""
     cfg.resolved()
     log = _JobLog(Path(cfg.job_dir) / "job.log")
 
@@ -119,7 +122,12 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None) -> JobResult
 
     frames, reference, mask_hash = _materialize_mask(cfg, log)
 
+    cancelled = False
     for i, frame in enumerate(frames):
+        if stop and stop():
+            cancelled = True
+            emit("job_cancelled", after_frames=i)
+            break
         t0 = time.time()
         fr = None
         attempt = 0
@@ -165,8 +173,11 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None) -> JobResult
         n_failed=sum(1 for f in result.frames if f.status == "failed"),
         wall_seconds=round(time.time() - t_job, 2))
     result.finished = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    result.status = "completed" if result.summary.n_failed < len(result.frames) or not result.frames \
-        else "failed"
+    if cancelled:
+        result.status = "cancelled"
+    else:
+        result.status = "completed" if result.summary.n_failed < len(result.frames) \
+            or not result.frames else "failed"
 
     out_path = Path(cfg.job_dir) / "results.json"
     with open(out_path, "w", encoding="utf-8") as fh:

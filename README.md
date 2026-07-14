@@ -21,6 +21,24 @@ using a local **vision-language model (VLM)** — Qwen2.5-VL served through
 
 ---
 
+## ARSI Studio — the web app
+
+A local web UI over the five scripts: upload a tram CCTV video, extract
+frames, draw a window mask once (fixed camera), pick pipeline × model ×
+prompt, watch the run live, browse boxed results, export report / JSON /
+XLSX. Contracts in `docs/SPEC.md`; UI designed in claude.ai/design.
+
+```bash
+venv/bin/python -m uvicorn app.backend.main:app --port 8321
+# then open http://localhost:8321  (Ollama must be running: ollama serve)
+```
+
+Layers: `arsi_core/` (engine, importable + `python -m arsi_core` CLI) →
+`app/backend/` (FastAPI + SSE) → `app/frontend/` (static SPA).
+Tests: `venv/bin/python -m pytest tests/`.
+
+---
+
 ## Quick start
 
 ```bash

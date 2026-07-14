@@ -13,3 +13,16 @@ ultralytics>=8.3.0
 # Numerical arrays for the reference-difference change detection in
 # vlm_05_reference_diff.py (also pulled in by ultralytics, listed for clarity).
 numpy>=1.24.0
+
+# ARSI Studio web app (app/backend + arsi_core): API server, uploads, video IO.
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+opencv-python-headless>=4.9 ; python_version >= "3.9"
+
+# Spreadsheet export (jobs -> .xlsx in the ARSI_results_EN format)
+openpyxl>=3.1
+
+# Tests
+pytest>=8.0
+httpx>=0.27
