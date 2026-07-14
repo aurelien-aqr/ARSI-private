@@ -137,3 +137,23 @@ def test_parse_structured_report_markdown_decorations():
         "* FORGOTTEN OBJECTS: none\n**SEVERITY:** 3")
     assert anomaly is True
     assert dets[0].label == "torn seat" and dets[0].type == "damage"
+
+
+def test_vlm02_context_overflow_retried_with_bigger_ctx(fake_client, img_factory):
+    import vlm_02_reference_compare as m2
+    ref, img = img_factory("ref.jpg"), img_factory("f1.jpg")
+    ctx_error = Exception('ResponseError: {"error":{"code":400,"message":"request '
+                          '(5645 tokens) exceeds the available context size (4096 tokens), '
+                          'try increasing it","type":"exceed_context_size_error"}}')
+    seen = []
+
+    def ok(messages):
+        seen.append(m2.NUM_CTX)
+        return "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: no"
+
+    client = fake_client([ctx_error, ok])
+    fr = run_frame("vlm_02", img, reference=ref, client=client)
+    assert fr.status == "ok" and fr.anomaly is False
+    assert len(client._impl.calls) == 2
+    assert seen and seen[0] >= 5645 + 1024
+    assert m2.NUM_CTX == 4096      # restored after the job

@@ -77,13 +77,27 @@ def _open_image(path) -> Image.Image:
 
 
 def _chat_text(client, model: str, prompt: str, images: list, module) -> str:
-    response = client.chat(
-        model=model,
-        messages=[{"role": "user", "content": prompt, "images": [str(p) for p in images]}],
-        think=False,
-        options={"num_ctx": module.NUM_CTX, "num_predict": module.NUM_PREDICT,
-                 "temperature": module.TEMPERATURE},
-    )
+    def call():
+        return client.chat(
+            model=model,
+            messages=[{"role": "user", "content": prompt,
+                       "images": [str(p) for p in images]}],
+            think=False,
+            options={"num_ctx": module.NUM_CTX, "num_predict": module.NUM_PREDICT,
+                     "temperature": module.TEMPERATURE},
+        )
+    try:
+        response = call()
+    except VLMCallError as exc:
+        # context overflow is deterministic (image tokens vary per model —
+        # GLM needs 5645 for two full frames): retry once with the size the
+        # server asked for. Callers register NUM_CTX in configured(), so the
+        # bump is restored after the job.
+        need = _ctx_needed(str(exc))
+        if need is None:
+            raise
+        module.NUM_CTX = max(module.NUM_CTX, need)
+        response = call()
     message = response.get("message", {}) if isinstance(response, dict) \
         else getattr(response, "message", {})
     get = message.get if isinstance(message, dict) else lambda k, d="": getattr(message, k, d)
@@ -170,7 +184,12 @@ def _run_whole_frame(script, image, reference, model, prompt, params, client):
     images = [reference, image] if script == "vlm_02" else [image]
     if script == "vlm_02" and reference is None:
         raise FrameError("vlm_02 needs a reference image")
-    with configured(module, ollama=client, **_module_overrides(module, params)):
+    overrides = _module_overrides(module, params)
+    # two full frames (vlm_02) can exceed the scripts' 4096 default with
+    # models whose vision encoders emit more image tokens (GLM: 5645)
+    overrides.setdefault("NUM_CTX", max(module.NUM_CTX, 8192))
+    overrides.update(ollama=client)
+    with configured(module, **overrides):
         text = _chat_text(client, model, prompt, images, module)
     anomaly, detections = parse_structured_report(text)
     return FrameResult(frame_id=Path(image).stem, image=str(image),
@@ -274,7 +293,9 @@ def _run_vlm03(image, model, prompt, params, client):
     # A busy frame can need more than the script's 512-token budget for its
     # JSON array; a truncated array was the main cause of failed frames.
     overrides.setdefault("NUM_PREDICT", max(module.NUM_PREDICT, 1024))
-    with configured(module, ollama=client, **overrides):
+    overrides.setdefault("NUM_CTX", max(module.NUM_CTX, 8192))
+    overrides.update(ollama=client)
+    with configured(module, **overrides):
         text = _chat_text(client, model, prompt, [image], module)
     detections = scale_bboxes(parse_bbox_json(text), img.width, img.height)
     return FrameResult(frame_id=Path(image).stem, image=str(image),
