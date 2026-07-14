@@ -17,7 +17,7 @@ from pathlib import Path
 
 from PIL import Image
 
-from .errors import ParseError, FrameError
+from .errors import ParseError, FrameError, VLMCallError
 from .schema import Detection, FrameResult, guess_type
 
 SCRIPTS = {
@@ -301,6 +301,7 @@ def _get_detector(module):
 def _run_vlm04(image, reference, model, prompt, params, client):
     module = get_module("vlm_04")
     overrides = _module_overrides(module, params)
+    overrides.setdefault("NUM_CTX", max(module.NUM_CTX, 8192))   # crop calls, same as vlm_05
     overrides.update(ollama=client, MODEL_NAME=model, PROMPT=prompt)
     with configured(module, **overrides):
         detector = _get_detector(module)
@@ -333,6 +334,19 @@ def _run_vlm04(image, reference, model, prompt, params, client):
 # vlm_05 — reference-diff localizer + crop judge (mirrors benchmark/run_benchmark)
 # ---------------------------------------------------------------------------
 
+_CTX_ERR_RE = re.compile(r"request \((\d+) tokens\) exceeds the available context")
+
+
+def _ctx_needed(error_text: str):
+    """Ollama's context-overflow error states the required size — a big region
+    crop can tokenize past NUM_CTX (seen with GLM: 4339 > 4096). Returns the
+    context to retry with, or None if this is a different error."""
+    m = _CTX_ERR_RE.search(error_text)
+    if not m:
+        return None
+    return (int(m.group(1)) + 1024 + 1023) // 1024 * 1024
+
+
 def prompt_fingerprint(model: str, prompt: str) -> str:
     """Identical to benchmark/run_benchmark.prompt_fingerprint, so the app
     reuses the existing verdict cache."""
@@ -344,6 +358,10 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
     if reference is None:
         raise FrameError("vlm_05 needs a reference image")
     overrides = _module_overrides(module, params)
+    # side-by-side crops of big regions can tokenize past the script's 4096
+    # default (GLM needed 4339); also registers NUM_CTX for save/restore so
+    # the adaptive bump below cannot leak out of this job
+    overrides.setdefault("NUM_CTX", max(module.NUM_CTX, 8192))
     overrides.update(ollama=client, MODEL_NAME=model, PROMPT=prompt)
     with configured(module, **overrides):
         ref_img = _open_image(reference)
@@ -362,8 +380,19 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
             if hit is not None:
                 is_obj, label = hit["yes"], hit["label"]
             else:
-                is_obj, label = module.classify_with_vlm(
-                    img, ref_img, r, module.CROP_MARGIN, module.CROP_CONTEXT)
+                try:
+                    is_obj, label = module.classify_with_vlm(
+                        img, ref_img, r, module.CROP_MARGIN, module.CROP_CONTEXT)
+                except VLMCallError as exc:
+                    # context overflow is deterministic — retrying the frame
+                    # verbatim can never help; retry NOW with the size the
+                    # server asked for (restored by configured() afterwards)
+                    need = _ctx_needed(str(exc))
+                    if need is None:
+                        raise
+                    module.NUM_CTX = max(module.NUM_CTX, need)
+                    is_obj, label = module.classify_with_vlm(
+                        img, ref_img, r, module.CROP_MARGIN, module.CROP_CONTEXT)
                 if cache is not None:
                     cache.put(key, {"yes": bool(is_obj), "label": label})
             if module.is_non_anomaly(label) or module.is_implausible(label, r["area"]):

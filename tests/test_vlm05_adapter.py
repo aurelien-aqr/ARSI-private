@@ -70,3 +70,25 @@ def test_clean_pair_yields_no_regions(fake_client, img_factory, cache):
     fr = run_frame("vlm_05", insp, reference=ref, client=fake_client([]),
                    params=PARAMS, cache=cache)
     assert fr.anomaly is False and fr.detections == []
+
+
+def test_context_overflow_is_retried_with_bigger_ctx(fake_client, img_factory, cache):
+    import vlm_05_reference_diff as m5
+    ref = img_factory("ref.jpg", **REF_KW)
+    insp = img_factory("insp.jpg", **REF_KW, rects=INSP_RECTS)
+    ctx_error = Exception('ResponseError: {"error":{"code":400,"message":"request '
+                          '(4339 tokens) exceeds the available context size (4096 tokens), '
+                          'try increasing it","type":"exceed_context_size_error"}}')
+    seen_ctx = []
+
+    def reply_ok(messages):
+        seen_ctx.append(m5.NUM_CTX)
+        return "YES, white box on floor."
+
+    client = fake_client([ctx_error, reply_ok])
+    fr = run_frame("vlm_05", insp, reference=ref, client=client,
+                   params=PARAMS, cache=cache)
+    assert fr.status == "ok" and fr.anomaly is True
+    assert len(client._impl.calls) == 2          # failed once, retried once
+    assert seen_ctx and seen_ctx[0] >= 4339 + 1024   # bumped to what the server asked
+    assert m5.NUM_CTX == 4096                    # restored after the job
