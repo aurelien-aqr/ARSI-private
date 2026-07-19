@@ -88,6 +88,12 @@ class Exporter:
         self.stats[f"src:{source}"] += 1
 
     def write(self):
+        # the dataset dir must be self-sufficient for llamafactory-cli:
+        # ship the dataset_info.json registration alongside the JSONL
+        info = REPO_ROOT / "tools" / "lora" / "dataset_info.json"
+        if info.exists():
+            import shutil
+            shutil.copy(info, self.out / "dataset_info.json")
         # frame-level split: one frame's crops all land on the same side
         train, val = [], []
         for key, sample in self.samples:

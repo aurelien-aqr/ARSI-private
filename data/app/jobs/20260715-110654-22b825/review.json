@@ -1,0 +1,56 @@
+{
+ "job_id": "20260715-110654-22b825",
+ "updated": "2026-07-19T21:02:21+00:00",
+ "frames": {
+  "f0000": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0050": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0100": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0700": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      904,
+      18,
+      996,
+      125
+     ],
+     "label": "backpack on seat",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      568,
+      27,
+      660,
+      135
+     ],
+     "label": "backpack on seat",
+     "type": "object"
+    }
+   ],
+   "done": true
+  }
+ }
+}

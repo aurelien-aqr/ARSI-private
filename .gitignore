@@ -38,8 +38,12 @@ results/_*.jpg
 # OS
 .DS_Store
 
-# App runtime data (jobs, verdict cache, extracted videos) - masks presets ARE tracked
-data/app/jobs/
+# App runtime data (jobs, verdict cache, extracted videos) - masks presets ARE
+# tracked, and so are review.json files (hours of human labelling, tiny, and a
+# wholesale copy-back from the GPU machine must never be able to erase them)
+data/app/jobs/**
+!data/app/jobs/*/
+!data/app/jobs/*/review.json
 data/app/cache/
 data/app/videos/
 data/app/.pytest-tmp/

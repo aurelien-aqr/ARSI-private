@@ -61,6 +61,7 @@ const S = {
     saved: true, saving: false,
     draw: false, corner: null,          // missed-box two-click draw state
     pending: null, pendingLabel: "", pendingType: "object",
+    propagate: true,                    // copy verdicts to similar boxes on other frames
   },
   labels: null,               // rows of GET /api/reviews (Labels screen)
   lora: { status: null, exporting: false, result: null },
@@ -734,14 +735,58 @@ async function revSave() {
   } catch (e) { toast("Review save failed: " + e.message); }
   S.rev.saving = false; render();
 }
+function iouBox(a, b) {
+  const ix = Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0]));
+  const iy = Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
+  const inter = ix * iy;
+  if (!inter) return 0;
+  const area = (a[2] - a[0]) * (a[3] - a[1]) + (b[2] - b[0]) * (b[3] - b[1]) - inter;
+  return inter / area;
+}
+function revPropagate(fromFrame, det, verdict) {
+  // The camera is fixed and forgotten objects don't move: the same object
+  // shows up as a near-identical box on every frame. Copy the verdict to
+  // UNSET verdicts of unconfirmed frames only — never overwrite a judgement.
+  if (!det.bbox) return 0;
+  let nBoxes = 0;
+  for (const f of S.res.data.frames) {
+    if (f.frame_id === fromFrame.frame_id || f.status !== "ok") continue;
+    const existing = S.rev.doc.frames[f.frame_id];
+    if (existing && existing.done) continue;
+    f.detections.forEach((d, i) => {
+      if (!d.bbox || d.type !== det.type) return;
+      if (existing && existing.verdicts[i] !== undefined) return;
+      if (iouBox(d.bbox, det.bbox) >= 0.55) {
+        revEntry(f.frame_id).verdicts[i] = verdict;
+        nBoxes++;
+      }
+    });
+  }
+  return nBoxes;
+}
 function revSetVerdict(i, v) {   // v undefined -> cycle unset -> tp -> fp -> unset
   const f = curFrame(); const e = revEntry(f.frame_id);
   const cur = e.verdicts[i];
   if (v === undefined) v = cur === undefined ? "tp" : cur === "tp" ? "fp" : null;
-  if (v === null || cur === v) delete e.verdicts[i]; else e.verdicts[i] = v;
+  if (v === null || cur === v) { delete e.verdicts[i]; v = null; } else e.verdicts[i] = v;
   if (Object.keys(e.verdicts).length < f.detections.length) e.done = false;
+  if (v && S.rev.propagate) {
+    const n = revPropagate(f, f.detections[i], v);
+    if (n) toast(`Verdict propagated to ${n} similar box(es) on other frames.`);
+  }
   revTouch();
 }
+ACT.revTogglePropagate = () => { S.rev.propagate = !S.rev.propagate; render(); };
+ACT.revAllTpConfirm = () => {
+  const f = curFrame(); const e = revEntry(f.frame_id);
+  f.detections.forEach((d, i) => {
+    if (e.verdicts[i] === undefined) {
+      e.verdicts[i] = "tp";
+      if (S.rev.propagate) revPropagate(f, d, "tp");
+    }
+  });
+  ACT.revConfirm();
+};
 ACT.revCycle = (i) => revSetVerdict(+i);
 ACT.revSet = (arg) => { const [i, v] = arg.split(":"); revSetVerdict(+i, v); };
 ACT.revToggleDraw = () => {
@@ -1571,16 +1616,23 @@ function reviewSidebar(sel) {
         ${e.done ? `<span style="font-size:10px; padding:2px 8px; border-radius:10px; background:${C.greenBg}; border:1px solid ${C.greenBd}; color:${C.greenFg}; font-weight:600;">✓ reviewed</span>` : ""}
         <span style="margin-left:auto; font-size:10.5px; color:${C.fg4};">${S.rev.saving ? "Saving…" : S.rev.saved ? "Saved ✓" : "…"}</span>
       </div>
-      <div style="font-size:11px; color:${C.fg4}; margin-top:4px;">Click a box (or TP/FP) to judge · <b>T</b>/<b>F</b> hovered · <b>M</b> missed box · <b>C</b> confirm</div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:4px;">Click a box (or TP/FP) to judge · <b>T</b>/<b>F</b> hovered · <b>A</b> all-TP+confirm · <b>M</b> missed box · <b>C</b> confirm</div>
     </div>
     <div style="padding:10px 12px;">
       ${detRows || `<div style="font-size:12px; color:${C.fg4}; padding:6px 4px 10px;">No detections on this frame — confirm it as clean, or add the boxes the model missed.</div>`}
       ${missedRows}${pendingForm}
       <button data-act="revToggleDraw" style="width:100%; margin:4px 0 8px; font-size:12px; padding:8px 0; border-radius:8px; cursor:pointer; color:${S.rev.draw ? C.accDark : "oklch(0.85 0.12 300)"}; background:${S.rev.draw ? "oklch(0.75 0.15 300)" : "oklch(0.2 0.03 300)"}; border:1.5px solid oklch(0.45 0.11 300);">
         ${S.rev.draw ? "Click two corners on the image… (Esc cancels)" : "+ Missed object (M)"}</button>
+      ${nDets && nJudged < nDets ? `
+      <button data-act="revAllTpConfirm" style="width:100%; margin-bottom:6px; font-size:12.5px; font-weight:600; padding:9px 0; border-radius:8px; cursor:pointer; color:${REV_COL.tp}; background:oklch(0.2 0.04 150); border:1.5px solid ${C.greenBd};">
+        ✓✓ All TP + confirm (A)</button>` : ""}
       <button data-act="revConfirm" ${canConfirm ? "" : "disabled"} style="width:100%; font-size:12.5px; font-weight:600; padding:9px 0; border-radius:8px; cursor:${canConfirm ? "pointer" : "not-allowed"}; opacity:${canConfirm ? 1 : 0.45}; color:${C.accDark}; background:${C.green}; border:none;">
         ✓ Confirm frame & next (C)</button>
       ${nDets ? `<div style="font-size:10.5px; color:${C.fg4}; margin-top:5px; text-align:center;">${nJudged}/${nDets} detection(s) judged</div>` : ""}
+      <label style="display:flex; align-items:center; gap:7px; margin-top:8px; font-size:11px; color:${C.fg3}; cursor:pointer;">
+        <input type="checkbox" data-act="revTogglePropagate" ${S.rev.propagate ? "checked" : ""} style="accent-color:${C.acc};">
+        Propagate verdicts to similar boxes ${hint("Fixed camera + static objects: when you judge a box, the same verdict is copied to overlapping boxes (IoU ≥ 0.55, same type) whose verdict is still unset, on frames not yet confirmed. Never overwrites a judgement.")}
+      </label>
     </div>
     ${m ? `
     <div style="padding:12px 16px; border-top:1px solid oklch(0.22 0.01 250);">
@@ -2120,6 +2172,7 @@ document.addEventListener("keydown", (ev) => {
       ev.preventDefault(); S.rev.pending = null; S.rev.corner = null; S.rev.draw = false; render(); return;
     }
     if (key === "c") { ev.preventDefault(); ACT.revConfirm(); return; }
+    if (key === "a") { ev.preventDefault(); ACT.revAllTpConfirm(); return; }
     if (key === "m") { ev.preventDefault(); ACT.revToggleDraw(); return; }
     if (key === "t" || key === "f") {
       const f = curFrame();

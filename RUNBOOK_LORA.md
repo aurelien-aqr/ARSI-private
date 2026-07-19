@@ -30,8 +30,10 @@ Either click **Export dataset** in the app's LoRA tab (writes
 
 ```bash
 venv/bin/python tools/export_lora_dataset.py --out data/app/lora_dataset
-cp tools/lora/dataset_info.json data/app/lora_dataset/
 ```
+
+The export ships its own `dataset_info.json`, so the directory is
+self-sufficient for llamafactory-cli.
 
 Do NOT pass `--include-benchmark` unless you accept losing the 29-case
 benchmark as an eval set. Copy `data/lora_dataset/` to the workstation
@@ -94,9 +96,15 @@ llama.cpp/build/bin/llama-server -m arsi-judge-q4_k_m.gguf \
   --mmproj mmproj-Qwen3-VL-8B-Instruct-f16.gguf --port 11435
 ```
 
-and point the pipeline at it via an OpenAI-compat shim for
-`arsi_core.OllamaClient(impl=...)` (~30 lines, not written yet — ask
-Claude Code when needed).
+and point the pipeline at it — the shim is already written
+(`arsi_core/llamacpp_client.py`, unit-tested):
+
+```python
+from arsi_core.ollama_client import OllamaClient
+from arsi_core.llamacpp_client import LlamaCppServer
+client = OllamaClient(impl=LlamaCppServer("http://localhost:11435"))
+# benchmark / raw scripts: vlm_05_reference_diff.ollama = client
+```
 
 ## 7. Evaluate — the untouched benchmark decides
 
