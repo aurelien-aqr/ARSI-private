@@ -69,30 +69,61 @@ def report_html(data: dict) -> str:
             f"</title><style>{style}</style>" + "".join(body))
 
 
-def results_xlsx(data: dict) -> bytes:
-    """Rows in the spirit of ARSI_results_EN.xlsx: one row per frame."""
+def results_xlsx(data: dict, review: dict = None, metrics: dict = None) -> bytes:
+    """Rows in the spirit of ARSI_results_EN.xlsx: one row per frame. When a
+    review exists, each row carries the human verdict (Correctness TP/FP/TN/FN
+    per the supervisor's any-miss-is-FN rule) and a Review sheet holds the
+    aggregated metrics — the by-hand grid, generated."""
     from openpyxl import Workbook
     wb = Workbook()
     ws = wb.active
     ws.title = "Frames"
     cfg = data["config"]
-    ws.append(["ID", "Date", "Task", "Model", "Test image", "Reference image",
-               "Prompt", "Model response", "Anomaly (YES/NO)", "Anomaly type",
-               "Detections", "Inference time [s]", "Status", "Note"])
+    correctness = (metrics or {}).get("correctness", {})
+    rframes = (review or {}).get("frames", {})
+    header = ["ID", "Date", "Task", "Model", "Test image", "Reference image",
+              "Prompt", "Model response", "Anomaly (YES/NO)", "Anomaly type",
+              "Detections", "Inference time [s]", "Status", "Note"]
+    if review is not None:
+        header += ["Correctness", "TP boxes", "FP boxes", "Missed (FN)", "Reviewed"]
+    ws.append(header)
     date = (data.get("started") or "")[:10] or datetime.now().strftime("%Y-%m-%d")
     for i, f in enumerate(data["frames"]):
         types = ",".join(sorted({d["type"] for d in f["detections"]})) or ""
         dets = "; ".join(f"{d['label']} {d['bbox'] or ''}".strip()
                          for d in f["detections"])
-        ws.append([i, date, cfg["script"], cfg["model"], f["image"],
-                   cfg.get("reference") or "", cfg["prompt_name"],
-                   (f["raw_response"] or "")[:900],
-                   {True: "YES", False: "NO"}.get(f["anomaly"], ""),
-                   types, dets, f["seconds"], f["status"], f.get("error") or ""])
+        row = [i, date, cfg["script"], cfg["model"], f["image"],
+               cfg.get("reference") or "", cfg["prompt_name"],
+               (f["raw_response"] or "")[:900],
+               {True: "YES", False: "NO"}.get(f["anomaly"], ""),
+               types, dets, f["seconds"], f["status"], f.get("error") or ""]
+        if review is not None:
+            e = rframes.get(f["frame_id"], {})
+            verdicts = e.get("verdicts", {})
+            missed = "; ".join(f"{m['label']} {m['bbox']}" for m in e.get("missed", []))
+            row += [correctness.get(f["frame_id"], ""),
+                    sum(1 for v in verdicts.values() if v == "tp"),
+                    sum(1 for v in verdicts.values() if v == "fp"),
+                    missed, "yes" if e.get("done") else ""]
+        ws.append(row)
     ws2 = wb.create_sheet("Summary")
     for k, v in {**data["summary"], "job_id": data["job_id"],
                  "status": data["status"], "mask": cfg.get("mask") or "none"}.items():
         ws2.append([k, json.dumps(v) if isinstance(v, (dict, list)) else v])
+    if metrics:
+        ws3 = wb.create_sheet("Review")
+        ws3.append(["reviewed frames", metrics["progress"]["n_done"],
+                    "of", metrics["progress"]["n_frames"]])
+        ws3.append([])
+        for k in ("tp", "fp", "fn", "precision", "recall", "f1"):
+            ws3.append(["objects." + k, metrics["objects"][k]])
+        for k in ("TP", "FP", "TN", "FN", "accuracy", "precision", "recall",
+                  "specificity", "f1"):
+            ws3.append(["frames." + k, metrics["frames"][k]])
+        ws3.append([])
+        ws3.append(["type", "tp", "fp", "fn", "recall"])
+        for t, d in sorted(metrics["per_type"].items()):
+            ws3.append([t, d["tp"], d["fp"], d["fn"], d["recall"]])
     buf = BytesIO()
     wb.save(buf)
     return buf.getvalue()

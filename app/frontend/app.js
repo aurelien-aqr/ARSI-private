@@ -56,6 +56,12 @@ const S = {
     compareCoordSize: null,   // same, for the compared job
     playing: false,
   },
+  rev: {                      // review/labelling mode over the open job
+    on: false, jobId: null, doc: null, metrics: null,
+    saved: true, saving: false,
+    draw: false, corner: null,          // missed-box two-click draw state
+    pending: null, pendingLabel: "", pendingType: "object",
+  },
   ollamaTest: null,
 };
 
@@ -610,6 +616,7 @@ async function openResults(jobId) {
   if (!id) { S.res.data = null; setScreen("results"); return; }
   try {
     const data = await jget("/api/jobs/" + id);
+    if (S.rev.jobId !== id) Object.assign(S.rev, { on: false, jobId: null, doc: null, metrics: null });
     S.res.jobId = id; S.res.data = data; S.res.sel = 0; S.res.hoverV = -1;
     S.res.coordSize = null;
     const ref = data.config && data.config.reference_img;
@@ -680,6 +687,101 @@ ACT.hoverV = (i) => { S.res.hoverV = +i; render(); };
 ACT.unhoverV = () => { S.res.hoverV = -1; render(); };
 ACT.openReportJob = (jobId) => window.open(`/api/jobs/${jobId}/report.html`, "_blank");
 
+/* --- review / labelling mode --- */
+function curFrame() { return S.res.data.frames[Math.min(S.res.sel, S.res.data.frames.length - 1)]; }
+function revEntry(frameId) {
+  const fr = S.rev.doc.frames;
+  return fr[frameId] || (fr[frameId] = { verdicts: {}, missed: [], done: false });
+}
+function revActive() { return S.rev.on && S.rev.doc && S.rev.jobId === S.res.jobId; }
+ACT.toggleReview = async () => {
+  if (S.rev.on) { S.rev.on = false; S.rev.draw = false; S.rev.pending = null; render(); return; }
+  try {
+    const d = await jget(`/api/jobs/${S.res.jobId}/review`);
+    Object.assign(S.rev, { on: true, jobId: S.res.jobId, doc: d.review, metrics: d.metrics,
+                           saved: true, saving: false, draw: false, corner: null, pending: null });
+  } catch (e) { toast("Review unavailable: " + e.message); }
+  render();
+};
+let revSaveTimer = null;
+function revTouch() {
+  S.rev.saved = false;
+  clearTimeout(revSaveTimer);
+  revSaveTimer = setTimeout(revSave, 700);
+  render();
+}
+async function revSave() {
+  if (!S.rev.doc) return;
+  S.rev.saving = true; render();
+  try {
+    const d = await jpost(`/api/jobs/${S.rev.jobId}/review`, { frames: S.rev.doc.frames }, "PUT");
+    S.rev.doc = d.review; S.rev.metrics = d.metrics; S.rev.saved = true;
+  } catch (e) { toast("Review save failed: " + e.message); }
+  S.rev.saving = false; render();
+}
+function revSetVerdict(i, v) {   // v undefined -> cycle unset -> tp -> fp -> unset
+  const f = curFrame(); const e = revEntry(f.frame_id);
+  const cur = e.verdicts[i];
+  if (v === undefined) v = cur === undefined ? "tp" : cur === "tp" ? "fp" : null;
+  if (v === null || cur === v) delete e.verdicts[i]; else e.verdicts[i] = v;
+  if (Object.keys(e.verdicts).length < f.detections.length) e.done = false;
+  revTouch();
+}
+ACT.revCycle = (i) => revSetVerdict(+i);
+ACT.revSet = (arg) => { const [i, v] = arg.split(":"); revSetVerdict(+i, v); };
+ACT.revToggleDraw = () => {
+  S.rev.draw = !S.rev.draw; S.rev.corner = null; S.rev.pending = null; render();
+};
+ACT.revImgClick = (_, ev) => {
+  if (!revActive() || !S.rev.draw || S.rev.pending) return;
+  const img = document.getElementById("revImg");
+  const cs = S.res.coordSize;
+  if (!img || !cs) return;
+  const r = img.getBoundingClientRect();
+  const x = Math.round(Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)) * cs.w);
+  const y = Math.round(Math.max(0, Math.min(1, (ev.clientY - r.top) / r.height)) * cs.h);
+  if (!S.rev.corner) { S.rev.corner = { x, y }; render(); return; }
+  const a = S.rev.corner;
+  const bbox = [Math.min(a.x, x), Math.min(a.y, y), Math.max(a.x, x), Math.max(a.y, y)];
+  S.rev.corner = null;
+  if (bbox[2] - bbox[0] < 5 || bbox[3] - bbox[1] < 5) { toast("Box too small — click two opposite corners."); render(); return; }
+  S.rev.pending = bbox; S.rev.pendingLabel = ""; S.rev.pendingType = "object";
+  render();
+  setTimeout(() => { const el = document.getElementById("revLabel"); if (el) el.focus(); }, 30);
+};
+ACT.revAddMissed = () => {
+  const el = document.getElementById("revLabel");
+  const label = ((el && el.value) || S.rev.pendingLabel || "").trim();
+  if (!S.rev.pending) return;
+  if (!label) { toast("Give the missed object a label."); return; }
+  const e = revEntry(curFrame().frame_id);
+  e.missed.push({ bbox: S.rev.pending, label, type: S.rev.pendingType });
+  S.rev.pending = null; S.rev.draw = false;
+  revTouch();
+};
+ACT.revCancelMissed = () => { S.rev.pending = null; S.rev.corner = null; render(); };
+ACT.revDelMissed = (idx) => {
+  const e = revEntry(curFrame().frame_id);
+  e.missed.splice(+idx, 1);
+  revTouch();
+};
+ACT.revConfirm = () => {
+  const f = curFrame(); const e = revEntry(f.frame_id);
+  if (Object.keys(e.verdicts).length < f.detections.length) {
+    toast("Review every detection first (click its box or TP/FP)."); return;
+  }
+  e.done = true;
+  revTouch();
+  const frames = S.res.data.frames;          // auto-advance to next unreviewed
+  for (let k = 1; k <= frames.length; k++) {
+    const j = (S.res.sel + k) % frames.length;
+    const fe = S.rev.doc.frames[frames[j].frame_id];
+    if (!fe || !fe.done) { S.res.sel = j; S.res.hoverV = -1; break; }
+  }
+  S._kbNav = true;
+  render();
+};
+
 /* --- settings --- */
 ACT.testOllama = async () => {
   S.ollamaTest = "testing"; render();
@@ -717,6 +819,8 @@ const CHANGE = {
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
   compareJob: v => ACT.setCompareJob(v),
   ollamaUrl: v => ACT.saveOllamaUrl(v),
+  revLabel: v => { S.rev.pendingLabel = v; },
+  revType: v => { S.rev.pendingType = v; },
   refFile: async (_, input) => {
     const file = input.files[0];
     if (!file) return;
@@ -1344,6 +1448,96 @@ function bboxOverlay(frame, cs, hoverIdx = -1) {
       <span style="position:absolute; top:-18px; left:0; font-size:10px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.85); color:oklch(0.85 0.1 150); padding:1px 5px; border-radius:4px; white-space:nowrap;">${esc(d.label)}</span></div>`;
   }).join("");
 }
+const REV_COL = { tp: "oklch(0.75 0.16 150)", fp: "oklch(0.72 0.17 22)",
+                  unset: "oklch(0.85 0.12 90)", fn: "oklch(0.75 0.15 300)" };
+function reviewOverlay(frame, cs) {
+  if (!cs) return "";
+  const e = S.rev.doc.frames[frame.frame_id] || { verdicts: {}, missed: [] };
+  const pct = (b) => `left:${b[0] / cs.w * 100}%; top:${b[1] / cs.h * 100}%; width:${(b[2] - b[0]) / cs.w * 100}%; height:${(b[3] - b[1]) / cs.h * 100}%;`;
+  const tag = (txt, col) => `<span style="position:absolute; top:-18px; left:0; font-size:10px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.88); color:${col}; padding:1px 5px; border-radius:4px; white-space:nowrap;">${txt}</span>`;
+  const boxes = frame.detections.map((d, i) => {
+    if (!d.bbox) return "";
+    const v = e.verdicts[i];
+    const col = v ? REV_COL[v] : REV_COL.unset;
+    return `<div data-act="revCycle" data-arg="${i}" data-hover="${i}" title="click: TP → FP → unset" style="position:absolute; ${pct(d.bbox)} border:2.5px ${v ? "solid" : "dashed"} ${col}; border-radius:2px; cursor:pointer; pointer-events:${S.rev.draw ? "none" : "auto"};">
+      ${tag((v ? v.toUpperCase() + " · " : "") + esc(d.label), col)}</div>`;
+  }).join("");
+  const missed = e.missed.map((m) => `
+    <div style="position:absolute; ${pct(m.bbox)} border:2.5px solid ${REV_COL.fn}; border-radius:2px; pointer-events:none;">${tag("FN · " + esc(m.label), REV_COL.fn)}</div>`).join("");
+  const corner = S.rev.corner ? `<div style="position:absolute; left:calc(${S.rev.corner.x / cs.w * 100}% - 4px); top:calc(${S.rev.corner.y / cs.h * 100}% - 4px); width:9px; height:9px; border-radius:50%; background:${REV_COL.fn}; pointer-events:none;"></div>` : "";
+  const pending = S.rev.pending ? `<div style="position:absolute; ${pct(S.rev.pending)} border:2.5px dashed ${REV_COL.fn}; border-radius:2px; pointer-events:none;"></div>` : "";
+  return boxes + missed + corner + pending;
+}
+function reviewSidebar(sel) {
+  const e = S.rev.doc.frames[sel.frame_id] || { verdicts: {}, missed: [], done: false };
+  const m = S.rev.metrics;
+  const nDets = sel.detections.length;
+  const nJudged = Object.keys(e.verdicts).length;
+  const vbtn = (i, v, cur) => {
+    const on = cur === v;
+    const col = REV_COL[v];
+    return `<button data-act="revSet" data-arg="${i}:${v}" style="font-size:10.5px; font-weight:700; font-family:${C.mono}; padding:4px 9px; border-radius:7px; cursor:pointer; color:${on ? C.accDark : col}; background:${on ? col : "transparent"}; border:1.5px solid ${col};">${v.toUpperCase()}</button>`;
+  };
+  const detRows = sel.detections.map((d, i) => {
+    const tm = TYPE_META[d.type] || TYPE_META.unknown;
+    const hl = S.res.hoverV === i;
+    return `
+    <div data-hover="${i}" style="display:flex; align-items:center; gap:8px; padding:9px 10px; border-radius:9px; margin-bottom:5px; background:${hl ? "oklch(0.2 0.02 225)" : C.bgCard2}; border:1px solid ${hl ? C.accBd : C.bd2};">
+      <span style="font-size:10px; padding:2px 7px; border-radius:10px; color:${tm.fg}; background:${tm.bg}; border:1px solid ${tm.bd}; white-space:nowrap;">${d.type}</span>
+      <span style="flex:1; font-size:12px; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(d.label)}${d.bbox ? "" : " <i style='color:" + C.fg4 + "'>(no box)</i>"}</span>
+      ${vbtn(i, "tp", e.verdicts[i])}${vbtn(i, "fp", e.verdicts[i])}
+    </div>`;
+  }).join("");
+  const missedRows = e.missed.map((mi, i) => `
+    <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:9px; margin-bottom:5px; background:${C.bgCard2}; border:1px solid oklch(0.4 0.1 300);">
+      <span style="font-size:10px; padding:2px 7px; border-radius:10px; color:oklch(0.85 0.12 300); background:oklch(0.24 0.06 300); border:1px solid oklch(0.42 0.1 300);">FN</span>
+      <span style="flex:1; font-size:12px; color:oklch(0.9 0.006 250);">${esc(mi.label)} <span style="color:${C.fg4}; font-size:10.5px;">${mi.type}</span></span>
+      <button data-act="revDelMissed" data-arg="${i}" title="Remove" style="font-size:12px; color:${C.fg3}; background:transparent; border:none; cursor:pointer;">✕</button>
+    </div>`).join("");
+  const pendingForm = S.rev.pending ? `
+    <div style="padding:10px; border-radius:9px; margin-bottom:8px; background:oklch(0.18 0.03 300); border:1px solid oklch(0.42 0.1 300);">
+      <div style="font-size:11px; color:oklch(0.85 0.1 300); margin-bottom:7px; font-family:${C.mono};">missed box [${S.rev.pending.join(", ")}]</div>
+      <input id="revLabel" data-change="revLabel" placeholder="label — e.g. phone on seat" value="${esc(S.rev.pendingLabel)}" style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:12px; margin-bottom:7px;">
+      <div style="display:flex; gap:6px;">
+        <select data-change="revType" style="flex:1; padding:6px 8px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
+          ${["object", "graffiti", "damage", "litter", "unknown"].map(t => `<option ${t === S.rev.pendingType ? "selected" : ""}>${t}</option>`).join("")}
+        </select>
+        <button data-act="revAddMissed" style="font-size:11.5px; font-weight:600; color:${C.accDark}; background:oklch(0.75 0.15 300); border:none; padding:6px 13px; border-radius:7px; cursor:pointer;">Add ↵</button>
+        <button data-act="revCancelMissed" style="font-size:11.5px; color:${C.fg2}; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:6px 10px; border-radius:7px; cursor:pointer;">Esc</button>
+      </div>
+    </div>` : "";
+  const canConfirm = nJudged >= nDets;
+  const stat = (label, v) => `<div style="display:flex; justify-content:space-between; font-size:11.5px; padding:2px 0;"><span style="color:${C.fg3};">${label}</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">${v ?? "—"}</span></div>`;
+  return `
+    <div style="padding:14px 16px 10px; border-bottom:1px solid oklch(0.22 0.01 250);">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:oklch(0.85 0.12 90); font-family:${C.mono};">Review</div>
+        ${e.done ? `<span style="font-size:10px; padding:2px 8px; border-radius:10px; background:${C.greenBg}; border:1px solid ${C.greenBd}; color:${C.greenFg}; font-weight:600;">✓ reviewed</span>` : ""}
+        <span style="margin-left:auto; font-size:10.5px; color:${C.fg4};">${S.rev.saving ? "Saving…" : S.rev.saved ? "Saved ✓" : "…"}</span>
+      </div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:4px;">Click a box (or TP/FP) to judge · <b>T</b>/<b>F</b> hovered · <b>M</b> missed box · <b>C</b> confirm</div>
+    </div>
+    <div style="padding:10px 12px;">
+      ${detRows || `<div style="font-size:12px; color:${C.fg4}; padding:6px 4px 10px;">No detections on this frame — confirm it as clean, or add the boxes the model missed.</div>`}
+      ${missedRows}${pendingForm}
+      <button data-act="revToggleDraw" style="width:100%; margin:4px 0 8px; font-size:12px; padding:8px 0; border-radius:8px; cursor:pointer; color:${S.rev.draw ? C.accDark : "oklch(0.85 0.12 300)"}; background:${S.rev.draw ? "oklch(0.75 0.15 300)" : "oklch(0.2 0.03 300)"}; border:1.5px solid oklch(0.45 0.11 300);">
+        ${S.rev.draw ? "Click two corners on the image… (Esc cancels)" : "+ Missed object (M)"}</button>
+      <button data-act="revConfirm" ${canConfirm ? "" : "disabled"} style="width:100%; font-size:12.5px; font-weight:600; padding:9px 0; border-radius:8px; cursor:${canConfirm ? "pointer" : "not-allowed"}; opacity:${canConfirm ? 1 : 0.45}; color:${C.accDark}; background:${C.green}; border:none;">
+        ✓ Confirm frame & next (C)</button>
+      ${nDets ? `<div style="font-size:10.5px; color:${C.fg4}; margin-top:5px; text-align:center;">${nJudged}/${nDets} detection(s) judged</div>` : ""}
+    </div>
+    ${m ? `
+    <div style="padding:12px 16px; border-top:1px solid oklch(0.22 0.01 250);">
+      <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Metrics · ${m.progress.n_done}/${m.progress.n_frames} reviewed</div>
+      ${stat("Objects — precision", m.objects.precision)}
+      ${stat("Objects — recall", m.objects.recall)}
+      ${stat("Objects — TP / FP / FN", `${m.objects.tp} / ${m.objects.fp} / ${m.objects.fn}`)}
+      ${stat("Frames — accuracy", m.frames.accuracy)}
+      ${stat("Frames — F1", m.frames.f1)}
+      ${stat("Frames — TP/FP/TN/FN", `${m.frames.TP}/${m.frames.FP}/${m.frames.TN}/${m.frames.FN}`)}
+      <div style="font-size:10px; color:${C.fg5}; margin-top:6px;">Any missed object ⇒ frame scores FN (supervisor rule). Export xlsx to get the review sheet.</div>
+    </div>` : ""}`;
+}
 function resultsView() {
   const R = S.res;
   if (!R.data || !R.data.frames || !R.data.frames.length) return `
@@ -1370,15 +1564,18 @@ function resultsView() {
   const visible = frames.map((f, i) => ({ f, i })).filter(o => match(o.f));
   const selIdx = Math.min(R.sel, frames.length - 1);
   const sel = frames[selIdx];
+  const revGal = revActive() ? S.rev.doc.frames : null;
   const gallery = visible.map(({ f, i }) => {
     const ring = f.status === "failed" ? "oklch(0.45 0.012 250)" : f.anomaly ? "oklch(0.6 0.16 22)" : "oklch(0.5 0.1 150)";
     const badge = f.status === "failed" ? ["FAIL", "oklch(0.3 0.012 250)", C.fg2]
       : f.anomaly ? ["ANOM", "oklch(0.3 0.1 22)", "oklch(0.9 0.12 22)"] : ["clean", "oklch(0.26 0.06 150)", "oklch(0.88 0.09 150)"];
+    const done = revGal && revGal[f.frame_id] && revGal[f.frame_id].done;
     return `
     <div data-act="selFrame" data-arg="${i}" ${i === selIdx ? 'id="gsel"' : ""} style="margin-bottom:9px; border-radius:9px; overflow:hidden; cursor:pointer; border:2px solid ${ring}; outline:${i === selIdx ? "2px solid oklch(0.8 0.13 225)" : "none"}; outline-offset:1px;">
       <div style="position:relative;">
         <img src="${f.img}" loading="lazy" style="width:100%; height:76px; object-fit:cover; display:block;">
         <span style="position:absolute; top:5px; right:5px; font-size:9px; font-family:${C.mono}; padding:1px 5px; border-radius:6px; background:${badge[1]}; color:${badge[2]};">${badge[0]}</span>
+        ${revGal ? `<span style="position:absolute; bottom:4px; right:5px; width:14px; height:14px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; background:${done ? "oklch(0.65 0.13 150)" : "oklch(0.3 0.014 250 / 0.85)"}; color:${done ? "oklch(0.13 0.008 250)" : C.fg3};">${done ? "✓" : "·"}</span>` : ""}
       </div>
       <div style="font-family:${C.mono}; font-size:9.5px; color:${C.fg3}; padding:4px 6px; background:${C.bg}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(f.frame_id)}</div>
     </div>`;
@@ -1386,7 +1583,9 @@ function resultsView() {
   if (R.compare) return compareView(tabs, gallery, sel, selIdx);
   const outcome = sel.status === "failed" ? ["FAILED", C.fg2, "oklch(0.22 0.012 250)", C.bdBtn]
     : sel.anomaly ? ["ANOMALY", "oklch(0.85 0.05 22)", C.redBg, C.redBd] : ["CLEAN", "oklch(0.82 0.05 150)", C.greenBg, C.greenBd];
-  const boxes = bboxOverlay(sel, R.coordSize, R.hoverV);
+  const revOn = revActive();
+  const boxes = revOn ? reviewOverlay(sel, R.coordSize) : bboxOverlay(sel, R.coordSize, R.hoverV);
+  const imgWrapAttrs = revOn ? `data-act="revImgClick" style="position:relative; ${S.rev.draw ? "cursor:crosshair;" : ""}"` : `style="position:relative;"`;
   const refImg = data.config.reference_img;
   const timeline = frames.map((f, i) => `
     <div data-act="selFrame" data-arg="${i}" style="flex:1; height:${f.anomaly ? "100%" : "46%"}; background:${f.status === "failed" ? "oklch(0.45 0.03 250)" : f.anomaly ? "oklch(0.62 0.17 22)" : "oklch(0.32 0.02 250)"}; border-radius:1px; cursor:pointer; outline:${i === selIdx ? "1.5px solid oklch(0.85 0.13 225)" : "none"};"></div>`).join("");
@@ -1410,6 +1609,9 @@ function resultsView() {
         <span style="display:block; font-size:10.5px; color:${C.fg3}; font-family:${C.mono}; margin-top:2px;">${jobMeta}</span>
       </span>${tabs}
       <span style="margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap;">
+        ${revOn && S.rev.metrics ? `<span style="font-size:11px; font-family:${C.mono}; color:oklch(0.85 0.12 90);">${Object.values(S.rev.doc.frames).filter(e => e.done).length}/${frames.length} reviewed</span>` : ""}
+        <button data-act="toggleReview" title="Judge each detection TP/FP and box what the model missed" style="display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:${revOn ? C.accDark : "oklch(0.85 0.12 90)"}; background:${revOn ? "oklch(0.85 0.12 90)" : "oklch(0.24 0.05 90)"}; border:1px solid oklch(0.5 0.09 90); padding:6px 12px; border-radius:8px; cursor:pointer;">
+          ${revOn ? "Exit review" : "Review"}</button>
         <button data-act="togglePlay" title="${R.playing ? "Pause" : "Play through frames"}" style="display:flex; align-items:center; gap:7px; font-size:12px; color:${R.playing ? C.accDark : C.accFg}; background:${R.playing ? C.acc : C.accBg}; border:1px solid ${C.accBd2}; padding:6px 12px; border-radius:8px; cursor:pointer;">
           ${R.playing
             ? `<svg width="11" height="11" viewBox="0 0 12 12"><rect x="1" y="1" width="3.5" height="10" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="10" rx="1" fill="currentColor"/></svg>Pause`
@@ -1444,16 +1646,23 @@ function resultsView() {
             </div>
             <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden;">
               <div style="padding:6px 10px; font-size:11px; font-family:${C.mono}; color:oklch(0.85 0.05 22); background:${C.bg}; border-bottom:1px solid ${C.bd2};">INSPECTION · now</div>
-              <div style="position:relative;"><img src="${sel.img}" style="width:100%; display:block;">${boxes}</div>
+              <div ${imgWrapAttrs}><img id="revImg" src="${sel.img}" style="width:100%; display:block;">${boxes}</div>
             </div>
           </div>` : `
-          <div style="position:relative; border:1px solid ${C.bd}; border-radius:10px; overflow:hidden;">
-            <img src="${sel.img}" style="width:100%; display:block;">${boxes}
+          <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden;">
+            <div ${imgWrapAttrs}><img id="revImg" src="${sel.img}" style="width:100%; display:block;">${boxes}</div>
           </div>`}
+          ${revOn ? `
+          <div style="display:flex; gap:14px; margin-top:10px; font-size:11.5px; color:oklch(0.62 0.012 250); flex-wrap:wrap;">
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px dashed ${REV_COL.unset}; border-radius:2px;"></span>to judge (click it)</span>
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid ${REV_COL.tp}; border-radius:2px;"></span>TP</span>
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid ${REV_COL.fp}; border-radius:2px;"></span>FP</span>
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid ${REV_COL.fn}; border-radius:2px;"></span>missed (FN)</span>
+          </div>` : `
           <div style="display:flex; gap:16px; margin-top:10px; font-size:11.5px; color:oklch(0.62 0.012 250);">
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid oklch(0.7 0.18 150); border-radius:2px;"></span>kept detection</span>
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid oklch(0.95 0.12 90); border-radius:2px;"></span>hovered region</span>
-          </div>
+          </div>`}
           <div style="margin-top:16px;">
             <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Timeline · ${frames.length} frames</div>
             <div style="display:flex; gap:2px; align-items:flex-end; height:34px; padding:4px 2px; background:oklch(0.13 0.008 250); border:1px solid ${C.bd2}; border-radius:8px;">${timeline}</div>
@@ -1461,17 +1670,18 @@ function resultsView() {
         </div>
       </div>
       <div data-scroll="resside" style="width:288px; flex:0 0 288px; border-left:1px solid ${C.bd2}; overflow:auto; display:flex; flex-direction:column;">
+        ${revOn ? reviewSidebar(sel) : `
         <div style="padding:14px 16px 10px; border-bottom:1px solid oklch(0.22 0.01 250);">
           <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3}; font-family:${C.mono};">Regions</div>
           <div style="font-size:11.5px; color:${C.fg4}; margin-top:3px;">${sel.detections.length} kept detection(s) · ${sel.seconds}s${sel.error ? " · " + esc(sel.error) : ""}</div>
-        </div>
-        ${!sel.detections.length ? `
+        </div>`}
+        ${!revOn && !sel.detections.length ? `
         <div style="padding:34px 18px; text-align:center; color:${C.fg4}; font-size:12.5px; line-height:1.5;">
           ${sel.status === "failed"
             ? `<div style="width:38px; height:38px; margin:0 auto 12px; border-radius:50%; background:${C.redBg}; border:1px solid ${C.redBd}; display:flex; align-items:center; justify-content:center; font-size:16px;">✕</div>Frame failed.<br>${esc(sel.error || "")}`
             : `<div style="width:38px; height:38px; margin:0 auto 12px; border-radius:50%; background:oklch(0.22 0.05 150); border:1px solid oklch(0.4 0.08 150); display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5 L7.5 13 L14 5" stroke="${C.green}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No anomaly kept.<br>Frame classified clean.`}
         </div>` : ""}
-        <div style="padding:8px 12px;">${verdicts}</div>
+        ${revOn ? "" : `<div style="padding:8px 12px;">${verdicts}</div>`}
         ${sel.raw_response ? `
         <div style="padding:8px 12px 16px;">
           <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Raw model output</div>
@@ -1705,7 +1915,24 @@ document.addEventListener("change", (ev) => {
 document.addEventListener("keydown", (ev) => {
   if (S.screen !== "results" || !S.res.data) return;
   const t = ev.target;
+  if (t && t.id === "revLabel" && ev.key === "Enter") {
+    S.rev.pendingLabel = t.value; ACT.revAddMissed(); return;
+  }
   if (t && ("value" in t) && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+  if (revActive()) {
+    const key = ev.key.toLowerCase();
+    if (key === "escape" && (S.rev.pending || S.rev.draw)) {
+      ev.preventDefault(); S.rev.pending = null; S.rev.corner = null; S.rev.draw = false; render(); return;
+    }
+    if (key === "c") { ev.preventDefault(); ACT.revConfirm(); return; }
+    if (key === "m") { ev.preventDefault(); ACT.revToggleDraw(); return; }
+    if (key === "t" || key === "f") {
+      const f = curFrame();
+      const i = S.res.hoverV >= 0 ? S.res.hoverV : (f.detections.length === 1 ? 0 : -1);
+      if (i >= 0) { ev.preventDefault(); revSetVerdict(i, key === "t" ? "tp" : "fp"); }
+      return;
+    }
+  }
   if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(ev.key)) return;
   ev.preventDefault();
   const R = S.res, frames = R.data.frames;

@@ -28,6 +28,8 @@ from arsi_core.video import extract_frames, probe                  # noqa: E402
 
 from .exports import report_html, report_md, results_xlsx          # noqa: E402
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
+from .review import (ReviewError, compute_metrics, load_review,    # noqa: E402
+                     save_review)
 
 app = FastAPI(title="ARSI Studio", version="0.1")
 manager = JobManager()
@@ -175,6 +177,12 @@ def media_url(path) -> str:
     try:
         return "/api/media/" + str(p.relative_to(REPO_ROOT))
     except ValueError:
+        # jobs copied from another machine (the GPU workstation) carry that
+        # machine's absolute paths; re-anchor at the shared data/ tree
+        s = str(path)
+        i = s.find("/data/")
+        if i != -1 and (REPO_ROOT / s[i + 1:]).is_file():
+            return "/api/media/" + s[i + 1:]
         return ""
 
 
@@ -461,6 +469,35 @@ def job_cancel(job_id: str):
     return {"ok": True}
 
 
+def _finished_job(job_id: str) -> dict:
+    """results.json of a finished job — reviews only apply to saved results."""
+    live = manager.get(job_id)
+    if _live_busy(live):
+        raise HTTPException(409, "job is still running — review it once finished")
+    data = load_saved(job_id)
+    if data is None:
+        raise HTTPException(404, job_id)
+    return data
+
+
+@app.get("/api/jobs/{job_id}/review")
+def get_review(job_id: str):
+    results = _finished_job(job_id)
+    review = load_review(JOBS_DIR / job_id, job_id)
+    return {"review": review, "metrics": compute_metrics(results, review)}
+
+
+@app.put("/api/jobs/{job_id}/review")
+def put_review(job_id: str, payload: dict):
+    results = _finished_job(job_id)
+    try:
+        review = save_review(JOBS_DIR / job_id, job_id,
+                             payload.get("frames") or {}, results)
+    except ReviewError as exc:
+        raise HTTPException(400, str(exc))
+    return {"review": review, "metrics": compute_metrics(results, review)}
+
+
 @app.get("/api/jobs/{job_id}/report.md")
 def job_report_md(job_id: str):
     return PlainTextResponse(report_md(_job_data(job_id)),
@@ -479,7 +516,12 @@ def job_results_json(job_id: str):
 
 @app.get("/api/jobs/{job_id}/export.xlsx")
 def job_xlsx(job_id: str):
-    blob = results_xlsx(_job_data(job_id))
+    data = _job_data(job_id)
+    review = None
+    if (JOBS_DIR / job_id / "review.json").exists():
+        review = load_review(JOBS_DIR / job_id, job_id)
+    blob = results_xlsx(data, review=review,
+                        metrics=compute_metrics(data, review) if review else None)
     return Response(blob, media_type="application/vnd.openxmlformats-"
                     "officedocument.spreadsheetml.sheet",
                     headers={"Content-Disposition":
