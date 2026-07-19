@@ -1,0 +1,49 @@
+# LLaMA-Factory SFT config — vlm_05 crop judge, Qwen3-VL-8B, QLoRA rank 8
+# (docs/LORA_PLAN.md; run on the RTX 3080 Ti via RUNBOOK_LORA.md).
+#
+# Before the first run:
+#   - copy the exported dataset dir to the workstation and fix dataset_dir;
+#   - copy tools/lora/dataset_info.json INTO that dataset dir;
+#   - verify the template name for your installed LLaMA-Factory version:
+#       python -c "from llamafactory.data.template import TEMPLATES; \
+#                  print([t for t in TEMPLATES if 'qwen3' in t])"
+
+model_name_or_path: Qwen/Qwen3-VL-8B-Instruct
+trust_remote_code: true
+
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 8                # the paper's (Borodin 2025) effective rank
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target: all            # all linear layers of the language model
+
+# The judge task is a language/decision adaptation: keep the visual
+# representations intact. This is ALSO what keeps the official Qwen mmproj
+# GGUF valid after merging (RUNBOOK_LORA.md step 5).
+freeze_vision_tower: true
+freeze_multi_modal_projector: true
+
+quantization_bit: 4         # QLoRA — fits the 12 GB card
+
+template: qwen3_vl
+dataset_dir: /home/student/Documents/lora_dataset   # <- exported dataset dir
+dataset: arsi_crops_train
+eval_dataset: arsi_crops_val
+cutoff_len: 2048
+image_max_pixels: 262144    # crops are small; cap vision tokens defensively
+
+output_dir: out/qwen3vl-arsi-lora
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 1.0e-4
+num_train_epochs: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+logging_steps: 5
+save_strategy: epoch
+eval_strategy: epoch
+bf16: true
+gradient_checkpointing: true
+report_to: none

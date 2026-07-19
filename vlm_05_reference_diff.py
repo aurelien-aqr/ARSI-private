@@ -538,19 +538,12 @@ def find_regions(mask, downscale: int, dilate: int, min_area: int, max_area: int
     return regions
 
 
-def classify_with_vlm(image, reference, region, margin: int, context: float):
-    """Crop the region from BOTH images and ask the VLM what appeared.
-
-    The same padded box is cut from the reference (LEFT) and the inspection
-    (RIGHT) and pasted side by side, so the VLM compares the two directly. This
-    relative judgement rejects reflections/lighting (identical on both sides) and
-    is what carries over to a different camera.
-
-    Returns (is_object, vlm_label). Saves the crop to a temp file because the
-    Ollama client takes image paths (same call pattern as vlm_01/02/03/04).
-    """
+def render_crop_pair(image, reference, bbox, margin: int, context: float):
+    """Reference|inspection side-by-side crop of a padded bbox — the exact
+    image the judge sees. Factored out so training-data export (tools/
+    export_lora_dataset.py) renders samples identically to inference."""
     width, height = image.size
-    x0, y0, x1, y1 = region["bbox"]
+    x0, y0, x1, y1 = bbox
     pad_x = margin + int(context * (x1 - x0))
     pad_y = margin + int(context * (y1 - y0))
     cx0 = max(0, int(x0) - pad_x)
@@ -576,6 +569,21 @@ def classify_with_vlm(image, reference, region, margin: int, context: float):
     combined = Image.new("RGB", (cw * 2 + sep, ch), (255, 255, 255))
     combined.paste(ref_crop, (0, 0))
     combined.paste(insp_crop, (cw + sep, 0))
+    return combined
+
+
+def classify_with_vlm(image, reference, region, margin: int, context: float):
+    """Crop the region from BOTH images and ask the VLM what appeared.
+
+    The same padded box is cut from the reference (LEFT) and the inspection
+    (RIGHT) and pasted side by side, so the VLM compares the two directly. This
+    relative judgement rejects reflections/lighting (identical on both sides) and
+    is what carries over to a different camera.
+
+    Returns (is_object, vlm_label). Saves the crop to a temp file because the
+    Ollama client takes image paths (same call pattern as vlm_01/02/03/04).
+    """
+    combined = render_crop_pair(image, reference, region["bbox"], margin, context)
 
     crop_path = _p("results/_crop_tmp.jpg")
     Path(crop_path).parent.mkdir(parents=True, exist_ok=True)
