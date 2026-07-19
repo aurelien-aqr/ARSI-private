@@ -35,7 +35,7 @@ const S = {
   screen: "dashboard",
   theme: localStorage.getItem("arsi-theme") || "dark",
   health: null, models: [], pipelines: [], demo: [], refs: [], masks: [],
-  jobs: [], settings: null,
+  jobs: [], settings: null, storage: null,
   pulling: null, pullPct: 0, pullStatus: "",
   toast: null,
   wiz: {
@@ -119,6 +119,7 @@ function toast(msg) {
 }
 function setScreen(s) {
   S.screen = s;
+  if (s === "settings") refreshStorage();
   if (s !== "results" && playTimer) {   // leaving results stops playback
     clearInterval(playTimer); playTimer = null; S.res.playing = false;
   }
@@ -140,6 +141,7 @@ async function boot() {
   const hash = location.hash.slice(1);
   if (["dashboard", "wizard", "run", "results", "history", "settings"].includes(hash)) {
     if (hash === "results") await openResults(); else S.screen = hash;
+    if (hash === "settings") refreshStorage();
   }
   render();
   setInterval(refreshHealth, 15000);
@@ -159,6 +161,11 @@ async function refreshMasks() {
 }
 async function refreshJobs() {
   try { S.jobs = (await jget("/api/jobs")).jobs; } catch { S.jobs = []; }
+}
+async function refreshStorage() {
+  try { S.storage = await jget("/api/storage"); } catch { S.storage = null; }
+  try { S.settings = await jget("/api/settings"); } catch {}
+  render();
 }
 function initWizardDefaults() {
   const p = S.pipelines.find(x => x.key === S.wiz.pipeline);
@@ -682,6 +689,19 @@ ACT.testOllama = async () => {
 ACT.saveOllamaUrl = async (url) => {
   try { await jpost("/api/settings", { ollama_url: url }); S.ollamaTest = null; toast("Ollama URL saved."); }
   catch (e) { toast(e.message); }
+};
+ACT.deleteVideo = async (videoId) => {
+  if (!confirm(`Delete extracted video ${videoId}?\nJobs that used these frames keep their results but lose the frame images in the gallery.`)) return;
+  try { await jpost(`/api/videos/${videoId}`, undefined, "DELETE"); toast("Video deleted."); }
+  catch (e) { toast(e.message); }
+  await refreshStorage();
+};
+ACT.deleteJob = async (jobId) => {
+  if (!confirm(`Delete job ${jobId} and all its results?`)) return;
+  try { await jpost(`/api/jobs/${jobId}`, undefined, "DELETE"); toast("Job deleted."); }
+  catch (e) { toast(e.message); }
+  await Promise.all([refreshStorage(), refreshJobs()]);
+  render();
 };
 
 /* change-events (inputs) */
@@ -1622,8 +1642,51 @@ function settingsView() {
           </div>
         </div>
       </div>
+      ${storageCleanupCard()}
     </div>
   </div>`;
+}
+
+function storageCleanupCard() {
+  const st = S.storage;
+  if (!st) return `<div style="margin-top:18px; font-size:12px; color:${C.fg4};">Loading storage details…</div>`;
+  const fmtMB = (b) => b >= 1e9 ? (b / 1e9).toFixed(2) + " GB" : Math.max(1, Math.round(b / 1e6)) + " MB";
+  const delBtn = (act, arg, disabled, why) => disabled
+    ? `<span class="hint" data-tip="${esc(why)}" style="font-size:11px; color:${C.fg4};">in use</span>`
+    : `<button data-act="${act}" data-arg="${esc(arg)}" style="font-size:11.5px; color:oklch(0.8 0.09 22); background:oklch(0.19 0.02 22); border:1px solid oklch(0.36 0.07 22); padding:5px 11px; border-radius:7px; cursor:pointer;">Delete</button>`;
+  const row = (main, sub, right) => `
+    <div style="display:flex; align-items:center; gap:12px; padding:10px 20px; border-top:1px solid oklch(0.22 0.01 250);">
+      <div style="flex:1; min-width:0;">
+        <div style="font-family:${C.mono}; font-size:12px; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${main}</div>
+        <div style="font-size:10.5px; color:${C.fg4}; margin-top:1px;">${sub}</div>
+      </div>${right}
+    </div>`;
+  const vids = st.videos.map(v => row(
+    esc(v.video_id), `${v.n_frames} frames · ${fmtMB(v.bytes)}`,
+    delBtn("deleteVideo", v.video_id, v.in_use, "a queued or running job uses these frames")))
+    .join("") || `<div style="padding:12px 20px; font-size:12px; color:${C.fg4};">No extracted videos.</div>`;
+  const busy = (s) => s === "running" || s === "queued";
+  const jobs = st.jobs.map(j => row(
+    esc(j.job_id), `${esc(j.script)} · ${esc(j.model)} · ${esc(j.status)} · ${fmtMB(j.bytes)}`,
+    delBtn("deleteJob", j.job_id, busy(j.status), "cancel the job first")))
+    .join("") || `<div style="padding:12px 20px; font-size:12px; color:${C.fg4};">No job results.</div>`;
+  return `
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; overflow:hidden; margin-top:18px;">
+        <div style="padding:16px 20px; border-bottom:1px solid ${C.bd2};">
+          <span style="font-size:14px; font-weight:600;">Storage cleanup</span>
+          <span style="font-size:11.5px; color:${C.fg4}; margin-left:10px;">verdict cache ${fmtMB(st.cache_bytes)} — kept (re-runs on identical inputs are free thanks to it)</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr;">
+          <div style="border-right:1px solid ${C.bd2};">
+            <div style="padding:10px 20px; font-size:12px; font-weight:600; color:${C.fg2};">Extracted videos</div>
+            <div style="max-height:300px; overflow:auto;">${vids}</div>
+          </div>
+          <div>
+            <div style="padding:10px 20px; font-size:12px; font-weight:600; color:${C.fg2};">Job results</div>
+            <div style="max-height:300px; overflow:auto;">${jobs}</div>
+          </div>
+        </div>
+      </div>`;
 }
 
 /* ---------------------------------------------------------------- events */

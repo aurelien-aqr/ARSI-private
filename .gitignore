@@ -42,4 +42,5 @@ results/_*.jpg
 data/app/jobs/
 data/app/cache/
 data/app/videos/
+data/app/.pytest-tmp/
 .pytest_cache/

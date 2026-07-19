@@ -1,10 +1,25 @@
+import atexit
+import os
+import shutil
 import sys
+import uuid
 from pathlib import Path
 
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
+
+# Isolate all app runtime state (jobs, masks, videos, cache, settings) from
+# the real data/app. Must happen BEFORE the first arsi_core import, and must
+# live under data/ so the backend's media guard and REPO_ROOT-relative URLs
+# still work on test files.
+if "ARSI_APP_DATA" not in os.environ:
+    _tmp_root = REPO_ROOT / "data" / "app" / ".pytest-tmp"
+    _tmp = _tmp_root / uuid.uuid4().hex[:8]
+    _tmp.mkdir(parents=True, exist_ok=True)
+    os.environ["ARSI_APP_DATA"] = str(_tmp)
+    atexit.register(shutil.rmtree, _tmp_root, True)
 
 from arsi_core.ollama_client import OllamaClient  # noqa: E402
 

@@ -486,6 +486,87 @@ def job_xlsx(job_id: str):
                              f'attachment; filename="{job_id}.xlsx"'})
 
 
+# ---------------------------------------------------------------- storage
+
+def _dir_size(path: Path) -> int:
+    if not path.exists():
+        return 0
+    return sum(f.stat().st_size for f in path.glob("**/*") if f.is_file())
+
+
+def _live_busy(job) -> bool:
+    return job is not None and job.status in ("queued", "running")
+
+
+@app.get("/api/storage")
+def storage():
+    """Per-item breakdown behind the Settings cleanup card."""
+    videos = []
+    if VIDEOS_DIR.exists():
+        for vdir in sorted(VIDEOS_DIR.iterdir(), reverse=True):
+            if not vdir.is_dir():
+                continue
+            n_frames = 0
+            meta = vdir / "frames" / "meta.json"
+            if meta.exists():
+                with open(meta, encoding="utf-8") as fh:
+                    n_frames = len(json.load(fh)["frames"])
+            in_use = any(_live_busy(j) and any(str(vdir) in f for f in j.cfg.frames)
+                         for j in manager.jobs.values())
+            videos.append({"video_id": vdir.name, "bytes": _dir_size(vdir),
+                           "n_frames": n_frames, "in_use": in_use})
+    jobs = []
+    if JOBS_DIR.exists():
+        for jdir in sorted(JOBS_DIR.iterdir(), reverse=True):
+            if not jdir.is_dir():
+                continue
+            entry = {"job_id": jdir.name, "bytes": _dir_size(jdir),
+                     "status": "?", "script": "", "model": ""}
+            res = jdir / "results.json"
+            if res.exists():
+                try:
+                    with open(res, encoding="utf-8") as fh:
+                        data = json.load(fh)
+                    entry.update(status=data.get("status", "?"),
+                                 script=data.get("config", {}).get("script", ""),
+                                 model=data.get("config", {}).get("model", ""),
+                                 n_frames=data.get("summary", {}).get("n_frames", 0))
+                except (json.JSONDecodeError, OSError):
+                    pass
+            live = manager.get(jdir.name)
+            if _live_busy(live):
+                entry["status"] = live.status
+            jobs.append(entry)
+    return {"videos": videos, "jobs": jobs,
+            "cache_bytes": _dir_size(APP_DATA / "cache")}
+
+
+@app.delete("/api/videos/{video_id}")
+def delete_video(video_id: str):
+    vdir = (VIDEOS_DIR / video_id).resolve()
+    if vdir.parent != VIDEOS_DIR.resolve() or not vdir.is_dir():
+        raise HTTPException(404, video_id)
+    for j in manager.jobs.values():
+        if _live_busy(j) and any(str(vdir) in f for f in j.cfg.frames):
+            raise HTTPException(409, "a queued or running job uses frames of "
+                                     "this video — cancel it first")
+    shutil.rmtree(vdir)
+    return {"ok": True}
+
+
+@app.delete("/api/jobs/{job_id}")
+def delete_job(job_id: str):
+    live = manager.get(job_id)
+    if _live_busy(live):
+        raise HTTPException(409, "job is queued or running — cancel it first")
+    jdir = (JOBS_DIR / job_id).resolve()
+    if jdir.parent != JOBS_DIR.resolve() or not jdir.is_dir():
+        raise HTTPException(404, job_id)
+    shutil.rmtree(jdir)
+    manager.jobs.pop(job_id, None)
+    return {"ok": True}
+
+
 # ---------------------------------------------------------------- settings
 
 @app.get("/api/settings")
