@@ -145,3 +145,74 @@ def test_review_api_roundtrip(api):
 
 def test_review_pure_helpers_dont_need_api():
     assert compute_metrics({"frames": []}, {"frames": {}})["frames"]["accuracy"] is None
+
+
+# ---------------------------------------------------------------- labels + lora screens
+
+def make_reviewed_vlm05_job(job_id="fakejob-lora01"):
+    """A saved vlm_05-style job + confirmed review, crafted directly in
+    JOBS_DIR — what the Labels/LoRA endpoints and the exporter consume."""
+    import json
+    from arsi_core.runner import JOBS_DIR
+    ref = app_image("lora_ref.jpg", size=(400, 300))
+    insp = app_image("lora_insp.jpg", size=(400, 300), color=(110, 110, 110))
+    jdir = JOBS_DIR / job_id
+    jdir.mkdir(parents=True, exist_ok=True)
+    results = {
+        "job_id": job_id, "status": "completed",
+        "config": {"script": "vlm_05", "model": "m", "prompt_name": "conservative",
+                   "prompt": "p", "reference": str(ref), "mask": None,
+                   "n_frames": 1, "params": {}},
+        "started": "2026-07-19T00:00:00+00:00", "finished": "",
+        "frames": [{"frame_id": "f0001", "image": str(insp), "status": "ok",
+                    "attempts": 1, "seconds": 1.0, "anomaly": True,
+                    "detections": [
+                        {"label": "phone", "type": "object", "bbox": [40, 40, 90, 80],
+                         "zone": None, "severity": None, "confidence": None,
+                         "channel": "photo"},
+                        {"label": "ghost", "type": "object", "bbox": [200, 100, 260, 150],
+                         "zone": None, "severity": None, "confidence": None,
+                         "channel": "photo"}],
+                    "raw_response": "", "error": None}],
+        "summary": {"n_frames": 1, "n_ok": 1, "n_anomalous": 1, "n_failed": 0,
+                    "wall_seconds": 1.0}}
+    with open(jdir / "results.json", "w") as fh:
+        json.dump(results, fh)
+    review = {"job_id": job_id, "updated": "2026-07-19T00:00:00+00:00",
+              "frames": {"f0001": {
+                  "verdicts": {"0": "tp", "1": "fp"},
+                  "missed": [{"bbox": [300, 200, 360, 260], "label": "wallet",
+                              "type": "object"}],
+                  "done": True}}}
+    with open(jdir / "review.json", "w") as fh:
+        json.dump(review, fh)
+    return jdir
+
+
+def test_reviews_index_lora_status_and_export(api):
+    client, _ = api()
+    jdir = make_reviewed_vlm05_job()
+    try:
+        rows = client.get("/api/reviews").json()["reviews"]
+        row = next(r for r in rows if r["job_id"] == jdir.name)
+        assert row["metrics"]["objects"]["tp"] == 1
+        assert row["export"] == {"yes": 2, "no": 1, "skipped_no_bbox": 0,
+                                 "exportable": True, "samples": 3}
+
+        st = client.get("/api/lora/status").json()
+        assert st["aggregate"]["samples"] >= 3
+        assert any(j["job_id"] == jdir.name for j in st["per_job"])
+
+        r = client.post("/api/lora/export", json={})
+        assert r.status_code == 200, r.text
+        stats = r.json()["stats"]
+        assert stats["total"] >= 3 and stats["yes"] >= 2 and stats["no"] >= 1
+        assert client.get("/api/lora/status").json()["last_export"]["total"] >= 3
+
+        assert client.delete(f"/api/jobs/{jdir.name}/review").json() == {"ok": True}
+        assert client.delete(f"/api/jobs/{jdir.name}/review").status_code == 404
+        assert all(r["job_id"] != jdir.name
+                   for r in client.get("/api/reviews").json()["reviews"])
+    finally:
+        import shutil
+        shutil.rmtree(jdir, ignore_errors=True)

@@ -28,8 +28,8 @@ from arsi_core.video import extract_frames, probe                  # noqa: E402
 
 from .exports import report_html, report_md, results_xlsx          # noqa: E402
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
-from .review import (ReviewError, compute_metrics, load_review,    # noqa: E402
-                     save_review)
+from .review import (ReviewError, compute_metrics, export_stats,   # noqa: E402
+                     load_review, review_path, save_review)
 
 app = FastAPI(title="ARSI Studio", version="0.1")
 manager = JobManager()
@@ -496,6 +496,96 @@ def put_review(job_id: str, payload: dict):
     except ReviewError as exc:
         raise HTTPException(400, str(exc))
     return {"review": review, "metrics": compute_metrics(results, review)}
+
+
+@app.delete("/api/jobs/{job_id}/review")
+def delete_review(job_id: str):
+    path = review_path(JOBS_DIR / job_id)
+    if not path.exists():
+        raise HTTPException(404, job_id)
+    path.unlink()
+    return {"ok": True}
+
+
+@app.get("/api/reviews")
+def reviews_index():
+    """One row per job that has a review — the Labels screen."""
+    out = []
+    for res_path in sorted(JOBS_DIR.glob("*/results.json"),
+                           key=lambda p: p.stat().st_mtime, reverse=True):
+        job_dir = res_path.parent
+        rpath = review_path(job_dir)
+        if not rpath.exists():
+            continue
+        try:
+            with open(res_path, encoding="utf-8") as fh:
+                results = json.load(fh)
+            review = load_review(job_dir, job_dir.name)
+        except (json.JSONDecodeError, OSError):
+            continue
+        cfg = results.get("config", {})
+        out.append({"job_id": job_dir.name, "updated": review.get("updated"),
+                    "script": cfg.get("script"), "model": cfg.get("model"),
+                    "metrics": compute_metrics(results, review),
+                    "export": export_stats(results, review)})
+    return {"reviews": out}
+
+
+# ---------------------------------------------------------------- LoRA
+
+LORA_DATASET_DIR = APP_DATA / "lora_dataset"
+
+
+@app.get("/api/lora/status")
+def lora_status():
+    """Dataset readiness for the LoRA screen: aggregate of every review,
+    plus the stats of the last export if one exists."""
+    agg = {"yes": 0, "no": 0, "skipped_no_bbox": 0, "samples": 0}
+    per_job = []
+    for row in reviews_index()["reviews"]:
+        ex = row["export"]
+        if ex["exportable"]:            # crop pairs need a reference image
+            for k in agg:
+                agg[k] += ex.get(k, 0)
+        per_job.append({"job_id": row["job_id"], "script": row["script"],
+                        "model": row["model"], **ex,
+                        "n_done": row["metrics"]["progress"]["n_done"],
+                        "n_frames": row["metrics"]["progress"]["n_frames"]})
+    last_export = None
+    stats_path = LORA_DATASET_DIR / "stats.json"
+    if stats_path.exists():
+        with open(stats_path, encoding="utf-8") as fh:
+            last_export = json.load(fh)
+        last_export["mtime"] = stats_path.stat().st_mtime
+    ratio = (agg["yes"] / agg["no"]) if agg["no"] else None
+    return {"aggregate": agg, "per_job": per_job,
+            "balance_warning": bool(agg["yes"] and agg["no"]
+                                    and not 0.2 < ratio < 5)
+            or (agg["samples"] > 0 and (not agg["yes"] or not agg["no"])),
+            "target_samples": 300,
+            "last_export": last_export,
+            "dataset_dir": (str(LORA_DATASET_DIR.relative_to(REPO_ROOT))
+                            if LORA_DATASET_DIR.is_relative_to(REPO_ROOT)
+                            else str(LORA_DATASET_DIR))}
+
+
+@app.post("/api/lora/export")
+def lora_export(payload: dict = None):
+    """Run tools/export_lora_dataset.py (review source only — the benchmark
+    stays an eval set; use the CLI flag deliberately if you must)."""
+    cmd = [sys.executable, str(REPO_ROOT / "tools" / "export_lora_dataset.py"),
+           "--out", str(LORA_DATASET_DIR)]
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=600,
+                          cwd=REPO_ROOT)
+    if proc.returncode != 0:
+        raise HTTPException(400, (proc.stdout + proc.stderr).strip()[-800:]
+                            or "export failed")
+    stats_path = LORA_DATASET_DIR / "stats.json"
+    stats = {}
+    if stats_path.exists():
+        with open(stats_path, encoding="utf-8") as fh:
+            stats = json.load(fh)
+    return {"ok": True, "log": proc.stdout.strip()[-2000:], "stats": stats}
 
 
 @app.get("/api/jobs/{job_id}/report.md")

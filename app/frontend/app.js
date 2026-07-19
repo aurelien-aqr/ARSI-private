@@ -62,6 +62,8 @@ const S = {
     draw: false, corner: null,          // missed-box two-click draw state
     pending: null, pendingLabel: "", pendingType: "object",
   },
+  labels: null,               // rows of GET /api/reviews (Labels screen)
+  lora: { status: null, exporting: false, result: null },
   ollamaTest: null,
 };
 
@@ -126,6 +128,8 @@ function toast(msg) {
 function setScreen(s) {
   S.screen = s;
   if (s === "settings") refreshStorage();
+  if (s === "labels") refreshLabels();
+  if (s === "lora") refreshLora();
   if (s !== "results" && playTimer) {   // leaving results stops playback
     clearInterval(playTimer); playTimer = null; S.res.playing = false;
   }
@@ -145,9 +149,11 @@ async function boot() {
     jget("/api/settings").then(d => { S.settings = d; }),
   ]);
   const hash = location.hash.slice(1);
-  if (["dashboard", "wizard", "run", "results", "history", "settings"].includes(hash)) {
+  if (["dashboard", "wizard", "run", "results", "history", "labels", "lora", "settings"].includes(hash)) {
     if (hash === "results") await openResults(); else S.screen = hash;
     if (hash === "settings") refreshStorage();
+    if (hash === "labels") refreshLabels();
+    if (hash === "lora") refreshLora();
   }
   render();
   setInterval(refreshHealth, 15000);
@@ -171,6 +177,15 @@ async function refreshJobs() {
 async function refreshStorage() {
   try { S.storage = await jget("/api/storage"); } catch { S.storage = null; }
   try { S.settings = await jget("/api/settings"); } catch {}
+  render();
+}
+async function refreshLabels() {
+  await refreshJobs();
+  try { S.labels = (await jget("/api/reviews")).reviews; } catch { S.labels = []; }
+  render();
+}
+async function refreshLora() {
+  try { S.lora.status = await jget("/api/lora/status"); } catch { S.lora.status = null; }
   render();
 }
 function initWizardDefaults() {
@@ -782,6 +797,39 @@ ACT.revConfirm = () => {
   render();
 };
 
+/* --- labels + lora screens --- */
+ACT.openJobReview = async (jobId) => {
+  await openResults(jobId);
+  if (!revActive()) await ACT.toggleReview();
+  // jump straight to the first unreviewed frame
+  if (revActive()) {
+    const frames = S.res.data.frames;
+    const i = frames.findIndex(f => { const e = S.rev.doc.frames[f.frame_id]; return !e || !e.done; });
+    if (i >= 0) S.res.sel = i;
+  }
+  render();
+};
+ACT.deleteReviewOf = async (jobId) => {
+  if (!confirm(`Delete the whole review of ${jobId}? All TP/FP verdicts and missed boxes of this job are lost.`)) return;
+  try {
+    await jpost(`/api/jobs/${jobId}/review`, undefined, "DELETE");
+    if (S.rev.jobId === jobId) Object.assign(S.rev, { on: false, jobId: null, doc: null, metrics: null });
+    toast("Review deleted.");
+  } catch (e) { toast(e.message); }
+  await refreshLabels();
+};
+ACT.exportReviewXlsx = (jobId) => { location.href = `/api/jobs/${jobId}/export.xlsx`; };
+ACT.loraExport = async () => {
+  if (S.lora.exporting) return;
+  S.lora.exporting = true; S.lora.result = null; render();
+  try {
+    S.lora.result = await jpost("/api/lora/export", {});
+    toast("Dataset exported.");
+  } catch (e) { toast("Export failed: " + e.message); }
+  S.lora.exporting = false;
+  await refreshLora();
+};
+
 /* --- settings --- */
 ACT.testOllama = async () => {
   S.ollamaTest = "testing"; render();
@@ -878,6 +926,8 @@ function render() {
         ${S.screen === "run" ? runView() : ""}
         ${S.screen === "results" ? resultsView() : ""}
         ${S.screen === "history" ? historyView() : ""}
+        ${S.screen === "labels" ? labelsView() : ""}
+        ${S.screen === "lora" ? loraView() : ""}
         ${S.screen === "settings" ? settingsView() : ""}
       </div>
     </div>
@@ -905,6 +955,8 @@ const I = {   // 16px stroke icons from the design
   img: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="1.5" y="3" width="15" height="12" rx="1.5" stroke="currentColor" stroke-width="1.4"/><circle cx="6" cy="8" r="1.6" fill="currentColor"/><path d="M2 13 L7 9 L11 12 L16 8" stroke="currentColor" stroke-width="1.4" fill="none"/></svg>`,
   clock: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.4"/><path d="M9 5 V9 L12 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`,
   sliders: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><line x1="2" y1="5" x2="16" y2="5" stroke="currentColor" stroke-width="1.4"/><line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.4"/><line x1="2" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="5" r="2.2" fill="${C.bgSide}" stroke="currentColor" stroke-width="1.4"/><circle cx="6" cy="9" r="2.2" fill="${C.bgSide}" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="13" r="2.2" fill="${C.bgSide}" stroke="currentColor" stroke-width="1.4"/></svg>`,
+  tag: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M2 2 H8.5 L16 9.5 A1.5 1.5 0 0 1 16 11.6 L11.6 16 A1.5 1.5 0 0 1 9.5 16 L2 8.5 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="6" cy="6" r="1.3" fill="currentColor"/></svg>`,
+  spark: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 L10.8 7.2 L16.5 9 L10.8 10.8 L9 16.5 L7.2 10.8 L1.5 9 L7.2 7.2 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`,
 };
 
 function sidebar() {
@@ -941,7 +993,10 @@ function sidebar() {
       ${navItem("run", `Runs <span style="margin-left:auto; font-size:10.5px; font-family:${C.mono}; color:${C.acc}; background:${C.accBg}; padding:1px 6px; border-radius:8px;">${running}</span>`, I.play)}
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Library</div>
       ${navItem("results", "Results", I.img)}
+      ${navItem("labels", "Labels", I.tag)}
       ${navItem("history", "History", I.clock)}
+      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Training</div>
+      ${navItem("lora", "LoRA", I.spark)}
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">System</div>
       ${navItem("settings", "Settings", I.sliders)}
     </div>
@@ -950,7 +1005,8 @@ function sidebar() {
 
 function topbar() {
   const titles = { dashboard: "Dashboard", wizard: "New analysis", run: "Run",
-                   results: "Results", history: "History", settings: "Settings" };
+                   results: "Results", history: "History", settings: "Settings",
+                   labels: "Labels", lora: "LoRA training data" };
   const themeIcon = S.theme === "dark"
     ? `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M15.5 10.5 A6.8 6.8 0 0 1 7.5 2.5 A6.8 6.8 0 1 0 15.5 10.5 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`
     : `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.4"/><g stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="9" y1="1.5" x2="9" y2="3"/><line x1="9" y1="15" x2="9" y2="16.5"/><line x1="1.5" y1="9" x2="3" y2="9"/><line x1="15" y1="9" x2="16.5" y2="9"/></g></svg>`;
@@ -1786,6 +1842,145 @@ function historyView() {
             <button data-act="openJob" data-arg="${esc(selId)}" style="font-size:12.5px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;">View frames</button>
           </div>
         </div>` : `<div style="color:${C.fg4}; font-size:12.5px;">Run a job to see its report here.</div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* --------------- labels --------------- */
+function labelsView() {
+  const rows = S.labels;
+  if (rows === null) return `<div style="padding:40px; color:${C.fg4}; font-size:13px;">Loading reviews…</div>`;
+  const reviewedIds = new Set(rows.map(r => r.job_id));
+  const unreviewed = S.jobs.filter(j => j.summary && j.summary.n_frames && !reviewedIds.has(j.job_id));
+  const agg = rows.reduce((a, r) => {
+    a.frames += r.metrics.progress.n_done;
+    a.tp += r.metrics.objects.tp; a.fp += r.metrics.objects.fp; a.fn += r.metrics.objects.fn;
+    a.samples += r.export.samples;
+    return a;
+  }, { frames: 0, tp: 0, fp: 0, fn: 0, samples: 0 });
+  const statCard = (v, label, col) => `
+    <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; padding:14px 18px; flex:1;">
+      <div style="font-family:${C.mono}; font-size:22px; font-weight:700; color:${col || "oklch(0.92 0.006 250)"};">${v}</div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${label}</div>
+    </div>`;
+  const btn = (act, arg, label, col, bg, bd) => `<button data-act="${act}" data-arg="${esc(arg)}" style="font-size:11.5px; font-weight:600; color:${col}; background:${bg}; border:1px solid ${bd}; padding:6px 12px; border-radius:7px; cursor:pointer; white-space:nowrap;">${label}</button>`;
+  const reviewRows = rows.map(r => {
+    const p = r.metrics.progress, o = r.metrics.objects, f = r.metrics.frames;
+    const pct = p.n_frames ? Math.round(p.n_done / p.n_frames * 100) : 0;
+    return `
+    <div style="display:flex; align-items:center; gap:14px; padding:13px 20px; border-top:1px solid oklch(0.22 0.01 250);">
+      <div style="flex:1; min-width:0;">
+        <div style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.9 0.006 250);">${esc(r.job_id)}</div>
+        <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">${esc(r.script || "")} · ${esc(r.model || "")} · updated ${esc((r.updated || "").slice(0, 16).replace("T", " "))}</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+          <div style="flex:0 0 140px; height:5px; border-radius:4px; background:${C.bg}; overflow:hidden;"><div style="width:${pct}%; height:100%; background:${pct === 100 ? C.green : "oklch(0.85 0.12 90)"};"></div></div>
+          <span style="font-family:${C.mono}; font-size:10.5px; color:${C.fg3};">${p.n_done}/${p.n_frames} frames</span>
+        </div>
+      </div>
+      <div style="text-align:right; font-family:${C.mono}; font-size:11px; line-height:1.7; white-space:nowrap;">
+        <div><span style="color:${REV_COL.tp};">${o.tp} TP</span> · <span style="color:${REV_COL.fp};">${o.fp} FP</span> · <span style="color:${REV_COL.fn};">${o.fn} FN</span></div>
+        <div style="color:${C.fg4};">frames ${f.TP}/${f.FP}/${f.TN}/${f.FN}${r.export.exportable ? ` · ${r.export.samples} samples` : " · no ref → not exportable"}</div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        ${btn("openJobReview", r.job_id, pct === 100 ? "Open" : "Continue", C.accDark, "oklch(0.85 0.12 90)", "oklch(0.5 0.09 90)")}
+        ${btn("exportReviewXlsx", r.job_id, "xlsx", "oklch(0.85 0.012 250)", C.bgBtn, C.bdBtn)}
+        ${btn("deleteReviewOf", r.job_id, "Delete", "oklch(0.8 0.09 22)", "oklch(0.19 0.02 22)", "oklch(0.36 0.07 22)")}
+      </div>
+    </div>`;
+  }).join("");
+  const startRows = unreviewed.slice(0, 15).map(j => `
+    <div style="display:flex; align-items:center; gap:12px; padding:11px 20px; border-top:1px solid oklch(0.22 0.01 250);">
+      <div style="flex:1; min-width:0;">
+        <div style="font-family:${C.mono}; font-size:12px; color:oklch(0.85 0.006 250);">${esc(j.job_id)}</div>
+        <div style="font-size:10.5px; color:${C.fg4}; margin-top:1px;">${esc(j.config.script || "")} · ${esc(j.config.model || "")} · ${j.summary.n_frames} frames · ${j.summary.n_anomalous} anomalous</div>
+      </div>
+      ${btn("openJobReview", j.job_id, "Start review", C.accFg, C.accBg, C.accBd2)}
+    </div>`).join("");
+  return `
+  <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
+    <div style="max-width:980px;">
+      <div style="display:flex; gap:14px; margin-bottom:18px;">
+        ${statCard(rows.length, "reviewed jobs")}
+        ${statCard(agg.frames, "frames confirmed")}
+        ${statCard(`${agg.tp} / ${agg.fp} / ${agg.fn}`, "object TP / FP / FN")}
+        ${statCard(agg.samples, "LoRA samples ready", agg.samples ? "oklch(0.85 0.12 90)" : undefined)}
+      </div>
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; overflow:hidden; margin-bottom:18px;">
+        <div style="padding:14px 20px; font-size:14px; font-weight:600;">Reviews
+          <span style="font-size:11px; font-weight:400; color:${C.fg4}; margin-left:8px;">labelling happens in Results → Review; this is the overview</span></div>
+        ${reviewRows || `<div style="padding:26px 20px; font-size:12.5px; color:${C.fg4};">No review yet. Pick a job below and start judging its detections.</div>`}
+      </div>
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; overflow:hidden;">
+        <div style="padding:14px 20px; font-size:14px; font-weight:600;">Jobs without a review</div>
+        ${startRows || `<div style="padding:20px; font-size:12.5px; color:${C.fg4};">Every finished job has a review.</div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* --------------- lora --------------- */
+function loraView() {
+  const st = S.lora.status;
+  if (!st) return `<div style="padding:40px; color:${C.fg4}; font-size:13px;">Loading dataset status…</div>`;
+  const a = st.aggregate;
+  const target = st.target_samples || 300;
+  const pct = Math.min(100, Math.round(a.samples / target * 100));
+  const yesPct = (a.yes + a.no) ? Math.round(a.yes / (a.yes + a.no) * 100) : 0;
+  const jobRows = st.per_job.map(j => `
+    <div style="display:flex; align-items:center; gap:10px; padding:9px 18px; border-top:1px solid oklch(0.22 0.01 250); font-size:11.5px;">
+      <span style="font-family:${C.mono}; flex:1; color:oklch(0.88 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(j.job_id)}</span>
+      <span style="color:${C.fg4};">${j.n_done}/${j.n_frames} frames</span>
+      <span style="font-family:${C.mono}; white-space:nowrap;">${j.exportable
+        ? `<span style="color:${REV_COL.tp};">${j.yes} YES</span> · <span style="color:${REV_COL.fp};">${j.no} NO</span>`
+        : `<span style="color:${C.fg4};">no reference — skipped</span>`}</span>
+    </div>`).join("");
+  const le = st.last_export;
+  const step = (done, label, sub) => `
+    <div style="display:flex; gap:10px; padding:8px 0; align-items:flex-start;">
+      <span style="flex:0 0 18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; margin-top:1px; background:${done ? "oklch(0.65 0.13 150)" : C.bgBtn}; color:${done ? "oklch(0.13 0.008 250)" : C.fg3}; border:1px solid ${done ? "oklch(0.5 0.1 150)" : C.bdBtn};">${done ? "✓" : ""}</span>
+      <span style="font-size:12.5px; color:${done ? C.fg2 : "oklch(0.88 0.006 250)"};">${label}${sub ? `<span style="display:block; font-size:10.5px; color:${C.fg4}; margin-top:1px;">${sub}</span>` : ""}</span>
+    </div>`;
+  return `
+  <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
+    <div style="max-width:980px; display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start;">
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; overflow:hidden;">
+        <div style="padding:16px 18px 12px;">
+          <div style="font-size:14px; font-weight:600; margin-bottom:12px;">Dataset readiness</div>
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span style="font-family:${C.mono}; font-size:30px; font-weight:800; color:${a.samples >= target ? C.green : "oklch(0.85 0.12 90)"};">${a.samples}</span>
+            <span style="font-size:12px; color:${C.fg3};">/ ${target} crop samples ${hint("Human-verified crop pairs harvested from Reviews: each judged detection (TP→YES label, FP→NO) and each missed box. 300 is the working lower bound from the CCTV LoRA paper.")}</span>
+          </div>
+          <div style="height:7px; border-radius:5px; background:${C.bg}; overflow:hidden; margin:10px 0 14px;"><div style="width:${pct}%; height:100%; background:${a.samples >= target ? C.green : "oklch(0.85 0.12 90)"};"></div></div>
+          <div style="font-size:11.5px; color:${C.fg3}; margin-bottom:6px;">Class balance — <span style="color:${REV_COL.tp};">${a.yes} YES</span> · <span style="color:${REV_COL.fp};">${a.no} NO</span></div>
+          <div style="height:7px; border-radius:5px; overflow:hidden; display:flex; background:${C.bg};">
+            <div style="width:${yesPct}%; background:${REV_COL.tp};"></div><div style="flex:1; background:${REV_COL.fp};"></div>
+          </div>
+          ${st.balance_warning ? `<div style="margin-top:10px; font-size:11.5px; color:oklch(0.88 0.1 75); background:oklch(0.24 0.05 75); border:1px solid oklch(0.44 0.09 75); border-radius:8px; padding:8px 10px;">Balance is skewed — review more frames of the under-represented class (empty cross-session videos are the best NO source) before training.</div>` : ""}
+          ${a.skipped_no_bbox ? `<div style="margin-top:8px; font-size:10.5px; color:${C.fg4};">${a.skipped_no_bbox} verdict(s) without a bbox (vlm_01/02) can't become crops.</div>` : ""}
+        </div>
+        <div style="border-top:1px solid ${C.bd2}; padding:8px 0 2px;">
+          <div style="padding:4px 18px; font-size:11px; font-weight:600; color:${C.fg3};">Per reviewed job</div>
+          ${jobRows || `<div style="padding:10px 18px 16px; font-size:12px; color:${C.fg4};">Nothing reviewed yet — start in the Labels tab.</div>`}
+        </div>
+        <div style="border-top:1px solid ${C.bd2}; padding:14px 18px;">
+          <button data-act="loraExport" ${a.samples && !S.lora.exporting ? "" : "disabled"} style="font-size:12.5px; font-weight:600; color:${C.accDark}; background:${a.samples ? "oklch(0.85 0.12 90)" : C.bgBtn}; border:none; padding:9px 16px; border-radius:8px; cursor:${a.samples ? "pointer" : "not-allowed"}; opacity:${S.lora.exporting ? 0.6 : 1};">
+            ${S.lora.exporting ? "Exporting…" : "Export dataset"}</button>
+          <span style="font-size:11px; color:${C.fg4}; margin-left:10px;">→ ${esc(st.dataset_dir)}/ (train/val JSONL + crops)</span>
+          ${le ? `<div style="margin-top:10px; font-family:${C.mono}; font-size:11px; color:${C.fg3};">last export: ${le.total} samples (train ${le.train} / val ${le.val}, YES ${le.yes} / NO ${le.no}) · prompt ${esc(le.prompt_sha1 || "")}</div>` : ""}
+          ${S.lora.result && S.lora.result.log ? `<pre style="margin-top:8px; font-size:10.5px; color:${C.fg3}; background:oklch(0.11 0.008 250); border:1px solid ${C.bd2}; border-radius:8px; padding:8px 10px; max-height:140px; overflow:auto; white-space:pre-wrap;">${esc(S.lora.result.log)}</pre>` : ""}
+        </div>
+      </div>
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; padding:16px 18px;">
+        <div style="font-size:14px; font-weight:600; margin-bottom:6px;">Training pipeline</div>
+        <div style="font-size:11px; color:${C.fg4}; margin-bottom:8px;">Steps 3–6 run on the RTX workstation — full commands in <span style="font-family:${C.mono};">RUNBOOK_LORA.md</span>, rationale in <span style="font-family:${C.mono};">docs/LORA_PLAN.md</span>.</div>
+        ${step(a.samples >= target, `1 · Label ≥ ${target} crops in Review mode`, `${a.samples} ready`)}
+        ${step(!!le, "2 · Export the dataset", le ? `done — copy ${esc(st.dataset_dir)}/ to the workstation` : "")}
+        ${step(false, "3 · Train — QLoRA rank 8, vision frozen", "llamafactory-cli train tools/lora/qwen3vl_lora.yaml · minutes on the 3080 Ti")}
+        ${step(false, "4 · Merge the adapter", "llamafactory-cli export (unquantized base)")}
+        ${step(false, "5 · GGUF + official mmproj → serve", "convert_hf_to_gguf.py · try Ollama import, fallback llama-server --mmproj")}
+        ${step(false, "6 · Benchmark A/B — go/no-go", "region precision ≥ +0.10, object recall drop ≤ 0.02, YES/NO format intact")}
+        <div style="margin-top:10px; font-size:11px; color:${C.fg4}; border-top:1px solid ${C.bd2}; padding-top:10px;">The 29-case benchmark stays out of training — it is the eval set. The exporter's <span style="font-family:${C.mono};">--include-benchmark</span> flag exists only as a deliberate CLI decision.</div>
       </div>
     </div>
   </div>`;

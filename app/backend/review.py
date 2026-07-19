@@ -93,6 +93,30 @@ def save_review(job_dir, job_id: str, frames_payload: dict, results: dict) -> di
     return doc
 
 
+def export_stats(results: dict, review: dict) -> dict:
+    """What tools/export_lora_dataset.py would harvest from this review:
+    judged detections WITH a bbox (vlm_01/02 verdicts have none) + missed
+    boxes, on confirmed frames of a job that has a reference image."""
+    has_ref = bool((results.get("config") or {}).get("reference"))
+    by_id = {f["frame_id"]: f for f in results.get("frames", [])}
+    yes = no = skipped_no_bbox = 0
+    for fid, e in review.get("frames", {}).items():
+        if not e.get("done"):
+            continue
+        dets = (by_id.get(fid) or {}).get("detections") or []
+        for idx, v in e.get("verdicts", {}).items():
+            if int(idx) < len(dets) and dets[int(idx)].get("bbox"):
+                if v == "tp":
+                    yes += 1
+                else:
+                    no += 1
+            else:
+                skipped_no_bbox += 1
+        yes += len(e.get("missed", []))
+    return {"yes": yes, "no": no, "skipped_no_bbox": skipped_no_bbox,
+            "exportable": has_ref, "samples": (yes + no) if has_ref else 0}
+
+
 def _rate(num, den):
     return round(num / den, 3) if den else None
 

@@ -25,9 +25,12 @@ runs are the most valuable NO source — they are the deployment FPs.
 
 ## 2. Export the dataset (LAPTOP)
 
+Either click **Export dataset** in the app's LoRA tab (writes
+`data/app/lora_dataset/`), or from the CLI:
+
 ```bash
-venv/bin/python tools/export_lora_dataset.py --out data/lora_dataset
-cp tools/lora/dataset_info.json data/lora_dataset/
+venv/bin/python tools/export_lora_dataset.py --out data/app/lora_dataset
+cp tools/lora/dataset_info.json data/app/lora_dataset/
 ```
 
 Do NOT pass `--include-benchmark` unless you accept losing the 29-case
