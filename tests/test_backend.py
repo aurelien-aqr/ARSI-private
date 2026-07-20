@@ -301,6 +301,38 @@ def test_job_corrupt_frame_fails_cleanly(api):
     assert after["status"] == "ok"           # the batch went on
 
 
+def test_masked_job_serves_masked_images_to_the_ui(api):
+    """A masked job must expose the masked copies everywhere the UI draws a
+    frame: the live event stream, the frame list and the reference."""
+    client, _ = api(replies=[VALID_VLM01])
+    spec = {"name": "pytest-live-mask", "image_size": [120, 90],
+            "zones": [{"id": "1", "label": "win",
+                       "polygon": [[0, 0], [60, 0], [60, 45], [0, 45]]}]}
+    assert client.post("/api/masks", json=spec).status_code == 200
+    frame, ref = app_image("m-frame.jpg"), app_image("m-ref.jpg")
+    r = client.post("/api/jobs", json={
+        "script": "vlm_02", "frames": [str(frame)], "reference": str(ref),
+        "mask": "pytest-live-mask", "model": "qwen3-vl:8b-instruct"})
+    job_id = r.json()["job_id"]
+    data = wait_job(client, job_id)
+
+    masked = f"/jobs/{job_id}/masked/"          # tolerant of the APP_DATA root
+    assert masked in data["frames"][0]["img"]
+    assert masked in data["config"]["reference_masked_img"]
+    assert masked not in data["config"]["reference_img"]   # the untouched pick
+
+    with client.stream("GET", f"/api/jobs/{job_id}/events") as s:
+        events = [json.loads(line[6:]) for line in s.iter_lines()
+                  if line.startswith("data: ")]
+    by_event = {e["event"]: e for e in events}
+    assert masked in by_event["mask_applied"]["reference_img"]
+    assert masked in by_event["frame_start"]["img"]
+    assert masked in by_event["frame_done"]["img"]
+    # the verdict rides along so the run screen can render it live
+    assert by_event["frame_done"]["anomaly"] is True
+    assert by_event["frame_done"]["detections"][0]["label"] == "Phone"
+
+
 def test_job_unknown_id_404(api):
     client, _ = api()
     assert client.get("/api/jobs/nope-000").status_code == 404

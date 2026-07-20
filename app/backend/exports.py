@@ -5,13 +5,19 @@ from datetime import datetime
 from io import BytesIO
 
 
+def used_reference(cfg: dict):
+    """The reference the pipeline actually compared against — the masked copy
+    on a masked job, so it matches the (also masked) per-frame image paths."""
+    return cfg.get("reference_masked") or cfg.get("reference")
+
+
 def report_md(data: dict) -> str:
     cfg, s = data["config"], data["summary"]
     L = [f"# ARSI Studio report — {data['job_id']}", "",
          f"**Status:** {data['status']}  ",
          f"**Pipeline:** `{cfg['script']}` · **Model:** `{cfg['model']}` · "
          f"**Prompt:** {cfg['prompt_name']}  ",
-         f"**Mask:** {cfg.get('mask') or 'none'} · **Reference:** {cfg.get('reference') or 'n/a'}  ",
+         f"**Mask:** {cfg.get('mask') or 'none'} · **Reference:** {used_reference(cfg) or 'n/a'}  ",
          f"**Started:** {data['started']} · **Finished:** {data['finished']} · "
          f"**Wall:** {s['wall_seconds']} s", "",
          "## Summary", "",
@@ -93,7 +99,7 @@ def results_xlsx(data: dict, review: dict = None, metrics: dict = None) -> bytes
         dets = "; ".join(f"{d['label']} {d['bbox'] or ''}".strip()
                          for d in f["detections"])
         row = [i, date, cfg["script"], cfg["model"], f["image"],
-               cfg.get("reference") or "", cfg["prompt_name"],
+               used_reference(cfg) or "", cfg["prompt_name"],
                (f["raw_response"] or "")[:900],
                {True: "YES", False: "NO"}.get(f["anomaly"], ""),
                types, dets, f["seconds"], f["status"], f.get("error") or ""]

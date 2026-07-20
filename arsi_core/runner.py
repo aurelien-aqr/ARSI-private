@@ -3,7 +3,7 @@ structured logging (docs/SPEC.md "Error taxonomy" — behaviour is the spec)."""
 import json
 import time
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -63,10 +63,13 @@ class _JobLog:
         self._fh.close()
 
 
-def _materialize_mask(cfg: JobConfig, log) -> tuple:
+def _materialize_mask(cfg: JobConfig, emit) -> tuple:
     """Render masked copies of the reference and every frame into the job dir.
     The mask must hit BOTH sides identically or the diff pipelines would
-    detect the mask itself as change. Returns (frames, reference, mask_hash)."""
+    detect the mask itself as change. Returns (frames, reference, mask_hash).
+
+    Everything downstream — FrameResult.image, the events, the report — then
+    carries the masked paths, so what the UI shows is what the VLM saw."""
     if not cfg.mask:
         return cfg.frames, cfg.reference, ""
     spec = MaskSpec.load(cfg.mask)
@@ -85,7 +88,8 @@ def _materialize_mask(cfg: JobConfig, log) -> tuple:
 
     frames = [mask_one(f) for f in cfg.frames]
     reference = mask_one(cfg.reference) if cfg.reference else None
-    log("mask_applied", mask=spec.name, hash=spec.hash, n_images=len(done))
+    emit("mask_applied", mask=spec.name, hash=spec.hash, n_images=len(done),
+         reference=reference)
     return frames, reference, spec.hash
 
 
@@ -120,7 +124,12 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
          model=cfg.model or "(script default)", n_frames=len(cfg.frames))
     t_job = time.time()
 
-    frames, reference, mask_hash = _materialize_mask(cfg, log)
+    frames, reference, mask_hash = _materialize_mask(cfg, emit)
+    if mask_hash:
+        # the masked reference is what the pipeline compared against — the UI
+        # must show that one, not the untouched file the user picked
+        result.config["reference_masked"] = reference
+        result.config["mask_hash"] = mask_hash
 
     cancelled = False
     for i, frame in enumerate(frames):
@@ -128,6 +137,8 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
             cancelled = True
             emit("job_cancelled", after_frames=i)
             break
+        emit("frame_start", index=i, frame=str(frame),
+             frame_id=Path(frame).stem, n_frames=len(frames))
         t0 = time.time()
         fr = None
         attempt = 0
@@ -164,7 +175,11 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
         result.frames.append(fr)
         emit("frame_done", index=i, frame_id=fr.frame_id, status=fr.status,
              anomaly=fr.anomaly, n_detections=len(fr.detections),
-             attempts=fr.attempts, seconds=fr.seconds)
+             attempts=fr.attempts, seconds=fr.seconds,
+             # image + detections let the run screen show the verdict on the
+             # frame live, without waiting for results.json
+             frame=fr.image, detections=[asdict(d) for d in fr.detections],
+             error=fr.error)
 
     ok = [f for f in result.frames if f.status == "ok"]
     result.summary = JobSummary(

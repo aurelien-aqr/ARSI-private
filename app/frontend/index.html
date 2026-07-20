@@ -25,6 +25,10 @@
   @keyframes arsipulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
   @keyframes arsislide { from { opacity:0; transform:translateY(8px) scale(0.96); } to { opacity:1; transform:none; } }
   @keyframes arsispin { to { transform:rotate(360deg); } }
+  /* run screen: sweep over the frame being analysed, then the bar that counts
+     down how long its verdict stays on the big viewer */
+  @keyframes arsiscan { 0% { transform:translateY(-100%); } 100% { transform:translateY(100%); } }
+  @keyframes arsihold { from { transform:scaleX(1); } to { transform:scaleX(0); } }
   /* help tooltips: <span class="hint" data-tip="..."> ? </span> */
   .hint { display:inline-flex; align-items:center; justify-content:center;
     width:15px; height:15px; border-radius:50%; font-size:10px; font-weight:700;

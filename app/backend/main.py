@@ -430,8 +430,21 @@ def job_detail(job_id: str):
     data = _job_data(job_id)
     for f in data.get("frames", []):
         f["img"] = media_url(f["image"])
-    if data.get("config", {}).get("reference"):
-        data["config"]["reference_img"] = media_url(data["config"]["reference"])
+    cfg = data.get("config", {})
+    if cfg.get("reference"):
+        cfg["reference_img"] = media_url(cfg["reference"])
+    if not cfg.get("reference_masked") and cfg.get("reference") and cfg.get("mask"):
+        # jobs run before the runner recorded it: the masked copy is still on
+        # disk under the job dir, and it is the one that was compared against.
+        # Frames are masked first, so a frame with the same basename owns that
+        # path and the reference got a suffixed one — don't guess wrong then.
+        guess = JOBS_DIR / job_id / "masked" / Path(cfg["reference"]).name
+        taken = {f["image"] for f in data.get("frames", [])
+                 if f["image"] != cfg["reference"]}
+        if guess.is_file() and str(guess) not in taken:
+            cfg["reference_masked"] = str(guess)
+    if cfg.get("reference_masked"):
+        cfg["reference_masked_img"] = media_url(cfg["reference_masked"])
     live = manager.get(job_id)
     if live:
         data["status"] = live.status if live.status != "completed" \
@@ -446,15 +459,25 @@ def job_events(job_id: str):
         raise HTTPException(404, job_id)
     q, backlog = job.subscribe()
 
+    def with_urls(e):
+        """The runner speaks filesystem paths; the browser needs /api/media
+        URLs. Masked runs carry the masked copies here, so the live screen
+        shows exactly the image the VLM was given."""
+        if e.get("frame"):
+            e = {**e, "img": media_url(e["frame"])}
+        if e.get("event") == "mask_applied" and e.get("reference"):
+            e = {**e, "reference_img": media_url(e["reference"])}
+        return e
+
     def gen():
         try:
             for e in backlog:
-                yield e
+                yield with_urls(e)
                 if e.get("event") == "stream_end":
                     return
             while True:
                 e = q.get()
-                yield e
+                yield with_urls(e)
                 if e.get("event") == "stream_end":
                     return
         finally:

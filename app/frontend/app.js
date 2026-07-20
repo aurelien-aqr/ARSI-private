@@ -221,7 +221,10 @@ function resetWizardSource() {
 function maybeResetWizard() {
   // reset ONLY after a finished run (fresh start); plain tab navigation must
   // keep the in-progress wizard exactly as the user left it
-  if (S.run && S.run.done) { resetWizardSource(); S.run = null; }
+  if (S.run && S.run.done) {
+    resetWizardSource(); S.run = null;
+    clearTimeout(stageTimer); stageTimer = null;
+  }
 }
 ACT.goWizard = () => { maybeResetWizard(); setScreen("wizard"); };
 ACT.goWizardDemo = () => { maybeResetWizard(); S.wiz.source = "demo"; S.wiz.step = 1; setScreen("wizard"); };
@@ -559,7 +562,12 @@ ACT.launchRun = async () => {
     S.run = { jobId: job_id, total: w.frames.length, processed: 0, anomalous: 0,
               failed: 0, retried: 0, done: false, cancelled: false,
               thumbs: [], log: [`[start] job ${job_id} · ${w.pipeline} · ${w.model}`],
-              frames: w.frames.slice(),
+              frames: w.frames.slice(), script: w.pipeline, model: w.model,
+              // reference/mask: the masked copies replace these as soon as the
+              // runner reports mask_applied — the screen must show what the VLM saw
+              refImg: body.reference ? "/api/media/" + body.reference : null,
+              masked: !!maskName, maskName,
+              reel: [], live: null, stage: null,   // big "current frame" viewer
               times: [], estPerFrame: estimate().perFrame, t0: Date.now() };
     setScreen("run");
     watchRun(job_id);
@@ -587,35 +595,97 @@ async function watchRun(jobId) {
 function handleRunEvent(e) {
   const run = S.run;
   if (!run) return;
+  // e.img is the image the runner actually fed the VLM (masked when a mask is
+  // set); the wizard copy is only a fallback for pre-frame_start events
+  const fallbackImg = (i) => (run.frames[i] || {}).img || "";
   if (e.event === "frame_retry") {
     const fid = e.frame ? e.frame.split("/").pop().replace(/\.[^.]+$/, "") : e.index;
     run.retried++; run.log.unshift(`[${fid}] retry: ${e.error}`);
+  } else if (e.event === "frame_start") {
+    run.live = { index: e.index, frame_id: e.frame_id,
+                 img: e.img || fallbackImg(e.index) };
+    pumpStage();
   } else if (e.event === "frame_done") {
     run.processed++;
     if (typeof e.seconds === "number") run.times.push(e.seconds);
-    const f = run.frames[e.index] || {};
     let ring = "green";
     if (e.status === "failed") { run.failed++; ring = "grey";
       run.log.unshift(`[${e.frame_id}] FAILED after ${e.attempts} attempts`); }
     else if (e.anomaly) { run.anomalous++; ring = "red";
       run.log.unshift(`[${e.frame_id}] YES anomaly kept · ${e.n_detections} region(s) · ${e.seconds}s`); }
     else run.log.unshift(`[${e.frame_id}] NO clean · ${e.seconds}s`);
-    run.thumbs.unshift({ ring, img: f.img || "" });
+    const rec = { index: e.index, frame_id: e.frame_id,
+                  img: e.img || fallbackImg(e.index), status: e.status,
+                  anomaly: e.anomaly, detections: e.detections || [],
+                  seconds: e.seconds, attempts: e.attempts, error: e.error };
+    run.thumbs.unshift({ ring, img: rec.img });
     if (run.thumbs.length > 60) run.thumbs.pop();
     if (run.log.length > 120) run.log.pop();
+    if (run.live && run.live.index === e.index) run.live = null;
+    run.reel.push(rec);
+    if (run.reel.length > 40) run.reel.splice(0, run.reel.length - 40);
+    pumpStage();
   } else if (e.event === "job_finished" || e.event === "stream_end") {
     run.done = true;
+    run.live = null;
     if (e.status === "cancelled") run.cancelled = true;
     if (e.error) run.log.unshift(`[error] ${e.error}`);
     if (e.event === "stream_end")
       run.log.unshift(`[done] ${run.processed} frames · ${run.anomalous} anomalous · ${run.failed} failed`);
+    pumpStage();
     refreshJobs();
   } else if (e.event === "mask_applied") {
+    run.masked = true;
+    if (e.reference_img) run.refImg = e.reference_img;
     run.log.unshift(`[mask] '${e.mask}' applied to ${e.n_images} image(s)`);
   } else if (e.event === "job_started") {
     run.log.unshift(`[job] started · ${e.n_frames} frames · model ${e.model}`);
   }
   if (S.screen === "run") render();
+}
+
+/* --- the big "current frame" viewer -------------------------------------
+   Analysis never waits on the display: finished frames queue in run.reel and
+   the stage walks that queue, holding each verdict a couple of seconds. When
+   the queue backs up (cached or fast runs) the hold shortens instead of
+   drifting minutes behind the real work. */
+const STAGE_HOLD = 2600, STAGE_HOLD_BUSY = 1400, STAGE_HOLD_RUSH = 700;
+let stageTimer = null;
+function stageHold(run) {
+  return run.reel.length >= 4 ? STAGE_HOLD_RUSH
+    : run.reel.length >= 2 ? STAGE_HOLD_BUSY : STAGE_HOLD;
+}
+const stageKey = (s) => s ? `${s.index}:${s.phase}` : "";
+function pumpStage() {
+  clearTimeout(stageTimer); stageTimer = null;
+  const run = S.run;
+  if (!run) return;
+  const before = stageKey(run.stage);
+  // the frame on screen just finished -> reveal its verdict in place
+  if (run.stage && run.stage.phase === "processing") {
+    const i = run.reel.findIndex(r => r.index === run.stage.index);
+    if (i >= 0) run.stage = Object.assign(run.reel.splice(i, 1)[0],
+                                          { phase: "result", at: Date.now() });
+  }
+  // a verdict that has had its time makes way — but only for something real,
+  // so the last frame of a run stays up instead of blanking
+  if (run.stage && run.stage.phase === "result"
+      && Date.now() - run.stage.at >= stageHold(run)
+      && (run.reel.length || run.live)) run.stage = null;
+  if (!run.stage) {
+    if (run.reel.length)
+      run.stage = Object.assign(run.reel.shift(), { phase: "result", at: Date.now() });
+    else if (run.live)
+      run.stage = Object.assign({}, run.live, { phase: "processing", at: Date.now() });
+  }
+  if (run.stage && run.stage.phase === "result") {
+    const left = stageHold(run) - (Date.now() - run.stage.at);
+    stageTimer = setTimeout(pumpStage, Math.max(120, left));
+  }
+  if (run.stage && run.stage.img && !_sizeCache[run.stage.img])
+    imageSize(run.stage.img).then(() => { if (S.screen === "run") render(); })
+      .catch(() => {});
+  if (stageKey(run.stage) !== before && S.screen === "run") render();
 }
 ACT.cancelRun = async () => {
   if (!S.run) return;
@@ -635,12 +705,17 @@ async function openResults(jobId) {
     if (S.rev.jobId !== id) Object.assign(S.rev, { on: false, jobId: null, doc: null, metrics: null });
     S.res.jobId = id; S.res.data = data; S.res.sel = 0; S.res.hoverV = -1;
     S.res.coordSize = null;
-    const ref = data.config && data.config.reference_img;
     const first = (data.frames || [])[0];
-    const spaceUrl = ref || (first && first.img);
+    const spaceUrl = jobRefImg(data) || (first && first.img);
     if (spaceUrl) imageSize(spaceUrl).then(sz => { S.res.coordSize = sz; render(); });
   } catch (e) { toast("Could not load job: " + e.message); }
   setScreen("results");
+}
+/* A masked job compared the frames against the MASKED reference — showing the
+   untouched one would misrepresent what the pipeline saw. */
+function jobRefImg(data) {
+  const cfg = (data && data.config) || {};
+  return cfg.reference_masked_img || cfg.reference_img || null;
 }
 ACT.openJob = (jobId) => openResults(jobId);
 ACT.setFilter = (f) => { S.res.filter = f; S.res.sel = 0; render(); };
@@ -690,7 +765,7 @@ ACT.setCompareJob = async (jobId) => {
     S.res.compareData = data; S.res.compareJob = jobId;
     S.res.compareCoordSize = null;
     const first = (data.frames || [])[0];
-    const spaceUrl = (data.config && data.config.reference_img) || (first && first.img);
+    const spaceUrl = jobRefImg(data) || (first && first.img);
     if (spaceUrl) imageSize(spaceUrl).then(sz => { S.res.compareCoordSize = sz; render(); });
   } catch (e) { toast(e.message); }
   render();
@@ -1478,6 +1553,79 @@ function wizStep5() {
 }
 
 /* --------------- run --------------- */
+/* Keeps the stage from crowding out the frame strip and the log below it; the
+   detection list scrolls inside the panel instead of stretching the card. */
+const STAGE_MAX_H = 500;
+/* Boxes drawn straight on the staged frame. Detections without a bbox
+   (vlm_01/02 answer on the whole frame) are listed in the side panel. */
+function stageBoxes(st) {
+  const cs = _sizeCache[st.img];
+  if (!cs || !st.detections) return "";
+  return st.detections.map(d => {
+    if (!d.bbox) return "";
+    const [x0, y0, x1, y1] = d.bbox;
+    return `<div style="position:absolute; left:${x0 / cs.w * 100}%; top:${y0 / cs.h * 100}%; width:${(x1 - x0) / cs.w * 100}%; height:${(y1 - y0) / cs.h * 100}%; border:2px solid oklch(0.8 0.18 60); border-radius:2px; box-shadow:0 0 0 1px oklch(0.15 0.008 250 / 0.7); pointer-events:none; animation:arsislide .3s ease;">
+      <span style="position:absolute; top:-19px; left:-2px; font-size:10.5px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.9); color:oklch(0.88 0.13 60); padding:2px 6px; border-radius:4px; white-space:nowrap;">${esc(d.label)}</span></div>`;
+  }).join("");
+}
+function stageCard(run) {
+  const st = run.stage;
+  const refBlock = !run.refImg ? "" : `
+    <div style="margin-top:12px;">
+      <div style="font-size:10px; font-family:${C.mono}; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px;">Reference${run.masked ? " · masked" : ""}</div>
+      <img src="${run.refImg}" style="width:100%; border-radius:8px; border:1px solid ${C.bd2}; display:block;">
+    </div>`;
+  if (!st) return `
+    <div style="border:1px solid ${C.bd3}; border-radius:12px; background:${C.bgCard2}; padding:18px 20px; margin-bottom:18px; display:flex; align-items:center; justify-content:center; min-height:120px; color:${C.fg3}; font-size:13px;">
+      ${run.done ? "Run finished." : "Waiting for the first frame…"}
+    </div>`;
+  const done = st.phase === "result";
+  const dets = st.detections || [];
+  const outcome = !done ? ["ANALYSING", C.accFg, C.accBg, C.accBd]
+    : st.status === "failed" ? ["FAILED", C.fg2, "oklch(0.22 0.012 250)", C.bdBtn]
+    : st.anomaly ? ["ANOMALY", "oklch(0.85 0.06 22)", C.redBg, C.redBd]
+    : ["CLEAN", "oklch(0.82 0.06 150)", C.greenBg, C.greenBd];
+  const held = Math.min(stageHold(run), Date.now() - (st.at || Date.now()));
+  return `
+  <div style="border:1px solid ${C.bd3}; border-radius:12px; background:${C.bgCard2}; margin-bottom:18px; overflow:hidden;">
+    <div style="display:flex; align-items:center; gap:10px; padding:11px 16px; border-bottom:1px solid ${C.bd2};">
+      <span style="font-size:11px; font-family:${C.mono}; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4};">${done ? "Result" : "Now analysing"}</span>
+      <span style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.9 0.006 250);">${esc(st.frame_id || "")}</span>
+      <span style="font-size:11px; color:${C.fg4};">frame ${st.index + 1}/${run.total}</span>
+      ${run.masked ? `<span style="font-size:10px; font-family:${C.mono}; padding:2px 7px; border-radius:10px; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd};">masked</span>` : ""}
+      ${run.reel.length ? `<span style="margin-left:auto; font-size:10.5px; font-family:${C.mono}; color:${C.fg5};">+${run.reel.length} ahead</span>` : ""}
+    </div>
+    <div style="display:grid; grid-template-columns:minmax(0,1fr) 240px; gap:16px; padding:16px; align-items:start;">
+      <div style="min-width:0; text-align:center;">
+        <div style="position:relative; display:inline-block; max-width:100%; border-radius:9px; overflow:hidden; background:oklch(0.1 0.008 250); vertical-align:top;">
+          ${st.img ? `<img src="${st.img}" style="display:block; max-width:100%; max-height:${STAGE_MAX_H}px; ${done ? "" : "opacity:0.82;"}">` : ""}
+          ${done ? stageBoxes(st) : `
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, transparent 0%, oklch(0.72 0.13 225 / 0.16) 50%, transparent 100%); animation:arsiscan 1.8s ease-in-out infinite;"></div>`}
+        </div>
+      </div>
+      <div style="min-width:0; display:flex; flex-direction:column; gap:10px; max-height:${STAGE_MAX_H}px;">
+        <div>
+          <div style="display:inline-flex; align-items:center; gap:7px; font-size:12px; font-family:${C.mono}; font-weight:700; letter-spacing:0.05em; padding:6px 11px; border-radius:8px; color:${outcome[1]}; background:${outcome[2]}; border:1px solid ${outcome[3]};">
+            ${!done ? `<span style="width:6px; height:6px; border-radius:50%; background:${C.acc}; animation:arsipulse 1.3s infinite;"></span>` : ""}${outcome[0]}
+          </div>
+          ${done ? `<div style="font-family:${C.mono}; font-size:11px; color:${C.fg4}; margin-top:8px;">${st.seconds != null ? st.seconds + "s" : ""}${st.attempts > 1 ? ` · ${st.attempts} attempts` : ""}${dets.length ? ` · ${dets.length} detection${dets.length > 1 ? "s" : ""}` : ""}</div>` : ""}
+          ${done && st.error ? `<div style="font-size:11.5px; color:${C.redFg}; margin-top:8px; line-height:1.45; word-break:break-word;">${esc(st.error)}</div>` : ""}
+        </div>
+        ${refBlock}
+        ${done && dets.length ? `<div data-scroll="stagedets" style="overflow:auto; min-height:0; padding-right:2px;">${dets.map(d => {
+          const tm = TYPE_META[d.type] || TYPE_META.unknown;
+          return `<div style="padding:8px 9px; border-radius:8px; margin-bottom:5px; background:${C.bgCard}; border:1px solid ${C.bd2};">
+            <span style="font-size:9.5px; padding:2px 6px; border-radius:9px; color:${tm.fg}; background:${tm.bg}; border:1px solid ${tm.bd};">${esc(d.type)}</span>
+            <div style="font-size:12px; color:oklch(0.9 0.006 250); margin-top:5px; line-height:1.35;">${esc(d.label)}</div>
+            ${!d.bbox ? `<div style="font-size:10px; color:${C.fg5}; margin-top:3px;">${d.zone ? esc(d.zone) : "whole frame"}</div>` : ""}
+          </div>`; }).join("")}</div>`
+        : done && st.status === "ok" && !st.anomaly
+          ? `<div style="font-size:12px; color:${C.fg3}; line-height:1.45;">Nothing reported on this frame.</div>` : ""}
+      </div>
+    </div>
+    ${done ? `<div style="height:2px; background:${C.bd2};"><div style="height:100%; background:${C.acc}; width:100%; transform-origin:left; animation:arsihold ${stageHold(run)}ms linear forwards; animation-delay:-${held}ms;"></div></div>` : ""}
+  </div>`;
+}
 function runView() {
   const run = S.run;
   if (!run) return `
@@ -1515,7 +1663,8 @@ function runView() {
           .map(([v, lb, col]) => `<div><div style="font-family:${C.mono}; font-size:22px; font-weight:700; ${col ? "color:" + col : ""}">${v}</div><div style="font-size:11px; color:${C.fg3};">${lb}</div></div>`).join("")}
       </div>
     </div>
-    <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:10px;">Frames</div>
+    ${stageCard(run)}
+    <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:10px;">Frames${run.masked ? " · masked" : ""}</div>
     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; min-height:56px;">
       ${run.thumbs.map(t => `
         <div style="width:74px; height:50px; border-radius:7px; overflow:hidden; border:2px solid ${ringColor[t.ring]}; position:relative; animation:arsislide .25s ease;">
@@ -1694,7 +1843,8 @@ function resultsView() {
   const revOn = revActive();
   const boxes = revOn ? reviewOverlay(sel, R.coordSize) : bboxOverlay(sel, R.coordSize, R.hoverV);
   const imgWrapAttrs = revOn ? `data-act="revImgClick" style="position:relative; ${S.rev.draw ? "cursor:crosshair;" : ""}"` : `style="position:relative;"`;
-  const refImg = data.config.reference_img;
+  const refImg = jobRefImg(data);
+  const masked = !!(data.config || {}).mask;
   const timeline = frames.map((f, i) => `
     <div data-act="selFrame" data-arg="${i}" style="flex:1; height:${f.anomaly ? "100%" : "46%"}; background:${f.status === "failed" ? "oklch(0.45 0.03 250)" : f.anomaly ? "oklch(0.62 0.17 22)" : "oklch(0.32 0.02 250)"}; border-radius:1px; cursor:pointer; outline:${i === selIdx ? "1.5px solid oklch(0.85 0.13 225)" : "none"};"></div>`).join("");
   const verdicts = sel.detections.map((d, i) => {
@@ -1749,11 +1899,11 @@ function resultsView() {
           ${R.split && refImg ? `
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
             <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden;">
-              <div style="padding:6px 10px; font-size:11px; font-family:${C.mono}; color:${C.fg3}; background:${C.bg}; border-bottom:1px solid ${C.bd2};">REFERENCE · clean</div>
+              <div style="padding:6px 10px; font-size:11px; font-family:${C.mono}; color:${C.fg3}; background:${C.bg}; border-bottom:1px solid ${C.bd2};">REFERENCE · clean${masked ? " · masked" : ""}</div>
               <img src="${refImg}" style="width:100%; display:block;">
             </div>
             <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden;">
-              <div style="padding:6px 10px; font-size:11px; font-family:${C.mono}; color:oklch(0.85 0.05 22); background:${C.bg}; border-bottom:1px solid ${C.bd2};">INSPECTION · now</div>
+              <div style="padding:6px 10px; font-size:11px; font-family:${C.mono}; color:oklch(0.85 0.05 22); background:${C.bg}; border-bottom:1px solid ${C.bd2};">INSPECTION · now${masked ? " · masked" : ""}</div>
               <div ${imgWrapAttrs}><img id="revImg" src="${sel.img}" style="width:100%; display:block;">${boxes}</div>
             </div>
           </div>` : `

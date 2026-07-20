@@ -77,6 +77,45 @@ def test_mask_is_materialized_for_frames_and_reference(fake_client, img_factory,
         assert img.getpixel((50, 25)) == (0, 0, 0)
 
 
+def test_masked_run_reports_masked_paths_to_the_ui(fake_client, img_factory, tmp_path):
+    """The run screen and the results page render whatever the events and the
+    saved config point at, so those must be the masked copies — showing the
+    untouched frame would misrepresent what the VLM was given."""
+    ref = img_factory("ref.jpg", color=(200, 200, 200))
+    f1 = img_factory("f1.jpg", color=(200, 200, 200))
+    mask = MaskSpec(name="win", image_size=[400, 300], zones=[
+        {"id": "z", "label": "w", "polygon": [[0, 0], [100, 0], [100, 50], [0, 50]]}])
+    mask_path = mask.save(tmp_path / "win.json")
+
+    events = []
+    result = run_job(make_cfg(tmp_path, [f1], script="vlm_02",
+                              reference=str(ref), mask=str(mask_path)),
+                     client=fake_client([CLEAN]), on_event=events.append)
+    masked_dir = str(tmp_path / "job" / "masked")
+
+    assert result.frames[0].image.startswith(masked_dir)
+    assert result.config["reference_masked"].startswith(masked_dir)
+    by_event = {e["event"]: e for e in events}
+    assert by_event["mask_applied"]["reference"].startswith(masked_dir)
+    assert by_event["frame_start"]["frame"].startswith(masked_dir)
+    assert by_event["frame_done"]["frame"].startswith(masked_dir)
+
+
+def test_frame_events_carry_the_verdict_for_the_live_view(fake_client, img_factory,
+                                                          tmp_path):
+    events = []
+    run_job(make_cfg(tmp_path, [img_factory("f1.jpg")], script="vlm_01"),
+            client=fake_client([CLEAN]), on_event=events.append)
+    starts = [e for e in events if e["event"] == "frame_start"]
+    done = [e for e in events if e["event"] == "frame_done"]
+    assert [e["index"] for e in starts] == [0]
+    assert starts[0]["frame_id"] == "f1"
+    # detections travel with the event so the run screen can draw boxes before
+    # results.json exists
+    assert done[0]["detections"] == []
+    assert done[0]["anomaly"] is False
+
+
 def test_default_model_is_checked_upfront(fake_client, img_factory, tmp_path):
     # model=None resolves to the script default, which must still be verified
     client = fake_client([], models=["something-else"])
