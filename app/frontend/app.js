@@ -61,6 +61,7 @@ const S = {
     saved: true, saving: false,
     draw: false, corner: null,          // missed-box two-click draw state
     pending: null, pendingLabel: "", pendingType: "object",
+    pendingFrame: null,                 // frame the pending box was drawn on
     propagate: true,                    // copy verdicts to similar boxes on other frames
   },
   labels: null,               // rows of GET /api/reviews (Labels screen)
@@ -298,7 +299,14 @@ ACT.poolAll = () => { S.wiz.frameSel = (S.wiz.framePool || []).map(f => f.path);
 ACT.poolNone = () => { S.wiz.frameSel = []; render(); };
 
 /* --- extraction --- */
-ACT.setExtMode = (m) => { S.wiz.extractMode = m; render(); };
+/* Changing the trim or the sampling interval invalidates frames already
+   extracted. Without this, coming back to step 2 and re-cutting did nothing:
+   wizNext only extracts when w.frames is empty, so it kept the old cut, and
+   estFrames() kept reporting the old count instead of the new setting. */
+function invalidateExtraction() {
+  if (S.wiz.source === "video") S.wiz.frames = [];
+}
+ACT.setExtMode = (m) => { S.wiz.extractMode = m; invalidateExtraction(); render(); };
 async function doExtract() {
   const w = S.wiz;
   const dur = w.video.info.duration_s || 0;
@@ -718,8 +726,24 @@ function jobRefImg(data) {
   return cfg.reference_masked_img || cfg.reference_img || null;
 }
 ACT.openJob = (jobId) => openResults(jobId);
-ACT.setFilter = (f) => { S.res.filter = f; S.res.sel = 0; render(); };
-ACT.selFrame = (i) => { S.res.sel = +i; S.res.hoverV = -1; render(); };
+/* A half-drawn missed box belongs to the frame it was drawn on. Every change of
+   frame drops it: it used to be global state, so the dashed outline followed the
+   reviewer onto every other frame (only a page reload cleared it) and labelling
+   it there filed the box — with the original frame's coordinates — under the
+   wrong frame. Every S.res.sel change must go through setSel. */
+function revClearPending() {
+  Object.assign(S.rev, { pending: null, corner: null, pendingLabel: "",
+                         pendingFrame: null });
+}
+function setSel(i) {
+  if (S.res.sel !== i && (S.rev.pending || S.rev.corner)) {
+    revClearPending();
+    toast("Unfinished box discarded — it belonged to the previous frame.");
+  }
+  S.res.sel = i; S.res.hoverV = -1;
+}
+ACT.setFilter = (f) => { S.res.filter = f; setSel(0); render(); };
+ACT.selFrame = (i) => { setSel(+i); render(); };
 
 /* play: auto-advance through the filtered frames (wraps; stops on toggle,
    filter click keeps playing, leaving the screen stops it) */
@@ -744,7 +768,7 @@ ACT.togglePlay = () => {
     const vis = visibleIndices();
     if (!vis.length) { stopPlay(); return; }
     const pos = vis.indexOf(Math.min(S.res.sel, S.res.data.frames.length - 1));
-    S.res.sel = vis[(pos + 1) % vis.length];
+    setSel(vis[(pos + 1) % vis.length]);
     S._kbNav = true;
     render();
   }, 900);
@@ -786,7 +810,7 @@ function revEntry(frameId) {
 }
 function revActive() { return S.rev.on && S.rev.doc && S.rev.jobId === S.res.jobId; }
 ACT.toggleReview = async () => {
-  if (S.rev.on) { S.rev.on = false; S.rev.draw = false; S.rev.pending = null; render(); return; }
+  if (S.rev.on) { S.rev.on = false; S.rev.draw = false; revClearPending(); render(); return; }
   try {
     const d = await jget(`/api/jobs/${S.res.jobId}/review`);
     Object.assign(S.rev, { on: true, jobId: S.res.jobId, doc: d.review, metrics: d.metrics,
@@ -865,7 +889,7 @@ ACT.revAllTpConfirm = () => {
 ACT.revCycle = (i) => revSetVerdict(+i);
 ACT.revSet = (arg) => { const [i, v] = arg.split(":"); revSetVerdict(+i, v); };
 ACT.revToggleDraw = () => {
-  S.rev.draw = !S.rev.draw; S.rev.corner = null; S.rev.pending = null; render();
+  S.rev.draw = !S.rev.draw; revClearPending(); render();
 };
 ACT.revImgClick = (_, ev) => {
   if (!revActive() || !S.rev.draw || S.rev.pending) return;
@@ -881,6 +905,7 @@ ACT.revImgClick = (_, ev) => {
   S.rev.corner = null;
   if (bbox[2] - bbox[0] < 5 || bbox[3] - bbox[1] < 5) { toast("Box too small — click two opposite corners."); render(); return; }
   S.rev.pending = bbox; S.rev.pendingLabel = ""; S.rev.pendingType = "object";
+  S.rev.pendingFrame = curFrame().frame_id;
   render();
   setTimeout(() => { const el = document.getElementById("revLabel"); if (el) el.focus(); }, 30);
 };
@@ -889,12 +914,13 @@ ACT.revAddMissed = () => {
   const label = ((el && el.value) || S.rev.pendingLabel || "").trim();
   if (!S.rev.pending) return;
   if (!label) { toast("Give the missed object a label."); return; }
-  const e = revEntry(curFrame().frame_id);
+  // file it under the frame it was drawn on, never wherever the user is now
+  const e = revEntry(S.rev.pendingFrame || curFrame().frame_id);
   e.missed.push({ bbox: S.rev.pending, label, type: S.rev.pendingType });
-  S.rev.pending = null; S.rev.draw = false;
+  revClearPending(); S.rev.draw = false;
   revTouch();
 };
-ACT.revCancelMissed = () => { S.rev.pending = null; S.rev.corner = null; render(); };
+ACT.revCancelMissed = () => { revClearPending(); render(); };
 ACT.revDelMissed = (idx) => {
   const e = revEntry(curFrame().frame_id);
   e.missed.splice(+idx, 1);
@@ -907,11 +933,15 @@ ACT.revConfirm = () => {
   }
   e.done = true;
   revTouch();
-  const frames = S.res.data.frames;          // auto-advance to next unreviewed
-  for (let k = 1; k <= frames.length; k++) {
-    const j = (S.res.sel + k) % frames.length;
+  // auto-advance to the next unreviewed frame — within the active filter, so
+  // the selection never lands on a frame the gallery isn't showing
+  const frames = S.res.data.frames;
+  const vis = visibleIndices();
+  const pos = Math.max(0, vis.indexOf(S.res.sel));
+  for (let k = 1; k <= vis.length; k++) {
+    const j = vis[(pos + k) % vis.length];
     const fe = S.rev.doc.frames[frames[j].frame_id];
-    if (!fe || !fe.done) { S.res.sel = j; S.res.hoverV = -1; break; }
+    if (!fe || !fe.done) { setSel(j); break; }
   }
   S._kbNav = true;
   render();
@@ -925,7 +955,7 @@ ACT.openJobReview = async (jobId) => {
   if (revActive()) {
     const frames = S.res.data.frames;
     const i = frames.findIndex(f => { const e = S.rev.doc.frames[f.frame_id]; return !e || !e.done; });
-    if (i >= 0) S.res.sel = i;
+    if (i >= 0) setSel(i);
   }
   render();
 };
@@ -976,9 +1006,9 @@ ACT.deleteJob = async (jobId) => {
 
 /* change-events (inputs) */
 const CHANGE = {
-  extractN: v => { S.wiz.extractN = Math.max(0.1, parseFloat(v) || 1); render(); },
-  trimStart: v => { S.wiz.trimStart = Math.min(+v, S.wiz.trimEnd - 2); render(); },
-  trimEnd: v => { S.wiz.trimEnd = Math.max(+v, S.wiz.trimStart + 2); render(); },
+  extractN: v => { S.wiz.extractN = Math.max(0.1, parseFloat(v) || 1); invalidateExtraction(); render(); },
+  trimStart: v => { S.wiz.trimStart = Math.min(+v, S.wiz.trimEnd - 2); invalidateExtraction(); render(); },
+  trimEnd: v => { S.wiz.trimEnd = Math.max(+v, S.wiz.trimStart + 2); invalidateExtraction(); render(); },
   promptText: v => { S.wiz.promptText = v; S.wiz.promptPreset = "custom"; render(); },
   promptPreset: v => ACT.setPromptPreset(v),
   refPath: v => { S.wiz.refPath = v; render(); },
@@ -1035,6 +1065,13 @@ function render() {
   app.querySelectorAll("[data-scroll]").forEach(el => {
     scrollPos[el.dataset.scroll] = { top: el.scrollTop, left: el.scrollLeft };
   });
+  // innerHTML destroys the focused field: without this, a render landing while
+  // the user types (autosave, an expiring toast) dropped focus to <body> and
+  // the next keystrokes were read as review shortcuts — 'a' confirmed a frame
+  // with every box marked TP and jumped to the next one.
+  const act = document.activeElement;
+  const focus = act && act.id && app.contains(act)
+    ? { id: act.id, start: act.selectionStart, end: act.selectionEnd } : null;
   app.innerHTML = `
   <div class="arsi-app${S.theme === "light" ? " light" : ""}">
     ${sidebar()}
@@ -1057,6 +1094,14 @@ function render() {
     const p = scrollPos[el.dataset.scroll];
     if (p) { el.scrollTop = p.top; el.scrollLeft = p.left; }
   });
+  if (focus) {
+    const el = document.getElementById(focus.id);
+    if (el) {
+      el.focus();
+      // setSelectionRange throws on input types that have no text selection
+      try { el.setSelectionRange(focus.start, focus.end); } catch { /* not a text field */ }
+    }
+  }
   const gsel = app.querySelector("#gsel");
   if (gsel && S._kbNav) { gsel.scrollIntoView({ block: "nearest" }); S._kbNav = false; }
   hideTip();   // the hovered ? icon may not exist in the new DOM
@@ -1747,7 +1792,7 @@ function reviewSidebar(sel) {
   const pendingForm = S.rev.pending ? `
     <div style="padding:10px; border-radius:9px; margin-bottom:8px; background:oklch(0.18 0.03 300); border:1px solid oklch(0.42 0.1 300);">
       <div style="font-size:11px; color:oklch(0.85 0.1 300); margin-bottom:7px; font-family:${C.mono};">missed box [${S.rev.pending.join(", ")}]</div>
-      <input id="revLabel" data-change="revLabel" placeholder="label — e.g. phone on seat" value="${esc(S.rev.pendingLabel)}" style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:12px; margin-bottom:7px;">
+      <input id="revLabel" data-change="revLabel" data-live placeholder="label — e.g. phone on seat" value="${esc(S.rev.pendingLabel)}" style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:12px; margin-bottom:7px;">
       <div style="display:flex; gap:6px;">
         <select data-change="revType" style="flex:1; padding:6px 8px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
           ${["object", "graffiti", "damage", "litter", "unknown"].map(t => `<option ${t === S.rev.pendingType ? "selected" : ""}>${t}</option>`).join("")}
@@ -2309,6 +2354,15 @@ document.addEventListener("change", (ev) => {
   const fn = CHANGE[el.dataset.change];
   if (fn) fn(el.value, el);
 });
+/* Text fields marked data-live mirror every keystroke into the state. 'change'
+   alone only fires on blur, so a re-render mid-typing re-rendered the field
+   from stale state and silently wiped what had been typed. */
+document.addEventListener("input", (ev) => {
+  const el = ev.target.closest("[data-live][data-change]");
+  if (!el) return;
+  const fn = CHANGE[el.dataset.change];
+  if (fn) fn(el.value, el);
+});
 document.addEventListener("keydown", (ev) => {
   if (S.screen !== "results" || !S.res.data) return;
   const t = ev.target;
@@ -2319,8 +2373,11 @@ document.addEventListener("keydown", (ev) => {
   if (revActive()) {
     const key = ev.key.toLowerCase();
     if (key === "escape" && (S.rev.pending || S.rev.draw)) {
-      ev.preventDefault(); S.rev.pending = null; S.rev.corner = null; S.rev.draw = false; render(); return;
+      ev.preventDefault(); revClearPending(); S.rev.draw = false; render(); return;
     }
+    // A pending missed box means the reviewer is writing its label. Letters are
+    // label text, never shortcuts — whatever happened to the focus.
+    if (S.rev.pending) return;
     if (key === "c") { ev.preventDefault(); ACT.revConfirm(); return; }
     if (key === "a") { ev.preventDefault(); ACT.revAllTpConfirm(); return; }
     if (key === "m") { ev.preventDefault(); ACT.revToggleDraw(); return; }
