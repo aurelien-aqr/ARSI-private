@@ -85,11 +85,20 @@ def eval_case(case, refmap, variant):
         extra = ""
     hits = [any(m._boxes_overlap(r["bbox"], inst["bbox"]) for r in regions)
             for inst in case.get("instances", [])]
+    # Strict hits are NOT decoration: the lenient rule counts a frame-sized box
+    # as hitting every instance, so a merge that chains regions into a mega-blob
+    # scores a perfect 45/45 while boxing nothing. Only this column catches it
+    # (the 2026-07-21 merge sweep: 45/45 lenient but 22/45 strict). Same for the
+    # biggest box, printed below as the blob canary.
+    strict = [any(m._iou(r["bbox"], inst["bbox"]) >= 0.3 for r in regions)
+              for inst in case.get("instances", [])]
+    boxes = [(r["bbox"][2] - r["bbox"][0]) * (r["bbox"][3] - r["bbox"][1])
+             for r in regions]
     return {
         "id": case["id"], "anomaly": case["has_anomaly"],
         "n_regions": len(regions), "extra": extra,
         "types": [i["type"] for i in case.get("instances", [])],
-        "hits": hits,
+        "hits": hits, "strict": strict, "max_box": max(boxes) if boxes else 0,
     }
 
 
@@ -116,9 +125,12 @@ def main():
             for t, h in zip(r["types"], r["hits"]):
                 d0, n0 = per_type.get(t, (0, 0))
                 per_type[t] = (d0 + int(h), n0 + 1)
+        det_s = sum(sum(r["strict"]) for r in rows)
+        max_box = max((r["max_box"] for r in rows), default=0)
         print(f"\n=== {name} ===")
-        print(f"instance recall: {det}/{inst}   regions: {reg_a} on anomaly "
-              f"frames, {reg_c} on clean frames")
+        print(f"instance recall: {det}/{inst}   strict IoU>=0.3: {det_s}/{inst}"
+              f"   biggest box: {max_box:,} px")
+        print(f"regions: {reg_a} on anomaly frames, {reg_c} on clean frames")
         print("per-type: " + "  ".join(
             f"{t}={d}/{n}" for t, (d, n) in sorted(per_type.items())))
         if args.quiet:

@@ -126,6 +126,53 @@ EDGE_THRESHOLD        = 1.5
 EDGE_FLAT_THR         = 6.0     # reference |grad| above this = not a flat surface
 EDGE_MAX_ADD          = 4
 
+# --- Region merge, applied AFTER the channels and BEFORE the VLM ---------------
+# One real object rarely produces one region: a backpack and its strap, a phone
+# and the sliver of seat edge beside it, land as separate connected components
+# (the channels then add their own boxes on top). Historically these were only
+# de-duplicated AFTER classification, so the SAME object was sent to the VLM 2-5
+# times as independent fragments - real_f0205 spent 64 regions on 2 objects. That
+# hurts three ways at once: the judge sees a fragment instead of the object and
+# cannot name it (an object survived only if at least ONE of its fragments drew a
+# YES, which is why real_f0112 scored 4/4 while f0037/f0053/f0100 scored 3/4 on
+# the SAME scene), noise fragments each get their own chance to become a false
+# positive, and every fragment costs a VLM call.
+#
+# So merge first. Two regions join when their boxes come within MERGE_GAP px of
+# each other, UNLESS the union box would be mostly empty: MERGE_MIN_FILL is the
+# fraction of the union box that must be changed pixels. Both are ratios/short
+# distances rather than absolute positions, so they carry to another camera -
+# unlike a hard size gate, which is the mistake MAX_AREA already made once.
+#
+# MEASURED 2026-07-21, and the headline is a NEGATIVE result worth keeping: this
+# is a MUCH smaller lever than the fragmentation story suggests. Sweep over
+# gap x fill on the 29-case GT (localizer only, no VLM):
+#
+#   gap  fill | lenient  strict | regions | biggest box
+#    --    -- |  45/45    37/45 |     651 |    704,160   baseline, no merge
+#    24  0.25 |  45/45    22/45 |     373 |  2,073,600   <- MEGA-BLOB
+#    24  0.40 |  45/45    33/45 |     463 |  1,313,280
+#    24  0.50 |  45/45    37/45 |     559 |    734,400   <- shipped
+#    24  0.70 |  45/45    37/45 |     643 |    704,160
+#
+# The aggressive settings look spectacular on the LENIENT rule (regions nearly
+# halve, recall stays 45/45) and are a trap: the merge chains neighbour to
+# neighbour until one box covers the whole frame (real_f0205 collapsed to a
+# single [36,0,1920,1080] region), and a frame-sized box trivially "overlaps"
+# every ground-truth instance. Only strict IoU >= 0.3 exposes it - it halves,
+# 37/45 -> 22/45. Any future tuning here MUST be scored on the strict column.
+# A second rule was tried and REJECTED: absorb only a small fragment into a much
+# larger neighbour (size ratio + box-growth cap). It was strictly worse - it
+# still chained into frame-sized boxes above 30% growth, and even at 15% it lost
+# a strict instance (36/45) for a 9% region cut.
+# So the honest gain is modest: -14% VLM calls (651 -> 559) with recall intact.
+# Whether it also recovers the 5 VLM-rejected instances is UNPROVEN: merged boxes
+# are new cache keys, so that answer needs a fresh GPU benchmark run.
+# Set MERGE_REGIONS = False to restore the old fragment-per-call behaviour.
+MERGE_REGIONS  = True
+MERGE_GAP      = 24      # px at full resolution; DILATE already bridges ~8 px
+MERGE_MIN_FILL = 0.50    # union box emptier than this = two things, keep apart
+
 # --- Person filter -------------------------------------------------------------
 # A cheap person detector (YOLOv8-nano, ~2-6 s/frame on CPU, ~20 ms on GPU) runs
 # once per inspection frame; candidate regions mostly contained in a person box
@@ -414,6 +461,59 @@ def _boxes_overlap(box_a, box_b) -> bool:
     return False
 
 
+def _boxes_within(box_a, box_b, gap: int) -> bool:
+    """True if the two boxes overlap or are separated by at most `gap` px on both
+    axes (Chebyshev-style gap, so a diagonal neighbour counts as near)."""
+    dx = max(box_a[0] - box_b[2], box_b[0] - box_a[2], 0)
+    dy = max(box_a[1] - box_b[3], box_b[1] - box_a[3], 0)
+    return dx <= gap and dy <= gap
+
+
+def merge_regions(regions, gap: int = None, min_fill: float = None):
+    """Fuse candidate regions that belong to the same object, before any VLM call.
+
+    Repeatedly joins the first pair that is within `gap` px AND whose union box
+    stays at least `min_fill` full of changed pixels; the fill guard is what stops
+    a chain of neighbours from swallowing the frame (the mega-blob failure that
+    killed real_f0112 when the base threshold was lowered instead).
+
+    The merged region keeps the SUM of the changed-pixel areas (so downstream
+    size checks still see how much really changed, not the empty box around it)
+    and the MAX salience of its parts (so the cap ranks it by its strongest
+    evidence, never diluting a bright phone into a dim neighbour).
+
+    n is bounded by MAX_REGIONS + the channel budgets (~37), so the quadratic
+    rescan per merge is irrelevant next to one VLM call.
+    """
+    gap = MERGE_GAP if gap is None else gap
+    min_fill = MERGE_MIN_FILL if min_fill is None else min_fill
+    out = [dict(r) for r in regions]
+
+    def try_one():
+        for i in range(len(out)):
+            for j in range(i + 1, len(out)):
+                a, b = out[i], out[j]
+                if not _boxes_within(a["bbox"], b["bbox"], gap):
+                    continue
+                union = [min(a["bbox"][0], b["bbox"][0]), min(a["bbox"][1], b["bbox"][1]),
+                         max(a["bbox"][2], b["bbox"][2]), max(a["bbox"][3], b["bbox"][3])]
+                box_area = max(1, (union[2] - union[0]) * (union[3] - union[1]))
+                area = a["area"] + b["area"]
+                if area / box_area < min_fill:
+                    continue
+                strong = a if a.get("salience", 0) >= b.get("salience", 0) else b
+                out[i] = {**strong, "bbox": union, "area": area,
+                          "merged": a.get("merged", 1) + b.get("merged", 1)}
+                del out[j]
+                return True
+        return False
+
+    while try_one():
+        pass
+    out.sort(key=lambda r: -r.get("salience", r["area"]))
+    return out
+
+
 def localize(reference_path: str, inspection_path: str):
     """Full multi-channel localization: base photometric regions (person-vetoed,
     then capped to MAX_REGIONS by salience), plus bounded additions from the
@@ -479,6 +579,13 @@ def localize(reference_path: str, inspection_path: str):
 
     info["total"] = info["base"] + info["second"] + info["edge"]
     info["capped"] = capped
+    # Merge LAST, on the assembled list: the per-channel caps above are tuned
+    # against a measured regression (capping the merged list evicted the far
+    # phone in real_f0219), so merging must not feed back into them.
+    info["before_merge"] = len(regions)
+    if MERGE_REGIONS:
+        regions = merge_regions(regions)
+    info["merged_away"] = info["before_merge"] - len(regions)
     return regions, info
 
 

@@ -39,8 +39,40 @@ ollama run qwen3-vl:8b-instruct "hi" && ollama ps
 
 ```bash
 python benchmark/eval_localization.py --variants shipped --quiet
-# expected: instance recall 45/45 (GT box of gpt_03 fixed 2026-07-12)
+# expected: instance recall 45/45, strict IoU>=0.3 37/45, biggest box 734,400 px
+#           (GT box of gpt_03 fixed 2026-07-12; merge shipped 2026-07-21)
+# The strict column and the box size are the mega-blob canary — a region merge
+# that chains neighbours together still scores 45/45 lenient. Never accept a
+# localizer change on the lenient number alone.
 ```
+
+## 1b) PENDING EXPERIMENT — does the pre-VLM merge fix the 5 FN? (~10 min)
+
+Added 2026-07-21. `localize()` now merges neighbouring regions BEFORE the judge
+(`MERGE_REGIONS`, gap 24, min fill 0.50): 651 → 559 regions, recall untouched.
+Measured on the localizer only — the end-to-end effect is UNKNOWN, because
+merged boxes are new cache keys, so the CPU laptop cannot afford the re-run.
+
+This is the single question worth the GPU's first fresh minutes: the 5 missed
+instances are all VLM rejections of regions that DID contain the object, and the
+hypothesis is that the judge was rejecting fragments it could not name.
+
+```bash
+# A/B, GLM judge, conservative prompt. ~560 fresh calls ≈ 7 min at 0.7 s/call.
+python benchmark/run_benchmark.py
+cp benchmark/report.md benchmark/report_merge_on.md
+
+# baseline: same stack, merge disabled (verdicts come back from cache, ~0 calls)
+sed -i 's/^MERGE_REGIONS  = True/MERGE_REGIONS  = False/' vlm_05_reference_diff.py
+python benchmark/run_benchmark.py
+cp benchmark/report.md benchmark/report_merge_off.md
+sed -i 's/^MERGE_REGIONS  = False/MERGE_REGIONS  = True/' vlm_05_reference_diff.py
+```
+
+Compare the OBJECT-level block, not the frame-level one — frame-level is already
+1.000 on these 29 cases and cannot move. Keep the merge if instance recall rises
+above 40/45 or region precision above 0.663 with recall intact; revert it if
+recall drops. Either way the answer belongs in benchmark/README.md.
 
 ## 2) Benchmark: conservative prompt × new localizer (~20-40 min)
 
