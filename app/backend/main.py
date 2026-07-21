@@ -28,6 +28,7 @@ from arsi_core.video import extract_frames, probe                  # noqa: E402
 
 from .exports import report_html, report_md, results_xlsx          # noqa: E402
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
+from .pipeline_docs import PIPELINE_DOCS                           # noqa: E402
 from .review import (ReviewError, compute_metrics, export_stats,   # noqa: E402
                      load_review, review_path, save_review)
 
@@ -360,7 +361,8 @@ def pipelines():
         if p["key"] == "vlm_05":
             prompts = {"conservative": module.PROMPT,
                        "lenient": module.PROMPT_LENIENT}
-        out.append({**p, "prompts": prompts, "default_model": module.MODEL_NAME})
+        out.append({**p, "prompts": prompts, "default_model": module.MODEL_NAME,
+                    "doc": PIPELINE_DOCS.get(p["key"])})
     return {"pipelines": out}
 
 

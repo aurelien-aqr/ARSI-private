@@ -38,6 +38,8 @@ const S = {
   jobs: [], settings: null, storage: null,
   pulling: null, pullPct: 0, pullStatus: "",
   toast: null,
+  docPipe: null,          // pipeline key whose "how it works" modal is open
+  hist: { script: "all", model: "all" },   // history-view filters
   wiz: {
     step: 1, source: null, demoSel: [],
     video: null, extracting: false, extractMode: "seconds", extractN: 2,
@@ -443,6 +445,17 @@ ACT.setMaskPreset = async (name) => {
 };
 
 /* --- pipeline step --- */
+/* "How it works" modal. Opening it must NOT also select the pipeline: the
+   button carries its own data-act, and the click delegate resolves the CLOSEST
+   [data-act] ancestor, so the button wins over the card it sits in. */
+ACT.histReset = () => { S.hist = { script: "all", model: "all" }; render(); };
+
+ACT.showPipeDoc = (k) => { S.docPipe = k; render(); };
+ACT.closePipeDoc = () => { S.docPipe = null; render(); };
+// Swallows clicks inside the modal card: the delegate walks up to the nearest
+// [data-act], which would otherwise be the closing backdrop.
+ACT.noop = () => {};
+
 ACT.setPipeline = (k) => {
   S.wiz.pipeline = k;
   const p = S.pipelines.find(x => x.key === k);
@@ -1015,6 +1028,8 @@ const CHANGE = {
   maskPreset: v => ACT.setMaskPreset(v),
   diff: v => { S.wiz.diff = +v; }, minArea: v => { S.wiz.minArea = +v; },
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
+  histScript: v => { S.hist.script = v; render(); },
+  histModel: v => { S.hist.model = v; render(); },
   compareJob: v => ACT.setCompareJob(v),
   ollamaUrl: v => ACT.saveOllamaUrl(v),
   revLabel: v => { S.rev.pendingLabel = v; },
@@ -1088,6 +1103,7 @@ function render() {
         ${S.screen === "settings" ? settingsView() : ""}
       </div>
     </div>
+    ${S.docPipe ? pipeDocModal() : ""}
     ${S.toast ? `<div style="position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:60; background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(S.toast)}</div>` : ""}
   </div>`;
   app.querySelectorAll("[data-scroll]").forEach(el => {
@@ -1461,6 +1477,52 @@ function wizStep3() {
     </div>
   </div>`;
 }
+/* "How it works" popup for one pipeline. Content comes from the backend
+   (app/backend/pipeline_docs.py) so the wording lives with the code it
+   describes; every section is optional and simply omitted when absent. */
+function pipeDocModal() {
+  const p = S.pipelines.find(x => x.key === S.docPipe);
+  if (!p || !p.doc) return "";
+  const d = p.doc;
+  const h2 = (t) => `<div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; font-family:${C.mono}; color:${C.fg4}; margin:22px 0 9px;">${t}</div>`;
+  const bullets = (items, dotColor) => `<ul style="margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:7px;">${items.map(t => `
+    <li style="display:flex; gap:9px; font-size:13px; line-height:1.5; color:${C.fg2};">
+      <span style="flex:0 0 5px; width:5px; height:5px; border-radius:50%; background:${dotColor}; margin-top:7px;"></span>
+      <span>${esc(t)}</span></li>`).join("")}</ul>`;
+  const steps = (d.steps || []).map(([title, body], i) => `
+    <div style="display:flex; gap:12px; padding:11px 0; border-top:1px solid ${C.bd2};">
+      <span style="flex:0 0 22px; height:22px; border-radius:50%; background:${C.accBg}; border:1px solid ${C.accBd}; color:${C.accFg}; font-family:${C.mono}; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center;">${i + 1}</span>
+      <div style="flex:1;">
+        <div style="font-size:13px; font-weight:650; color:${C.fg}; margin-bottom:3px;">${esc(title)}</div>
+        <div style="font-size:12.5px; line-height:1.55; color:${C.fg2};">${esc(body)}</div>
+      </div>
+    </div>`).join("");
+  const io = [["Input", d.inputs], ["Output", d.output]].filter(x => x[1]).map(([k, v]) => `
+    <div style="flex:1; min-width:200px; background:${C.bgCard2}; border:1px solid ${C.bd2}; border-radius:9px; padding:11px 13px;">
+      <div style="font-family:${C.mono}; font-size:10px; text-transform:uppercase; letter-spacing:0.07em; color:${C.fg4}; margin-bottom:4px;">${k}</div>
+      <div style="font-size:12.5px; line-height:1.5; color:${C.fg2};">${esc(v)}</div>
+    </div>`).join("");
+  return `
+  <div data-act="closePipeDoc" style="position:fixed; inset:0; z-index:70; background:rgba(0,0,0,0.62); display:flex; align-items:center; justify-content:center; padding:28px;">
+    <div data-act="noop" style="width:100%; max-width:720px; max-height:86vh; display:flex; flex-direction:column; background:${C.bg}; border:1px solid ${C.bd3}; border-radius:14px; box-shadow:0 26px 70px -20px rgba(0,0,0,0.85); animation:arsislide .16s ease;">
+      <div style="display:flex; align-items:flex-start; gap:14px; padding:19px 22px 15px; border-bottom:1px solid ${C.bd2};">
+        <div style="flex:1;">
+          <div style="font-size:16px; font-weight:650; color:${C.fg};">${esc(p.name)}</div>
+          <div style="font-family:${C.mono}; font-size:11px; color:${C.fg4}; margin-top:3px;">${esc(p.key)} · ${p.ref ? "needs a reference frame" : "no reference needed"}</div>
+        </div>
+        <button data-act="closePipeDoc" style="flex:0 0 auto; font-size:15px; line-height:1; color:${C.fg3}; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; width:28px; height:28px; border-radius:7px; cursor:pointer;">×</button>
+      </div>
+      <div data-scroll="pipedoc" style="flex:1; min-height:0; overflow:auto; padding:4px 22px 24px;">
+        ${d.summary ? `<div style="font-size:13.5px; line-height:1.6; color:${C.fg}; margin-top:18px;">${esc(d.summary)}</div>` : ""}
+        ${io ? `<div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;">${io}</div>` : ""}
+        ${steps ? h2("How a frame flows through it") + `<div>${steps}</div>` : ""}
+        ${d.strengths ? h2("Strengths") + bullets(d.strengths, C.green) : ""}
+        ${d.limits ? h2("Limits") + bullets(d.limits, C.amber) : ""}
+      </div>
+    </div>
+  </div>`;
+}
+
 function wizStep4() {
   const w = S.wiz;
   const pipes = S.pipelines.map(p => `
@@ -1471,6 +1533,7 @@ function wizStep4() {
         <div style="font-size:12px; color:oklch(0.62 0.012 250); margin-top:1px;">${p.desc}</div>
       </div>
       ${p.recommended ? `<span style="font-size:10px; font-weight:600; padding:3px 9px; border-radius:10px; background:oklch(0.26 0.07 150); color:oklch(0.86 0.1 150); border:1px solid oklch(0.42 0.09 150);">RECOMMENDED</span>` : ""}
+      ${p.doc ? `<button data-act="showPipeDoc" data-arg="${p.key}" title="How this pipeline works" style="font-size:11px; font-weight:600; color:${C.fg2}; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:5px 11px; border-radius:7px; cursor:pointer; white-space:nowrap;">How it works</button>` : ""}
     </div>`).join("");
   const models = S.models.map(m => {
     const sel = w.model === m.tag;
@@ -2044,52 +2107,88 @@ function compareView(tabs, gallery, sel, selIdx) {
 }
 
 /* --------------- history --------------- */
+/* Options for one history filter: every value present in the jobs, with how many
+   jobs carry it. Counting against the OTHER filter's selection (not the raw job
+   list) is what makes the two dropdowns honest together — picking a script then
+   shows "0" next to the models that script was never run with, instead of
+   offering a combination that yields an empty table. */
+function histOptions(key, other, otherVal, label) {
+  const pool = S.jobs.filter(j => otherVal === "all" || (j.config || {})[other] === otherVal);
+  const counts = new Map();
+  pool.forEach(j => {
+    const v = (j.config || {})[key];
+    if (v) counts.set(v, (counts.get(v) || 0) + 1);
+  });
+  S.jobs.forEach(j => {                       // keep values with no match visible
+    const v = (j.config || {})[key];
+    if (v && !counts.has(v)) counts.set(v, 0);
+  });
+  const sel = S.hist[key];
+  const opts = [...counts.keys()].sort().map(v =>
+    `<option value="${esc(v)}" ${sel === v ? "selected" : ""}>${esc(v)} (${counts.get(v)})</option>`);
+  return `<option value="all" ${sel === "all" ? "selected" : ""}>All ${label} (${pool.length})</option>`
+       + opts.join("");
+}
+
+/* History rows are wider than the dashboard's: this view exists to COMPARE runs
+   (which model was faster, which one failed frames), so the numbers that used to
+   sit in a side panel are columns here. The side panel was also unreachable —
+   clicking a row navigates away, so its selection could never be changed. */
+const HIST_COLS = "1.9fr 1.5fr 0.7fr 0.8fr 0.7fr 0.8fr 1fr 0.5fr";
+
+function historyRow(j) {
+  const m = statusMeta(j.status);
+  const s = j.summary || {};
+  const cfg = j.config || {};
+  const anomC = (s.n_anomalous || 0) > 0 ? C.red : C.fg3;
+  const failC = (s.n_failed || 0) > 0 ? C.amber : C.fg4;
+  const num = (v, color, weight) =>
+    `<span style="text-align:right; font-family:${C.mono}; color:${color}; ${weight ? "font-weight:600;" : ""}">${v}</span>`;
+  return `
+  <div class="hoverable" data-act="openJob" data-arg="${esc(j.job_id)}" style="display:grid; grid-template-columns:${HIST_COLS}; gap:8px; padding:13px 16px; border-top:1px solid oklch(0.24 0.01 250); align-items:center; font-size:13px; cursor:pointer;">
+    <div style="min-width:0;">
+      <div style="font-family:${C.mono}; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(j.job_id)}</div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
+    </div>
+    <span title="${esc(cfg.model || "")}" style="font-family:${C.mono}; font-size:11.5px; color:${C.fg2}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(cfg.model || "—")}</span>
+    ${num(s.n_frames ?? cfg.n_frames ?? "—", C.fg2)}
+    ${num(s.n_anomalous ?? "—", anomC, true)}
+    ${num(s.n_failed ?? "—", failC)}
+    ${num(s.wall_seconds != null ? fmtEta(s.wall_seconds) : "—", C.fg3)}
+    <span style="display:flex; justify-content:flex-end;"><span style="font-size:11.5px; color:${m.fg}; background:${m.bg}; border:1px solid ${m.bd}; padding:3px 9px; border-radius:12px; white-space:nowrap;">${m.label}</span></span>
+    <span style="display:flex; justify-content:flex-end;">
+      ${s.n_frames ? `<button data-act="openReportJob" data-arg="${esc(j.job_id)}" title="Open the full HTML report in a new tab" style="font-size:11px; color:${C.fg2}; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:4px 9px; border-radius:7px; cursor:pointer; white-space:nowrap;">Report</button>` : ""}
+    </span>
+  </div>`;
+}
+
 function historyView() {
-  const selId = S.res.jobId || (S.jobs[0] && S.jobs[0].job_id);
-  const selJob = S.jobs.find(j => j.job_id === selId);
-  const s = selJob && selJob.summary;
+  const H = S.hist;
+  const jobs = S.jobs.filter(j => {
+    const c = j.config || {};
+    return (H.script === "all" || c.script === H.script)
+        && (H.model === "all" || c.model === H.model);
+  });
+  const filtered = H.script !== "all" || H.model !== "all";
+  const selStyle = `font-size:12px; color:${C.fg2}; background:${C.bgInput}; border:1px solid ${C.bd3}; border-radius:8px; padding:6px 9px; min-width:0; width:100%; cursor:pointer;`;
+  const th = (t, right) => `<span style="${right ? "text-align:right;" : ""}">${t}</span>`;
   return `
   <div data-scroll="page" style="height:100%; overflow:auto; padding:24px 28px;">
-    <div style="display:grid; grid-template-columns:1.15fr 1fr; gap:22px; align-items:start;">
-      <div>
-        <h3 style="margin:0 0 12px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3};">All jobs</h3>
-        <div style="border:1px solid ${C.bd}; border-radius:11px; overflow:hidden; background:${C.bgCard};">
-          <div style="display:grid; grid-template-columns:2fr 0.8fr 1fr 1.1fr; padding:10px 15px; background:${C.bg}; border-bottom:1px solid ${C.bd}; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:${C.fg4}; font-family:${C.mono};">
-            <span>Job</span><span style="text-align:right;">Frames</span><span style="text-align:right;">Anomalies</span><span style="text-align:right;">Status</span>
-          </div>
-          ${S.jobs.length ? S.jobs.map(j => jobRow(j, "2fr 0.8fr 1fr 1.1fr")).join("")
-            : `<div style="padding:32px; text-align:center; color:${C.fg4}; font-size:12.5px;">No jobs yet.</div>`}
+    <div style="max-width:1180px;">
+      <div style="display:flex; align-items:center; gap:12px; margin:0 0 14px; flex-wrap:wrap;">
+        <h3 style="margin:0; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3};">${filtered ? `${jobs.length} of ${S.jobs.length} jobs` : "All jobs"}</h3>
+        <select data-change="histScript" style="${selStyle} width:auto; min-width:170px;">${histOptions("script", "model", H.model, "scripts")}</select>
+        <select data-change="histModel" style="${selStyle} width:auto; min-width:230px;">${histOptions("model", "script", H.script, "models")}</select>
+        ${filtered ? `<button data-act="histReset" style="font-size:11px; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2}; padding:5px 10px; border-radius:7px; cursor:pointer;">Clear filters</button>` : ""}
+      </div>
+      <div style="border:1px solid ${C.bd}; border-radius:11px; overflow:hidden; background:${C.bgCard};">
+        <div style="display:grid; grid-template-columns:${HIST_COLS}; gap:8px; padding:10px 16px; background:${C.bg}; border-bottom:1px solid ${C.bd}; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:${C.fg4}; font-family:${C.mono};">
+          ${th("Job")}${th("Model")}${th("Frames", 1)}${th("Anomalies", 1)}${th("Failed", 1)}${th("Time", 1)}${th("Status", 1)}${th("")}
         </div>
+        ${jobs.length ? jobs.map(historyRow).join("")
+          : `<div style="padding:32px; text-align:center; color:${C.fg4}; font-size:12.5px;">${S.jobs.length ? "No job matches these filters." : "No jobs yet."}</div>`}
       </div>
-      <div>
-        <h3 style="margin:0 0 12px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3};">Report · ${esc(selId || "—")}</h3>
-        ${selJob ? `
-        <div style="border:1px solid ${C.bd}; border-radius:12px; overflow:hidden; background:${C.bgCard2};">
-          <div style="padding:18px 20px; border-bottom:1px solid ${C.bd2};">
-            <div style="font-size:15px; font-weight:650; margin-bottom:3px;">${esc(selJob.config.script)} — ${esc(selJob.config.prompt_name)} prompt</div>
-            <div style="font-family:${C.mono}; font-size:11.5px; color:oklch(0.58 0.012 250);">${esc(selJob.config.model || "")} · status ${esc(selJob.status)}</div>
-          </div>
-          ${s ? `
-          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:${C.bd2};">
-            <div style="background:${C.bgCard2}; padding:15px 18px;"><div style="font-family:${C.mono}; font-size:22px; font-weight:700;">${s.n_frames}</div><div style="font-size:11px; color:${C.fg3}; margin-top:2px;">frames</div></div>
-            <div style="background:${C.bgCard2}; padding:15px 18px;"><div style="font-family:${C.mono}; font-size:22px; font-weight:700; color:${C.red};">${s.n_anomalous}</div><div style="font-size:11px; color:${C.fg3}; margin-top:2px;">anomalous</div></div>
-            <div style="background:${C.bgCard2}; padding:15px 18px;"><div style="font-family:${C.mono}; font-size:22px; font-weight:700;">${s.wall_seconds}<span style="font-size:12px; color:${C.fg3};">s</span></div><div style="font-size:11px; color:${C.fg3}; margin-top:2px;">wall clock</div></div>
-          </div>
-          <div style="padding:18px 20px; border-top:1px solid ${C.bd2};">
-            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.07em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:10px;">Frame counts</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-              <div style="padding:10px 13px; border-radius:8px; background:${C.greenBg}; border:1px solid ${C.greenBd}; display:flex; justify-content:space-between;"><span style="font-size:12px; color:oklch(0.8 0.08 150);">Clean</span><span style="font-family:${C.mono}; font-weight:700; color:oklch(0.85 0.1 150);">${s.n_ok - s.n_anomalous}</span></div>
-              <div style="padding:10px 13px; border-radius:8px; background:${C.redBg}; border:1px solid ${C.redBd}; display:flex; justify-content:space-between;"><span style="font-size:12px; color:oklch(0.82 0.09 22);">Anomalous</span><span style="font-family:${C.mono}; font-weight:700; color:oklch(0.85 0.11 22);">${s.n_anomalous}</span></div>
-              <div style="padding:10px 13px; border-radius:8px; background:oklch(0.2 0.012 250); border:1px solid ${C.bdBtn}; display:flex; justify-content:space-between;"><span style="font-size:12px; color:${C.fg2};">Failed</span><span style="font-family:${C.mono}; font-weight:700;">${s.n_failed}</span></div>
-              <div style="padding:10px 13px; border-radius:8px; background:oklch(0.2 0.012 250); border:1px solid ${C.bdBtn}; display:flex; justify-content:space-between;"><span style="font-size:12px; color:${C.fg2};">OK</span><span style="font-family:${C.mono}; font-weight:700;">${s.n_ok}</span></div>
-            </div>
-          </div>` : `<div style="padding:24px 20px; font-size:12.5px; color:${C.fg4};">Job has not produced results yet.</div>`}
-          <div style="padding:14px 20px; border-top:1px solid ${C.bd2}; display:flex; gap:10px;">
-            <button data-act="openReportJob" data-arg="${esc(selId)}" style="font-size:12.5px; color:oklch(0.85 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:8px 14px; border-radius:8px; cursor:pointer;">Open full report</button>
-            <button data-act="openJob" data-arg="${esc(selId)}" style="font-size:12.5px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;">View frames</button>
-          </div>
-        </div>` : `<div style="color:${C.fg4}; font-size:12.5px;">Run a job to see its report here.</div>`}
-      </div>
+      <div style="margin-top:10px; font-size:11.5px; color:${C.fg5};">Click a row to open its frames · <span style="color:${C.fg4};">Report</span> opens the full HTML report in a new tab.</div>
     </div>
   </div>`;
 }
@@ -2364,6 +2463,11 @@ document.addEventListener("input", (ev) => {
   if (fn) fn(el.value, el);
 });
 document.addEventListener("keydown", (ev) => {
+  // before the results-only guard below: the pipeline doc opens on the wizard
+  if (S.docPipe) {
+    if (ev.key === "Escape") { ev.preventDefault(); ACT.closePipeDoc(); }
+    return;
+  }
   if (S.screen !== "results" || !S.res.data) return;
   const t = ev.target;
   if (t && t.id === "revLabel" && ev.key === "Enter") {
