@@ -48,6 +48,15 @@
   /* Light mode: invert the whole UI, then restore real photos so CCTV frames stay true */
   .arsi-app.light { filter: invert(1) hue-rotate(180deg); }
   .arsi-app.light img { filter: invert(1) hue-rotate(180deg); }
+  /* Overlays live OUTSIDE #app, for the same reason the file inputs do:
+     render() replaces #app wholesale, so a background poll (health every 15s,
+     a model pull) recreated an open dialog and replayed its entrance
+     animation — the modal visibly blinked every few seconds. app.js only
+     rewrites this host when the dialog it holds actually changes. */
+  #arsi-modal { display:none; position:fixed; inset:0; z-index:70; }
+  #arsi-modal.open { display:block; }
+  #arsi-modal.light { filter: invert(1) hue-rotate(180deg); }
+  #arsi-modal.light img { filter: invert(1) hue-rotate(180deg); }
   .arsi-app { transition: filter .18s ease; height:100vh; display:flex; background:oklch(0.15 0.008 250); }
   .hoverable:hover { background: oklch(0.19 0.012 250) !important; }
   .navitem:hover { color: oklch(0.88 0.006 250) !important; }
@@ -56,6 +65,7 @@
 </head>
 <body>
 <div id="app"></div>
+<div id="arsi-modal"></div>
 <!-- file inputs live OUTSIDE #app: a re-render (health poll, SSE event) while
      the file dialog is open would otherwise destroy the input the dialog is
      bound to, and its change event would never reach the app -->

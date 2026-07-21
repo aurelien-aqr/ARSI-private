@@ -1103,7 +1103,6 @@ function render() {
         ${S.screen === "settings" ? settingsView() : ""}
       </div>
     </div>
-    ${S.docPipe ? pipeDocModal() : ""}
     ${S.toast ? `<div style="position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:60; background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(S.toast)}</div>` : ""}
   </div>`;
   app.querySelectorAll("[data-scroll]").forEach(el => {
@@ -1121,6 +1120,7 @@ function render() {
   const gsel = app.querySelector("#gsel");
   if (gsel && S._kbNav) { gsel.scrollIntoView({ block: "nearest" }); S._kbNav = false; }
   hideTip();   // the hovered ? icon may not exist in the new DOM
+  syncModal();
 }
 
 function navItem(key, label, icon, extra = "") {
@@ -1480,6 +1480,22 @@ function wizStep3() {
 /* "How it works" popup for one pipeline. Content comes from the backend
    (app/backend/pipeline_docs.py) so the wording lives with the code it
    describes; every section is optional and simply omitted when absent. */
+/* Mount the open dialog into #arsi-modal, which render() never rewrites.
+   The early return on an unchanged key is the whole point: rebuilding
+   identical markup would restart the entrance animation and reset the body's
+   scroll, which is exactly what a 15 s health poll used to do to an open
+   modal. Theme is a class toggle, so it never touches the children. */
+function syncModal() {
+  const host = document.getElementById("arsi-modal");
+  if (!host) return;
+  host.classList.toggle("light", S.theme === "light");
+  const key = S.docPipe || "";
+  if (host.dataset.key === key) return;
+  host.dataset.key = key;
+  host.innerHTML = key ? pipeDocModal() : "";
+  host.classList.toggle("open", !!key);
+}
+
 function pipeDocModal() {
   const p = S.pipelines.find(x => x.key === S.docPipe);
   if (!p || !p.doc) return "";
@@ -1503,7 +1519,7 @@ function pipeDocModal() {
       <div style="font-size:12.5px; line-height:1.5; color:${C.fg2};">${esc(v)}</div>
     </div>`).join("");
   return `
-  <div data-act="closePipeDoc" style="position:fixed; inset:0; z-index:70; background:rgba(0,0,0,0.62); display:flex; align-items:center; justify-content:center; padding:28px;">
+  <div data-act="closePipeDoc" style="position:absolute; inset:0; background:rgba(0,0,0,0.62); display:flex; align-items:center; justify-content:center; padding:28px;">
     <div data-act="noop" style="width:100%; max-width:720px; max-height:86vh; display:flex; flex-direction:column; background:${C.bg}; border:1px solid ${C.bd3}; border-radius:14px; box-shadow:0 26px 70px -20px rgba(0,0,0,0.85); animation:arsislide .16s ease;">
       <div style="display:flex; align-items:flex-start; gap:14px; padding:19px 22px 15px; border-bottom:1px solid ${C.bd2};">
         <div style="flex:1;">
