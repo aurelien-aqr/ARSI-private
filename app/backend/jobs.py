@@ -110,8 +110,9 @@ def saved_jobs():
     out = []
     if not JOBS_DIR.exists():
         return out
-    for res in sorted(JOBS_DIR.glob("*/results.json"),
-                      key=lambda p: p.stat().st_mtime, reverse=True):
+    # Order is left to the caller (see jobs_index), which sorts by the
+    # timestamp-prefixed job_id — reliable even when file mtimes are not.
+    for res in JOBS_DIR.glob("*/results.json"):
         try:
             with open(res, encoding="utf-8") as fh:
                 data = json.load(fh)

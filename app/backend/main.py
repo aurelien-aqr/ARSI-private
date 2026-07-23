@@ -412,7 +412,12 @@ def jobs_index():
             continue
         hist.append({"job_id": jid, "status": data["status"],
                      "config": data["config"], "summary": data["summary"]})
-    return {"jobs": list(live.values()) + hist}
+    # Newest first. The job_id is prefixed with a %Y%m%d-%H%M%S timestamp, so it
+    # sorts chronologically — and unlike file mtime it survives jobs copied in
+    # from the GPU box or results.json being rewritten.
+    jobs = sorted(list(live.values()) + hist,
+                  key=lambda j: j["job_id"], reverse=True)
+    return {"jobs": jobs}
 
 
 def _job_data(job_id: str):
