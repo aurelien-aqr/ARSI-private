@@ -1237,7 +1237,7 @@ function topbar() {
     right = `
       <div style="display:flex; align-items:center; gap:8px; margin-right:6px;">
         <span style="font-size:12.5px; color:oklch(0.65 0.012 250);">Compare configs</span>
-        <div data-act="toggleCompare" title="Put up to ${MAX_COMPARE} runs side by side on the same frame" style="width:38px; height:21px; border-radius:12px; background:${S.res.compare ? "oklch(0.55 0.11 225)" : C.bd}; position:relative; cursor:pointer;">
+        <div data-act="toggleCompare" title="Put up to ${MAX_COMPARE} runs (2x2 grid) on the same frame" style="width:38px; height:21px; border-radius:12px; background:${S.res.compare ? "oklch(0.55 0.11 225)" : C.bd}; position:relative; cursor:pointer;">
           <span style="position:absolute; top:2px; left:${S.res.compare ? "19px" : "2px"}; width:17px; height:17px; border-radius:50%; background:oklch(0.96 0 0); transition:left .15s;"></span>
         </div>
       </div>
@@ -2165,6 +2165,13 @@ function compareView(tabs, gallery, sel, selIdx) {
   const cols = [col(R.data, -1)]
     .concat(R.compareJobs.map((id, i) => col(R.compareData[id] || null, i)));
   const canAdd = R.compareJobs.length < MAX_COMPARE - 1 && comparableJobs().length > 0;
+  /* Two runs per row, wrapping into a 2x2: four columns across squeezed the
+     frames down to a width where the boxes were no longer readable, which is
+     the one thing this view exists for. An odd count leaves a hole in the grid
+     — filled here, or the 1px-gap trick would paint it in the border colour. */
+  const nCols = Math.min(cols.length, 2);
+  const nRows = Math.ceil(cols.length / nCols);
+  const filler = cols.length < nCols * nRows ? `<div style="background:${C.bg};"></div>` : "";
   return `
   <div style="height:100%; display:flex; flex-direction:column;">
     <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px; overflow-x:auto;">
@@ -2174,13 +2181,13 @@ function compareView(tabs, gallery, sel, selIdx) {
       </span>${tabs}
       <span style="margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap;">
         <span style="font-size:11px; color:${C.fg4}; font-family:${C.mono};">${cols.length}/${MAX_COMPARE} runs</span>
-        <button data-act="addCompareJob" ${canAdd ? "" : "disabled"} title="${canAdd ? "Add another run to the comparison" : `At most ${MAX_COMPARE} runs side by side`}" style="font-size:12px; color:${canAdd ? C.accFg : C.fg5}; background:${canAdd ? C.accBg : C.bgBtn}; border:1px solid ${canAdd ? C.accBd2 : C.bdBtn}; padding:6px 12px; border-radius:8px; cursor:${canAdd ? "pointer" : "default"};">+ Add run</button>
+        <button data-act="addCompareJob" ${canAdd ? "" : "disabled"} title="${canAdd ? "Add another run to the comparison" : `At most ${MAX_COMPARE} runs (2x2 grid)`}" style="font-size:12px; color:${canAdd ? C.accFg : C.fg5}; background:${canAdd ? C.accBg : C.bgBtn}; border:1px solid ${canAdd ? C.accBd2 : C.bdBtn}; padding:6px 12px; border-radius:8px; cursor:${canAdd ? "pointer" : "default"};">+ Add run</button>
       </span>
     </div>
     <div style="flex:1; min-height:0; display:flex;">
       <div data-scroll="gallery" style="width:170px; flex:0 0 170px; border-right:1px solid ${C.bd2}; overflow:auto; padding:10px;">${gallery}</div>
-      <div style="flex:1; min-width:0; display:grid; grid-template-columns:repeat(${cols.length}, minmax(0, 1fr)); gap:1px; background:${C.bd2};">
-        ${cols.join("")}
+      <div style="flex:1; min-width:0; display:grid; grid-template-columns:repeat(${nCols}, minmax(0, 1fr)); grid-template-rows:repeat(${nRows}, minmax(0, 1fr)); gap:1px; background:${C.bd2};">
+        ${cols.join("")}${filler}
       </div>
     </div>
   </div>`;
