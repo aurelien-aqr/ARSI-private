@@ -53,9 +53,11 @@ const S = {
   run: null,           // {jobId,total,processed,anomalous,failed,retried,done,cancelled,thumbs,log,frames}
   res: {
     jobId: null, data: null, filter: "all", sel: 0, split: false,
-    compare: false, compareJob: null, compareData: null, hoverV: -1,
+    compare: false, hoverV: -1,
+    compareJobs: [],          // job ids of the extra columns (open job is column 1)
+    compareData: {},          // job_id -> loaded results
     coordSize: null,          // {w,h} of the bbox coordinate space
-    compareCoordSize: null,   // same, for the compared job
+    compareCoordSize: {},     // job_id -> same, for each compared job
     playing: false,
   },
   rev: {                      // review/labelling mode over the open job
@@ -726,6 +728,8 @@ async function openResults(jobId) {
     if (S.rev.jobId !== id) Object.assign(S.rev, { on: false, jobId: null, doc: null, metrics: null });
     S.res.jobId = id; S.res.data = data; S.res.sel = 0; S.res.hoverV = -1;
     S.res.coordSize = null;
+    // the newly opened job owns column 1; it must not also sit in a compare slot
+    S.res.compareJobs = S.res.compareJobs.filter(x => x !== id);
     const first = (data.frames || [])[0];
     const spaceUrl = jobRefImg(data) || (first && first.img);
     if (spaceUrl) imageSize(spaceUrl).then(sz => { S.res.coordSize = sz; render(); });
@@ -788,25 +792,60 @@ ACT.togglePlay = () => {
   render();
 };
 ACT.toggleSplit = () => { S.res.split = !S.res.split; render(); };
+const MAX_COMPARE = 4;                 // columns that still fit side by side
+/* Runs that may take a comparison column: finished, and not already on screen
+   (the open job holds column 1). `exceptSlot` keeps the run a given column is
+   currently showing in its own dropdown. */
+function comparableJobs(exceptSlot) {
+  const taken = S.res.compareJobs.filter((_, i) => i !== exceptSlot);
+  return S.jobs.filter(j => j.summary && j.summary.n_frames
+    && j.job_id !== S.res.jobId && !taken.includes(j.job_id));
+}
+/* A job id says nothing about what was run — the model and the pipeline are the
+   whole point of a comparison, so they travel with the id everywhere a run is
+   named in this view. */
+function runLabel(cfg) {
+  const c = cfg || {};
+  return [c.script, c.model, c.prompt_name && c.prompt_name + " prompt", c.mask && "mask"]
+    .filter(Boolean).join(" · ") || "unknown config";
+}
 ACT.toggleCompare = async () => {
   S.res.compare = !S.res.compare;
-  if (S.res.compare && !S.res.compareJob) {
-    const other = S.jobs.find(j => j.job_id !== S.res.jobId && j.summary && j.summary.n_frames);
-    if (other) await ACT.setCompareJob(other.job_id); else { toast("No other job to compare with."); S.res.compare = false; }
+  if (S.res.compare && !S.res.compareJobs.length) {
+    if (comparableJobs().length) await ACT.addCompareJob();
+    else { toast("No other job to compare with."); S.res.compare = false; }
   }
   render();
 };
-ACT.setCompareJob = async (jobId) => {
-  try {
-    const data = await jget("/api/jobs/" + jobId);
-    S.res.compareData = data; S.res.compareJob = jobId;
-    S.res.compareCoordSize = null;
-    const first = (data.frames || [])[0];
-    const spaceUrl = jobRefImg(data) || (first && first.img);
-    if (spaceUrl) imageSize(spaceUrl).then(sz => { S.res.compareCoordSize = sz; render(); });
-  } catch (e) { toast(e.message); }
+ACT.addCompareJob = async () => {
+  if (S.res.compareJobs.length >= MAX_COMPARE - 1) return;
+  const next = comparableJobs()[0];
+  if (!next) { toast("No other run left to add."); return; }
+  S.res.compareJobs.push(next.job_id);
+  render();
+  await loadCompareJob(next.job_id);
+};
+ACT.removeCompareJob = (slot) => {
+  S.res.compareJobs.splice(+slot, 1);
+  if (!S.res.compareJobs.length) S.res.compare = false;
   render();
 };
+ACT.setCompareJob = async (slot, jobId) => {
+  S.res.compareJobs[+slot] = jobId;
+  render();
+  await loadCompareJob(jobId);
+};
+async function loadCompareJob(jobId) {
+  if (S.res.compareData[jobId]) return;      // results of a finished job never change
+  try {
+    const data = await jget("/api/jobs/" + jobId);
+    S.res.compareData[jobId] = data;
+    const first = (data.frames || [])[0];
+    const spaceUrl = jobRefImg(data) || (first && first.img);
+    if (spaceUrl) imageSize(spaceUrl).then(sz => { S.res.compareCoordSize[jobId] = sz; render(); });
+  } catch (e) { toast(e.message); }
+  render();
+}
 ACT.exportReport = () => window.open(`/api/jobs/${S.res.jobId}/report.html`, "_blank");
 ACT.exportMd = () => window.open(`/api/jobs/${S.res.jobId}/report.md`, "_blank");
 ACT.exportJson = () => window.open(`/api/jobs/${S.res.jobId}/results.json`, "_blank");
@@ -1030,7 +1069,7 @@ const CHANGE = {
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
   histScript: v => { S.hist.script = v; render(); },
   histModel: v => { S.hist.model = v; render(); },
-  compareJob: v => ACT.setCompareJob(v),
+  compareJob: (v, el) => ACT.setCompareJob(el.dataset.slot, v),
   ollamaUrl: v => ACT.saveOllamaUrl(v),
   revLabel: v => { S.rev.pendingLabel = v; },
   revType: v => { S.rev.pendingType = v; },
@@ -1198,7 +1237,7 @@ function topbar() {
     right = `
       <div style="display:flex; align-items:center; gap:8px; margin-right:6px;">
         <span style="font-size:12.5px; color:oklch(0.65 0.012 250);">Compare configs</span>
-        <div data-act="toggleCompare" style="width:38px; height:21px; border-radius:12px; background:${S.res.compare ? "oklch(0.55 0.11 225)" : C.bd}; position:relative; cursor:pointer;">
+        <div data-act="toggleCompare" title="Put up to ${MAX_COMPARE} runs side by side on the same frame" style="width:38px; height:21px; border-radius:12px; background:${S.res.compare ? "oklch(0.55 0.11 225)" : C.bd}; position:relative; cursor:pointer;">
           <span style="position:absolute; top:2px; left:${S.res.compare ? "19px" : "2px"}; width:17px; height:17px; border-radius:50%; background:oklch(0.96 0 0); transition:left .15s;"></span>
         </div>
       </div>
@@ -2073,50 +2112,75 @@ function resultsView() {
     </div>
   </div>`;
 }
+const COMPARE_DOTS = [C.acc, "oklch(0.7 0.15 300)", "oklch(0.8 0.12 75)", "oklch(0.72 0.15 150)"];
 function compareView(tabs, gallery, sel, selIdx) {
   const R = S.res;
-  const other = R.compareData;
-  const otherSel = other ? (other.frames || []).find(f => f.frame_id === sel.frame_id) : null;
-  const col = (data, frame, dot, coordSize) => {
-    const model = data ? (data.config.model || "?") : "—";
-    const script = data ? (data.config.script || "") : "";
+  /* One column per run. slot === -1 is the open job: it drives the gallery and
+     the frame selection, so it stays put — the others are swappable. */
+  const col = (data, slot) => {
+    const dot = COMPARE_DOTS[slot + 1] || C.fg3;
+    const frame = data ? (data.frames || []).find(f => f.frame_id === sel.frame_id) : null;
+    const coordSize = slot < 0 ? R.coordSize : (data && R.compareCoordSize[data.job_id]) || null;
+    const cfg = (data && data.config) || {};
     const verdictRows = frame ? frame.detections.map(d => {
       const tm = TYPE_META[d.type] || TYPE_META.unknown;
       return `<div style="display:flex; align-items:center; gap:8px; padding:7px 0; border-top:1px solid oklch(0.2 0.01 250); font-size:12.5px;">
-        <span style="font-size:10px; padding:2px 7px; border-radius:10px; color:${tm.fg}; background:${tm.bg}; border:1px solid ${tm.bd};">${d.type}</span>
-        <span style="color:oklch(0.9 0.006 250);">${esc(d.label)}</span>
+        <span style="font-size:10px; padding:2px 7px; border-radius:10px; color:${tm.fg}; background:${tm.bg}; border:1px solid ${tm.bd}; white-space:nowrap;">${d.type}</span>
+        <span style="color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis;">${esc(d.label)}</span>
         <span style="margin-left:auto; font-family:${C.mono}; color:${C.green}; font-weight:700;">YES</span>
       </div>`;
     }).join("") : "";
     const empty = frame && !frame.detections.length
       ? `<div style="padding:14px 0; font-size:12px; color:${C.fg4};">${frame.anomaly === false ? "clean" : frame.status}</div>` : "";
+    const label = runLabel(cfg);
+    /* Each swappable column carries its own picker, listing the runs by what
+       distinguishes them (pipeline · model · prompt) rather than by job id. The
+       dropdown truncates at four columns, so the same config is repeated below
+       it on a line that wraps — nothing about the run stays hidden. */
+    const picker = slot < 0
+      ? `<span style="flex:0 0 auto; padding:4px 10px; border-radius:7px; background:${C.accBg}; border:1px solid ${C.accBd}; color:${C.accFg}; font-size:11.5px;">open run</span>`
+      : `<select data-change="compareJob" data-slot="${slot}" title="${esc(label)}" style="flex:1; min-width:0; padding:4px 6px; border-radius:7px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
+           ${comparableJobs(slot).map(j => `<option value="${esc(j.job_id)}" ${data && data.job_id === j.job_id ? "selected" : ""}>${esc(runLabel(j.config))} — ${esc(j.job_id)}</option>`).join("")}
+         </select>
+         <button data-act="removeCompareJob" data-arg="${slot}" title="Remove this column" style="flex:0 0 auto; width:22px; height:22px; border-radius:6px; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; color:${C.fg3}; font-size:12px; line-height:1; cursor:pointer;">✕</button>`;
+    const s = (data && data.summary) || {};
+    const sub = data
+      ? `${esc(data.job_id)}${s.n_frames != null ? ` · ${s.n_frames} frames` : ""}${s.n_anomalous != null ? ` · ${s.n_anomalous} anomalous` : ""}`
+      : "loading…";
     return `
-    <div style="background:${C.bg}; display:flex; flex-direction:column; overflow:auto;">
-      <div style="padding:10px 14px; display:flex; align-items:center; gap:8px; border-bottom:1px solid oklch(0.22 0.01 250);">
-        <span style="width:8px; height:8px; border-radius:2px; background:${dot};"></span>
-        <span style="font-size:12.5px; font-weight:600;">${esc(model)}</span>
-        <span style="font-family:${C.mono}; font-size:10.5px; color:${C.fg4};">${esc(script)}</span>
-        <span style="margin-left:auto; font-family:${C.mono}; font-size:11px; color:${C.fg3};">${data ? esc(data.job_id) : ""}</span>
+    <div style="background:${C.bg}; display:flex; flex-direction:column; overflow:auto; min-width:0;">
+      <div style="padding:9px 12px; border-bottom:1px solid oklch(0.22 0.01 250);">
+        <div style="display:flex; align-items:center; gap:7px;">
+          <span style="flex:0 0 auto; width:8px; height:8px; border-radius:2px; background:${dot};"></span>
+          ${picker}
+        </div>
+        <div style="font-size:11.5px; color:oklch(0.88 0.006 250); line-height:1.4; margin-top:6px; word-break:break-word;">${data ? esc(label) : ""}</div>
+        <div style="font-family:${C.mono}; font-size:10px; color:${C.fg4}; margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${sub}</div>
       </div>
       ${frame ? `<div style="position:relative;"><img src="${frame.img}" style="width:100%; display:block;">${bboxOverlay(frame, coordSize)}</div>`
-              : `<div style="padding:40px; text-align:center; color:${C.fg4}; font-size:12px;">no matching frame</div>`}
-      <div style="padding:10px 14px;">${verdictRows}${empty}</div>
+              : `<div style="padding:40px 14px; text-align:center; color:${C.fg4}; font-size:12px;">${data ? "no matching frame" : "loading…"}</div>`}
+      <div style="padding:10px 12px;">${verdictRows}${empty}</div>
     </div>`;
   };
-  const jobOpts = S.jobs.filter(j => j.job_id !== R.jobId && j.summary && j.summary.n_frames)
-    .map(j => `<option value="${esc(j.job_id)}" ${R.compareJob === j.job_id ? "selected" : ""}>${esc(j.job_id)}</option>`).join("");
+  const cols = [col(R.data, -1)]
+    .concat(R.compareJobs.map((id, i) => col(R.compareData[id] || null, i)));
+  const canAdd = R.compareJobs.length < MAX_COMPARE - 1 && comparableJobs().length > 0;
   return `
   <div style="height:100%; display:flex; flex-direction:column;">
     <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px; overflow-x:auto;">
-      <span style="font-size:11.5px; color:${C.fg5}; font-family:${C.mono}; margin-right:4px;">${esc(R.jobId)}</span>${tabs}
-      <span style="margin-left:auto; font-size:12px; color:${C.fg3};">vs</span>
-      <select data-change="compareJob" style="padding:5px 8px; border-radius:7px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:12px; font-family:${C.mono};">${jobOpts}</select>
+      <span style="margin-right:4px; white-space:nowrap;">
+        <span style="font-size:11.5px; color:${C.fg5}; font-family:${C.mono};">${esc(R.jobId)}</span>
+        <span style="display:block; font-size:10.5px; color:${C.fg3}; font-family:${C.mono}; margin-top:2px;">${esc(runLabel((R.data || {}).config))}</span>
+      </span>${tabs}
+      <span style="margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap;">
+        <span style="font-size:11px; color:${C.fg4}; font-family:${C.mono};">${cols.length}/${MAX_COMPARE} runs</span>
+        <button data-act="addCompareJob" ${canAdd ? "" : "disabled"} title="${canAdd ? "Add another run to the comparison" : `At most ${MAX_COMPARE} runs side by side`}" style="font-size:12px; color:${canAdd ? C.accFg : C.fg5}; background:${canAdd ? C.accBg : C.bgBtn}; border:1px solid ${canAdd ? C.accBd2 : C.bdBtn}; padding:6px 12px; border-radius:8px; cursor:${canAdd ? "pointer" : "default"};">+ Add run</button>
+      </span>
     </div>
     <div style="flex:1; min-height:0; display:flex;">
       <div data-scroll="gallery" style="width:170px; flex:0 0 170px; border-right:1px solid ${C.bd2}; overflow:auto; padding:10px;">${gallery}</div>
-      <div style="flex:1; min-width:0; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:${C.bd2};">
-        ${col(S.res.data, sel, C.acc, R.coordSize)}
-        ${col(other, otherSel, "oklch(0.7 0.15 300)", R.compareCoordSize)}
+      <div style="flex:1; min-width:0; display:grid; grid-template-columns:repeat(${cols.length}, minmax(0, 1fr)); gap:1px; background:${C.bd2};">
+        ${cols.join("")}
       </div>
     </div>
   </div>`;
