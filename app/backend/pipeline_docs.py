@@ -176,10 +176,15 @@ PIPELINE_DOCS = {
             "Needs a fixed camera and a clean reference of the same scene. A "
             "different session (exposure, onboard displays) produces many more "
             "candidate regions — the VLM still rejects them, but the cost rises.",
-            "Object-level precision is the weak point: 0.663 region precision "
-            "and 0.889 instance recall. The pre-VLM merge reduces the "
-            "fragmentation behind those numbers but has not yet been scored "
-            "end to end — the figures here predate it.",
+            "Object-level precision is the weak point: 0.730 region precision "
+            "and 0.889 instance recall. The pre-VLM merge was A/B'd end to end "
+            "on 2026-07-30: it cut false-positive boxes 29 → 20 but left recall "
+            "untouched at both IoU thresholds, so the 5 missed instances are "
+            "not a fragmentation artefact.",
+            "The 5 missed instances are all forgotten OBJECTS on real footage "
+            "(graffiti, damage and litter score 100%), and the localizer boxes "
+            "all 45 — so every miss is the judge saying NO to a region that did "
+            "contain the object.",
             "Cost scales with the number of changed regions: roughly 20 VLM "
             "calls per frame on a busy frame.",
         ],

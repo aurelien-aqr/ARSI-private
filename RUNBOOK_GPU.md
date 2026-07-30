@@ -46,16 +46,48 @@ python benchmark/eval_localization.py --variants shipped --quiet
 # localizer change on the lenient number alone.
 ```
 
-## 1b) PENDING EXPERIMENT — does the pre-VLM merge fix the 5 FN? (~10 min)
+## 1b) ANSWERED 2026-07-30 — the merge does NOT fix the 5 FN, but keep it anyway
 
-Added 2026-07-21. `localize()` now merges neighbouring regions BEFORE the judge
-(`MERGE_REGIONS`, gap 24, min fill 0.50): 651 → 559 regions, recall untouched.
-Measured on the localizer only — the end-to-end effect is UNKNOWN, because
-merged boxes are new cache keys, so the CPU laptop cannot afford the re-run.
+Run on the RTX (GLM judge, conservative prompt, 29 cases; merge-ON 2.0 min,
+merge-OFF 0.3 min from cache). Reports: `report_merge_on.md` / `report_merge_off.md`.
 
-This is the single question worth the GPU's first fresh minutes: the 5 missed
-instances are all VLM rejections of regions that DID contain the object, and the
-hypothesis is that the judge was rejecting fragments it could not name.
+| | merge OFF | merge ON | Δ |
+|---|---|---|---|
+| frame F1 | 1.000 | 1.000 | — (saturated) |
+| instance recall | 40/45 = 0.889 | 40/45 = 0.889 | **0** |
+| strict IoU>=0.3 | 33/45 = 0.733 | 33/45 = 0.733 | **0** |
+| kept boxes | 86 | 74 | −12 |
+| FP boxes | 29 | 20 | **−9 (−31%)** |
+| region precision | 0.663 | **0.730** | **+0.067** |
+
+**Answer: no.** Recall did not move at lenient OR strict IoU, per-type identical.
+Scope it honestly: merge-ON cost only **68 fresh calls**, not the ~559 estimated —
+651 regions become 559 but 491 keep identical coordinates and came from cache. So
+~14% of regions were re-judged and none of the 5 misses flipped. Conclusive for
+this merge at these settings; not a general refutation of fragmentation. A more
+aggressive merge cannot settle it (fill 0.25 chains into a full-frame box, strict
+IoU 37/45 → 22/45).
+
+**Keep the merge regardless** — it satisfies the pre-registered rule (region
+precision above 0.663 with recall intact). It stays shipped as `MERGE_REGIONS = True`.
+Per-case FP gains: gpt_07 4→1, gpt_02 4→2, real_f0053 3→2, real_f0100 1→0,
+real_f0112 1→0, gpt_11 6→5.
+
+**Validation worth noting:** merge-OFF reproduced the published `report.md`
+numbers exactly (0.889 / 0.663 / 29 FP of 86), so this was a genuinely controlled
+A/B and the reported figures are reproducible.
+
+**Where the 5 FN actually are:** all 5 are on `real` frames and all are type
+`object` (graffiti 6/6, damage 4/4, litter 2/2 are perfect). Localization has all
+45. So they are VLM rejections on real footage specifically. It is not a crowding
+or cap effect either: real_f0112 scores 4/4 with 77 raw regions — the busiest frame
+in the set — while real_f0037 misses one with only 20. Next lever is neither the
+merge nor MAX_REGIONS.
+
+> **Runbook bug found while analysing this:** the block below copied only
+> `report.md`, so the merge-OFF run silently overwrote `results.json` and the
+> merge-ON per-case internals (`localizer.merged_away`, per-region detail) were
+> lost. Copy `results.json` alongside each report — fixed below.
 
 ```bash
 # A/B, GLM judge, conservative prompt. ~560 fresh calls ≈ 7 min at 0.7 s/call.
@@ -73,12 +105,14 @@ grep -n '^MODEL_NAME' vlm_05_reference_diff.py     # verify before spending GPU 
 
 # ---- merge ON (the experiment): ~559 fresh calls
 python benchmark/run_benchmark.py
-cp benchmark/report.md benchmark/report_merge_on.md
+cp benchmark/report.md    benchmark/report_merge_on.md
+cp benchmark/results.json benchmark/results_merge_on.json   # per-case internals
 
 # ---- merge OFF (the baseline): 651 GLM verdicts are already in cache -> ~0 calls
 sed -i 's/^MERGE_REGIONS  = True/MERGE_REGIONS  = False/' vlm_05_reference_diff.py
 python benchmark/run_benchmark.py
-cp benchmark/report.md benchmark/report_merge_off.md
+cp benchmark/report.md    benchmark/report_merge_off.md
+cp benchmark/results.json benchmark/results_merge_off.json
 
 # ---- restore both constants
 sed -i 's/^MERGE_REGIONS  = False/MERGE_REGIONS  = True/' vlm_05_reference_diff.py

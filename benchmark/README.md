@@ -91,12 +91,60 @@ it — fixed 2026-07-12; the channels box the real tag and every judge names it)
 | qwen3-vl:8b × lenient      | 0.872 | 1.000 | 0.583 | 0.978 | 0.534 | 1.1 |
 | qwen3.5:9b × conservative  | 0.919 | 1.000 | 0.750 | 0.978 | 0.549 | 0.7 |
 | qwen3.5:9b × lenient       | 0.872 | 1.000 | 0.583 | 0.978 | 0.496 | 0.6 |
-| **GLM-4.6V-Flash-9B × conservative** | **1.000** | **1.000** | **1.000** | 0.889¹ | 0.663 | 0.7 |
+| **GLM-4.6V-Flash-9B × conservative** | **1.000** | **1.000** | **1.000** | 0.889¹ | 0.663⁴ | 0.7 |
 | InternVL3_5:8b × conservative | 0.970 | 0.941² | 1.000 | 0.733² | 0.759 | 0.8 |
 | minicpm-v4.6 × conservative | disqualified³ | | | | | |
 
-¹ GLM's 5 missed instances are all small items (phone/wallet) inside real
-multi-object frames that it flags anyway — frame-level detection stays perfect.
+¹ GLM's 5 missed instances are all type `object` inside real multi-object frames
+that it flags anyway — frame-level detection stays perfect. **Corrected
+2026-07-30: they are NOT all small items.** The miss in `real_f0205` is a
+129,648 px instance, so "too small to see" does not explain them; see the merge
+A/B section below.
+
+⁴ Measured with `MERGE_REGIONS = False`. The shipped configuration merges, which
+raises this to **0.730** at identical recall — see below.
+
+## Merge A/B — ANSWERED 2026-07-30 (GLM × conservative, 29 cases)
+
+Question: `localize()` merges neighbouring regions before the judge
+(`MERGE_REGIONS`, gap 24, min fill 0.50). Does that recover the 5 missed
+instances? Hypothesis was that the judge rejected fragments it could not name.
+
+| | merge OFF | merge ON |
+|---|---|---|
+| frame F1 | 1.000 | 1.000 |
+| instance recall | 40/45 = 0.889 | 40/45 = 0.889 |
+| strict IoU>=0.3 | 33/45 = 0.733 | 33/45 = 0.733 |
+| kept boxes | 86 | 74 |
+| FP boxes | 29 | 20 |
+| region precision | 0.663 | **0.730** |
+
+**Answer: no.** Recall did not move at either IoU threshold, and per-type recall
+is identical (object 28/33, graffiti 6/6, damage 4/4, litter 2/2).
+
+**Scope this claim honestly.** The merge-ON run cost only **68 fresh calls**, not
+the ~559 estimated: 651 pre-merge regions become 559, but 491 of those keep
+byte-identical coordinates and came back from cache. So the shipped merge
+re-judged ~14% of regions and flipped none of the 5 misses. That is conclusive
+for *this merge at these settings* — it does not prove fragmentation is
+irrelevant in general. A more aggressive merge cannot settle it either: fill 0.25
+was already tested and rejected because it chains neighbours into a full-frame
+box (strict IoU collapses 37/45 → 22/45).
+
+**The merge stays shipped anyway**, per the pre-registered rule: region precision
+rose above 0.663 with recall intact. Per-case FP gains: gpt_07 4→1, gpt_02 4→2,
+real_f0053 3→2, real_f0100 1→0, real_f0112 1→0, gpt_11 6→5.
+
+Trust signal: the merge-OFF arm reproduced the published `report.md` numbers
+exactly (0.889 / 0.663 / 29 FP of 86), so this was a controlled A/B.
+
+**Where the 5 FN really are.** All 5 on `real` footage, all type `object`
+(graffiti/damage/litter are perfect). Localization has all 45. Not a crowding or
+`MAX_REGIONS` effect either: `real_f0112` scores 4/4 with **77** raw regions, the
+busiest frame in the set, while `real_f0037` misses one with only 20. Next probe:
+diff the crop pairs GLM rejects against the ones it accepts on the same scene.
+
+Reports: `report_merge_on.md`, `report_merge_off.md`.
 ² InternVL's frame F1 flatters it: it systematically says NO to real phones
 (2/4 instances on every real multi-object frame) and misses real_f0205 whole.
 ³ minicpm-v4.6 ignores the reply format AND claims an object appeared on 198 of

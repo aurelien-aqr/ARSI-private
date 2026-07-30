@@ -18294,5 +18294,277 @@
  "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[1632, 0, 1920, 152]|openbmb/minicpm-v4.6:latest|e1c6069711a8": {
   "yes": false,
   "label": "bag appeared on right, absent left. bag"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0211_masked.jpg|[792, 812, 940, 936]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0151_masked.jpg|[1664, 936, 1776, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[688, 732, 1016, 1032]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[964, 640, 1032, 740]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0001_masked.jpg|[1668, 932, 1784, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[1668, 936, 1784, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[648, 528, 712, 612]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[712, 748, 1012, 1052]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[884, 0, 916, 88]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[712, 676, 936, 1032]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[724, 0, 776, 108]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[740, 508, 904, 628]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black suitcase"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[884, 0, 924, 104]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[636, 28, 680, 104]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1240, 0, 1920, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "graffiti"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[688, 788, 964, 1044]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[724, 0, 776, 108]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[884, 0, 916, 104]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0004_masked.jpg|[380, 0, 488, 288]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[552, 396, 720, 448]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "bottle"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[640, 480, 1012, 1072]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black backpack"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[436, 304, 692, 572]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black backpack"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1340, 428, 1444, 656]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "graffiti \"HOBBO\""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[884, 0, 920, 104]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[436, 304, 692, 572]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black backpack"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[700, 868, 924, 972]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[988, 724, 1072, 824]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "phone"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[724, 0, 776, 108]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_2.png|[640, 792, 672, 924]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1664, 932, 1784, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1064, 392, 1224, 436]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "wallet"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[908, 0, 1016, 76]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black backpack"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0053_masked.jpg|[1156, 500, 1264, 532]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[284, 700, 428, 760]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[1008, 496, 1304, 540]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "wallet"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[316, 536, 572, 580]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0100_masked.jpg|[52, 708, 160, 736]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[692, 428, 744, 564]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[396, 424, 572, 476]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0112_masked.jpg|[992, 800, 1056, 948]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[36, 788, 548, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1568, 872, 1784, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[1384, 592, 1656, 700]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0205_masked.jpg|[664, 396, 716, 492]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[300, 524, 684, 580]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[1104, 1048, 1292, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0219_masked.jpg|[532, 200, 636, 236]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[616, 680, 1040, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "water bottle"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[420, 280, 700, 604]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black backpack"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[676, 492, 852, 668]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "black backpack"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1340, 428, 1440, 656]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "graffiti \"Hob88\""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1024, 476, 1216, 544]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": true,
+  "label": "torn seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_11.png|[1220, 368, 1256, 492]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0001_masked.jpg|[1108, 1028, 1520, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0001_masked.jpg|[380, 100, 460, 276]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0001_masked.jpg|[304, 524, 680, 576]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0001_masked.jpg|[336, 1016, 548, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0001_masked.jpg|[924, 492, 1324, 544]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v3_f0001_masked.jpg|[932, 180, 1076, 216]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0016_masked.jpg|[328, 0, 848, 588]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0016_masked.jpg|[1228, 444, 1476, 712]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0016_masked.jpg|[1232, 852, 1480, 936]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0016_masked.jpg|[88, 164, 120, 252]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[356, 0, 764, 568]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[924, 728, 1100, 1080]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[1232, 432, 1476, 692]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[784, 140, 984, 272]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[760, 0, 852, 140]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
+  "yes": false,
+  "label": ""
  }
 }
