@@ -59,15 +59,42 @@ hypothesis is that the judge was rejecting fragments it could not name.
 
 ```bash
 # A/B, GLM judge, conservative prompt. ~560 fresh calls ≈ 7 min at 0.7 s/call.
+
+# ---- STEP 0, MANDATORY: run_benchmark.py has NO --model flag. It reads
+# m.MODEL_NAME from the module, and that default is qwen3-vl. The baseline being
+# compared against (report.md: object recall 0.889, region precision 0.663) is
+# GLM's, so the judge MUST be switched or the A/B compares nothing.
+sed -i 's|^MODEL_NAME = .*|MODEL_NAME = "haervwe/GLM-4.6V-Flash-9B:latest"|' \
+    vlm_05_reference_diff.py
+grep -n '^MODEL_NAME' vlm_05_reference_diff.py     # verify before spending GPU time
+# PROMPT already ships as the conservative one — leave it alone. Editing it
+# changes the cache fingerprint and turns the merge-OFF baseline into a full
+# 651-call re-run.
+
+# ---- merge ON (the experiment): ~559 fresh calls
 python benchmark/run_benchmark.py
 cp benchmark/report.md benchmark/report_merge_on.md
 
-# baseline: same stack, merge disabled (verdicts come back from cache, ~0 calls)
+# ---- merge OFF (the baseline): 651 GLM verdicts are already in cache -> ~0 calls
 sed -i 's/^MERGE_REGIONS  = True/MERGE_REGIONS  = False/' vlm_05_reference_diff.py
 python benchmark/run_benchmark.py
 cp benchmark/report.md benchmark/report_merge_off.md
+
+# ---- restore both constants
 sed -i 's/^MERGE_REGIONS  = False/MERGE_REGIONS  = True/' vlm_05_reference_diff.py
+sed -i 's|^MODEL_NAME = .*|MODEL_NAME = "qwen3-vl:8b-instruct"|' \
+    vlm_05_reference_diff.py
 ```
+
+Sanity check while it runs: the merge-OFF run should report **0 fresh calls**. If it
+starts making calls, the fingerprint moved (prompt or model edited by mistake) and the
+two halves are no longer comparable — stop and fix rather than let it finish.
+
+Copy back to the laptop afterwards: `benchmark/report_merge_{on,off}.md`,
+`benchmark/results.json` and `benchmark/cache.json`. **Copy the cache, and do not let
+the copy-back overwrite `benchmark/README.md`, `ground_truth.json` or
+`run_benchmark.py`** — that happened on 2026-07-13 and silently restored stale
+versions.
 
 Compare the OBJECT-level block, not the frame-level one — frame-level is already
 1.000 on these 29 cases and cannot move. Keep the merge if instance recall rises
