@@ -143,6 +143,24 @@ def parse_json(raw: str):
         return []
 
 
+# Key aliases for the box field. The prompt asks for "bbox", but the Qwen family
+# answers in its native grounding schema instead: qwen3.5:9b emits "bbox_2d" with
+# 0-1000 per-axis coordinates. Reading only "bbox" made it look like the model had
+# no grounding at all (it does - the boxes land on the objects once read).
+BBOX_KEYS = ("bbox", "bbox_2d", "box_2d", "box", "bounding_box")
+
+
+def get_bbox(detection):
+    """Return the 4 box coordinates of one detection, whatever key the model used."""
+    if not isinstance(detection, dict):
+        return []
+    for key in BBOX_KEYS:
+        value = detection.get(key)
+        if isinstance(value, (list, tuple)) and len(value) == 4:
+            return list(value)
+    return []
+
+
 def main() -> None:
     check_model(MODEL_NAME)
 
@@ -175,7 +193,7 @@ def main() -> None:
 
     print(f"Detections: {len(detections)}")
     for d in detections:
-        print(f"  - {d.get('label')}  severity={d.get('severity')}  bbox={d.get('bbox')}")
+        print(f"  - {d.get('label')}  severity={d.get('severity')}  bbox={get_bbox(d)}")
 
     # --- Draw the boxes ------------------------------------------------------
     image = Image.open(image_path).convert("RGB")
@@ -191,7 +209,7 @@ def main() -> None:
     # asking for 0-1 normalized values, the Qwen family returns boxes on a 0-1000
     # scale (or in absolute pixels). We detect it from the largest coordinate so
     # the boxes land on the image instead of ~500x off-screen.
-    all_coords = [c for d in detections for c in d.get("bbox", [])
+    all_coords = [c for d in detections for c in get_bbox(d)
                   if isinstance(c, (int, float))]
     max_coord = max(all_coords) if all_coords else 0.0
     if max_coord <= 1.0:
@@ -204,7 +222,7 @@ def main() -> None:
           f"{'0-1' if max_coord <= 1 else '0-1000' if max_coord <= 1000 else 'pixels'})")
 
     for d in detections:
-        bbox = d.get("bbox", [])
+        bbox = get_bbox(d)
         if len(bbox) != 4:
             continue
         x0 = int(bbox[0] * scale_x)

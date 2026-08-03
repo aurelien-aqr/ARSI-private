@@ -181,9 +181,18 @@ done
 sed -i 's|^MODEL_NAME = .*|MODEL_NAME = "qwen3-vl:8b-instruct"|' vlm_05_reference_diff.py
 ```
 
-Note: qwen3.5:9b has NO grounding but vlm_05 never asks for coordinates —
-it may well beat qwen3-vl as the crop judge (it was the best whole-frame
-model in the manual grid).
+Note: qwen3.5:9b may well beat qwen3-vl as the crop judge (it was the best
+whole-frame model in the manual grid); vlm_05 never asks it for coordinates
+anyway.
+
+Correction (2026-08-03): the earlier claim that "qwen3.5:9b has NO grounding"
+was WRONG. It grounds fine, but answers in the Qwen native schema — key
+`bbox_2d`, coordinates normalized 0-1000 per axis — instead of the `bbox` /
+0-1 floats the vlm_03 prompt asks for. vlm_03 only read `bbox`, so the boxes
+were silently dropped (`bbox=None`). Fixed by `get_bbox()` / `BBOX_KEYS` in
+vlm_03; the 0-1000 scale was already auto-detected. Verified on f0037: the
+two boxes land on the phone and the wallet. Any Task-3 xlsx row marked FN for
+"no boxes" predates this fix and should be re-run.
 
 ## 5) Spreadsheet grid: 8 models × 4 tasks (~1-2 h)
 
