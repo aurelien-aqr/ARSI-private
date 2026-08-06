@@ -38,6 +38,9 @@ results/_*.jpg
 # OS
 .DS_Store
 
+# IDE
+.idea/
+
 # App runtime data (jobs, verdict cache, extracted videos) - masks presets ARE
 # tracked, and so are review.json files (hours of human labelling, tiny, and a
 # wholesale copy-back from the GPU machine must never be able to erase them)
