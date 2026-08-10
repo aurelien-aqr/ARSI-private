@@ -23,8 +23,8 @@ and abnormal, and interpreting what it actually is. Each of those gets evaluated
 on the benchmark where it is meaningful, and the Ostrava tram data becomes the
 deployment section rather than the only evidence in the paper.
 
-I don't think having our own dataset is not what gets a paper rejected. Having our own dataset
-and nothing else is.
+I don't think having our own dataset is what gets a paper rejected. Having our
+own dataset and nothing else is.
 
 ## Where the compact-VLM paper stands
 
@@ -145,7 +145,7 @@ available.
 - <https://mdpi.com/1424-8220/18/12/4290/htm>
 - AVSS 2007 challenge definition: <https://www.eecs.qmul.ac.uk/~andrea/dwnld/avss2007/>
 
-### Bus Violence: useful, but only if we describe it accurately
+### Bus Violence: in-vehicle, but not usable as a benchmark for us
 
 Ciampi et al., Sensors 22(21):8345, 2022, from CNR-ISTI in Pisa. It contains 1400
 clips, 700 with a violent action and 700 without, filmed by three cameras inside
