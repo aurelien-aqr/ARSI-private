@@ -23,7 +23,7 @@ and abnormal, and interpreting what it actually is. Each of those gets evaluated
 on the benchmark where it is meaningful, and the Ostrava tram data becomes the
 deployment section rather than the only evidence in the paper.
 
-Having our own dataset is not what gets a paper rejected. Having our own dataset
+I don't think having our own dataset is not what gets a paper rejected. Having our own dataset
 and nothing else is.
 
 ## Where the compact-VLM paper stands
@@ -32,7 +32,7 @@ Borodin et al., *Benchmarking Compact VLMs for Clip-Level Surveillance Anomaly
 Detection Under Weak Supervision*, J. Imaging 11(11):400, November 2025.  Everything they report is on
 UCF-Crime dataset.
 
-UCF-Crime genuinely is an anomaly dataset: 1900 untrimmed videos, 128 hours, 13
+UCF-Crime is an anomaly dataset: 1900 untrimmed videos, 128 hours, 13
 anomaly classes, with labels given at the level of the whole video rather than
 per frame (this is what "weak supervision" means here). The reason it cannot
 carry our main result is not that the anomalies are the wrong kind. It is that
@@ -42,15 +42,13 @@ has nothing to subtract from.
 
 ## The evaluation plan
 
-| Question we want to answer | Benchmark | What we measure |
-|---|---|---|
-| Does the front end detect changes correctly? | CDnet 2014 | precision, recall, F1 and false-positive rate, computed per pixel |
-| How badly do camera shake, shadows, changing light and moving backgrounds hurt it? | CDnet 2014, broken down by category | how much each category degrades the score |
-| Do persistent changes actually turn into abandoned-object detections? | i-LIDS AVSS 2007, PETS2006 and PETS2007, ABODA, using the Luna et al. protocol | precision, recall and F1 at the level of events rather than pixels |
-| Does the in-vehicle setting break the system? | Bus Violence, and possibly PMOF, after we relabel a subset ourselves | false-positive rate under a domain shift |
-| How does our VLM stage compare with recent work? | UCF-Crime, following the Borodin protocol exactly | accuracy, precision, recall, F1, ROC-AUC, latency |
-| Does the system meet the actual tram requirement? | our Ostrava data | the operator's anomaly classes, and real latency |
-| Graffiti, damaged seats, stains, phones, bottles | our Ostrava data | precision, recall and F1 per class, plus ablations |
+| Question we want to answer                                                                         | Benchmark | What we measure |
+|----------------------------------------------------------------------------------------------------|---|---|
+| Does it detect changes correctly?                                                                  | CDnet 2014 | precision, recall, F1 and false-positive rate, computed per pixel |
+| How badly do camera shake, shadows, changing light and moving backgrounds hurt it?                 | CDnet 2014, broken down by category | how much each category degrades the score |
+| Do persistent changes actually turn into abandoned-object detections?                              | i-LIDS AVSS 2007, PETS2006 and PETS2007, ABODA, using the Luna et al. protocol | precision, recall and F1 at the level of events rather than pixels |
+| How does our VLM stage compare with recent work?                                                   | UCF-Crime, following the Borodin protocol | accuracy, precision, recall, F1, ROC-AUC, latency |
+| Does the system meet the actual tram requirement? Graffiti, damaged seats, stains, phones, bottles | our Ostrava data | precision, recall and F1 per class, plus ablations |
 
 Read as a paper outline, that becomes:
 
@@ -89,7 +87,7 @@ The other categories let us stress the differencing stage exactly where we
 already suspect it is weak: `shadow`, `dynamicBackground`, `cameraJitter`,
 `badWeather`, `nightVideos` and `lowFramerate`.
 
-Now the caveat, and it matters. **CDnet is not an anomaly-detection benchmark.**
+Now the caveat. **CDnet is not an anomaly-detection benchmark.**
 Its ground truth marks each pixel as one of: static (0), hard shadow (50),
 outside the region of interest (85), unknown motion such as motion blur or
 semi-transparency (170), or moving foreground (255). Nothing in there knows that
@@ -138,13 +136,9 @@ PETS2006, PETS2007, ABODA and VISOR. It unifies the temporal annotations for
 abandoned objects and provides baseline results for each stage of the usual
 pipeline (Mixture of Gaussians, K-nearest neighbours, PAWCS, and others, all
 background-subtraction methods). Adopting it is much stronger than assembling
-our own evaluation:
+our own evaluation.
 
-> Good: "We follow the abandoned-object evaluation protocol of Luna et al."
->
-> Weak: "We tested on a few PETS videos."
-
-Read that paper before touching PETS or AVSS. The original hosting for AVSS 2007
+The original hosting for AVSS 2007
 is unreliable, but mirrors exist and the authors' own package is reportedly still
 available.
 
@@ -171,20 +165,10 @@ Two facts kill the obvious framing of it:
    whether there is graffiti on the wall. Those 700 clips are not 700 verified
    negatives for our task and cannot be counted as such.
 
-What it is genuinely good for is this: take a subset, relabel it ourselves as
-normal, ambiguous or abnormal in ARSI's terms, and use it as a cross-domain test.
-That is an honest domain-shift experiment on public data.
-
-Worth noting too that the authors' own selling point is the dynamic background
-and the lighting that changes as the bus moves, which they explicitly contrast
-with the static backgrounds of other datasets. That is precisely the assumption
-`vlm_05` depends on, so expect the differencing stage to degrade here, and report
-that as a limitation rather than hiding it.
-
 - <https://pmc.ncbi.nlm.nih.gov/articles/PMC9658862/> and <https://zenodo.org/records/7044203>
 
 
-### UCF-Crime: a separate compatibility experiment, not a shared table row
+### UCF-Crime: a separate compatibility experiment
 
 This is not our main benchmark. To end up in the same table as the compact
 vision-language models, it is not enough to use the same dataset; the whole

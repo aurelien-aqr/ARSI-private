@@ -65,8 +65,7 @@ instead of two.
 | Benchmark ground truth | excluded by default | the 29-case benchmark is our only honest evaluation. A `--include-benchmark` flag exists, but using it is irreversible: once those cases are in training, the benchmark no longer measures anything |
 | Balance guard | warns if the ratio of `YES` to `NO` falls outside 1:5 to 5:1 | a burst of reviews that only marks false positives would teach the model to always answer `NO` |
 
-On volume: reviewing the staged-video `vlm_05` job (roughly 226 kept boxes across
-72 frames) plus one cross-session run on an empty-tram video yields somewhere
+On volume: somewhere
 between 300 and 500 crops. The Borodin paper saw gains at that scale on a task
 narrower than ours, so treat it as a floor rather than a target, and keep
 labelling as a side effect of normal Studio use.
