@@ -21,10 +21,11 @@ from fastapi.staticfiles import StaticFiles                        # noqa: E402
 from arsi_core import APP_DATA                                     # noqa: E402
 from arsi_core.adapters import SCRIPTS, get_module                 # noqa: E402
 from arsi_core.errors import ArsiError, ModelMissing, OllamaUnreachable  # noqa: E402
-from arsi_core.masking import MASKS_DIR, MaskSpec, list_masks      # noqa: E402
+from arsi_core.masking import (MASKS_DIR, MaskSpec, labelme_skipped,  # noqa: E402
+                               list_masks)
 from arsi_core.ollama_client import OllamaClient                   # noqa: E402
 from arsi_core.runner import JOBS_DIR, JobConfig                   # noqa: E402
-from arsi_core.video import extract_frames, probe                  # noqa: E402
+from arsi_core.video import camera_slug, extract_frames, probe     # noqa: E402
 
 from .exports import report_html, report_md, results_xlsx          # noqa: E402
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
@@ -244,7 +245,8 @@ async def upload_video(file: UploadFile):
     vid = time.strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
     vdir = VIDEOS_DIR / vid
     vdir.mkdir(parents=True, exist_ok=True)
-    dest = vdir / ("source" + Path(file.filename or "video.mp4").suffix)
+    source_name = Path(file.filename or "video.mp4").name
+    dest = vdir / ("source" + Path(source_name).suffix)
     with open(dest, "wb") as fh:
         while chunk := await file.read(1 << 20):
             fh.write(chunk)
@@ -253,13 +255,27 @@ async def upload_video(file: UploadFile):
     except ArsiError as exc:
         shutil.rmtree(vdir, ignore_errors=True)
         raise HTTPException(400, str(exc))
+    # the upload is stored under an opaque id, so remember the original name:
+    # it is what tells the wizard which camera the frames come from
+    source = {"filename": source_name, "camera": camera_slug(source_name)}
+    with open(vdir / "origin.json", "w", encoding="utf-8") as fh:
+        json.dump(source, fh, ensure_ascii=False)
     # filmstrip thumbnails for the trim UI (10 evenly spaced small frames)
     thumbs_meta = extract_frames(dest, vdir / "thumbs",
                                  every_n=max(1, info["frame_count"] // 10),
                                  max_side=320)
-    return {"video_id": vid, "info": info,
+    return {"video_id": vid, "info": info, **source,
             "thumbs": [media_url(vdir / "thumbs" / f["file"])
                        for f in thumbs_meta["frames"]][:10]}
+
+
+def video_source(video_id: str) -> dict:
+    """Original file name + camera of an upload; empty for pre-existing ones."""
+    path = VIDEOS_DIR / video_id / "origin.json"
+    if not path.exists():
+        return {"filename": "", "camera": ""}
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
 
 
 @app.get("/api/videos")
@@ -272,7 +288,7 @@ def list_videos():
                 with open(meta, encoding="utf-8") as fh:
                     m = json.load(fh)
                 out.append({"video_id": vdir.name, "n_frames": len(m["frames"]),
-                            "params": m["params"]})
+                            "params": m["params"], **video_source(vdir.name)})
     return {"videos": out}
 
 
@@ -285,7 +301,7 @@ def video_frames(video_id: str):
     with open(meta_path, encoding="utf-8") as fh:
         meta = json.load(fh)
     fdir = VIDEOS_DIR / video_id / "frames"
-    return {"video_id": video_id,
+    return {"video_id": video_id, **video_source(video_id),
             "frames": [{"path": str((fdir / f["file"]).relative_to(REPO_ROOT)),
                         "img": media_url(fdir / f["file"]),
                         "index": f["index"], "time_s": f["time_s"]}
@@ -332,6 +348,34 @@ def delete_mask(name: str):
         raise HTTPException(404, name)
     path.unlink()
     return {"ok": True}
+
+
+@app.post("/api/masks/labelme")
+def import_labelme(payload: dict):
+    """Convert a LabelMe annotation file into mask zones.
+
+    Returns the zones for the editor instead of saving: the user still gets to
+    see them over the frame, adjust, and name the preset."""
+    try:
+        spec = MaskSpec.from_labelme(payload.get("labelme") or {},
+                                     name=payload.get("name") or "imported",
+                                     camera=payload.get("camera", ""))
+    except ArsiError as exc:
+        raise HTTPException(400, str(exc))
+    return {**spec.to_dict(), "hash": spec.hash,
+            "skipped": labelme_skipped(payload.get("labelme") or {})}
+
+
+@app.get("/api/masks/{name}/labelme")
+def export_labelme(name: str):
+    """Download a saved mask as a LabelMe file, to edit it in LabelMe."""
+    path = MASKS_DIR / f"{name}.json"
+    if not path.exists():
+        raise HTTPException(404, name)
+    spec = MaskSpec.load(path)
+    return JSONResponse(
+        spec.to_labelme(),
+        headers={"Content-Disposition": f'attachment; filename="{name}.json"'})
 
 
 @app.post("/api/masks/preview")

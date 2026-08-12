@@ -197,8 +197,42 @@ def test_mask_crud_and_preview(api):
                           "zones": spec["zones"]})
     assert r.status_code == 200 and r.headers["content-type"] == "image/jpeg"
 
+    r = client.get("/api/masks/pytest-mask/labelme")
+    assert r.status_code == 200
+    doc = r.json()
+    assert doc["imageWidth"] == 120 and doc["shapes"][0]["shape_type"] == "polygon"
+    assert "pytest-mask.json" in r.headers["content-disposition"]
+
     assert client.delete("/api/masks/pytest-mask").json() == {"ok": True}
     assert client.delete("/api/masks/pytest-mask").status_code == 404
+    assert client.get("/api/masks/pytest-mask/labelme").status_code == 404
+
+
+def test_labelme_import(api):
+    """The team annotates in LabelMe; import converts without saving, so the
+    zones can be checked over the frame first."""
+    client, _ = api()
+    doc = {"version": "5.5.0", "imageWidth": 120, "imageHeight": 90,
+           "shapes": [
+               {"label": "window", "shape_type": "rectangle",
+                "points": [[10, 10], [60, 40]]},
+               {"label": "rail", "shape_type": "linestrip",
+                "points": [[0, 0], [5, 5]]}]}
+    r = client.post("/api/masks/labelme", json={"labelme": doc, "camera": "cam9"})
+    assert r.status_code == 200
+    m = r.json()
+    assert m["image_size"] == [120, 90] and m["camera"] == "cam9"
+    assert m["zones"][0]["polygon"] == [[10, 10], [60, 10], [60, 40], [10, 40]]
+    assert [s["shape_type"] for s in m["skipped"]] == ["linestrip"]
+    # importing does not save: the user names the preset afterwards
+    assert not any(x["name"] == "imported"
+                   for x in client.get("/api/masks").json()["masks"])
+
+    for bad in ({}, {"shapes": []}, {"imageWidth": 120, "imageHeight": 90,
+                                     "shapes": [{"shape_type": "point",
+                                                 "points": [[1, 1]]}]}):
+        assert client.post("/api/masks/labelme",
+                           json={"labelme": bad}).status_code == 400
 
 
 # ---------------------------------------------------------------- jobs: request-time failures

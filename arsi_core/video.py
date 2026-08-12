@@ -1,10 +1,22 @@
 """Video -> frames extraction (docs/SPEC.md "Video -> frames")."""
 import json
+import re
 from pathlib import Path
 
 import cv2
 
 from .errors import FrameError
+
+
+def camera_slug(filename: str) -> str:
+    """Camera identifier derived from an uploaded file name.
+
+    A mask is only valid for one camera viewpoint, so every mask carries the
+    camera it was drawn on. The upload stores the video under an opaque id, so
+    the original name is the only clue to which camera it is: `1760-cam05.mp4`
+    -> `1760-cam05`. The user can still override it in the wizard."""
+    stem = re.sub(r"[^A-Za-z0-9_-]+", "_", Path(filename or "").stem).strip("_")
+    return stem or "camera"
 
 
 def probe(video_path) -> dict:

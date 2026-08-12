@@ -45,7 +45,7 @@ const S = {
     video: null, extracting: false, extractMode: "seconds", extractN: 2,
     trimStart: 0, trimEnd: 100, frames: [],
     maskZones: [], draftPts: [], rectStart: null, maskTool: "poly",
-    maskPreview: null, maskPreset: "none", zoneSeq: 1,
+    maskPreview: null, maskPreset: "none", zoneSeq: 1, camera: "",
     pipeline: "vlm_05", model: null, promptPreset: "conservative",
     promptText: "", refPath: null, advOpen: false,
     diff: 40, minArea: 500, maxRegions: 25, retries: 2,
@@ -220,7 +220,8 @@ function resetWizardSource() {
   if (w.maskPreview) { URL.revokeObjectURL(w.maskPreview); }
   Object.assign(w, { step: 1, source: null, demoSel: [], video: null,
                      frames: [], extracting: false, uploading: false,
-                     maskPreview: null, reuseId: null, framePool: [], frameSel: [] });
+                     maskPreview: null, reuseId: null, framePool: [], frameSel: [],
+                     camera: "" });
   S._videos = null;
 }
 function maybeResetWizard() {
@@ -289,7 +290,7 @@ ACT.reuseVideo = async (videoId) => {
     // broke the "Upload a video" card after picking an extraction
     Object.assign(S.wiz, { source: "reuse", reuseId: videoId, framePool: d.frames,
                            frameSel: d.frames.map(f => f.path),   // all selected by default
-                           frames: [] });
+                           frames: [], camera: d.camera || "" });
     render();
   } catch (e) { toast("Could not load extraction: " + e.message); }
 };
@@ -387,11 +388,17 @@ function zonesToPixels(imgW, imgH) {
     polygon: z.pts.map(p => [Math.round(p.x / 100 * imgW), Math.round(p.y / VBH * imgH)]),
   }));
 }
+/* A mask is only valid for one camera viewpoint, so every preset records its
+   camera. It comes from the uploaded file name (`1760-cam05.mp4` ->
+   `1760-cam05`); the demo frames are all the one fixed tram_1762 camera. */
+function wizCamera() {
+  return S.wiz.camera || (S.wiz.source === "demo" ? "tram_1762" : "camera");
+}
 async function maskSpecFromEditor(name) {
   const src = maskEditorImage();
   if (!src) return null;
   const size = await imageSize(src.img);
-  return { name, camera: "tram_1762", image_size: [size.w, size.h],
+  return { name, camera: wizCamera(), image_size: [size.w, size.h],
            zones: zonesToPixels(size.w, size.h), image: src.path };
 }
 const _sizeCache = {};
@@ -418,7 +425,8 @@ ACT.toggleMaskPreview = async () => {
 };
 ACT.saveMaskPreset = async () => {
   const name = prompt("Preset name (per camera):", S.wiz.maskPreset !== "none" &&
-                      S.wiz.maskPreset !== "custom" ? S.wiz.maskPreset : "tram_1762_windows");
+                      S.wiz.maskPreset !== "custom" ? S.wiz.maskPreset
+                                                    : wizCamera() + "_windows");
   if (!name) return;
   try {
     const spec = await maskSpecFromEditor(name.trim().replace(/\s+/g, "_"));
@@ -429,21 +437,39 @@ ACT.saveMaskPreset = async () => {
     toast(`Mask preset '${spec.name}' saved.`); render();
   } catch (e) { toast("Save failed: " + e.message); }
 };
+/* Load a mask (pixel space) into the editor (viewBox space). Shared by the
+   saved-preset dropdown and the LabelMe import. */
+function loadZonesIntoEditor(m, presetName) {
+  const w = S.wiz;
+  w.maskZones = m.zones.map((z, i) => ({
+    id: i + 1, label: z.label || "Zone " + (i + 1), type: "poly",
+    pts: z.polygon.map(([px, py]) => ({ x: px / m.image_size[0] * 100,
+                                        y: py / m.image_size[1] * VBH })),
+  }));
+  w.zoneSeq = w.maskZones.length + 1; w.maskPreset = presetName; w.draftPts = [];
+}
 ACT.setMaskPreset = async (name) => {
   const w = S.wiz;
   if (name === "none") { Object.assign(w, { maskPreset: "none", maskZones: [], draftPts: [] }); render(); return; }
   if (name === "custom") { w.maskPreset = "custom"; render(); return; }
   const m = S.masks.find(x => x.name === name);
   if (!m) return;
-  const src = maskEditorImage();
-  const size = src ? await imageSize(src.img) : { w: m.image_size[0], h: m.image_size[1] };
-  const sx = 100 / m.image_size[0] * (m.image_size[0] / size.w) * (size.w / m.image_size[0]);
-  w.maskZones = m.zones.map((z, i) => ({
-    id: i + 1, label: z.label || "Zone " + (i + 1), type: "poly",
-    pts: z.polygon.map(([px, py]) => ({ x: px / m.image_size[0] * 100,
-                                        y: py / m.image_size[1] * VBH })),
-  }));
-  w.zoneSeq = w.maskZones.length + 1; w.maskPreset = name; w.draftPts = []; render();
+  loadZonesIntoEditor(m, name);
+  if (m.camera) w.camera = m.camera;
+  render();
+};
+/* --- LabelMe interop ---
+   The team annotates in LabelMe (polygons in image pixels, same information
+   under different keys). Import parses on the server so one place owns the
+   shape-type rules; the zones land in the editor rather than being saved
+   straight away, so the user still sees them over the frame first. */
+ACT.pickLabelmeFile = () => document.getElementById("labelmeFile").click();
+ACT.exportLabelme = () => {
+  const name = S.wiz.maskPreset;
+  if (!name || name === "none" || name === "custom") {
+    toast("Save the mask as a preset first, then export it."); return;
+  }
+  window.location.href = `/api/masks/${encodeURIComponent(name)}/labelme`;
 };
 
 /* --- pipeline step --- */
@@ -1065,6 +1091,27 @@ const CHANGE = {
   promptPreset: v => ACT.setPromptPreset(v),
   refPath: v => { S.wiz.refPath = v; render(); },
   maskPreset: v => ACT.setMaskPreset(v),
+  camera: v => { S.wiz.camera = v.trim().replace(/[^A-Za-z0-9_-]+/g, "_"); },
+  labelmeFile: async (_, input) => {
+    const file = input.files[0];
+    if (!file) return;
+    try {
+      const doc = JSON.parse(await file.text());
+      const r = await fetch("/api/masks/labelme", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ labelme: doc, name: "imported", camera: wizCamera() }),
+      });
+      const m = await r.json();
+      if (!r.ok) throw new Error(m.detail || r.statusText);
+      loadZonesIntoEditor(m, "custom");
+      const skipped = m.skipped || [];
+      toast(`Imported ${m.zones.length} zone(s) from ${file.name}.` + (skipped.length
+        ? ` Skipped ${skipped.length} (${[...new Set(skipped.map(s => s.shape_type))].join(", ")}).`
+        : ""));
+    } catch (e) { toast("LabelMe import failed: " + e.message); }
+    input.value = "";      // allow re-selecting the same file later
+    render();
+  },
   diff: v => { S.wiz.diff = +v; }, minArea: v => { S.wiz.minArea = +v; },
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
   histScript: v => { S.hist.script = v; render(); },
@@ -1101,6 +1148,9 @@ const CHANGE = {
       const r = await fetch("/api/videos", { method: "POST", body: fd });
       if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
       S.wiz.video = await r.json(); S.wiz.frames = [];
+      // the file name is the only clue to which camera this is; masks are
+      // per-camera, so seed the field from it (the user can still edit it)
+      S.wiz.camera = S.wiz.video.camera || "";
       toast(`Video loaded: ${S.wiz.video.info.frame_count} frames, ${S.wiz.video.info.duration_s.toFixed(1)}s.`);
     } catch (e) { toast("Upload failed: " + e.message); }
     S.wiz.uploading = false;
@@ -1507,11 +1557,20 @@ function wizStep3() {
             <span data-act="maskDelete" data-arg="${z.id}" style="cursor:pointer; color:${C.fg3}; font-size:15px; line-height:1;">×</span>
           </div>`).join("")}
       </div>
+      <label style="font-size:11.5px; color:${C.fg3}; display:block; margin-bottom:6px;">Camera ${hint("Which camera these zones were drawn on. Seeded from the video file name; a mask is only valid for the viewpoint it was drawn on, so give each camera its own.")}</label>
+      <input data-change="camera" data-live value="${esc(wizCamera())}" placeholder="1760-cam05" style="width:100%; box-sizing:border-box; padding:9px 11px; border-radius:8px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:13px; font-family:${C.mono}; margin-bottom:12px;">
       <label style="font-size:11.5px; color:${C.fg3}; display:block; margin-bottom:6px;">Camera preset ${hint("Masks are saved per camera: the camera is fixed, so the same window zones apply to every video from it. Save your drawing once, reuse it for every future run.")}</label>
       <select data-change="maskPreset" style="width:100%; padding:9px 11px; border-radius:8px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:13px; margin-bottom:12px;">${presetOpts}</select>
       <div style="display:flex; gap:8px;">
         <button data-act="saveMaskPreset" style="flex:1; font-size:12px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:9px; border-radius:8px; cursor:pointer;">Save preset</button>
         <button data-act="maskClear" style="font-size:12px; color:oklch(0.8 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:9px 12px; border-radius:8px; cursor:pointer;">Clear</button>
+      </div>
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid ${C.bd2};">
+        <div style="font-size:11.5px; color:${C.fg3}; margin-bottom:6px;">LabelMe ${hint("The same polygons in the team's annotation format. Import loads a LabelMe .json into the editor; export downloads the saved preset so it can be reopened in LabelMe.")}</div>
+        <div style="display:flex; gap:8px;">
+          <button data-act="pickLabelmeFile" style="flex:1; font-size:12px; color:oklch(0.8 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:9px; border-radius:8px; cursor:pointer;">Import</button>
+          <button data-act="exportLabelme" style="flex:1; font-size:12px; color:oklch(0.8 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:9px; border-radius:8px; cursor:pointer;">Export</button>
+        </div>
       </div>
     </div>
   </div>`;

@@ -48,6 +48,20 @@ any frame and applies to every frame of that camera/video.
 - vlm_05 verdict-cache keys must include a hash of the active mask
   (a mask change invalidates verdicts, same as a prompt change).
 - Job config gets `mask: <name>|null`; report + export record it.
+- **Camera identity**: a mask is only valid for the viewpoint it was drawn on,
+  so `camera` is seeded from the uploaded file name (`1760-cam05.mp4` →
+  `1760-cam05`, `camera_slug()`), stored in `videos/<id>/origin.json`, and
+  editable in the wizard. Never hardcode it — a 20-camera tram needs 20 masks.
+- **LabelMe interop** (the team's annotation tool): same polygons, different
+  keys (`shapes[].points` vs `zones[].polygon`, both image pixels).
+  `MaskSpec.from_labelme`/`to_labelme` + `POST /api/masks/labelme` (import,
+  returns zones for the editor without saving) and
+  `GET /api/masks/<name>/labelme` (export). Rectangles/circles are expanded to
+  polygons; open shapes (line, linestrip, point) enclose no area and are
+  skipped, reported via `labelme_skipped()`. Integral coordinates stay ints so
+  a round-trip through LabelMe keeps the mask hash — otherwise it would
+  invalidate every cached verdict for nothing. This is the *occlusion* mask,
+  not the Task-3 zones-of-interest below.
 
 ### Pipeline adapters
 One uniform interface over the five scripts:
@@ -115,7 +129,9 @@ Every failure is logged (structured JSONL per job under
 - `GET  /api/demo-frames` → curated anomaly frames shipped with the repo
   (benchmark ground-truth cases, grouped real/gpt/variant/clean)
 - `GET/POST/PUT/DELETE /api/masks` (named presets);
-  `POST /api/masks/preview {frame, zones}` → masked image for live preview
+  `POST /api/masks/preview {frame, zones}` → masked image for live preview;
+  `POST /api/masks/labelme {labelme, name?, camera?}` → zones + `skipped[]`;
+  `GET /api/masks/{name}/labelme` → LabelMe download
 - `POST /api/jobs {script, model, prompt, frames[], reference?, mask?,
   params, mode}` → `{job_id}`; mode = single | batch | compare (two
   configs, same frames)
