@@ -145,6 +145,73 @@ busiest frame in the set, while `real_f0037` misses one with only 20. Next probe
 diff the crop pairs GLM rejects against the ones it accepts on the same scene.
 
 Reports: `report_merge_on.md`, `report_merge_off.md`.
+
+## DINOv2 feature gate — ANSWERED 2026-08-12 (GLM × conservative, 29 cases)
+
+The anomalib family (PatchCore / AnomalyDINO / Dinomaly / EfficientAD) had never
+been looked at in this project. `tools/dino_localizer.py` implements the
+AnomalyDINO idea (arXiv 2405.14529, WACV 2025) specialised for a fixed camera:
+DINOv2 ViT-S/14-reg patch features, cosine distance to the nominal reference
+within ±1 patch **at the same grid position**, robust-z **and** an absolute floor.
+
+**Replacing the photometric diff is a bad trade.** As a standalone localizer it
+halves the cross-session noise, which is exactly what it was expected to do —
+but its boxes are quantised to the 24 px patch grid, so strict IoU drops:
+
+| clean-frame candidate regions | shipped | dino z=6 |
+|---|---|---|
+| same session as the reference (v1_f0151/0181/0211/0241) | 34 | 84 |
+| cross-session (v3_f0001, v4_f0004/0016/0022) | **105** | **52** |
+| frame containing a person (v2_f0001) | 14 | 7 |
+
+(the same-session blow-up was a normalisation artefact: on a near-identical pair
+the MAD collapses and the z amplifies feature jitter — hence `ABS_FLOOR`. Even
+fixed, the best standalone setting reaches 45/45 lenient at 32/45 strict vs
+shipped's 37/45.)
+
+**Using it as a gate over the shipped boxes is the good trade.** Keep vlm_05's
+regions, drop the ones with no feature support (`localize_gated`, max patch
+distance in the box). The survivors keep byte-identical bboxes, so every verdict
+was already in `cache.json` → the whole A/B ran on this laptop at **0 fresh VLM
+calls** (`tools/rescore_gate.py`, 1.3 min per arm):
+
+| | shipped | **gate 0.08** | gate 0.12 | gate 0.15 |
+|---|---|---|---|---|
+| frame level (TP/FP/TN/FN) | 17/0/12/0 | 17/0/12/0 | 17/0/12/0 | 17/0/12/0 |
+| instance recall | 0.889 | **0.889** | 0.889 | 0.844 |
+| strict IoU>=0.3 | 0.733 | **0.733** | 0.733 | 0.689 |
+| FP boxes / kept | 20 / 74 | **12 / 65** | 9 / 62 | 8 / 59 |
+| region precision | 0.730 | **0.815** | 0.855 | 0.864 |
+| regions sent to the VLM | 559 | **243** | 165 | 129 |
+| instances still localized | 45/45 | **45/45** | 44/45 | 42/45 |
+
+`--gate -1` (filters nothing) reproduces `report.md` exactly → controlled A/B.
+Cost: +1.8 s/frame on this CPU, ~20 ms on the GPU, against −57 % VLM calls.
+
+**0.08 is the pick, recall-first**, because it is the largest threshold at which
+no GT instance loses its region (last row). From 0.10 up, the far phone of
+`real_f0219` (~1 patch wide) is gated away; end-to-end recall does not move only
+because GLM already rejected it, which makes it a loss waiting to surface under
+another judge — the same trap that disqualified InternVL. Raising the grid does
+not buy it back: at `DINO_INPUT_W=1400` (19 px/patch) gate 0.12 loses 3 instances
+instead of 1 *and* keeps more regions, DINOv2 drifting from its training scale.
+
+**Scope it honestly.** On a cross-session empty frame the gate still keeps 12 of
+31 regions (patch distances 0.15–0.40: a different session really does move the
+features), so it does *not* make cross-session negatives clean at proposal time —
+GLM was already answering NO to those. The measured wins are the 70 % cost cut and
+the FP-box halving on anomaly frames. It also does not touch the 5 FN: they are
+judge rejections, and their patch distances are high (the four real_f0037 objects
+score 0.34–0.52 against 0.03–0.10 for the dropped noise).
+
+Not tried: Dinomaly (CVPR 2025) needs decoder training → GPU, and its selling
+point is multi-class, which is not our problem; anomalib itself as a framework,
+worth adopting only for the paper's baseline table (PatchCore/EfficientAD with
+standard I-AUROC/PRO), since our empty frames are already a `train/good` set.
+
+Reports: `report_gateshipped.md`, `report_gate0.06/0.08/0.1/0.12/0.15.md`.
+Regression check without the VLM: `python benchmark/eval_localization.py
+--variants shipped,gate0.12,dino4@0.10`.
 ² InternVL's frame F1 flatters it: it systematically says NO to real phones
 (2/4 instances on every real multi-object frame) and misses real_f0205 whole.
 ³ minicpm-v4.6 ignores the reply format AND claims an object appeared on 198 of

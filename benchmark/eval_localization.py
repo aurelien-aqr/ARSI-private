@@ -21,6 +21,12 @@
 #               busy frames into MAX_AREA-killed mega-blobs, see 2026-07-12)
 #    hp         per-pixel high-pass diff (NEGATIVE result kept for the record:
 #               sensor/JPEG noise decorrelates between frames and floods it)
+#    dino[z][@floor]  DINOv2 feature localizer INSTEAD of the diff
+#               (tools/dino_localizer.py), e.g. dino4@0.10. Better on
+#               cross-session noise, worse on strict IoU - see benchmark/README
+#    gate[thr][mean]  shipped boxes FILTERED by DINOv2 feature support, e.g.
+#               gate0.12. Same recall, ~70% fewer regions - the shipped-quality
+#               boxes with the feature signal used only to veto
 #
 #  Run from the repository root:
 #      python benchmark/eval_localization.py
@@ -77,6 +83,28 @@ def eval_case(case, refmap, variant):
         regions, loc = m.localize(ref_path, img_path)
         extra = (f" base={loc['base']} +lo={loc['second']} +edge={loc['edge']}"
                  f" -person={loc['person_veto']}")
+    elif variant.startswith("gate"):
+        # shipped boxes, filtered by DINOv2 feature support: "gate0.10" or
+        # "gate0.10mean" (default statistic is the max patch distance in the box)
+        import tools.dino_localizer as dl
+        spec = variant[4:]
+        stat = "mean" if spec.endswith("mean") else "max"
+        thr = float(spec.replace("mean", "") or dl.GATE_THRESHOLD)
+        regions, loc = dl.localize_gated(ref_path, img_path, gate=thr, stat=stat)
+        extra = (f" -gate={loc['gated_away']} -person={loc['person_veto']}"
+                 f" {loc['seconds']}s")
+    elif variant.startswith("dino"):
+        # dino / dino3.5 / dino5 ... = DINOv2 feature localizer at that z-threshold
+        # (tools/dino_localizer.py). Same post-processing as shipped, so the only
+        # thing that differs is the change signal: features instead of pixels.
+        import tools.dino_localizer as dl
+        spec = variant[4:]                      # "", "6", "4@0.10" -> z / z@floor
+        zs, _, fs = spec.partition("@")
+        z = float(zs) if zs else dl.Z_THRESHOLD
+        floor = float(fs) if fs else dl.ABS_FLOOR
+        regions, loc = dl.localize(ref_path, img_path, z_thr=z, abs_floor=floor)
+        extra = (f" raw={loc['raw']} patches={loc['patches_over']}"
+                 f" -person={loc['person_veto']} {loc['seconds']}s")
     else:
         a, b, black = m._gray_pair(ref_path, img_path)
         mask, _ = VARIANTS[variant](a, b, black)
@@ -105,7 +133,8 @@ def eval_case(case, refmap, variant):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--variants", default="photo,shipped",
-                    help="comma list from: shipped, " + ", ".join(VARIANTS))
+                    help="comma list from: shipped, dino<z>[@floor], "
+                         "gate<thr>[mean], " + ", ".join(VARIANTS))
     ap.add_argument("--cases", default="", help="only case ids containing this")
     ap.add_argument("--quiet", action="store_true", help="summary lines only")
     args = ap.parse_args()
