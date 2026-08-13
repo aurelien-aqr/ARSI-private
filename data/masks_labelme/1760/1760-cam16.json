@@ -573,6 +573,24 @@
       "shape_type": "circle",
       "flags": {},
       "mask": null
+    },
+    {
+      "label": "mask",
+      "points": [
+        [
+          215.0816993464053,
+          658.7745098039215
+        ],
+        [
+          209.68954248366015,
+          662.0424836601308
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "circle",
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "1760-cam16.jpg",

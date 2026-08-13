@@ -89,6 +89,24 @@
       "shape_type": "polygon",
       "flags": {},
       "mask": null
+    },
+    {
+      "label": "mask",
+      "points": [
+        [
+          613.021582733813,
+          176.9064748201439
+        ],
+        [
+          605.1079136690648,
+          179.9640287769784
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "circle",
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "39T-cam12.jpg",

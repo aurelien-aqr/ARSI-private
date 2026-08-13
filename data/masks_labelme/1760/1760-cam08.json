@@ -1501,6 +1501,58 @@
       "shape_type": "polygon",
       "flags": {},
       "mask": null
+    },
+    {
+      "label": "mask",
+      "points": [
+        [
+          903.1294964028777,
+          638.0575539568345
+        ],
+        [
+          896.294964028777,
+          642.3741007194244
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "circle",
+      "flags": {},
+      "mask": null
+    },
+    {
+      "label": "mask",
+      "points": [
+        [
+          754.5999999999999,
+          294.45
+        ],
+        [
+          752.8,
+          289.75
+        ],
+        [
+          753.1999999999999,
+          285.95
+        ],
+        [
+          758.3,
+          286.35
+        ],
+        [
+          759.5999999999999,
+          292.05
+        ],
+        [
+          757.0999999999999,
+          295.25
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "polygon",
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "1760-cam08.jpg",

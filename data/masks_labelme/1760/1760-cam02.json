@@ -85,6 +85,24 @@
       "shape_type": "polygon",
       "flags": {},
       "mask": null
+    },
+    {
+      "label": "mask",
+      "points": [
+        [
+          596.7319461444308,
+          133.99020807833534
+        ],
+        [
+          587.6744186046512,
+          136.92778457772337
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "circle",
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "1760-cam02.jpg",

@@ -39,6 +39,24 @@
       "shape_type": "polygon",
       "flags": {},
       "mask": null
+    },
+    {
+      "label": "mask",
+      "points": [
+        [
+          546.7326732673267,
+          209.20792079207922
+        ],
+        [
+          538.019801980198,
+          210.79207920792078
+        ]
+      ],
+      "group_id": null,
+      "description": "",
+      "shape_type": "circle",
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "39T-cam51.jpg",
