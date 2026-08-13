@@ -125,6 +125,11 @@ PIPELINE_DOCS = {
                    "changed region. Recommended.",
         "inputs": "A clean reference frame (same camera, empty tram) + the "
                   "inspection frames.",
+        "stages": "Two stages you choose independently: the LOCALIZER proposes "
+                  "candidate regions (pixel diff, or pixel diff + DINOv2 "
+                  "feature gate, or DINOv2 features alone) and the JUDGE (the "
+                  "model + prompt) answers YES/NO on each crop. The steps below "
+                  "describe the pixel-diff localizer, the default.",
         "output": "One box per kept region with a short label, plus a "
                   "frame-level anomalous/clean verdict.",
         "steps": [
@@ -154,11 +159,24 @@ PIPELINE_DOCS = {
              "regions are fused before any VLM call, so the judge sees the "
              "object rather than a fragment. A fill guard stops the merge from "
              "chaining neighbours into one frame-sized box."),
+            ("Optional DINOv2 gate", "With the 'photo+dino' localizer, every "
+             "surviving box is scored by DINOv2 patch features against the same "
+             "place in the reference, and boxes with no semantic change are "
+             "dropped before any VLM call. Measured on the 29-case benchmark: "
+             "identical instance recall and box quality, region precision "
+             "0.730 → 0.815, and 559 → 243 VLM calls. A lighting shift on an "
+             "empty seat is invisible to the features; a phone is not."),
             ("VLM judges each region", "Each region is cropped from BOTH images "
              "with context padding and sent side by side (reference | now). The "
              "model answers YES/NO plus a 2-4 word name. In 'filter' mode the "
              "NO regions are dropped; in 'label' mode every region is kept and "
              "just named."),
+            ("Everything is recorded", "Each proposed region is stored with "
+             "what happened to it — kept, rejected by the judge, or dropped by a "
+             "post-filter — so the Results screen can draw the regions that "
+             "never became detections. That is how you tell a localization miss "
+             "(no box over the object at all) from a judge miss (a correct box "
+             "answered NO)."),
             ("Verdict", "Surviving boxes that still overlap heavily are merged "
              "a second time, and the frame is flagged anomalous if at least one "
              "box remains."),
@@ -186,7 +204,12 @@ PIPELINE_DOCS = {
             "all 45 — so every miss is the judge saying NO to a region that did "
             "contain the object.",
             "Cost scales with the number of changed regions: roughly 20 VLM "
-            "calls per frame on a busy frame.",
+            "calls per frame on a busy frame — which the DINOv2 gate roughly "
+            "halves.",
+            "The DINOv2 localizers need PyTorch and download an 84 MB backbone "
+            "on first use. The gate does NOT make cross-session frames clean at "
+            "proposal time (it still keeps 12 of 31 regions on one measured "
+            "empty frame); it cuts cost and false-positive boxes.",
         ],
     },
 }

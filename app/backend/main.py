@@ -29,6 +29,7 @@ from arsi_core.video import camera_slug, extract_frames, probe     # noqa: E402
 
 from .exports import report_html, report_md, results_xlsx          # noqa: E402
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
+from arsi_core import localizers                                   # noqa: E402
 from .pipeline_docs import PIPELINE_DOCS                           # noqa: E402
 from .review import (ReviewError, compute_metrics, export_stats,   # noqa: E402
                      load_review, review_path, save_review)
@@ -98,16 +99,23 @@ def _sse(gen):
 
 # ---------------------------------------------------------------- health
 
+def has_gpu() -> bool:
+    if shutil.which("nvidia-smi") is None:
+        return False
+    try:
+        return subprocess.run(["nvidia-smi", "-L"], capture_output=True,
+                              timeout=5).returncode == 0
+    except Exception:
+        return False
+
+
+CPU_TIMEOUT_S = 900     # one crop call measured at 2-4 min on this laptop
+
+
 @app.get("/api/health")
 def health():
     h = client_for(timeout=4).health()
-    gpu = shutil.which("nvidia-smi") is not None
-    if gpu:
-        try:
-            gpu = subprocess.run(["nvidia-smi", "-L"], capture_output=True,
-                                 timeout=5).returncode == 0
-        except Exception:
-            gpu = False
+    gpu = has_gpu()
     return {"ollama": h["reachable"], "detail": h.get("detail", ""),
             "models": h["models"], "gpu": gpu,
             "cpu_warning": None if gpu else
@@ -410,6 +418,14 @@ def pipelines():
     return {"pipelines": out}
 
 
+@app.get("/api/localizers")
+def localizers_index():
+    """The region-proposal stage of vlm_05, selectable independently of the
+    judge (the model). Availability is resolved server-side: DINOv2 needs
+    torch, so the UI can grey out what this machine cannot run."""
+    return {"localizers": localizers.catalog(), "default": localizers.DEFAULT}
+
+
 @app.post("/api/jobs")
 def create_job(payload: dict):
     script = payload.get("script")
@@ -433,7 +449,21 @@ def create_job(payload: dict):
         prompt_name=payload.get("prompt_name", "default"),
         reference=_abs(payload["reference"]) if payload.get("reference") else None,
         mask=str(MASKS_DIR / f"{mask_name}.json") if mask_name else None,
+        localizer=payload.get("localizer") or None,
         params=payload.get("params") or {})
+    # A fresh crop call takes 2-4 min on CPU while the runner's default timeout is
+    # 120 s, so on a machine with no GPU every uncached frame failed with
+    # ReadTimeout — the pipeline looked broken when it was only slow. Raise it
+    # unless the caller asked for a specific timeout.
+    if "timeout_s" not in cfg.params and not has_gpu():
+        cfg.params = {**cfg.params, "timeout_s": CPU_TIMEOUT_S}
+    if script == "vlm_05":
+        cfg.localizer = cfg.localizer or localizers.DEFAULT
+        if cfg.localizer not in localizers.names():
+            raise HTTPException(400, f"unknown localizer '{cfg.localizer}'")
+        ok, why = localizers.availability(cfg.localizer)
+        if not ok:
+            raise HTTPException(409, why)      # same shape as a missing model
     # fail fast in the request (docs/SPEC.md: model missing -> 409 + pull hint)
     if cfg.model:
         try:
@@ -454,7 +484,14 @@ def jobs_index():
         jid = data["job_id"]
         if jid in live:
             continue
-        hist.append({"job_id": jid, "status": data["status"],
+        # results.json now says "running" while a job is in flight. If we get here
+        # the job is NOT in this process's manager, so nothing is working on it:
+        # the server was restarted or killed mid-job. Report that instead of a
+        # phantom "running" row that would never change.
+        status = data["status"]
+        if status in ("running", "queued"):
+            status = "interrupted"
+        hist.append({"job_id": jid, "status": status,
                      "config": data["config"], "summary": data["summary"]})
     # Newest first. The job_id is prefixed with a %Y%m%d-%H%M%S timestamp, so it
     # sorts chronologically — and unlike file mtime it survives jobs copied in
@@ -537,10 +574,15 @@ def job_events(job_id: str):
 
 
 @app.post("/api/jobs/{job_id}/cancel")
-def job_cancel(job_id: str):
-    if not manager.cancel(job_id):
+def job_cancel(job_id: str, payload: dict = None):
+    """`{"force": true}` also aborts the VLM call in flight (see
+    JobManager.cancel). Without it the job stops after that call finishes, which
+    is up to a few minutes on CPU."""
+    force = bool((payload or {}).get("force"))
+    res = manager.cancel(job_id, force=force)
+    if not res.get("ok"):
         raise HTTPException(404, job_id)
-    return {"ok": True}
+    return res
 
 
 def _finished_job(job_id: str) -> dict:
@@ -600,6 +642,7 @@ def reviews_index():
         cfg = results.get("config", {})
         out.append({"job_id": job_dir.name, "updated": review.get("updated"),
                     "script": cfg.get("script"), "model": cfg.get("model"),
+                    "localizer": cfg.get("localizer"),
                     "metrics": compute_metrics(results, review),
                     "export": export_stats(results, review)})
     return {"reviews": out}

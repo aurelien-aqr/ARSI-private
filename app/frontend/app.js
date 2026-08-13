@@ -35,6 +35,7 @@ const S = {
   screen: "dashboard",
   theme: localStorage.getItem("arsi-theme") || "dark",
   health: null, models: [], pipelines: [], demo: [], refs: [], masks: [],
+  localizers: [], localizerDefault: "photo",   // vlm_05 region-proposal stage
   jobs: [], settings: null, storage: null,
   pulling: null, pullPct: 0, pullStatus: "",
   toast: null,
@@ -46,7 +47,7 @@ const S = {
     trimStart: 0, trimEnd: 100, frames: [],
     maskZones: [], draftPts: [], rectStart: null, maskTool: "poly",
     maskPreview: null, maskPreset: "none", zoneSeq: 1, camera: "",
-    pipeline: "vlm_05", model: null, promptPreset: "conservative",
+    pipeline: "vlm_05", model: null, localizer: null, promptPreset: "conservative",
     promptText: "", refPath: null, advOpen: false,
     diff: 40, minArea: 500, maxRegions: 25, retries: 2,
   },
@@ -54,6 +55,7 @@ const S = {
   res: {
     jobId: null, data: null, filter: "all", sel: 0, split: false,
     compare: false, hoverV: -1,
+    cands: false,             // draw the regions the localizer proposed but the judge dropped
     compareJobs: [],          // job ids of the extra columns (open job is column 1)
     compareData: {},          // job_id -> loaded results
     coordSize: null,          // {w,h} of the bbox coordinate space
@@ -149,6 +151,8 @@ async function boot() {
   await Promise.allSettled([
     refreshHealth(), refreshModels(),
     jget("/api/pipelines").then(d => { S.pipelines = d.pipelines; initWizardDefaults(); }),
+    jget("/api/localizers").then(d => { S.localizers = d.localizers;
+                                        S.localizerDefault = d.default; }),
     jget("/api/demo-frames").then(d => { S.demo = d.frames; }),
     jget("/api/references").then(d => { S.refs = d.references; }),
     refreshMasks(), refreshJobs(),
@@ -202,6 +206,7 @@ function initWizardDefaults() {
     S.wiz.promptText = p.prompts[S.wiz.promptPreset];
     if (!S.wiz.model) S.wiz.model = p.default_model;
   }
+  if (!S.wiz.localizer) S.wiz.localizer = S.localizerDefault;
   if (!S.wiz.refPath && S.refs.length) {
     const def = S.refs.find(r => r.path.includes("f0227")) || S.refs[0];
     S.wiz.refPath = def.path;
@@ -496,6 +501,7 @@ ACT.setPipeline = (k) => {
   render();
 };
 ACT.setModel = (tag) => { S.wiz.model = tag; render(); };
+ACT.setLocalizer = (key) => { S.wiz.localizer = key; render(); };
 ACT.pullModel = async (tag) => {
   if (S.pulling) return;
   S.pulling = tag; S.pullPct = 0; render();
@@ -606,11 +612,14 @@ ACT.launchRun = async () => {
     prompt: w.promptText, prompt_name: w.promptPreset,
     reference: needRef() ? w.refPath : null, mask: maskName, params,
   };
+  // the localizer is a vlm_05-only stage; sending it for other pipelines would
+  // record a choice that had no effect on the run
+  if (w.pipeline === "vlm_05") body.localizer = w.localizer || S.localizerDefault;
   try {
     const { job_id } = await jpost("/api/jobs", body);
     S.run = { jobId: job_id, total: w.frames.length, processed: 0, anomalous: 0,
-              failed: 0, retried: 0, done: false, cancelled: false,
-              thumbs: [], log: [`[start] job ${job_id} · ${w.pipeline} · ${w.model}`],
+              failed: 0, retried: 0, done: false, cancelled: false, cancelling: false, forcing: false,
+              thumbs: [], log: [`[start] job ${job_id} · ${w.pipeline}${body.localizer ? " · " + body.localizer : ""} · ${w.model}`],
               frames: w.frames.slice(), script: w.pipeline, model: w.model,
               // reference/mask: the masked copies replace these as soon as the
               // runner reports mask_applied — the screen must show what the VLM saw
@@ -737,10 +746,46 @@ function pumpStage() {
   if (stageKey(run.stage) !== before && S.screen === "run") render();
 }
 ACT.cancelRun = async () => {
-  if (!S.run) return;
-  try { await jpost(`/api/jobs/${S.run.jobId}/cancel`); toast("Cancelling — partial results kept."); }
-  catch (e) { toast(e.message); }
+  if (!S.run || S.run.cancelling || S.run.done) return;
+  S.run.cancelling = true;               // the button must change on the click,
+  S.run.log.unshift("[cancel] requested — finishing the region in flight");
+  render();                              // not minutes later when the job ends
+  try { await jpost(`/api/jobs/${S.run.jobId}/cancel`); }
+  catch (e) { S.run.cancelling = false; toast(e.message); render(); return; }
+  watchCancel(S.run.jobId);
 };
+ACT.forceStop = async () => {
+  if (!S.run || S.run.done) return;
+  S.run.forcing = true;
+  render();
+  try {
+    const r = await jpost(`/api/jobs/${S.run.jobId}/cancel`, { force: true });
+    S.run.log.unshift(`[force] aborted ${r.aborted_calls || 0} VLM call(s) in flight`);
+  } catch (e) { toast(e.message); }
+  render();
+};
+/* The cancel flag is read between regions, so the job ends within one VLM call
+   (seconds on GPU, up to a few minutes on CPU) — but if the SSE stream died
+   while we waited, nothing would ever tell this screen. Poll the job state as a
+   safety net until it reaches a terminal status. */
+async function watchCancel(jobId) {
+  for (let i = 0; i < 600; i++) {
+    await new Promise(r => setTimeout(r, 2000));
+    if (!S.run || S.run.jobId !== jobId) return;
+    if (S.run.done) return;
+    let st;
+    try { st = await jget("/api/jobs/" + jobId); } catch { continue; }
+    if (["cancelled", "completed", "failed"].includes(st.status)) {
+      S.run.done = true;
+      S.run.cancelled = st.status === "cancelled";
+      S.run.live = null;
+      S.run.log.unshift(`[done] stopped · ${S.run.processed} frames kept`);
+      await refreshJobs();
+      render();
+      return;
+    }
+  }
+}
 ACT.viewRunResults = () => openResults(S.run ? S.run.jobId : null);
 
 /* --- results --- */
@@ -832,7 +877,11 @@ function comparableJobs(exceptSlot) {
    named in this view. */
 function runLabel(cfg) {
   const c = cfg || {};
-  return [c.script, c.model, c.prompt_name && c.prompt_name + " prompt", c.mask && "mask"]
+  // the localizer belongs here: comparing the same model on two localizers is
+  // exactly the A/B this mode exists for, and the runs would otherwise look
+  // identical in the picker
+  return [c.script, c.localizer, c.model, c.prompt_name && c.prompt_name + " prompt",
+          c.mask && "mask"]
     .filter(Boolean).join(" · ") || "unknown config";
 }
 ACT.toggleCompare = async () => {
@@ -876,6 +925,7 @@ ACT.exportReport = () => window.open(`/api/jobs/${S.res.jobId}/report.html`, "_b
 ACT.exportMd = () => window.open(`/api/jobs/${S.res.jobId}/report.md`, "_blank");
 ACT.exportJson = () => window.open(`/api/jobs/${S.res.jobId}/results.json`, "_blank");
 ACT.exportXlsx = () => { location.href = `/api/jobs/${S.res.jobId}/export.xlsx`; };
+ACT.toggleCands = () => { S.res.cands = !S.res.cands; render(); };
 ACT.hoverV = (i) => { S.res.hoverV = +i; render(); };
 ACT.unhoverV = () => { S.res.hoverV = -1; render(); };
 ACT.openReportJob = (jobId) => window.open(`/api/jobs/${jobId}/report.html`, "_blank");
@@ -1311,6 +1361,9 @@ function statusMeta(st) {
     return { fg: C.acc, bg: C.accBg, bd: C.accBd, label: st };
   if (st === "failed") return { fg: C.redFg, bg: C.redBg, bd: C.redBd, label: "Failed" };
   if (st === "cancelled") return { fg: C.fg2, bg: "oklch(0.22 0.012 250)", bd: C.bdBtn, label: "Cancelled" };
+  // a results.json left saying "running" with no worker behind it — the server
+  // was restarted mid-job. Its finished frames are still there.
+  if (st === "interrupted") return { fg: "oklch(0.8 0.11 75)", bg: "oklch(0.24 0.05 75)", bd: "oklch(0.5 0.09 75)", label: "Interrupted" };
   return { fg: "oklch(0.82 0.11 150)", bg: C.greenBg, bd: C.greenBd, label: "Complete" };
 }
 function jobRow(j, cols) {
@@ -1629,6 +1682,7 @@ function pipeDocModal() {
       <div data-scroll="pipedoc" style="flex:1; min-height:0; overflow:auto; padding:4px 22px 24px;">
         ${d.summary ? `<div style="font-size:13.5px; line-height:1.6; color:${C.fg}; margin-top:18px;">${esc(d.summary)}</div>` : ""}
         ${io ? `<div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;">${io}</div>` : ""}
+        ${d.stages ? `<div style="margin-top:14px; padding:11px 13px; border-radius:9px; background:${C.accBg}; border:1px solid ${C.accBd}; font-size:12.5px; line-height:1.55; color:${C.fg2};">${esc(d.stages)}</div>` : ""}
         ${steps ? h2("How a frame flows through it") + `<div>${steps}</div>` : ""}
         ${d.strengths ? h2("Strengths") + bullets(d.strengths, C.green) : ""}
         ${d.limits ? h2("Limits") + bullets(d.limits, C.amber) : ""}
@@ -1676,9 +1730,10 @@ function wizStep4() {
   <div style="max-width:940px;">
     <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:10px;">Pipeline</div>
     <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:24px;">${pipes}</div>
+    ${w.pipeline === "vlm_05" ? localizerPicker() : ""}
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
       <div>
-        <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:10px;">Model</div>
+        <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:10px;">${w.pipeline === "vlm_05" ? "Stage 2 · Judge model" : "Model"}</div>
         <div style="display:flex; flex-direction:column; gap:7px;">${models}</div>
       </div>
       <div>
@@ -1742,6 +1797,47 @@ function wizStep4() {
     </div>
   </div>`;
 }
+/* vlm_05 is two independent stages: something proposes candidate regions, then
+   the VLM judges each one. They fail for different reasons (the proposer misses
+   things or floods noise; the judge hallucinates or over-rejects), so the UI
+   lets each be chosen separately instead of shipping one frozen combination.
+   The catalogue and its measured numbers come from /api/localizers, i.e. from
+   arsi_core/localizers.py, so the wording cannot drift from the code. */
+function localizerPicker() {
+  const w = S.wiz;
+  const cur = w.localizer || S.localizerDefault;
+  const cards = S.localizers.map(l => {
+    const sel = cur === l.key;
+    const off = !l.available;
+    return `
+    <div ${off ? "" : `data-act="setLocalizer" data-arg="${esc(l.key)}"`}
+         title="${off ? esc(l.unavailable_reason) : ""}"
+         style="padding:12px 14px; border-radius:10px; cursor:${off ? "not-allowed" : "pointer"};
+                opacity:${off ? 0.5 : 1};
+                background:${sel ? C.accBg : C.bgCard}; border:1px solid ${sel ? C.accSelBd : C.bd};">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:13px; height:13px; border-radius:50%; flex:0 0 13px;
+                    border:2px solid ${sel ? C.acc : C.bd2}; background:${sel ? C.acc : "transparent"};"></div>
+        <div style="flex:1;">
+          <div style="font-size:13px; font-weight:600; color:oklch(0.92 0.006 250);">${esc(l.name)}</div>
+          <div style="font-family:${C.mono}; font-size:10.5px; color:${C.fg4}; margin-top:1px;">${esc(l.key)}</div>
+        </div>
+        ${l.recommended ? `<span style="font-size:9.5px; padding:2px 7px; border-radius:8px; background:oklch(0.26 0.07 150); color:oklch(0.86 0.1 150);">rec</span>` : ""}
+        ${l.first_use_download_mb ? `<span style="font-size:9.5px; padding:2px 7px; border-radius:8px; background:${C.bgBtn}; color:${C.fg3};">${l.first_use_download_mb} MB on first use</span>` : ""}
+      </div>
+      <div style="font-size:11.5px; color:oklch(0.66 0.012 250); margin-top:7px; line-height:1.5;">${esc(l.summary)}</div>
+      ${off ? `<div style="font-size:11px; color:${C.redFg}; margin-top:5px;">${esc(l.unavailable_reason)}</div>` : ""}
+    </div>`;
+  }).join("");
+  return `
+    <div style="margin-bottom:24px;">
+      <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono}; margin-bottom:4px;">
+        Stage 1 · Localizer ${hint("Which regions of the frame are proposed to the VLM. This is a separate stage from the judge below: the localizer decides what is looked at, the model decides what it is.")}
+      </div>
+      <div style="font-size:11.5px; color:${C.fg4}; margin-bottom:10px;">Proposes the candidate regions. The judge below then answers YES/NO on each one.</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">${cards}</div>
+    </div>`;
+}
 function wizStep5() {
   const w = S.wiz;
   const p = S.pipelines.find(x => x.key === w.pipeline) || {};
@@ -1752,6 +1848,10 @@ function wizStep5() {
     ["Frames", estFrames() + " frames"],
     ["Mask", w.maskPreset === "none" || !w.maskZones.length ? "no mask" : `${w.maskZones.length} zones (${w.maskPreset})`],
     ["Pipeline", p.name || w.pipeline],
+    ...(w.pipeline === "vlm_05"
+        ? [["Localizer", (S.localizers.find(l => l.key === (w.localizer || S.localizerDefault)) || {}).name
+                         || (w.localizer || S.localizerDefault)]]
+        : []),
     ["Model", m.name || w.model],
     ["Prompt", w.promptPreset],
     ["Reference", needRef() ? (w.refPath || "—").split("/").pop() : "n/a"],
@@ -1872,7 +1972,7 @@ function runView() {
     <div style="border:1px solid ${C.bd3}; border-radius:12px; padding:18px 20px; background:${C.bgCard2}; margin-bottom:18px;">
       <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:12px;">
         <span style="font-family:${C.mono}; font-size:15px; color:oklch(0.92 0.006 250); font-weight:600;">${esc(run.jobId)}</span>
-        ${!run.done ? `<span style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:${C.acc};"><span style="width:6px; height:6px; border-radius:50%; background:${C.acc}; animation:arsipulse 1.3s infinite;"></span>running</span>`
+        ${!run.done ? `<span style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:${run.cancelling ? "oklch(0.85 0.1 22)" : C.acc};"><span style="width:6px; height:6px; border-radius:50%; background:${run.cancelling ? "oklch(0.85 0.1 22)" : C.acc}; animation:arsipulse 1.3s infinite;"></span>${run.cancelling ? "stopping" : "running"}</span>`
           : `<span style="font-size:11.5px; color:${run.cancelled ? C.fg2 : "oklch(0.82 0.1 150)"};">${run.cancelled ? "cancelled" : "complete"}</span>`}
         <span style="margin-left:auto; font-family:${C.mono}; font-size:13px; color:${C.fg2};">${run.processed}/${run.total}${measured ? ` · ${measured}` : ""} · ${run.done ? (run.cancelled ? "stopped" : "done") + (elapsed ? " in " + elapsed : "") : "ETA " + eta}</span>
       </div>
@@ -1901,7 +2001,13 @@ function runView() {
       </div>
     </div>
     <div style="display:flex; gap:12px;">
-      ${!run.done ? `<button data-act="cancelRun" style="font-size:13px; color:oklch(0.85 0.1 22); background:oklch(0.2 0.03 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:pointer;">Cancel (keep partial results)</button>` : ""}
+      ${!run.done ? (run.cancelling
+        ? `<button disabled title="The cancel flag is read between regions, so the job stops after the VLM call in flight — seconds on GPU, up to a few minutes on CPU." style="display:flex; align-items:center; gap:9px; font-size:13px; color:oklch(0.78 0.08 22); background:oklch(0.18 0.02 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:default;">
+            <span style="width:13px; height:13px; border-radius:50%; border:2px solid oklch(0.4 0.05 22); border-top-color:oklch(0.85 0.1 22); animation:arsispin 0.8s linear infinite;"></span>Stopping — finishing the region in flight</button>`
+        : `<button data-act="cancelRun" style="font-size:13px; color:oklch(0.85 0.1 22); background:oklch(0.2 0.03 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:pointer;">Cancel (keep partial results)</button>`) : ""}
+      ${!run.done && run.cancelling ? `<button data-act="forceStop" ${run.forcing ? "disabled" : ""} title="Cuts the connection of the VLM call in flight — the only way to stop Ollama mid-generation. Everything already judged is kept; the crop being judged right now is lost." style="font-size:13px; font-weight:600; color:${run.forcing ? C.fg3 : "oklch(0.9 0.02 22)"}; background:${run.forcing ? C.bgBtn : "oklch(0.42 0.16 22)"}; border:1px solid oklch(0.55 0.18 22); padding:11px 18px; border-radius:9px; cursor:${run.forcing ? "default" : "pointer"};">
+          ${run.forcing ? "Aborting…" : "Force stop now"}</button>
+        <span style="font-size:11.5px; color:${C.fg4}; align-self:center;">Force stop drops the crop being judged; frames already done are kept.</span>` : ""}
       ${run.done ? `<button data-act="viewRunResults" style="font-size:13px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:11px 22px; border-radius:9px; cursor:pointer;">Open results</button>
       <button data-act="goWizard" style="font-size:13px; color:oklch(0.82 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:11px 20px; border-radius:9px; cursor:pointer;">New analysis</button>` : ""}
     </div>
@@ -1919,6 +2025,38 @@ function bboxOverlay(frame, cs, hoverIdx = -1) {
     return `<div style="position:absolute; left:${x0 / cs.w * 100}%; top:${y0 / cs.h * 100}%; width:${(x1 - x0) / cs.w * 100}%; height:${(y1 - y0) / cs.h * 100}%; border:2px solid ${hl ? "oklch(0.95 0.12 90)" : "oklch(0.7 0.18 150)"}; ${hl ? "box-shadow:0 0 0 9999px rgba(8,10,14,0.45);" : ""} border-radius:2px; pointer-events:none;">
       <span style="position:absolute; top:-18px; left:0; font-size:10px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.85); color:oklch(0.85 0.1 150); padding:1px 5px; border-radius:4px; white-space:nowrap;">${esc(d.label)}</span></div>`;
   }).join("");
+}
+/* The localization stage, made visible. A miss has two very different causes —
+   the localizer never proposed a box over the object, or it did and the judge
+   said NO — and until now the only way to tell them apart was reading the raw
+   text. Kept regions are already drawn by bboxOverlay/reviewOverlay, so this
+   draws ONLY the ones that were dropped, dimmer and dashed, underneath. */
+const CAND_COL = { rejected: "oklch(0.62 0.13 22)", filtered: "oklch(0.68 0.13 300)" };
+function candidateOverlay(frame, cs) {
+  if (!S.res.cands || !cs || !frame || !frame.candidates) return "";
+  return frame.candidates.map(c => {
+    if (!c.bbox || c.outcome === "kept") return "";
+    const col = CAND_COL[c.outcome] || CAND_COL.rejected;
+    const [x0, y0, x1, y1] = c.bbox;
+    const why = c.outcome === "filtered" ? "filtered: " + (c.dropped_by || "post-filter")
+                                         : "judge: NO";
+    return `<div title="${esc(why + (c.label ? " · " + c.label : ""))}" style="position:absolute; left:${x0 / cs.w * 100}%; top:${y0 / cs.h * 100}%; width:${(x1 - x0) / cs.w * 100}%; height:${(y1 - y0) / cs.h * 100}%; border:1.5px dashed ${col}; border-radius:2px; opacity:0.75; pointer-events:none;"></div>`;
+  }).join("");
+}
+/* One line that answers "which stage lost it?" without opening the raw text. */
+function stageLine(frame) {
+  const st = frame.localization || {};
+  const cands = frame.candidates || [];
+  if (!cands.length && !st.proposed) return "";
+  const n = (o) => cands.filter(c => c.outcome === o).length;
+  const bits = [`${st.proposed || cands.length} proposed`, `${n("kept")} kept`];
+  if (n("rejected")) bits.push(`${n("rejected")} judged NO`);
+  if (n("filtered")) bits.push(`${n("filtered")} post-filtered`);
+  if (st.person_veto) bits.push(`${st.person_veto} vetoed as person`);
+  if (st.gated_away) bits.push(`${st.gated_away} gated by features`);
+  if (st.capped) bits.push("region cap hit");
+  return `<div style="font-size:10.5px; font-family:${C.mono}; color:${C.fg4}; margin-bottom:8px; line-height:1.5;">
+    ${st.name ? esc(st.name) + " · " : ""}${bits.join(" · ")}</div>`;
 }
 const REV_COL = { tp: "oklch(0.75 0.16 150)", fp: "oklch(0.72 0.17 22)",
                   unset: "oklch(0.85 0.12 90)", fn: "oklch(0.75 0.15 300)" };
@@ -2063,7 +2201,8 @@ function resultsView() {
   const outcome = sel.status === "failed" ? ["FAILED", C.fg2, "oklch(0.22 0.012 250)", C.bdBtn]
     : sel.anomaly ? ["ANOMALY", "oklch(0.85 0.05 22)", C.redBg, C.redBd] : ["CLEAN", "oklch(0.82 0.05 150)", C.greenBg, C.greenBd];
   const revOn = revActive();
-  const boxes = revOn ? reviewOverlay(sel, R.coordSize) : bboxOverlay(sel, R.coordSize, R.hoverV);
+  const boxes = candidateOverlay(sel, R.coordSize)
+    + (revOn ? reviewOverlay(sel, R.coordSize) : bboxOverlay(sel, R.coordSize, R.hoverV));
   const imgWrapAttrs = revOn ? `data-act="revImgClick" style="position:relative; ${S.rev.draw ? "cursor:crosshair;" : ""}"` : `style="position:relative;"`;
   const refImg = jobRefImg(data);
   const masked = !!(data.config || {}).mask;
@@ -2080,7 +2219,7 @@ function resultsView() {
     </div>`;
   }).join("");
   const cfg = data.config || {};
-  const jobMeta = `${esc(cfg.script || "")} · ${esc(cfg.model || "")} · ${esc(cfg.prompt_name || "")} prompt${cfg.mask ? " · mask" : ""}`;
+  const jobMeta = `${esc(cfg.script || "")}${cfg.localizer ? " · " + esc(cfg.localizer) : ""} · ${esc(cfg.model || "")} · ${esc(cfg.prompt_name || "")} prompt${cfg.mask ? " · mask" : ""}`;
   return `
   <div style="height:100%; display:flex; flex-direction:column;">
     <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px; overflow-x:auto;">
@@ -2090,6 +2229,8 @@ function resultsView() {
       </span>${tabs}
       <span style="margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap;">
         ${revOn && S.rev.metrics ? `<span style="font-size:11px; font-family:${C.mono}; color:oklch(0.85 0.12 90);">${Object.values(S.rev.doc.frames).filter(e => e.done).length}/${frames.length} reviewed</span>` : ""}
+        ${(sel.candidates || []).length ? `<button data-act="toggleCands" title="Show the regions the localizer proposed that never became detections — dashed red = the judge answered NO, dashed purple = a post-filter dropped a YES. Tells you whether a miss is a localization failure or a judge failure." style="display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:${R.cands ? C.accDark : "oklch(0.72 0.13 22)"}; background:${R.cands ? "oklch(0.72 0.13 22)" : "oklch(0.24 0.05 22)"}; border:1px solid oklch(0.5 0.1 22); padding:6px 12px; border-radius:8px; cursor:pointer;">
+          ${R.cands ? "Hide" : "Show"} candidates (${(sel.candidates || []).filter(c => c.outcome !== "kept").length})</button>` : ""}
         <button data-act="toggleReview" title="Judge each detection TP/FP and box what the model missed" style="display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:${revOn ? C.accDark : "oklch(0.85 0.12 90)"}; background:${revOn ? "oklch(0.85 0.12 90)" : "oklch(0.24 0.05 90)"}; border:1px solid oklch(0.5 0.09 90); padding:6px 12px; border-radius:8px; cursor:pointer;">
           ${revOn ? "Exit review" : "Review"}</button>
         <button data-act="togglePlay" title="${R.playing ? "Pause" : "Play through frames"}" style="display:flex; align-items:center; gap:7px; font-size:12px; color:${R.playing ? C.accDark : C.accFg}; background:${R.playing ? C.acc : C.accBg}; border:1px solid ${C.accBd2}; padding:6px 12px; border-radius:8px; cursor:pointer;">
@@ -2138,10 +2279,16 @@ function resultsView() {
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid ${REV_COL.tp}; border-radius:2px;"></span>TP</span>
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid ${REV_COL.fp}; border-radius:2px;"></span>FP</span>
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid ${REV_COL.fn}; border-radius:2px;"></span>missed (FN)</span>
+            ${S.res.cands ? `
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:1.5px dashed ${CAND_COL.rejected}; border-radius:2px;"></span>judged NO</span>
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:1.5px dashed ${CAND_COL.filtered}; border-radius:2px;"></span>post-filtered</span>` : ""}
           </div>` : `
           <div style="display:flex; gap:16px; margin-top:10px; font-size:11.5px; color:oklch(0.62 0.012 250);">
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid oklch(0.7 0.18 150); border-radius:2px;"></span>kept detection</span>
             <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:2px solid oklch(0.95 0.12 90); border-radius:2px;"></span>hovered region</span>
+            ${S.res.cands ? `
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:1.5px dashed ${CAND_COL.rejected}; border-radius:2px;"></span>judged NO</span>
+            <span style="display:flex; align-items:center; gap:6px;"><span style="width:11px; height:11px; border:1.5px dashed ${CAND_COL.filtered}; border-radius:2px;"></span>post-filtered</span>` : ""}
           </div>`}
           <div style="margin-top:16px;">
             <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Timeline · ${frames.length} frames</div>
@@ -2153,8 +2300,10 @@ function resultsView() {
         ${revOn ? reviewSidebar(sel) : `
         <div style="padding:14px 16px 10px; border-bottom:1px solid oklch(0.22 0.01 250);">
           <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3}; font-family:${C.mono};">Regions</div>
-          <div style="font-size:11.5px; color:${C.fg4}; margin-top:3px;">${sel.detections.length} kept detection(s) · ${sel.seconds}s${sel.error ? " · " + esc(sel.error) : ""}</div>
+          <div style="font-size:11.5px; color:${C.fg4}; margin:3px 0 8px;">${sel.detections.length} kept detection(s) · ${sel.seconds}s${sel.error ? " · " + esc(sel.error) : ""}</div>
+          ${stageLine(sel)}
         </div>`}
+        ${revOn ? `<div style="padding:0 16px 10px;">${stageLine(sel)}</div>` : ""}
         ${!revOn && !sel.detections.length ? `
         <div style="padding:34px 18px; text-align:center; color:${C.fg4}; font-size:12.5px; line-height:1.5;">
           ${sel.status === "failed"
@@ -2162,6 +2311,18 @@ function resultsView() {
             : `<div style="width:38px; height:38px; margin:0 auto 12px; border-radius:50%; background:oklch(0.22 0.05 150); border:1px solid oklch(0.4 0.08 150); display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9.5 L7.5 13 L14 5" stroke="${C.green}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No anomaly kept.<br>Frame classified clean.`}
         </div>` : ""}
         ${revOn ? "" : `<div style="padding:8px 12px;">${verdicts}</div>`}
+        ${S.res.cands ? (() => {
+          const dropped = (sel.candidates || []).filter(c => c.outcome !== "kept");
+          if (!dropped.length) return "";
+          return `<div style="padding:2px 12px 10px;">
+            <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Dropped candidates</div>
+            ${dropped.map(c => `
+              <div style="display:flex; align-items:center; gap:8px; padding:7px 9px; border-radius:8px; margin-bottom:4px; background:${C.bgCard2}; border:1px dashed ${CAND_COL[c.outcome] || CAND_COL.rejected};">
+                <span style="font-size:9.5px; font-family:${C.mono}; color:${CAND_COL[c.outcome] || CAND_COL.rejected}; white-space:nowrap;">${c.outcome === "filtered" ? "FILTER" : "NO"}</span>
+                <span style="font-size:11.5px; color:${C.fg3}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(c.label || "(unnamed)")}</span>
+                <span style="margin-left:auto; font-family:${C.mono}; font-size:10px; color:${C.fg5};">${c.area ? Math.round(c.area / 1000) + "k px" : (c.channel || "")}</span>
+              </div>${c.dropped_by ? `<div style="font-size:10px; color:${C.fg5}; margin:-2px 0 6px 9px;">${esc(c.dropped_by)}</div>` : ""}`).join("")}
+          </div>`; })() : ""}
         ${sel.raw_response ? `
         <div style="padding:8px 12px 16px;">
           <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Raw model output</div>
@@ -2294,7 +2455,7 @@ function historyRow(j) {
   <div class="hoverable" data-act="openJob" data-arg="${esc(j.job_id)}" style="display:grid; grid-template-columns:${HIST_COLS}; gap:8px; padding:13px 16px; border-top:1px solid oklch(0.24 0.01 250); align-items:center; font-size:13px; cursor:pointer;">
     <div style="min-width:0;">
       <div style="font-family:${C.mono}; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(j.job_id)}</div>
-      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${cfg.localizer && cfg.localizer !== "photo" ? " · " + esc(cfg.localizer) : ""}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
     </div>
     <span title="${esc(cfg.model || "")}" style="font-family:${C.mono}; font-size:11.5px; color:${C.fg2}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(cfg.model || "—")}</span>
     ${num(s.n_frames ?? cfg.n_frames ?? "—", C.fg2)}

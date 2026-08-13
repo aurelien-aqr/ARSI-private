@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from . import APP_DATA
+from . import localizers
 from .adapters import NEEDS_REFERENCE, default_prompt, get_module, run_frame
 from .cache import VerdictCache
 from .errors import FrameError, ParseError, VLMCallError
@@ -31,6 +32,7 @@ class JobConfig:
     prompt_name: str = "default"        # preset label for the report
     reference: str = None
     mask: str = None                    # path to a MaskSpec JSON, or None
+    localizer: str = None               # vlm_05 region proposal; None -> localizers.DEFAULT
     params: dict = field(default_factory=dict)   # timeout_s, max_retries + UPPER_CASE module overrides
     job_id: str = None
     job_dir: str = None
@@ -44,7 +46,8 @@ class JobConfig:
         return {"script": self.script, "model": self.model,
                 "prompt_name": self.prompt_name, "prompt": self.prompt,
                 "reference": self.reference, "mask": self.mask,
-                "n_frames": len(self.frames), "params": self.params}
+                "localizer": self.localizer, "n_frames": len(self.frames),
+                "params": self.params}
 
 
 class _JobLog:
@@ -97,8 +100,11 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
             stop=None) -> JobResult:
     """Execute the batch. Job-fatal errors (Ollama down, model missing) raise
     BEFORE any frame runs; per-frame errors never stop the batch. `stop` is an
-    optional callable checked between frames: when it returns True the job
-    ends with status "cancelled", keeping the partial results."""
+    optional callable checked between frames AND, for the crop-judging pipelines,
+    between regions inside a frame — a busy frame is 20-30 VLM calls, so a
+    frame-only check made cancellation take minutes. When it returns True the job
+    ends with status "cancelled", keeping the partial results (including the
+    regions already judged in the frame that was interrupted)."""
     cfg.resolved()
     log = _JobLog(Path(cfg.job_dir) / "job.log")
 
@@ -116,12 +122,19 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
         cache = VerdictCache()
     if cfg.reference is None and NEEDS_REFERENCE.get(cfg.script):
         raise FrameError(f"{cfg.script} needs a reference image")
+    if cfg.script == "vlm_05":
+        # validate and load the region proposer BEFORE the loop: an unavailable
+        # backbone must fail the job once, with one message, not per frame
+        cfg.localizer = cfg.localizer or localizers.DEFAULT
+        localizers.check(cfg.localizer)
+        localizers.warmup(cfg.localizer)
 
     prompt = cfg.prompt or default_prompt(cfg.script)
     result = JobResult(job_id=cfg.job_id, config=cfg.public_dict(),
                        started=datetime.now(timezone.utc).isoformat(timespec="seconds"))
     emit("job_started", job_id=cfg.job_id, script=cfg.script,
-         model=cfg.model or "(script default)", n_frames=len(cfg.frames))
+         model=cfg.model or "(script default)", n_frames=len(cfg.frames),
+         localizer=cfg.localizer or "")
     t_job = time.time()
 
     frames, reference, mask_hash = _materialize_mask(cfg, emit)
@@ -130,6 +143,26 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
         # must show that one, not the untouched file the user picked
         result.config["reference_masked"] = reference
         result.config["mask_hash"] = mask_hash
+
+    def snapshot(status):
+        """Persist what exists so far, atomically. Called after EVERY frame: the
+        file used to be written once at the end, so a server killed mid-job left
+        no record at all — the job vanished from the history and its finished
+        frames were lost. `status` is "running" until the job actually ends, which
+        is also what lets the history spot an interrupted job (a file that says
+        running with no live worker behind it)."""
+        okf = [f for f in result.frames if f.status == "ok"]
+        result.summary = JobSummary(
+            n_frames=len(result.frames), n_ok=len(okf),
+            n_anomalous=sum(1 for f in okf if f.anomaly),
+            n_failed=sum(1 for f in result.frames if f.status == "failed"),
+            wall_seconds=round(time.time() - t_job, 2))
+        result.status = status
+        out = Path(cfg.job_dir) / "results.json"
+        tmp = out.with_suffix(".json.tmp")
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(result.to_dict(), fh, indent=1, ensure_ascii=False)
+        tmp.replace(out)          # a reader never sees a half-written file
 
     cancelled = False
     for i, frame in enumerate(frames):
@@ -153,7 +186,8 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
                                model=cfg.model,
                                prompt=prompt + (FORMAT_REMINDER if format_failed else ""),
                                params=params, client=client, cache=cache,
-                               mask_hash=mask_hash)
+                               mask_hash=mask_hash, localizer=cfg.localizer,
+                               stop=stop)
                 fr.attempts = attempt
                 break
             except (ParseError, VLMCallError) as exc:
@@ -173,6 +207,13 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
                 break
         fr.seconds = round(time.time() - t0, 2)
         result.frames.append(fr)
+        if fr.status == "cancelled":
+            # the pipeline stopped mid-frame on the cancel flag: no point
+            # starting the next frame
+            cancelled = True
+        # snapshot BEFORE the event: a client that reacts to frame_done by
+        # fetching results.json must not read a file that predates the frame
+        snapshot("running")
         emit("frame_done", index=i, frame_id=fr.frame_id, status=fr.status,
              anomaly=fr.anomaly, n_detections=len(fr.detections),
              attempts=fr.attempts, seconds=fr.seconds,
@@ -180,23 +221,19 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
              # frame live, without waiting for results.json
              frame=fr.image, detections=[asdict(d) for d in fr.detections],
              error=fr.error)
+        if cancelled:
+            emit("job_cancelled", after_frames=i + 1)
+            break
 
-    ok = [f for f in result.frames if f.status == "ok"]
-    result.summary = JobSummary(
-        n_frames=len(result.frames), n_ok=len(ok),
-        n_anomalous=sum(1 for f in ok if f.anomaly),
-        n_failed=sum(1 for f in result.frames if f.status == "failed"),
-        wall_seconds=round(time.time() - t_job, 2))
     result.finished = datetime.now(timezone.utc).isoformat(timespec="seconds")
     if cancelled:
         result.status = "cancelled"
     else:
-        result.status = "completed" if result.summary.n_failed < len(result.frames) \
+        n_failed = sum(1 for f in result.frames if f.status == "failed")
+        result.status = "completed" if n_failed < len(result.frames) \
             or not result.frames else "failed"
 
-    out_path = Path(cfg.job_dir) / "results.json"
-    with open(out_path, "w", encoding="utf-8") as fh:
-        json.dump(result.to_dict(), fh, indent=1, ensure_ascii=False)
+    snapshot(result.status)
     emit("job_finished", status=result.status, **result.summary.__dict__)
     log.close()
     return result

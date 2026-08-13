@@ -7,6 +7,7 @@ import threading
 import traceback
 from pathlib import Path
 
+from arsi_core import runner
 from arsi_core.errors import ArsiError
 from arsi_core.runner import JOBS_DIR, JobConfig, run_job
 
@@ -19,6 +20,13 @@ class Job:
         self.events = []                 # full history (ring-buffered)
         self.subscribers = []            # [queue.Queue] of live SSE listeners
         self.cancel_flag = threading.Event()
+        # The client is created here, not inside run_job, so force_cancel can reach
+        # the connection of the call in flight. Constructed through the `runner`
+        # module attribute on purpose: that is the seam the tests replace with a
+        # fake Ollama, and run_job would otherwise be handed a real client.
+        self.client = runner.OllamaClient(timeout=float((cfg.params or {})
+                                                       .get("timeout_s", 120)))
+        self.forced = False
         self.result = None
         self.error = None
         self.lock = threading.Lock()
@@ -72,15 +80,24 @@ class JobManager:
     def get(self, job_id: str):
         return self.jobs.get(job_id)
 
-    def cancel(self, job_id: str) -> bool:
+    def cancel(self, job_id: str, force: bool = False) -> dict:
+        """Graceful cancel sets the flag, which the runner reads between regions:
+        the job stops after the VLM call in flight (up to a few minutes on CPU).
+        `force` also aborts that call's connection, which is the only way to stop
+        Ollama mid-generation — everything already judged is still kept."""
         job = self.jobs.get(job_id)
         if not job:
-            return False
+            return {"ok": False}
         job.cancel_flag.set()
+        aborted = 0
+        if force and job.status == "running":
+            job.forced = True
+            aborted = job.client.abort()
+            job.emit({"event": "job_force_stop", "aborted_calls": aborted})
         if job.status == "queued":
             job.status = "cancelled"
             job.emit({"event": "job_finished", "status": "cancelled"})
-        return True
+        return {"ok": True, "forced": bool(force), "aborted_calls": aborted}
 
     def _loop(self):
         while True:
@@ -90,6 +107,7 @@ class JobManager:
             job.status = "running"
             try:
                 job.result = run_job(job.cfg, on_event=job.emit,
+                                     client=job.client,
                                      stop=job.cancel_flag.is_set)
                 job.status = job.result.status
             except ArsiError as exc:

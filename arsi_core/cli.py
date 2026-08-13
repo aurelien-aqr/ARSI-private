@@ -16,6 +16,7 @@ from .adapters import SCRIPTS
 from .errors import ArsiError
 from .masking import MaskSpec
 from .ollama_client import OllamaClient
+from .localizers import DEFAULT as LOCALIZER_DEFAULT, names as localizer_names
 from .runner import JobConfig, run_job
 from .video import extract_frames
 
@@ -68,6 +69,7 @@ def _cmd_run(args):
                     prompt=Path(args.prompt_file).read_text(encoding="utf-8")
                     if args.prompt_file else None,
                     prompt_name=Path(args.prompt_file).stem if args.prompt_file else "default",
+                    localizer=args.localizer,
                     params=params, job_dir=args.out)
 
     def show(event):
@@ -116,6 +118,9 @@ def main(argv=None):
     p.add_argument("--model", default=None, help="default: script's MODEL_NAME")
     p.add_argument("--reference", default=None)
     p.add_argument("--mask", default=None, help="path to a MaskSpec JSON")
+    p.add_argument("--localizer", default=None, choices=localizer_names(),
+                   help="vlm_05 region proposal stage (default: "
+                        f"{LOCALIZER_DEFAULT}); the judge is --model")
     p.add_argument("--prompt-file", default=None)
     p.add_argument("--max-retries", type=int, default=None)
     p.add_argument("--param", action="append",

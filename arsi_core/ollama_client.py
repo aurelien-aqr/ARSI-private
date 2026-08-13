@@ -5,6 +5,7 @@ Adapters inject this object as the `ollama` attribute of the vlm_0x modules,
 so every script call goes through the same timeout/error handling — and tests
 inject a fake with the same .chat()/.list() surface.
 """
+import socket
 import time
 
 from .errors import OllamaUnreachable, ModelMissing, VLMCallError
@@ -68,6 +69,37 @@ class OllamaClient:
                        "total": get("total", 0) or 0}
         except Exception as exc:
             raise OllamaUnreachable(str(exc)) from exc
+
+    # -- interruption ---------------------------------------------------------
+
+    def abort(self) -> int:
+        """Interrupt the HTTP call in flight (from ANOTHER thread) and return how
+        many sockets were shut down. Used by the force-stop path: a crop call on
+        CPU takes 2-4 min and there is no way to ask Ollama to stop generating,
+        so the only real lever is the connection.
+
+        Measured, because the obvious things do not work: `Client.close()`
+        returns instantly but leaves the reader blocked (120 s+), and closing the
+        socket's file descriptor does not wake it either. Only
+        `shutdown(SHUT_RDWR)` does — it unblocked the read in 0.0 s and the call
+        raised RemoteProtocolError. The pool is private API of httpx/httpcore, so
+        every step is defensive and a failure just means "nothing aborted".
+        """
+        n = 0
+        pool = getattr(getattr(getattr(self._impl, "_client", None),
+                               "_transport", None), "_pool", None)
+        for conn in list(getattr(pool, "connections", []) or []):
+            inner = getattr(conn, "_connection", conn)
+            stream = getattr(inner, "_network_stream", None)
+            sock = getattr(stream, "_sock", None)
+            if sock is None:
+                continue
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+                n += 1
+            except OSError:
+                pass                # already dead: nothing to abort
+        return n
 
     # -- inference ------------------------------------------------------------
 

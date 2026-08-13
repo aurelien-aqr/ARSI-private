@@ -4,6 +4,9 @@ import pytest
 
 from arsi_core.errors import ModelMissing
 from arsi_core.masking import MaskSpec
+from pathlib import Path
+
+from arsi_core.adapters import run_frame
 from arsi_core.runner import JobConfig, run_job
 
 CLEAN = "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: no"
@@ -149,3 +152,64 @@ def test_cancel_between_frames_keeps_partials(fake_client, img_factory, tmp_path
                      on_event=on_event, stop=stop)
     assert result.status == "cancelled"
     assert len(result.frames) == 1 and result.frames[0].status == "ok"
+
+
+def test_cancel_lands_mid_frame_and_keeps_what_was_judged(fake_client, img_factory,
+                                                          tmp_path):
+    """A busy frame is 20-30 VLM calls; checking the cancel flag only BETWEEN
+    frames made Cancel look broken (measured: a real 30-frame CPU job took 6.5
+    minutes to react). The flag must be read between regions, and the partial
+    frame must say it is partial instead of passing for a clean frame."""
+    from arsi_core.cache import VerdictCache
+    ref = img_factory("ref.jpg", size=(400, 300), color=(128, 128, 128))
+    insp = img_factory("insp.jpg", size=(400, 300), color=(128, 128, 128),
+                       rects=[((60, 60, 120, 120), (250, 250, 250)),
+                              ((200, 150, 260, 210), (250, 250, 250)),
+                              ((300, 40, 350, 90), (245, 245, 245))])
+    calls = {"n": 0}
+
+    def stop():
+        return calls["n"] >= 1          # cancel after the very first region
+
+    client = fake_client(["YES, white box on floor."] * 30)
+    real_chat = client._impl.chat
+
+    def counting(**kw):
+        calls["n"] += 1
+        return real_chat(**kw)
+    client._impl.chat = counting
+
+    fr = run_frame("vlm_05", insp, reference=ref, client=client,
+                   params={"PERSON_FILTER": False},
+                   cache=VerdictCache(path=tmp_path / "v.json", seed_paths=()),
+                   stop=stop)
+    assert fr.status == "cancelled"
+    assert calls["n"] == 1                      # stopped at the next region
+    assert fr.localization["proposed"] >= 1
+    assert fr.localization["aborted_after"] == fr.localization["proposed"]
+    assert "cancelled after" in (fr.error or "")
+    assert fr.detections                        # what was judged is kept
+
+
+def test_results_json_is_written_after_every_frame(fake_client, img_factory, tmp_path):
+    """It used to be written once at the end, so a server killed mid-job left no
+    record at all — the finished frames were lost and the job vanished from the
+    history. The snapshot also carries status "running", which is what lets the
+    history tell an interrupted job from a live one."""
+    import json
+    frames = [img_factory(f"f{i}.jpg", size=(80, 60), color=(100, 100, 100))
+              for i in range(3)]
+    seen = []
+    cfg = make_cfg(tmp_path, frames)
+
+    def on_event(rec):
+        if rec["event"] == "frame_done":
+            path = Path(tmp_path / "job" / "results.json")
+            assert path.exists(), "no snapshot after a finished frame"
+            data = json.loads(path.read_text())
+            seen.append((data["status"], len(data["frames"])))
+
+    run_job(cfg, client=fake_client([CLEAN] * 6), on_event=on_event)
+    assert seen == [("running", 1), ("running", 2), ("running", 3)]
+    final = json.loads((tmp_path / "job" / "results.json").read_text())
+    assert final["status"] == "completed" and final["finished"]

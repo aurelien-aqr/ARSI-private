@@ -26,6 +26,13 @@ class FrameResult:
     seconds: float = 0.0
     anomaly: Optional[bool] = None      # None when status != ok
     detections: list = field(default_factory=list)   # [Detection]
+    # Every region the localizer PROPOSED, with what happened to it — this is
+    # what separates "the localizer never boxed it" from "the judge said NO to a
+    # correct box", the first question to ask about any miss. Empty for the
+    # whole-frame pipelines, which have no localization stage.
+    # [{bbox, channel, area, label, verdict: yes|no, outcome: kept|rejected|filtered}]
+    candidates: list = field(default_factory=list)
+    localization: dict = field(default_factory=dict)  # {name, proposed, kept, ...}
     raw_response: str = ""
     error: Optional[str] = None
 

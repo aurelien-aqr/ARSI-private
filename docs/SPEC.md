@@ -48,6 +48,36 @@ any frame and applies to every frame of that camera/video.
 - vlm_05 verdict-cache keys must include a hash of the active mask
   (a mask change invalidates verdicts, same as a prompt change).
 - Job config gets `mask: <name>|null`; report + export record it.
+
+### Localizer vs judge (vlm_05)
+vlm_05 is TWO stages that fail for different reasons, so both are chosen
+independently: the **localizer** proposes candidate regions and the **judge**
+(model + prompt) answers YES/NO on each crop.
+
+- Registry: `arsi_core/localizers.py` — `photo` (shipped pixel diff, the
+  DEFAULT), `photo+dino` (pixel diff + DINOv2 feature gate, recommended),
+  `dino` (DINOv2 features alone, AnomalyDINO-style). All share vlm_05's
+  `(regions, info)` contract with bboxes in reference pixel space and reuse
+  its post-processing (person veto, salience cap, merge).
+- `JobConfig.localizer` (None → `localizers.DEFAULT`) is validated and
+  warmed up ONCE before the frame loop, so an unavailable backbone fails the
+  job with one message instead of N frame errors. It is recorded in
+  `public_dict()`, results.json, report.md/html and the xlsx.
+- Every proposed region is recorded in `FrameResult.candidates`
+  (`{bbox, area, channel, label, verdict, outcome, dropped_by}`) with
+  `outcome = kept | rejected | filtered`, plus per-frame counts in
+  `FrameResult.localization`. `rejected` = the judge answered NO; `filtered` =
+  the judge answered YES and one of OUR post-filters overrode it. The
+  post-filters are only evaluated on a YES, so a judge rejection is never
+  attributed to a filter. Regions dropped BEFORE the judge (person veto,
+  salience cap) never reach `candidates` and appear only as counts. The Results
+  screen draws the dropped ones dashed under the normal overlay ("Show
+  candidates"), which is what answers "was it localized at all?".
+- The verdict-cache key deliberately does NOT include the localizer: a box is
+  a box, so identical coordinates from two localizers share one verdict. This
+  is what makes a localizer A/B nearly free — the gate produces a strict
+  subset of the pixel diff's boxes (locked by
+  `tests/test_localizers.py`).
 - **Camera identity**: a mask is only valid for the viewpoint it was drawn on,
   so `camera` is seeded from the uploaded file name (`1760-cam05.mp4` →
   `1760-cam05`, `camera_slug()`), stored in `videos/<id>/origin.json`, and
@@ -132,16 +162,31 @@ Every failure is logged (structured JSONL per job under
   `POST /api/masks/preview {frame, zones}` → masked image for live preview;
   `POST /api/masks/labelme {labelme, name?, camera?}` → zones + `skipped[]`;
   `GET /api/masks/{name}/labelme` → LabelMe download
+- `GET  /api/localizers` → `{localizers[], default}`; each row carries
+  `{key, name, summary, measured, recommended, available,
+  unavailable_reason, first_use_download_mb}`. Availability is resolved
+  server-side (DINOv2 needs torch) so the UI can grey out what this machine
+  cannot run.
 - `POST /api/jobs {script, model, prompt, frames[], reference?, mask?,
-  params, mode}` → `{job_id}`; mode = single | batch | compare (two
-  configs, same frames)
+  localizer?, params, mode}` → `{job_id}`; mode = single | batch | compare
+  (two configs, same frames). `localizer` applies to vlm_05 only; unknown
+  key → 400, unavailable on this machine → 409 (same shape as a missing
+  model).
 - `GET  /api/jobs/{id}` state; `GET /api/jobs/{id}/events` SSE progress
   (per-frame: index, status, thumbnail ready)
-- `POST /api/jobs/{id}/cancel`
+- `POST /api/jobs/{id}/cancel` → sets a flag; the runner reads it between
+  frames and between REGIONS inside a frame, so a job stops after the VLM
+  call in flight rather than after the whole frame. Partial results are kept:
+  the interrupted frame is stored with `status: "cancelled"` and the regions
+  judged so far.
 - `GET  /api/jobs` history; `GET /api/jobs/{id}/report.{md,html}`;
   `GET /api/jobs/{id}/export.xlsx` (rows in the ARSI_results_EN format)
 - Jobs run in a worker thread queue (one VLM job at a time — Ollama is the
   bottleneck); state machine `queued → running → completed|failed|cancelled`.
+  `results.json` is rewritten atomically after EVERY frame with
+  `status: "running"`, so a crash keeps the finished frames. A saved job that
+  still says running/queued with no live worker is reported as
+  `interrupted` — never as a phantom `running`.
 
 ## Frontend screens (see docs/DESIGN_BRIEF.md for the visual spec)
 

@@ -79,8 +79,16 @@ def _load_model():
         import torch
         torch.set_num_threads(max(1, (Path("/proc/cpuinfo").read_text()
                                       .count("processor\t")) or 4))
-        _model = torch.hub.load("facebookresearch/dinov2", MODEL_NAME,
-                                verbose=False).eval()
+        # torch.hub.load() validates the branch against api.github.com on EVERY
+        # call, so a cached checkout is not enough to run offline. Load from the
+        # local hub checkout when it exists; only a cold machine hits the network.
+        local = Path(torch.hub.get_dir()) / "facebookresearch_dinov2_main"
+        if local.exists():
+            _model = torch.hub.load(str(local), MODEL_NAME, source="local",
+                                    verbose=False).eval()
+        else:
+            _model = torch.hub.load("facebookresearch/dinov2", MODEL_NAME,
+                                    verbose=False).eval()
     return _model
 
 

@@ -248,6 +248,43 @@ def test_job_rejects_bad_requests(api):
                                           "frames": ["/etc/passwd"]}).status_code == 403
 
 
+def test_localizer_catalog_and_validation(api):
+    """The region proposer is selectable independently of the judge: the UI reads
+    the catalogue from the backend (so availability is resolved server-side), and
+    an unknown choice must be refused before any frame is processed."""
+    from arsi_core import localizers
+    client, _ = api()
+    body = client.get("/api/localizers").json()
+    assert body["default"] == localizers.DEFAULT
+    assert {l["key"] for l in body["localizers"]} == set(localizers.names())
+    assert all(l["summary"] for l in body["localizers"])
+
+    frame, ref = str(app_image("loc1.jpg")), str(app_image("loc-ref.jpg"))
+    bad = client.post("/api/jobs", json={"script": "vlm_05", "frames": [frame],
+                                        "reference": ref, "localizer": "magic"})
+    assert bad.status_code == 400 and "magic" in bad.json()["detail"]
+
+
+def test_job_records_the_localizer_it_ran(api):
+    """A finished job must say which localizer produced its boxes — two runs that
+    differ only by the proposal stage would otherwise be indistinguishable in the
+    history, the compare view and the xlsx."""
+    client, _ = api(["NO, nothing on the empty floor."] * 8)
+    frame, ref = str(app_image("locrun.jpg")), str(app_image("locrun-ref.jpg"))
+    r = client.post("/api/jobs", json={"script": "vlm_05", "frames": [frame],
+                                       "reference": ref, "localizer": "photo",
+                                       "params": {"PERSON_FILTER": False}})
+    assert r.status_code == 200
+    job_id = r.json()["job_id"]
+    wait_job(client, job_id)
+    cfg = client.get(f"/api/jobs/{job_id}").json()["config"]
+    assert cfg["localizer"] == "photo"
+    saved = client.get(f"/api/jobs/{job_id}/results.json").json()
+    assert saved["config"]["localizer"] == "photo"
+    md = client.get(f"/api/jobs/{job_id}/report.md").text
+    assert "Localizer" in md and "photo" in md
+
+
 def test_job_model_missing_409(api):
     client, _ = api(models=("qwen3-vl:8b-instruct",))
     r = client.post("/api/jobs", json={"script": "vlm_01",
@@ -384,3 +421,68 @@ def test_settings_roundtrip(api):
                        json={"ollama_url": "http://gpu-box:11434",
                              "ignored_key": 1}).json() == {"ok": True}
     assert client.get("/api/settings").json()["ollama_url"] == "http://gpu-box:11434"
+
+
+def test_cpu_only_machine_gets_a_workable_vlm_timeout(api, monkeypatch):
+    """The runner's default timeout is 120 s but one crop call takes 2-4 min on
+    CPU, so every uncached frame used to fail with ReadTimeout and the pipeline
+    looked broken when it was only slow. An explicit timeout still wins."""
+    client, _ = api(["GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: no"] * 4)
+    monkeypatch.setattr(backend, "has_gpu", lambda: False)
+    frame = str(app_image("cpu-t.jpg"))
+    jid = client.post("/api/jobs", json={"script": "vlm_01",
+                                        "frames": [frame]}).json()["job_id"]
+    wait_job(client, jid)
+    cfg = client.get(f"/api/jobs/{jid}").json()["config"]
+    assert cfg["params"]["timeout_s"] == backend.CPU_TIMEOUT_S
+
+    jid2 = client.post("/api/jobs", json={"script": "vlm_01", "frames": [frame],
+                                          "params": {"timeout_s": 30}}).json()["job_id"]
+    wait_job(client, jid2)
+    cfg2 = client.get(f"/api/jobs/{jid2}").json()["config"]
+    assert cfg2["params"]["timeout_s"] == 30
+
+
+def test_force_cancel_aborts_the_call_in_flight(api, monkeypatch):
+    """A graceful cancel waits for the VLM call in flight — up to a few minutes on
+    CPU. Force stop aborts its connection, which is the only way to stop Ollama
+    mid-generation (measured: Client.close() leaves the reader blocked, closing the
+    fd does not wake it, socket.shutdown() does). Everything already judged is
+    still kept."""
+    client, impl = api(["GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: no"] * 6)
+    aborted = {"n": 0}
+
+    def fake_abort():
+        aborted["n"] += 1
+        return 1
+    frames = [str(app_image(f"fc{i}.jpg")) for i in range(2)]
+    jid = client.post("/api/jobs", json={"script": "vlm_01",
+                                         "frames": frames}).json()["job_id"]
+    wait_job(client, jid)
+    job = backend.manager.get(jid)
+    monkeypatch.setattr(job.client, "abort", fake_abort)
+
+    # a finished job has nothing to abort, but the endpoint must stay well-behaved
+    r = client.post(f"/api/jobs/{jid}/cancel", json={"force": True})
+    assert r.status_code == 200 and r.json()["forced"] is True
+    assert r.json()["aborted_calls"] == 0 and aborted["n"] == 0   # not running
+
+    job.status = "running"                      # now it has a call to abort
+    r = client.post(f"/api/jobs/{jid}/cancel", json={"force": True})
+    assert r.json()["aborted_calls"] == 1 and aborted["n"] == 1
+    assert job.cancel_flag.is_set() and job.forced is True
+    assert client.post("/api/jobs/nope/cancel", json={"force": True}).status_code == 404
+
+
+def test_plain_cancel_does_not_abort_anything(api, monkeypatch):
+    client, _ = api(["GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: no"] * 4)
+    jid = client.post("/api/jobs", json={
+        "script": "vlm_01", "frames": [str(app_image("pc.jpg"))]}).json()["job_id"]
+    wait_job(client, jid)
+    job = backend.manager.get(jid)
+    calls = []
+    monkeypatch.setattr(job.client, "abort", lambda: calls.append(1) or 1)
+    job.status = "running"
+    r = client.post(f"/api/jobs/{jid}/cancel")
+    assert r.status_code == 200 and r.json()["forced"] is False
+    assert calls == [] and job.cancel_flag.is_set()

@@ -17,6 +17,7 @@ from pathlib import Path
 
 from PIL import Image
 
+from . import localizers
 from .errors import ParseError, FrameError, VLMCallError
 from .schema import Detection, FrameResult, guess_type
 
@@ -319,7 +320,7 @@ def _get_detector(module):
     return _detectors[key]
 
 
-def _run_vlm04(image, reference, model, prompt, params, client):
+def _run_vlm04(image, reference, model, prompt, params, client, stop=None):
     module = get_module("vlm_04")
     overrides = _module_overrides(module, params)
     overrides.setdefault("NUM_CTX", max(module.NUM_CTX, 8192))   # crop calls, same as vlm_05
@@ -333,21 +334,37 @@ def _run_vlm04(image, reference, model, prompt, params, client):
                                      module.DETECTOR_CONF, module.IMGSZS)
             candidates = module.filter_new(candidates, ref_dets, module.REFERENCE_IOU)
         img = _open_image(image)
-        detections, raw_lines = [], []
+        detections, raw_lines, cands = [], [], []
+        aborted = False
         for cand in candidates:
+            if stop and stop():
+                aborted = True
+                break
             confirmed, label = True, cand["label"]
             if module.USE_VLM:
                 confirmed, label = module.confirm_with_vlm(
                     img, cand, module.CROP_MARGIN, module.CROP_CONTEXT)
                 raw_lines.append(f"{cand['label']} {cand['bbox']} -> "
                                  f"{'YES' if confirmed else 'NO'} {label}")
+            cands.append({"bbox": [round(v) for v in cand["bbox"]], "area": None,
+                          "channel": "yolo-world", "label": label or cand["label"],
+                          "verdict": "yes" if confirmed else "no",
+                          "outcome": "kept" if confirmed else "rejected",
+                          "dropped_by": "",
+                          "confidence": round(cand["confidence"], 3)})
             if confirmed:
                 detections.append(Detection(
                     label=label or cand["label"], type="object",
                     bbox=[round(v) for v in cand["bbox"]],
                     confidence=round(cand["confidence"], 3)))
     return FrameResult(frame_id=Path(image).stem, image=str(image),
+                       status="cancelled" if aborted else "ok",
                        anomaly=len(detections) > 0, detections=detections,
+                       candidates=cands,
+                       localization={"name": "yolo-world", "proposed": len(cands),
+                                     "kept": len(detections),
+                                     "rejected": len(cands) - len(detections),
+                                     "filtered": 0},
                        raw_response="\n".join(raw_lines))
 
 
@@ -374,10 +391,12 @@ def prompt_fingerprint(model: str, prompt: str) -> str:
     return hashlib.sha1((model + "||" + prompt).encode("utf-8")).hexdigest()[:12]
 
 
-def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash):
+def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash,
+               localizer=None, stop=None):
     module = get_module("vlm_05")
     if reference is None:
         raise FrameError("vlm_05 needs a reference image")
+    localizer = localizer or localizers.DEFAULT
     overrides = _module_overrides(module, params)
     # side-by-side crops of big regions can tokenize past the script's 4096
     # default (GLM needed 4339); also registers NUM_CTX for save/restore so
@@ -389,13 +408,22 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
         img = _open_image(image)
         if img.size != ref_img.size:
             img = img.resize(ref_img.size)
-        regions, loc = module.localize(str(reference), str(image))
+        regions, loc = localizers.localize(localizer, module,
+                                          str(reference), str(image), params)
 
         fp = prompt_fingerprint(model, prompt)
         ref_key, img_key = Path(reference).name, Path(image).name
         mask_part = f"|mask:{mask_hash}" if mask_hash else ""
-        kept, raw_lines = [], []
+        kept, raw_lines, cands = [], [], []
+        aborted = False
         for r in regions:
+            # A busy frame is 20-30 VLM calls; on CPU that is half an hour, and
+            # checking the cancel flag only between FRAMES made "Cancel" look
+            # broken. One region is the smallest honest unit: the crop already
+            # sent has to finish, everything after it is skipped.
+            if stop and stop():
+                aborted = True
+                break
             key = f"{ref_key}|{img_key}|{r['bbox']}|{model}|{fp}{mask_part}"
             hit = cache.get(key) if cache is not None else None
             if hit is not None:
@@ -405,6 +433,13 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
                     is_obj, label = module.classify_with_vlm(
                         img, ref_img, r, module.CROP_MARGIN, module.CROP_CONTEXT)
                 except VLMCallError as exc:
+                    # A force-stop aborts the socket, which surfaces here as a
+                    # transport error. Recognise it by the cancel flag and keep
+                    # the regions already judged, instead of letting the
+                    # exception discard the whole frame.
+                    if stop and stop():
+                        aborted = True
+                        break
                     # context overflow is deterministic — retrying the frame
                     # verbatim can never help; retry NOW with the size the
                     # server asked for (restored by configured() afterwards)
@@ -416,10 +451,27 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
                         img, ref_img, r, module.CROP_MARGIN, module.CROP_CONTEXT)
                 if cache is not None:
                     cache.put(key, {"yes": bool(is_obj), "label": label})
-            if module.is_non_anomaly(label) or module.is_implausible(label, r["area"]):
-                is_obj = False
+            said_yes = bool(is_obj)
+            dropped_by = ""
+            # only run the post-filters on a YES: evaluating them on a NO cannot
+            # change the outcome, but it would attribute a judge rejection to one
+            # of our filters and send the reader hunting the wrong stage
+            if said_yes:
+                if module.is_non_anomaly(label):
+                    is_obj, dropped_by = False, "non-anomaly label"
+                elif module.is_implausible(label, r["area"]):
+                    is_obj, dropped_by = False, "implausible for the region size"
             raw_lines.append(f"{r['bbox']} [{r.get('channel', 'photo')}] -> "
-                             f"{'YES' if is_obj else 'NO'} {label}")
+                             f"{'YES' if is_obj else 'NO'} {label}"
+                             + (f"  (dropped: {dropped_by})" if dropped_by else ""))
+            # a YES the post-filters overrode is a DIFFERENT failure from a NO,
+            # so the two are recorded separately rather than both as "rejected"
+            cands.append({"bbox": list(r["bbox"]), "area": r.get("area"),
+                          "channel": r.get("channel", "photo"), "label": label,
+                          "verdict": "yes" if said_yes else "no",
+                          "outcome": "kept" if is_obj else
+                                     ("filtered" if said_yes else "rejected"),
+                          "dropped_by": dropped_by})
             if is_obj:
                 r = dict(r, vlm_label=label)
                 kept.append(r)
@@ -429,16 +481,34 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
                             bbox=list(r["bbox"]), channel=r.get("channel"))
                   for r in kept]
     raw = (f"localizer: {loc}\n" + "\n".join(raw_lines))
+    stage = {"name": localizer, "proposed": len(cands),
+             "kept": sum(1 for c in cands if c["outcome"] == "kept"),
+             "rejected": sum(1 for c in cands if c["outcome"] == "rejected"),
+             "filtered": sum(1 for c in cands if c["outcome"] == "filtered"),
+             **{k: v for k, v in loc.items()
+                if k in ("person_veto", "capped", "gated_away", "base",
+                         "second", "edge", "merged_away", "persons")}}
+    if aborted:
+        # partial by construction: keep what was judged, and say so rather than
+        # reporting a clean frame that was never fully looked at
+        stage["aborted_after"] = len(cands)
+        return FrameResult(frame_id=Path(image).stem, image=str(image),
+                           status="cancelled", anomaly=len(detections) > 0,
+                           detections=detections, candidates=cands,
+                           localization=stage, raw_response=raw,
+                           error=f"cancelled after {len(cands)} of "
+                                 f"{len(regions)} regions")
     return FrameResult(frame_id=Path(image).stem, image=str(image),
                        anomaly=len(detections) > 0, detections=detections,
-                       raw_response=raw)
+                       candidates=cands, localization=stage, raw_response=raw)
 
 
 # ---------------------------------------------------------------------------
 
 def run_frame(script: str, image, reference=None, model: str = None,
               prompt: str = None, params: dict = None, client=None,
-              cache=None, mask_hash: str = "") -> FrameResult:
+              cache=None, mask_hash: str = "", localizer: str = None,
+              stop=None) -> FrameResult:
     """Run one pipeline on one frame. Raises the docs/SPEC.md error taxonomy;
     the runner owns retries and batch isolation."""
     module = get_module(script)
@@ -458,5 +528,6 @@ def run_frame(script: str, image, reference=None, model: str = None,
     if script == "vlm_03":
         return _run_vlm03(image, model, prompt, params, client)
     if script == "vlm_04":
-        return _run_vlm04(image, reference, model, prompt, params, client)
-    return _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash)
+        return _run_vlm04(image, reference, model, prompt, params, client, stop)
+    return _run_vlm05(image, reference, model, prompt, params, client, cache,
+                      mask_hash, localizer, stop)

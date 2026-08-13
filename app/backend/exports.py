@@ -16,13 +16,24 @@ def report_md(data: dict) -> str:
     L = [f"# ARSI Studio report — {data['job_id']}", "",
          f"**Status:** {data['status']}  ",
          f"**Pipeline:** `{cfg['script']}` · **Model:** `{cfg['model']}` · "
-         f"**Prompt:** {cfg['prompt_name']}  ",
+         f"**Prompt:** {cfg['prompt_name']}"
+         + (f" · **Localizer:** `{cfg['localizer']}`  " if cfg.get("localizer") else "  "),
          f"**Mask:** {cfg.get('mask') or 'none'} · **Reference:** {used_reference(cfg) or 'n/a'}  ",
          f"**Started:** {data['started']} · **Finished:** {data['finished']} · "
          f"**Wall:** {s['wall_seconds']} s", "",
          "## Summary", "",
          f"- Frames: **{s['n_frames']}** ({s['n_ok']} ok, {s['n_failed']} failed)",
-         f"- Anomalous frames: **{s['n_anomalous']}**", "",
+         f"- Anomalous frames: **{s['n_anomalous']}**", ""]
+    prop = sum(len(f.get("candidates") or []) for f in data["frames"])
+    if prop:
+        rej = sum(1 for f in data["frames"] for c in (f.get("candidates") or [])
+                  if c["outcome"] == "rejected")
+        fil = sum(1 for f in data["frames"] for c in (f.get("candidates") or [])
+                  if c["outcome"] == "filtered")
+        L += [f"- Regions proposed by the localizer: **{prop}** "
+              f"({prop - rej - fil} kept, {rej} rejected by the judge, "
+              f"{fil} dropped by the post-filters)", ""]
+    L += [
          "## Per-frame results", "",
          "| frame | status | anomaly | detections | attempts | s |",
          "|---|---|---|---|---|---|"]
@@ -41,7 +52,9 @@ def report_html(data: dict) -> str:
     cfg, s = data["config"], data["summary"]
     body.append(f"<h1>ARSI Studio report — {html.escape(data['job_id'])}</h1>")
     body.append(f"<p><b>Status:</b> {data['status']} · <b>Pipeline:</b> "
-                f"{html.escape(cfg['script'])} · <b>Model:</b> "
+                f"{html.escape(cfg['script'])}"
+                + (f" · <b>Localizer:</b> {html.escape(cfg['localizer'])}"
+                   if cfg.get("localizer") else "") + " · <b>Model:</b> "
                 f"{html.escape(str(cfg['model']))} · <b>Prompt:</b> "
                 f"{html.escape(cfg['prompt_name'])} · <b>Mask:</b> "
                 f"{html.escape(str(cfg.get('mask') or 'none'))}</p>")
@@ -87,9 +100,10 @@ def results_xlsx(data: dict, review: dict = None, metrics: dict = None) -> bytes
     cfg = data["config"]
     correctness = (metrics or {}).get("correctness", {})
     rframes = (review or {}).get("frames", {})
-    header = ["ID", "Date", "Task", "Model", "Test image", "Reference image",
-              "Prompt", "Model response", "Anomaly (YES/NO)", "Anomaly type",
-              "Detections", "Inference time [s]", "Status", "Note"]
+    header = ["ID", "Date", "Task", "Localizer", "Model", "Test image",
+              "Reference image", "Prompt", "Model response", "Anomaly (YES/NO)",
+              "Anomaly type", "Detections", "Regions proposed",
+              "Inference time [s]", "Status", "Note"]
     if review is not None:
         header += ["Correctness", "TP boxes", "FP boxes", "Missed (FN)", "Reviewed"]
     ws.append(header)
@@ -98,11 +112,13 @@ def results_xlsx(data: dict, review: dict = None, metrics: dict = None) -> bytes
         types = ",".join(sorted({d["type"] for d in f["detections"]})) or ""
         dets = "; ".join(f"{d['label']} {d['bbox'] or ''}".strip()
                          for d in f["detections"])
-        row = [i, date, cfg["script"], cfg["model"], f["image"],
+        row = [i, date, cfg["script"], cfg.get("localizer") or "",
+               cfg["model"], f["image"],
                used_reference(cfg) or "", cfg["prompt_name"],
                (f["raw_response"] or "")[:900],
                {True: "YES", False: "NO"}.get(f["anomaly"], ""),
-               types, dets, f["seconds"], f["status"], f.get("error") or ""]
+               types, dets, len(f.get("candidates") or "") or "",
+               f["seconds"], f["status"], f.get("error") or ""]
         if review is not None:
             e = rframes.get(f["frame_id"], {})
             verdicts = e.get("verdicts", {})
