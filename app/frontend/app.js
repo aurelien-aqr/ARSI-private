@@ -40,7 +40,7 @@ const S = {
   pulling: null, pullPct: 0, pullStatus: "",
   toast: null,
   docPipe: null,          // pipeline key whose "how it works" modal is open
-  hist: { script: "all", model: "all" },   // history-view filters
+  hist: { script: "all", model: "all", localizer: "all" },  // history-view filters
   wiz: {
     step: 1, source: null, demoSel: [],
     video: null, extracting: false, extractMode: "seconds", extractN: 2,
@@ -481,7 +481,7 @@ ACT.exportLabelme = () => {
 /* "How it works" modal. Opening it must NOT also select the pipeline: the
    button carries its own data-act, and the click delegate resolves the CLOSEST
    [data-act] ancestor, so the button wins over the card it sits in. */
-ACT.histReset = () => { S.hist = { script: "all", model: "all" }; render(); };
+ACT.histReset = () => { S.hist = { script: "all", model: "all", localizer: "all" }; render(); };
 
 ACT.showPipeDoc = (k) => { S.docPipe = k; render(); };
 ACT.closePipeDoc = () => { S.docPipe = null; render(); };
@@ -1197,6 +1197,7 @@ const CHANGE = {
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
   histScript: v => { S.hist.script = v; render(); },
   histModel: v => { S.hist.model = v; render(); },
+  histLocalizer: v => { S.hist.localizer = v; render(); },
   compareJob: (v, el) => ACT.setCompareJob(el.dataset.slot, v),
   ollamaUrl: v => ACT.saveOllamaUrl(v),
   revLabel: v => { S.rev.pendingLabel = v; },
@@ -2450,21 +2451,37 @@ function compareView(tabs, gallery, sel, selIdx) {
    list) is what makes the two dropdowns honest together — picking a script then
    shows "0" next to the models that script was never run with, instead of
    offering a combination that yields an empty table. */
-function histOptions(key, other, otherVal, label) {
-  const pool = S.jobs.filter(j => otherVal === "all" || (j.config || {})[other] === otherVal);
+/* The three history filters cross-filter each other: each select counts what is
+   left once the OTHER two are applied, so "photo+dino (3)" means three jobs with
+   the model and script currently selected. The localizer reads through locName(),
+   which is what makes a job from before the picker filterable as photo instead of
+   dropping out of every localizer choice. Pipelines with no localization stage
+   have no value, so picking a localizer narrows to vlm_05 by construction. */
+const HIST_KEYS = ["script", "model", "localizer"];
+function histValue(cfg, key) {
+  return key === "localizer" ? locName(cfg) : ((cfg || {})[key] || "");
+}
+function histMatch(j, except) {
+  const c = j.config || {};
+  return HIST_KEYS.every(k => k === except || S.hist[k] === "all"
+                              || histValue(c, k) === S.hist[k]);
+}
+function histOptions(key, label) {
+  const pool = S.jobs.filter(j => histMatch(j, key));
   const counts = new Map();
   pool.forEach(j => {
-    const v = (j.config || {})[key];
+    const v = histValue(j.config, key);
     if (v) counts.set(v, (counts.get(v) || 0) + 1);
   });
   S.jobs.forEach(j => {                       // keep values with no match visible
-    const v = (j.config || {})[key];
+    const v = histValue(j.config, key);
     if (v && !counts.has(v)) counts.set(v, 0);
   });
   const sel = S.hist[key];
+  const total = [...counts.values()].reduce((a, b) => a + b, 0);
   const opts = [...counts.keys()].sort().map(v =>
     `<option value="${esc(v)}" ${sel === v ? "selected" : ""}>${esc(v)} (${counts.get(v)})</option>`);
-  return `<option value="all" ${sel === "all" ? "selected" : ""}>All ${label} (${pool.length})</option>`
+  return `<option value="all" ${sel === "all" ? "selected" : ""}>All ${label} (${total})</option>`
        + opts.join("");
 }
 
@@ -2502,12 +2519,8 @@ function historyRow(j) {
 
 function historyView() {
   const H = S.hist;
-  const jobs = S.jobs.filter(j => {
-    const c = j.config || {};
-    return (H.script === "all" || c.script === H.script)
-        && (H.model === "all" || c.model === H.model);
-  });
-  const filtered = H.script !== "all" || H.model !== "all";
+  const jobs = S.jobs.filter(j => histMatch(j));
+  const filtered = HIST_KEYS.some(k => H[k] !== "all");
   const selStyle = `font-size:12px; color:${C.fg2}; background:${C.bgInput}; border:1px solid ${C.bd3}; border-radius:8px; padding:6px 9px; min-width:0; width:100%; cursor:pointer;`;
   const th = (t, right) => `<span style="${right ? "text-align:right;" : ""}">${t}</span>`;
   return `
@@ -2515,8 +2528,9 @@ function historyView() {
     <div style="max-width:1180px;">
       <div style="display:flex; align-items:center; gap:12px; margin:0 0 14px; flex-wrap:wrap;">
         <h3 style="margin:0; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3};">${filtered ? `${jobs.length} of ${S.jobs.length} jobs` : "All jobs"}</h3>
-        <select data-change="histScript" style="${selStyle} width:auto; min-width:170px;">${histOptions("script", "model", H.model, "scripts")}</select>
-        <select data-change="histModel" style="${selStyle} width:auto; min-width:230px;">${histOptions("model", "script", H.script, "models")}</select>
+        <select data-change="histScript" style="${selStyle} width:auto; min-width:170px;">${histOptions("script", "scripts")}</select>
+        <select data-change="histModel" style="${selStyle} width:auto; min-width:230px;">${histOptions("model", "models")}</select>
+        <select data-change="histLocalizer" title="vlm_05 only — the other pipelines have no localization stage" style="${selStyle} width:auto; min-width:170px;">${histOptions("localizer", "localizers")}</select>
         ${filtered ? `<button data-act="histReset" style="font-size:11px; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2}; padding:5px 10px; border-radius:7px; cursor:pointer;">Clear filters</button>` : ""}
       </div>
       <div style="border:1px solid ${C.bd}; border-radius:11px; overflow:hidden; background:${C.bgCard};">

@@ -73,6 +73,9 @@ independently: the **localizer** proposes candidate regions and the **judge**
   read as "unknown" and make it look incomparable. The xlsx column keeps the
   plain name so it stays groupable. The pre-launch ETA also prefers history
   from the same localizer: the gate sends ~57 % fewer regions to the judge.
+  History filters on script × model × localizer, each select counting what
+  the other two leave (an inferred `photo` job filters as `photo`; picking a
+  localizer narrows to vlm_05 by construction).
 - Every proposed region is recorded in `FrameResult.candidates`
   (`{bbox, area, channel, label, verdict, outcome, dropped_by}`) with
   `outcome = kept | rejected | filtered`, plus per-frame counts in
