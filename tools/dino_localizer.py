@@ -170,29 +170,22 @@ def _upscale(arr, size):
                       .resize(size, Image.NEAREST), dtype=np.float32)
 
 
-def localize(reference_path: str, inspection_path: str, z_thr: float = None,
-             abs_floor: float = None):
-    """Same contract as vlm_05_reference_diff.localize(): returns (regions, info)
-    with regions = [{"bbox": [x0,y0,x1,y1], "area": px, ...}] in REFERENCE pixel
-    space. A patch is a candidate when it is BOTH a robust-z outlier and past the
-    absolute distance floor (see ABS_FLOOR). Post-processing (person veto,
-    salience cap, merge) is vlm_05's, so a diff against the shipped localizer
-    isolates the change signal alone."""
-    z_thr = Z_THRESHOLD if z_thr is None else z_thr
-    abs_floor = ABS_FLOOR if abs_floor is None else abs_floor
-    t0 = time.time()
-    size = Image.open(reference_path).size
-    z, valid, dist = score_map(reference_path, inspection_path)
-
-    over = (z > z_thr) & (dist > abs_floor)
-    zmap = _upscale(z, size)
+def regions_from_patches(over, salience_map, inspection_path: str, size,
+                         channel: str, info: dict, t0: float):
+    """Patch-grid boolean map -> vlm_05 regions, through vlm_05's OWN
+    post-processing: find_regions, the YOLOv8n person veto, the salience cap and
+    the merge. Every feature-based localizer (this one, dinomaly_localizer) goes
+    through here, so an A/B between them isolates the change signal and nothing
+    else - and a change to the shipped post-processing reaches all of them."""
     mask = _upscale(over.astype(np.float32), size) > 0.5
+    smap = _upscale(salience_map, size)
     regions = m.find_regions(mask, m.DOWNSCALE, m.DILATE, m.MIN_AREA, m.MAX_AREA)
-    info = {"raw": len(regions), "z_thr": z_thr, "floor": abs_floor,
-            "patches_over": int(over.sum()), "person_veto": 0}
+    info["raw"] = len(regions)
+    info["patches_over"] = int(over.sum())
+    info["person_veto"] = 0
     for r in regions:
-        r["channel"] = "dino"
-        r["salience"] = m.salience(r, zmap)
+        r["channel"] = channel
+        r["salience"] = m.salience(r, smap)
 
     persons = m.person_boxes(inspection_path, size)
     info["persons"] = len(persons)
@@ -213,6 +206,25 @@ def localize(reference_path: str, inspection_path: str, z_thr: float = None,
     info["total"] = len(regions)
     info["seconds"] = round(time.time() - t0, 2)
     return regions, info
+
+
+def localize(reference_path: str, inspection_path: str, z_thr: float = None,
+             abs_floor: float = None):
+    """Same contract as vlm_05_reference_diff.localize(): returns (regions, info)
+    with regions = [{"bbox": [x0,y0,x1,y1], "area": px, ...}] in REFERENCE pixel
+    space. A patch is a candidate when it is BOTH a robust-z outlier and past the
+    absolute distance floor (see ABS_FLOOR). Post-processing (person veto,
+    salience cap, merge) is vlm_05's, so a diff against the shipped localizer
+    isolates the change signal alone."""
+    z_thr = Z_THRESHOLD if z_thr is None else z_thr
+    abs_floor = ABS_FLOOR if abs_floor is None else abs_floor
+    t0 = time.time()
+    size = Image.open(reference_path).size
+    z, valid, dist = score_map(reference_path, inspection_path)
+
+    over = (z > z_thr) & (dist > abs_floor)
+    return regions_from_patches(over, z, inspection_path, size, "dino",
+                                {"z_thr": z_thr, "floor": abs_floor}, t0)
 
 
 # --- feature gate over the SHIPPED localizer ---------------------------------

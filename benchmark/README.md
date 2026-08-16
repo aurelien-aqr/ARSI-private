@@ -212,6 +212,84 @@ standard I-AUROC/PRO), since our empty frames are already a `train/good` set.
 Reports: `report_gateshipped.md`, `report_gate0.06/0.08/0.1/0.12/0.15.md`.
 Regression check without the VLM: `python benchmark/eval_localization.py
 --variants shipped,gate0.12,dino4@0.10`.
+
+## Dinomaly, reference-free — ANSWERED 2026-08-16 (localization only, 0 VLM calls)
+
+The other half of the anomalib question. `photo` and `photo+dino` both compare
+the frame to ONE reference, so they inherit that reference's session; Dinomaly
+(CVPR 2025) needs no reference at inference — a frozen DINOv2 encoder plus a
+trained noisy-bottleneck decoder flags what it cannot reconstruct.
+`tools/dinomaly.py` + `dinomaly_train.py` + `dinomaly_localizer.py`, ViT-S/14-reg,
+15.4 M trainable params, 135 nominal frames (v1+v3, one in two), 40 epochs, 56 min
+on this laptop's CPU.
+
+**The training set is the experiment**, so it is built defensively: every frame
+within ±15 of a benchmark frame is dropped (consecutive frames are
+near-duplicates and the 12 clean cases come from these very videos), v2 is
+excluded (people and staged objects throughout) and **v4 is excluded even though
+it is the only dark session** — 3 of its 22 frames are benchmark negatives, so
+any use of it would leak. That makes v4 the one fully held-out session.
+
+| | localized | strict IoU≥0.3 | regions to the VLM |
+|---|---|---|---|
+| shipped (`photo`) | 45/45 | **37/45** | 559 |
+| `gate0.08` (`photo+dino`) | 45/45 | **37/45** | **243** |
+| `dinomaly4@0.07` alone | 40/45 | 28/45 | 465 |
+| `dgate0.05` (dinomaly as a veto) | 45/45 | **37/45** | 314 |
+| `bgate0.08+0.05` (both vetoes) | 45/45 | **37/45** | **210** |
+
+**As a localizer it loses**, and for the same reason `dino` alone lost: patch-grid
+boxes. 28/45 strict against 37/45, while barely cutting the region count. Two of
+its 5 misses are the `variant` scene, which this model was never trained on — in
+domain it is 38/41, still below the pixel diff's 41/41.
+
+**As a veto it works but is dominated.** `dgate0.05` reaches the shipped recall
+AND the shipped box quality at 314 regions, but the reference-based gate already
+does that at 243 — for no training, no per-camera checkpoint and no extra
+forward pass. Stacking both vetoes is the only configuration that beats the
+shipped gate (210, −14 %), and that is not worth 59 MB and ~1 h of training per
+camera, times 26 cameras, for ~3 s/frame more CPU. **Not adopted**: it stays a
+`tools/` experiment, not a registry entry in `arsi_core/localizers.py`.
+
+**The diagnostic, and the fix that does not rescue it.** The heatmap says why the
+standalone localizer proposes so much: reconstruction error is high on thin
+structures — handrails, poster frames, the mask borders — on every frame,
+nominal or not. Those are not anomalies, they are where this decoder is weak. So
+`_baseline()` subtracts the mean error at each patch POSITION over the training
+frames (`DINOMALY_BASELINE=1`), which asks the right question: is this patch
+worse than usual *here*. It works as an economy measure and fails the recall
+rule:
+
+| with the position baseline | localized | strict | regions |
+|---|---|---|---|
+| `dinomaly4@0.04` alone | 35/45 | 26/45 | 123 |
+| `dgate0.03` | 42/45 | 35/45 | 106 |
+| `dgate0.01` | 44/45 | 37/45 | 247 |
+
+Even at a 0.01 veto it still drops an instance: a position where the decoder is
+weak has its real objects partially cancelled too. Recall-first therefore keeps
+the baseline OFF by default, and the shipped-quality configuration remains
+`bgate0.08+0.05` at 210 regions.
+
+Two results worth keeping anyway:
+- **The reference-free promise holds at the score level.** On v4 — the dark
+  session it never saw — the model scores like v1 (per-frame max 0.10–0.12 vs
+  0.09–0.12), so the cross-session exposure shift that floods the pixel diff does
+  not move it. What it does not fix is that the *boxes* still come from the pixel
+  diff in the gate configurations.
+- **It fails safe on an unknown scene.** On the `variant` scene the gate vetoes
+  ZERO regions (`-dgate=0`) instead of vetoing everything: an out-of-domain model
+  degrades to "no gate", not to "no detections".
+
+Reproduce: `python tools/dinomaly_train.py --camera tram_1762 --epochs 40` then
+`python benchmark/eval_localization.py --variants shipped,gate0.08,dinomaly4@0.07,dgate0.05,bgate0.08+0.05`.
+The checkpoint (59 MB) and the feature cache live in `weights/`, untracked.
+
+Caveats stated rather than buried: 135 training frames from two daylight sessions
+is thin, and the hard-mining loss was made tie-safe (top-k by count instead of a
+quantile threshold) *after* this checkpoint was trained — the two select the same
+points on continuous features, but a rerun for publication should use the current
+code: `python tools/dinomaly_train.py --camera tram_1762 --epochs 40`.
 ² InternVL's frame F1 flatters it: it systematically says NO to real phones
 (2/4 instances on every real multi-object frame) and misses real_f0205 whole.
 ³ minicpm-v4.6 ignores the reply format AND claims an object appeared on 198 of

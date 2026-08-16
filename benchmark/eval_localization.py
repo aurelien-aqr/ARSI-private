@@ -27,6 +27,12 @@
 #    gate[thr][mean]  shipped boxes FILTERED by DINOv2 feature support, e.g.
 #               gate0.12. Same recall, ~70% fewer regions - the shipped-quality
 #               boxes with the feature signal used only to veto
+#    dinomaly[z][@floor]  REFERENCE-FREE: a Dinomaly model (CVPR 2025) trained on
+#               this camera's nominal frames scores every patch by how badly it
+#               reconstructs. No reference frame is read, so the reference's
+#               session cannot leak into the comparison
+#    dgate[thr][mean]  shipped boxes filtered by that model's reconstruction
+#               error - the reference-free counterpart of gate
 #
 #  Run from the repository root:
 #      python benchmark/eval_localization.py
@@ -93,6 +99,43 @@ def eval_case(case, refmap, variant):
         regions, loc = dl.localize_gated(ref_path, img_path, gate=thr, stat=stat)
         extra = (f" -gate={loc['gated_away']} -person={loc['person_veto']}"
                  f" {loc['seconds']}s")
+    elif variant.startswith("dinomaly"):
+        # REFERENCE-FREE: a Dinomaly model trained on this camera's nominal
+        # frames (tools/dinomaly_train.py). "dinomaly", "dinomaly4@0.35".
+        # Must be tested before the "dino" prefix below - it starts with it.
+        import tools.dinomaly_localizer as dml
+        spec = variant[len("dinomaly"):]
+        zs, _, fs = spec.partition("@")
+        regions, loc = dml.localize(ref_path, img_path,
+                                    z_thr=float(zs) if zs else None,
+                                    abs_floor=float(fs) if fs else None)
+        extra = (f" raw={loc['raw']} patches={loc['patches_over']}"
+                 f" -person={loc['person_veto']} {loc['seconds']}s")
+    elif variant.startswith("bgate"):
+        # BOTH gates over the shipped boxes: "bgate0.08+0.05" keeps a region only
+        # if the reference features AND the nominal model both find something
+        # there. The two disagree by construction - one compares to a frame, the
+        # other to a model of the scene - so the question is whether their vetoes
+        # are independent enough to cut more at the same recall.
+        import tools.dino_localizer as dl
+        import tools.dinomaly_localizer as dml
+        a, _, b = variant[5:].partition("+")
+        regions, loc = dl.localize_gated(ref_path, img_path, gate=float(a))
+        n_dino = len(regions)
+        dml.support(ref_path, img_path, regions)
+        regions = [r for r in regions if r["dinomaly_max"] > float(b)]
+        extra = (f" -gate={loc['gated_away']} -dgate={n_dino - len(regions)}"
+                 f" -person={loc['person_veto']}")
+    elif variant.startswith("dgate"):
+        # shipped boxes filtered by the Dinomaly model's reconstruction error,
+        # the reference-free counterpart of "gate": "dgate0.30", "dgate0.30mean"
+        import tools.dinomaly_localizer as dml
+        spec = variant[5:]
+        stat = "mean" if spec.endswith("mean") else "max"
+        thr = float(spec.replace("mean", "") or dml.GATE_THRESHOLD)
+        regions, loc = dml.localize_gated(ref_path, img_path, gate=thr, stat=stat)
+        extra = (f" -dgate={loc['gated_away']} -person={loc['person_veto']}"
+                 f" {loc['seconds']}s")
     elif variant.startswith("dino"):
         # dino / dino3.5 / dino5 ... = DINOv2 feature localizer at that z-threshold
         # (tools/dino_localizer.py). Same post-processing as shipped, so the only
@@ -134,7 +177,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--variants", default="photo,shipped",
                     help="comma list from: shipped, dino<z>[@floor], "
-                         "gate<thr>[mean], " + ", ".join(VARIANTS))
+                         "gate<thr>[mean], dinomaly<z>[@floor], dgate<thr>[mean], "
+                         + ", ".join(VARIANTS))
     ap.add_argument("--cases", default="", help="only case ids containing this")
     ap.add_argument("--quiet", action="store_true", help="summary lines only")
     args = ap.parse_args()
