@@ -21,7 +21,17 @@ footage: 29 cases, 45 instance boxes, two reference frames. That was the only
 labelled data available when they were decided.
 
 Since then we have the **1760 and 39T multi-camera captures** — other trams,
-other angles, 26 masked cameras. Nothing above has been re-measured on them, so:
+other angles, 26 masked cameras.
+
+**A second protocol now exists** for 4 of those cameras:
+`benchmark/ground_truth_39T.json`, 21 cases / 24 instances on tram 39T (built
+2026-08-16, labelled by Claude, unreviewed). Its first measurement already moves
+the ground under the table above: the shipped localizer scores **17/24
+instances and 5/24 strict IoU** there, against 45/45 and 37/45 on 1762, and the
+DINOv2 gate cuts 8 % of regions instead of 57 %. Read every row above as "true
+on the 1762 camera", not "true".
+
+The remaining 22 cameras are still unmeasured, so:
 
 - a verdict may hold on 1762 and fail on a camera that films through a window,
   or on a night session;

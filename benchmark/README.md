@@ -319,6 +319,57 @@ Findings:
 - The preserved `report_lenient_qwen3vl.md` is the OLD baseline (24-case GT,
   single-channel localizer, CPU) — not comparable to the table above.
 
+## Second protocol: 39T, 4 cameras — NEW 2026-08-16
+
+Everything above was measured on ONE camera of tram 1762, filmed in July.
+`benchmark/ground_truth_39T.json` (built by `tools/build_39T_benchmark.py`) is a
+second, independent protocol: **21 cases, 24 instances, 4 viewpoints of tram
+39T**, from the 2026-08-11 multi-camera capture. Every frame is masked with its
+own camera's mask, each camera is its own reference (moment 08-55-37, verified
+empty on all 15 interior cameras), and the other moments are **separate runs of
+the line** — so a negative here means clean under a different sun, at a different
+place on the track.
+
+Labelled by Claude, not yet reviewed by a human: objects were found by eye on a
+6-moment strip per camera — never by running our own localizer, which would have
+made the ground truth agree with the system under test — then every instance was
+confirmed by comparing the same crop in the reference and in the inspection
+frame. That test rejected two candidates (a seat cover present in both frames, a
+sunlit floor patch) and it is also what tells the tram's yellow validators from a
+left object.
+
+**First measurement, and it is a bad one** (`--gt benchmark/ground_truth_39T.json
+--variants shipped`, 0 VLM calls):
+
+| | 1762 (29 cases) | **39T (21 cases)** |
+|---|---|---|
+| instances localized | 45/45 | **17/24** |
+| strict IoU ≥ 0.3 | 37/45 | **5/24** |
+| regions on clean frames | 170 | 100 (7 frames) |
+| biggest box | 734,400 px | **911,360 px** (63 % of the frame) |
+
+The localizer that finds everything on 1762 misses 7 of 24 instances here, and
+its boxes are mega-blobs: 5/24 strict against 37/45. Two mechanisms, both
+visible in the per-case output:
+
+- **the reference ages in seconds.** The `*_ref_t120_clean` cases are the same
+  run as the reference, 60 s later, and they still produce 3–15 regions each.
+  On 1762 the same-session negatives were nearly silent. A moving tram changes
+  the light through the windows continuously, so "one clean reference per
+  camera" is a much weaker assumption here than the July footage suggested;
+- **the DINOv2 gate does not transfer.** `gate0.08`, tuned on 1762, removes
+  166 → 153 regions here (8 %, against 57 % there) — its threshold is calibrated
+  on that camera's feature scale.
+
+The small instances are what is missed: the green item on a rail (twice), the
+pink item hanging from a pole, two items on seats at distance. The person veto
+also ate the plastic bag at cam54/08-35-17, which sits right at a staff member's
+feet (`-person=5`).
+
+Not labelled in this pass: the other 11 interior cameras, and cam52 at
+08-35/08-40/08-59 (unconfirmable distant items, and a passenger case). They are
+absent from the file rather than declared clean.
+
 ## Extending the dataset
 
 Add entries to `ground_truth.json` (paths repo-relative; `reference` is a key

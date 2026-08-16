@@ -181,9 +181,12 @@ def main():
                          + ", ".join(VARIANTS))
     ap.add_argument("--cases", default="", help="only case ids containing this")
     ap.add_argument("--quiet", action="store_true", help="summary lines only")
+    ap.add_argument("--gt", default=str(GT_PATH),
+                    help="ground-truth file (default: the 1762 benchmark; use "
+                         "benchmark/ground_truth_39T.json for the 39T cameras)")
     args = ap.parse_args()
 
-    gt = json.loads(GT_PATH.read_text())
+    gt = json.loads(Path(args.gt).read_text())
     cases = [c for c in gt["cases"] if args.cases in c["id"]]
 
     for name in args.variants.split(","):
