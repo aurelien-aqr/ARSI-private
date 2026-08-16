@@ -547,14 +547,19 @@ function needRef() {
    captured by a real wall_seconds/n_frames. We take the MAX across matching
    jobs: the verdict cache only ever makes a run FASTER, so the slowest
    observation best predicts a fresh (uncached) video. */
-function histPerFrame(script, model) {
+function histPerFrame(script, model, localizer) {
   let done = S.jobs.filter(j => j.config && j.config.script === script
     && j.summary && j.summary.n_frames > 0 && j.summary.wall_seconds > 0);
   if (!done.length) return null;
   const sameModel = done.filter(j => j.config.model === model);
   if (sameModel.length) done = sameModel;
+  // the localizer decides how many crops a frame costs — the gate sends ~57%
+  // fewer regions to the judge — so photo history over-predicts a photo+dino
+  // run and under-predicts the other way round
+  const sameLoc = localizer ? done.filter(j => locName(j.config) === localizer) : [];
+  if (sameLoc.length) done = sameLoc;
   const perFrame = Math.max(...done.map(j => j.summary.wall_seconds / j.summary.n_frames));
-  return { perFrame, sameModel: sameModel.length > 0 };
+  return { perFrame, sameModel: sameModel.length > 0, sameLoc: sameLoc.length > 0 };
 }
 // rough per-frame fallback (no usable history yet); replaced after run 1
 const ROUGH_PER_FRAME = {
@@ -567,11 +572,13 @@ function estimate() {
   const frames = estFrames();
   const script = S.wiz.pipeline;
   const cropPipe = script === "vlm_05" || script === "vlm_04";
-  const h = histPerFrame(script, S.wiz.model);
+  const h = histPerFrame(script, S.wiz.model,
+                         script === "vlm_05" ? (S.wiz.localizer || S.localizerDefault) : "");
   let perFrame, basis, rough;
   if (h && !(cropPipe && h.perFrame < CROP_MIN_CREDIBLE)) {
     perFrame = h.perFrame; rough = false;
-    basis = `based on your ${script} history${h.sameModel ? " with this model" : ""} · ${fmtEta(perFrame)}/frame`;
+    basis = `based on your ${script} history${h.sameModel ? " with this model" : ""}`
+          + `${h.sameLoc ? " and this localizer" : ""} · ${fmtEta(perFrame)}/frame`;
   } else {
     const t = ROUGH_PER_FRAME[(S.health && S.health.gpu) ? "gpu" : "cpu"];
     perFrame = t[script] || t._; rough = true;
@@ -697,7 +704,8 @@ function handleRunEvent(e) {
     if (e.reference_img) run.refImg = e.reference_img;
     run.log.unshift(`[mask] '${e.mask}' applied to ${e.n_images} image(s)`);
   } else if (e.event === "job_started") {
-    run.log.unshift(`[job] started · ${e.n_frames} frames · model ${e.model}`);
+    run.log.unshift(`[job] started · ${e.n_frames} frames · model ${e.model}`
+                    + (e.localizer ? ` · localizer ${e.localizer}` : ""));
   }
   if (S.screen === "run") render();
 }
@@ -875,12 +883,35 @@ function comparableJobs(exceptSlot) {
 /* A job id says nothing about what was run — the model and the pipeline are the
    whole point of a comparison, so they travel with the id everywhere a run is
    named in this view. */
+/* A vlm_05 run is not identified by its model alone: the same model on two
+   localizers is two different experiments, and the boxes it judged are not the
+   same boxes. So the localizer travels with the script and the model everywhere
+   a run is named. Runs from before the picker carry no field — they all ran the
+   shipped pixel diff, which is still the default — so they read "photo", with
+   locTitle() saying that was inferred rather than recorded. */
+function locName(cfg) {
+  const c = cfg || {};
+  return c.script === "vlm_05" ? (c.localizer || "photo") : "";
+}
+function locTitle(cfg) {
+  const c = cfg || {};
+  return c.script === "vlm_05" && !c.localizer
+    ? "localizer not recorded — this run predates the picker, when vlm_05 always used the photo pixel diff"
+    : "";
+}
+/* HTML fragment (" · name"), empty for pipelines with no localization stage. */
+function locChip(cfg) {
+  const name = locName(cfg);
+  if (!name) return "";
+  const t = locTitle(cfg);
+  return ` · <span${t ? ` title="${esc(t)}" style="border-bottom:1px dotted currentColor;"` : ""}>${esc(name)}</span>`;
+}
 function runLabel(cfg) {
   const c = cfg || {};
   // the localizer belongs here: comparing the same model on two localizers is
   // exactly the A/B this mode exists for, and the runs would otherwise look
   // identical in the picker
-  return [c.script, c.localizer, c.model, c.prompt_name && c.prompt_name + " prompt",
+  return [c.script, locName(c), c.model, c.prompt_name && c.prompt_name + " prompt",
           c.mask && "mask"]
     .filter(Boolean).join(" · ") || "unknown config";
 }
@@ -1373,7 +1404,7 @@ function jobRow(j, cols) {
   return `
   <div class="hoverable" data-act="openJob" data-arg="${esc(j.job_id)}" style="display:grid; grid-template-columns:${cols}; padding:13px 16px; border-top:1px solid oklch(0.24 0.01 250); align-items:center; font-size:13px; cursor:pointer;">
     <div><div style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">${esc(j.job_id)}</div>
-      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(j.config.script)} · ${esc(j.config.model || "")}</div></div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(j.config.script)}${locChip(j.config)} · ${esc(j.config.model || "")}</div></div>
     <span style="text-align:right; font-family:${C.mono}; color:${C.fg2};">${s.n_frames ?? j.config.n_frames ?? ""}</span>
     <span style="text-align:right; font-family:${C.mono}; color:${anomC}; font-weight:600;">${s.n_anomalous ?? "—"}</span>
     <span style="display:flex; justify-content:flex-end;"><span style="font-size:11.5px; color:${m.fg}; background:${m.bg}; border:1px solid ${m.bd}; padding:3px 9px; border-radius:12px;">${m.label}</span></span>
@@ -2219,7 +2250,7 @@ function resultsView() {
     </div>`;
   }).join("");
   const cfg = data.config || {};
-  const jobMeta = `${esc(cfg.script || "")}${cfg.localizer ? " · " + esc(cfg.localizer) : ""} · ${esc(cfg.model || "")} · ${esc(cfg.prompt_name || "")} prompt${cfg.mask ? " · mask" : ""}`;
+  const jobMeta = `${esc(cfg.script || "")}${locChip(cfg)} · ${esc(cfg.model || "")} · ${esc(cfg.prompt_name || "")} prompt${cfg.mask ? " · mask" : ""}`;
   return `
   <div style="height:100%; display:flex; flex-direction:column;">
     <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px; overflow-x:auto;">
@@ -2455,7 +2486,7 @@ function historyRow(j) {
   <div class="hoverable" data-act="openJob" data-arg="${esc(j.job_id)}" style="display:grid; grid-template-columns:${HIST_COLS}; gap:8px; padding:13px 16px; border-top:1px solid oklch(0.24 0.01 250); align-items:center; font-size:13px; cursor:pointer;">
     <div style="min-width:0;">
       <div style="font-family:${C.mono}; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(j.job_id)}</div>
-      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${cfg.localizer && cfg.localizer !== "photo" ? " · " + esc(cfg.localizer) : ""}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${locChip(cfg)}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
     </div>
     <span title="${esc(cfg.model || "")}" style="font-family:${C.mono}; font-size:11.5px; color:${C.fg2}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(cfg.model || "—")}</span>
     ${num(s.n_frames ?? cfg.n_frames ?? "—", C.fg2)}
@@ -2525,7 +2556,7 @@ function labelsView() {
     <div style="display:flex; align-items:center; gap:14px; padding:13px 20px; border-top:1px solid oklch(0.22 0.01 250);">
       <div style="flex:1; min-width:0;">
         <div style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.9 0.006 250);">${esc(r.job_id)}</div>
-        <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">${esc(r.script || "")} · ${esc(r.model || "")} · updated ${esc((r.updated || "").slice(0, 16).replace("T", " "))}</div>
+        <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">${esc(r.script || "")}${locChip(r)} · ${esc(r.model || "")} · updated ${esc((r.updated || "").slice(0, 16).replace("T", " "))}</div>
         <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
           <div style="flex:0 0 140px; height:5px; border-radius:4px; background:${C.bg}; overflow:hidden;"><div style="width:${pct}%; height:100%; background:${pct === 100 ? C.green : "oklch(0.85 0.12 90)"};"></div></div>
           <span style="font-family:${C.mono}; font-size:10.5px; color:${C.fg3};">${p.n_done}/${p.n_frames} frames</span>
@@ -2546,7 +2577,7 @@ function labelsView() {
     <div style="display:flex; align-items:center; gap:12px; padding:11px 20px; border-top:1px solid oklch(0.22 0.01 250);">
       <div style="flex:1; min-width:0;">
         <div style="font-family:${C.mono}; font-size:12px; color:oklch(0.85 0.006 250);">${esc(j.job_id)}</div>
-        <div style="font-size:10.5px; color:${C.fg4}; margin-top:1px;">${esc(j.config.script || "")} · ${esc(j.config.model || "")} · ${j.summary.n_frames} frames · ${j.summary.n_anomalous} anomalous</div>
+        <div style="font-size:10.5px; color:${C.fg4}; margin-top:1px;">${esc(j.config.script || "")}${locChip(j.config)} · ${esc(j.config.model || "")} · ${j.summary.n_frames} frames · ${j.summary.n_anomalous} anomalous</div>
       </div>
       ${btn("openJobReview", j.job_id, "Start review", C.accFg, C.accBg, C.accBd2)}
     </div>`).join("");
@@ -2725,7 +2756,7 @@ function storageCleanupCard() {
     .join("") || `<div style="padding:12px 20px; font-size:12px; color:${C.fg4};">No extracted videos.</div>`;
   const busy = (s) => s === "running" || s === "queued";
   const jobs = st.jobs.map(j => row(
-    esc(j.job_id), `${esc(j.script)} · ${esc(j.model)} · ${esc(j.status)} · ${fmtMB(j.bytes)}`,
+    esc(j.job_id), `${esc(j.script)}${j.localizer ? " · " + esc(j.localizer) : ""} · ${esc(j.model)} · ${esc(j.status)} · ${fmtMB(j.bytes)}`,
     delBtn("deleteJob", j.job_id, busy(j.status), "cancel the job first")))
     .join("") || `<div style="padding:12px 20px; font-size:12px; color:${C.fg4};">No job results.</div>`;
   return `

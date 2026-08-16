@@ -63,6 +63,16 @@ independently: the **localizer** proposes candidate regions and the **judge**
   warmed up ONCE before the frame loop, so an unavailable backbone fails the
   job with one message instead of N frame errors. It is recorded in
   `public_dict()`, results.json, report.md/html and the xlsx.
+- A run is NAMED by script + localizer + model, never script + model: two
+  vlm_05 runs that differ only by the proposal stage judged different boxes.
+  So the localizer appears wherever a run is listed — dashboard, history,
+  results header, compare picker and headers, review list, storage — and in
+  `/api/reviews` + `/api/storage`. A vlm_05 job with no `localizer` field
+  predates the picker and ran the pixel diff, so it is named `photo` and
+  marked inferred (`exports.localizer_of() -> (name, recorded)`); blank would
+  read as "unknown" and make it look incomparable. The xlsx column keeps the
+  plain name so it stays groupable. The pre-launch ETA also prefers history
+  from the same localizer: the gate sends ~57 % fewer regions to the judge.
 - Every proposed region is recorded in `FrameResult.candidates`
   (`{bbox, area, channel, label, verdict, outcome, dropped_by}`) with
   `outcome = kept | rejected | filtered`, plus per-frame counts in

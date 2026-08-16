@@ -11,13 +11,31 @@ def used_reference(cfg: dict):
     return cfg.get("reference_masked") or cfg.get("reference")
 
 
+def localizer_of(cfg: dict):
+    """`(name, recorded)` — how a run should NAME its localizer, or ("", True)
+    for pipelines that have no localization stage.
+
+    Two vlm_05 runs with the same model and different localizers are different
+    experiments, so the localizer belongs everywhere the script and the model
+    are shown. Jobs that predate the picker carry no field: they all ran the
+    shipped pixel diff, which is still `localizers.DEFAULT`, so they read
+    "photo" — flagged as inferred so it is never mistaken for a recorded
+    choice."""
+    if cfg.get("script") != "vlm_05":
+        return "", True
+    return cfg.get("localizer") or "photo", bool(cfg.get("localizer"))
+
+
 def report_md(data: dict) -> str:
     cfg, s = data["config"], data["summary"]
+    loc, loc_rec = localizer_of(cfg)
     L = [f"# ARSI Studio report — {data['job_id']}", "",
          f"**Status:** {data['status']}  ",
          f"**Pipeline:** `{cfg['script']}` · **Model:** `{cfg['model']}` · "
          f"**Prompt:** {cfg['prompt_name']}"
-         + (f" · **Localizer:** `{cfg['localizer']}`  " if cfg.get("localizer") else "  "),
+         + (f" · **Localizer:** `{loc}`"
+            + ("" if loc_rec else " _(not recorded — predates the picker)_")
+            + "  " if loc else "  "),
          f"**Mask:** {cfg.get('mask') or 'none'} · **Reference:** {used_reference(cfg) or 'n/a'}  ",
          f"**Started:** {data['started']} · **Finished:** {data['finished']} · "
          f"**Wall:** {s['wall_seconds']} s", "",
@@ -51,10 +69,12 @@ def report_html(data: dict) -> str:
     body = []
     cfg, s = data["config"], data["summary"]
     body.append(f"<h1>ARSI Studio report — {html.escape(data['job_id'])}</h1>")
+    loc, loc_rec = localizer_of(cfg)
     body.append(f"<p><b>Status:</b> {data['status']} · <b>Pipeline:</b> "
                 f"{html.escape(cfg['script'])}"
-                + (f" · <b>Localizer:</b> {html.escape(cfg['localizer'])}"
-                   if cfg.get("localizer") else "") + " · <b>Model:</b> "
+                + (f" · <b>Localizer:</b> {html.escape(loc)}"
+                   + ("" if loc_rec else " <i>(not recorded)</i>")
+                   if loc else "") + " · <b>Model:</b> "
                 f"{html.escape(str(cfg['model']))} · <b>Prompt:</b> "
                 f"{html.escape(cfg['prompt_name'])} · <b>Mask:</b> "
                 f"{html.escape(str(cfg.get('mask') or 'none'))}</p>")
@@ -112,7 +132,9 @@ def results_xlsx(data: dict, review: dict = None, metrics: dict = None) -> bytes
         types = ",".join(sorted({d["type"] for d in f["detections"]})) or ""
         dets = "; ".join(f"{d['label']} {d['bbox'] or ''}".strip()
                          for d in f["detections"])
-        row = [i, date, cfg["script"], cfg.get("localizer") or "",
+        # plain name, no "(not recorded)" marker: this column is meant to be
+        # sorted and grouped on, and a second spelling of photo would split it
+        row = [i, date, cfg["script"], localizer_of(cfg)[0],
                cfg["model"], f["image"],
                used_reference(cfg) or "", cfg["prompt_name"],
                (f["raw_response"] or "")[:900],

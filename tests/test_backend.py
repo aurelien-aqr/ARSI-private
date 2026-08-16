@@ -285,6 +285,19 @@ def test_job_records_the_localizer_it_ran(api):
     assert "Localizer" in md and "photo" in md
 
 
+def test_a_job_from_before_the_picker_is_named_photo_not_blank():
+    """Jobs that predate the localizer picker carry no field — but they DID use
+    one: the shipped pixel diff, which is still the default. Showing them blank
+    next to a photo+dino run reads as "unknown localizer" and makes the two look
+    incomparable, so they are named photo and flagged inferred. The flag is what
+    the reports print; the xlsx column keeps the plain name so it stays sortable
+    (two spellings of photo would split the column)."""
+    from app.backend.exports import localizer_of
+    assert localizer_of({"script": "vlm_05", "localizer": "photo+dino"}) == ("photo+dino", True)
+    assert localizer_of({"script": "vlm_05"}) == ("photo", False)
+    assert localizer_of({"script": "vlm_01", "model": "m"}) == ("", True)
+
+
 def test_job_model_missing_409(api):
     client, _ = api(models=("qwen3-vl:8b-instruct",))
     r = client.post("/api/jobs", json={"script": "vlm_01",

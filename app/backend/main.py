@@ -27,7 +27,8 @@ from arsi_core.ollama_client import OllamaClient                   # noqa: E402
 from arsi_core.runner import JOBS_DIR, JobConfig                   # noqa: E402
 from arsi_core.video import camera_slug, extract_frames, probe     # noqa: E402
 
-from .exports import report_html, report_md, results_xlsx          # noqa: E402
+from .exports import (localizer_of, report_html, report_md,        # noqa: E402
+                      results_xlsx)
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
 from arsi_core import localizers                                   # noqa: E402
 from .pipeline_docs import PIPELINE_DOCS                           # noqa: E402
@@ -642,7 +643,7 @@ def reviews_index():
         cfg = results.get("config", {})
         out.append({"job_id": job_dir.name, "updated": review.get("updated"),
                     "script": cfg.get("script"), "model": cfg.get("model"),
-                    "localizer": cfg.get("localizer"),
+                    "localizer": localizer_of(cfg)[0],
                     "metrics": compute_metrics(results, review),
                     "export": export_stats(results, review)})
     return {"reviews": out}
@@ -770,7 +771,7 @@ def storage():
             if not jdir.is_dir():
                 continue
             entry = {"job_id": jdir.name, "bytes": _dir_size(jdir),
-                     "status": "?", "script": "", "model": ""}
+                     "status": "?", "script": "", "model": "", "localizer": ""}
             res = jdir / "results.json"
             if res.exists():
                 try:
@@ -779,6 +780,7 @@ def storage():
                     entry.update(status=data.get("status", "?"),
                                  script=data.get("config", {}).get("script", ""),
                                  model=data.get("config", {}).get("model", ""),
+                                 localizer=localizer_of(data.get("config", {}))[0],
                                  n_frames=data.get("summary", {}).get("n_frames", 0))
                 except (json.JSONDecodeError, OSError):
                     pass
