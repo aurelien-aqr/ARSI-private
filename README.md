@@ -101,6 +101,10 @@ Benchmarking lives in `benchmark/` (frame- and object-level metrics against a
 and `bench_grid.py` (model × task × image sweep that fills the ARSI results
 spreadsheet). See `benchmark/README.md` and `RUNBOOK_GPU.md`.
 
+**Which approaches we actually use, and which were tried and rejected:
+`docs/DECISIONS.md`** — one line per settled question, with what it was measured
+on and what that measurement does not cover.
+
 Structured text format:
 
 ```
