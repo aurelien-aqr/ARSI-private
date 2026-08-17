@@ -28,6 +28,7 @@ from arsi_core.ollama_client import OllamaClient                   # noqa: E402
 from arsi_core.runner import JOBS_DIR, JobConfig                   # noqa: E402
 from arsi_core.video import camera_slug, extract_frames, probe     # noqa: E402
 
+from . import bench_runs                                           # noqa: E402
 from .exports import (localizer_of, report_html, report_md,        # noqa: E402
                       results_xlsx)
 from .jobs import JobManager, load_saved, saved_jobs               # noqa: E402
@@ -649,6 +650,233 @@ def reviews_index():
                     "metrics": compute_metrics(results, review),
                     "export": export_stats(results, review)})
     return {"reviews": out}
+
+
+# ---------------------------------------------------------------- benchmark
+
+def _bench_media(rel: str) -> str:
+    return media_url(REPO_ROOT / rel) if rel else ""
+
+
+@app.get("/api/benchmarks")
+def benchmarks_index():
+    """The labelled protocols this repo ships, with their validation state."""
+    out = []
+    for ds_id in benchmarks.list_ids():
+        try:
+            _, doc = benchmarks.load(ds_id)
+            out.append(benchmarks.summary(ds_id, doc))
+        except benchmarks.DatasetError as exc:
+            out.append({"id": ds_id, "name": ds_id, "errors": [str(exc)],
+                        "n_cases": 0, "warnings": []})
+    return {"datasets": out}
+
+
+# Runs are declared BEFORE /api/benchmarks/{ds_id}: FastAPI matches in
+# declaration order, so "runs" would otherwise be read as a dataset id.
+
+def _bench_job_view(run: dict):
+    """(results.json, live status) of the job backing a full-mode run."""
+    job_id = run.get("job_id")
+    if not job_id:
+        return None, None
+    live = manager.get(job_id)
+    data = load_saved(job_id)
+    if data is None and live and live.result:
+        data = live.result.to_dict()
+    status = live.status if live else None
+    if status is None and data and data.get("status") in ("running", "queued"):
+        status = "interrupted"          # same rule as jobs_index
+    return data, status
+
+
+@app.get("/api/benchmarks/runs")
+def bench_runs_index():
+    out = []
+    for run_id in bench_runs.list_run_ids():
+        try:
+            run = bench_runs.load_run(run_id)
+            data, status = _bench_job_view(run)
+            out.append(bench_runs.summarize(run_id, data, status))
+        except bench_runs.BenchError:
+            continue
+    return {"runs": out}
+
+
+@app.post("/api/benchmarks/runs")
+def create_bench_run(payload: dict):
+    def submit(cfg: JobConfig):
+        if "timeout_s" not in cfg.params and not has_gpu():
+            cfg.params = {**cfg.params, "timeout_s": CPU_TIMEOUT_S}
+        if cfg.model:
+            try:
+                client_for().ensure_model(cfg.model)
+            except ModelMissing as exc:
+                raise HTTPException(409, str(exc))
+            except OllamaUnreachable as exc:
+                raise HTTPException(503, str(exc))
+        return manager.submit(cfg).job_id
+    try:
+        run = bench_runs.create(payload, submit)
+    except bench_runs.BenchError as exc:
+        raise HTTPException(400, str(exc))
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(404, str(exc))
+    except ArsiError as exc:
+        raise HTTPException(400, str(exc))
+    return {"run_id": run["run_id"], "job_id": run.get("job_id"),
+            "mode": run["config"]["mode"]}
+
+
+@app.get("/api/benchmarks/runs/{run_id}")
+def bench_run_detail(run_id: str):
+    try:
+        run = bench_runs.load_run(run_id)
+        data, status = _bench_job_view(run)
+        st = bench_runs.state(run_id, data, status)
+    except bench_runs.BenchError as exc:
+        raise HTTPException(404, str(exc))
+    refs = st.pop("references", {})
+    for row in (st.get("score") or {}).get("cases", []):
+        row["img"] = _bench_media(row.get("image", ""))
+        row["ref_img"] = _bench_media(refs.get(row.get("reference"), ""))
+    return st
+
+
+@app.post("/api/benchmarks/runs/{run_id}/cancel")
+def cancel_bench_run(run_id: str, payload: dict = None):
+    try:
+        run = bench_runs.load_run(run_id)
+    except bench_runs.BenchError as exc:
+        raise HTTPException(404, str(exc))
+    if run["config"]["mode"] == "full" and run.get("job_id"):
+        return manager.cancel(run["job_id"], bool((payload or {}).get("force")))
+    return {"ok": bench_runs.LOCALIZE_WORKER.stop(run_id)}
+
+
+@app.get("/api/benchmarks/runs/{run_id}/report.md")
+def bench_run_report(run_id: str):
+    try:
+        bench_run_detail(run_id)             # refresh the frozen report first
+        path = bench_runs.run_dir(run_id) / "report.md"
+    except bench_runs.BenchError as exc:
+        raise HTTPException(404, str(exc))
+    if not path.is_file():
+        raise HTTPException(404, "no report yet — the run has not scored a case")
+    return PlainTextResponse(path.read_text(encoding="utf-8"))
+
+
+@app.delete("/api/benchmarks/runs/{run_id}")
+def delete_bench_run(run_id: str):
+    try:
+        bench_runs.delete(run_id)
+    except bench_runs.BenchError as exc:
+        raise HTTPException(404, str(exc))
+    return {"ok": True}
+
+
+def _case_out(case: dict, refs: dict) -> dict:
+    return {**case, "img": _bench_media(case.get("image", "")),
+            "ref_img": _bench_media(refs.get(case.get("reference"), ""))}
+
+
+@app.get("/api/benchmarks/{ds_id}")
+def benchmark_detail(ds_id: str):
+    try:
+        ds_id, doc = benchmarks.load(ds_id)
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(404, str(exc))
+    refs = doc.get("references") or {}
+    return {**benchmarks.summary(ds_id, doc),
+            "references_map": {k: {"path": v, "img": _bench_media(v)}
+                               for k, v in refs.items()},
+            "cases": [_case_out(c, refs) for c in doc.get("cases") or []]}
+
+
+CANDIDATE_LIMIT = 300
+
+
+@app.get("/api/benchmarks/{ds_id}/candidates")
+def benchmark_candidates(ds_id: str):
+    """Images in the dataset's own folders that no case uses yet — what "add a
+    case" picks from. `dirs` is reported too: for 39T the answer is currently
+    empty, because the frames of the moments left unlabelled (cam52 at 08-35,
+    08-40, 08-59) were never extracted, and the UI should say that rather than
+    show an unexplained empty list."""
+    try:
+        ds_id, doc = benchmarks.load(ds_id)
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(404, str(exc))
+    used = {c.get("image") for c in doc.get("cases") or []}
+    used |= set((doc.get("references") or {}).values())
+    dirs = sorted({str(Path(c["image"]).parent) for c in doc.get("cases") or []})
+    out = []
+    for d in dirs:
+        for p in sorted((REPO_ROOT / d).glob("*")):
+            if p.suffix.lower() not in (".jpg", ".jpeg", ".png"):
+                continue
+            rel = str(p.relative_to(REPO_ROOT))
+            if rel in used:
+                continue
+            out.append({"path": rel, "name": p.stem, "img": media_url(p)})
+    return {"candidates": out[:CANDIDATE_LIMIT], "n_total": len(out), "dirs": dirs}
+
+
+def _save_dataset(ds_id: str, doc: dict):
+    try:
+        benchmarks.save(ds_id, doc)
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(400, str(exc))
+    return benchmarks.summary(*benchmarks.load(ds_id))
+
+
+@app.put("/api/benchmarks/{ds_id}/cases/{case_id}")
+def put_benchmark_case(ds_id: str, case_id: str, payload: dict):
+    """Correct one case. Marks it human-reviewed: that flag is the whole point of
+    the screen for the 39T draft, which was labelled by a model."""
+    try:
+        ds_id, doc = benchmarks.load(ds_id)
+        cases = doc["cases"]
+        idx = next((i for i, c in enumerate(cases) if c["id"] == case_id), -1)
+        if idx < 0:
+            raise HTTPException(404, f"no case '{case_id}' in {ds_id}")
+        case = benchmarks.normalize_case({**payload, "id": case_id},
+                                         doc.get("references") or {})
+        if payload.get("reviewed") is not False:
+            benchmarks.touch_reviewed(case)
+        cases[idx] = case
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(400, str(exc))
+    return {"case": _case_out(case, doc.get("references") or {}),
+            "dataset": _save_dataset(ds_id, doc)}
+
+
+@app.post("/api/benchmarks/{ds_id}/cases")
+def post_benchmark_case(ds_id: str, payload: dict):
+    try:
+        ds_id, doc = benchmarks.load(ds_id)
+        case = benchmarks.normalize_case(payload, doc.get("references") or {})
+        if any(c["id"] == case["id"] for c in doc["cases"]):
+            raise HTTPException(409, f"case '{case['id']}' already exists")
+        benchmarks.touch_reviewed(case)
+        doc["cases"].append(case)
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(400, str(exc))
+    return {"case": _case_out(case, doc.get("references") or {}),
+            "dataset": _save_dataset(ds_id, doc)}
+
+
+@app.delete("/api/benchmarks/{ds_id}/cases/{case_id}")
+def delete_benchmark_case(ds_id: str, case_id: str):
+    try:
+        ds_id, doc = benchmarks.load(ds_id)
+    except benchmarks.DatasetError as exc:
+        raise HTTPException(404, str(exc))
+    kept = [c for c in doc["cases"] if c["id"] != case_id]
+    if len(kept) == len(doc["cases"]):
+        raise HTTPException(404, f"no case '{case_id}' in {ds_id}")
+    doc["cases"] = kept
+    return {"dataset": _save_dataset(ds_id, doc)}
 
 
 # ---------------------------------------------------------------- LoRA

@@ -336,6 +336,13 @@ def touch_reviewed(case: dict) -> dict:
 
 # --------------------------------------------------------------- summaries
 
+def _display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)          # a dataset dir outside the repo (tests, exports)
+
+
 def summary(ds_id: str, doc: dict) -> dict:
     cases = doc.get("cases") or []
     errors, warnings = validate(doc)
@@ -343,9 +350,7 @@ def summary(ds_id: str, doc: dict) -> dict:
     return {
         "id": ds_id,
         "name": doc.get("name") or ds_id,
-        "path": str(dataset_path(ds_id).relative_to(REPO_ROOT))
-                if (DATASETS_DIR / f"{ds_id}.json").exists()
-                else str(resolve(ds_id).relative_to(REPO_ROOT)),
+        "path": _display_path(resolve(ds_id)),
         "about": doc.get("_about", ""),
         "n_cases": len(cases),
         "n_anomalous": sum(1 for c in cases if c.get("has_anomaly")),
