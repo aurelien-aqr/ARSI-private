@@ -292,47 +292,51 @@ def test_score_localize_reports_the_blob_canary():
 def test_aggregation_matches_the_published_report():
     """`benchmark/archive/results.json` holds the per-case rows of the GLM x
     conservative run whose totals are in archive/report.md (merge OFF: 40/45,
-    strict 33/45, 29 FP of 86). Feed those same per-case counts through this
-    module's aggregation and the totals must come out identical."""
+    29 FP of 86, region precision 0.663). Feed those same per-case counts through
+    this module's aggregation and the totals must come out identical.
+
+    The cases are rebuilt FROM THE ROWS, never from today's ground truth: that
+    file is edited as the labels are corrected (the 2026-08-17 review moved the
+    1762 instances from 45 to 47), and a test of the aggregation must not move
+    with it. What is locked here is arithmetic against a frozen record.
+
+    Strict recall is deliberately not asserted: a synthetic box placed exactly on
+    an instance scores IoU 1.0, so it cannot reproduce the published 33/45."""
     rows = json.loads((ARCHIVE / "results.json").read_text())["rows"]
-    _, doc = B.load()
-    by_id = {c["id"]: c for c in doc["cases"]}
 
     cases, frames = [], []
     for row in rows:
-        case = by_id[row["id"]]
-        cases.append(case)
-        # Rebuild a FrameResult whose kept boxes reproduce the row's counts: one
-        # box on each detected instance, duplicates until the row's n_kept is
-        # reached (the real run often keeps 2-3 boxes on one object), then
-        # `fp_regions` boxes far away. Aggregation is what is under test here,
-        # not box matching.
-        kept = [inst["bbox"] for inst, hit in
-                zip(case["instances"], _hits(row, case)) if hit]
+        # instances: one per entry of the row's per-type tally, at disjoint boxes,
+        # the first `detected` of each type marked as hit by a kept box
+        instances, kept = [], []
+        for typ, (n_det, n_tot) in sorted(row["type_detect"].items()):
+            for i in range(n_tot):
+                box = [100 * len(instances), 0, 100 * len(instances) + 60, 60]
+                instances.append({"type": typ, "bbox": box})
+                if i < n_det:
+                    kept.append(box)
+        assert len(instances) == row["instances_total"], row["id"]
+        # the real run often keeps 2-3 boxes on one object: pad with duplicates
+        # until n_kept, then add the row's unmatched boxes far away
         for i in range(row["n_kept"] - row["fp_regions"] - len(kept)):
             kept.append(kept[i % len(kept)])
         kept += [[9000 + 100 * i, 9000, 9050 + 100 * i, 9050]
                  for i in range(row["fp_regions"])]
+        cases.append({"id": row["id"], "has_anomaly": row["has_anomaly"],
+                      "source": row["source"], "instances": instances})
         frames.append(_frame(kept, anomaly=row["flagged"]))
 
     score = B.score_full(cases, frames)
-    published_frame = {"TP": 17, "FP": 0, "TN": 12, "FN": 0}
-    assert score["frame"]["counts"] == published_frame
+    assert score["frame"]["counts"] == {"TP": 17, "FP": 0, "TN": 12, "FN": 0}
     assert score["frame"]["f1"] == 1.0
     ob = score["objects"]
     assert ob["inst_total"] == 45
-    assert ob["inst_detected"] == sum(r["instances_detected"] for r in rows) == 40
-    assert ob["fp_regions"] == sum(r["fp_regions"] for r in rows) == 29
-    assert ob["kept_total"] == 86
+    assert ob["inst_detected"] == 40 and round(ob["recall"], 3) == 0.889
+    assert ob["fp_regions"] == 29 and ob["kept_total"] == 86
     assert round(ob["region_precision"], 3) == 0.663
     assert ob["per_type"]["graffiti"] == {"detected": 6, "total": 6, "recall": 1.0}
-    assert ob["per_type"]["object"]["detected"] == 28
-
-
-def _hits(row, case):
-    """Which instances of `case` the published row counted as detected. The row
-    only stores the COUNT, so take the first n - per-type totals still line up
-    because a row's instances are almost always one type, and the two
-    multi-type rows are fully detected."""
-    n = row["instances_detected"]
-    return [True] * n + [False] * (len(case["instances"]) - n)
+    assert ob["per_type"]["object"] == {"detected": 28, "total": 33,
+                                       "recall": pytest.approx(0.848, abs=1e-3)}
+    assert ob["per_type"]["damage"]["total"] == 4
+    assert ob["per_type"]["litter"]["total"] == 2
+    assert ob["per_source"]["real"]["cases"] == 15
