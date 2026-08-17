@@ -3687,7 +3687,9 @@ function benchScoreRow(r, isLoc) {
     </div>
     ${open ? `
     <div style="padding:0 14px 13px;">
-      <div style="position:relative; border-radius:8px; overflow:hidden;">
+      <!-- capped width, not capped height: the overlays are percentages of this
+           container, so shrinking it keeps them aligned while object-fit would not -->
+      <div style="position:relative; border-radius:8px; overflow:hidden; max-width:980px;">
         <img src="${r.img || ""}" loading="lazy" style="width:100%; display:block;">
         ${boxes}
       </div>
