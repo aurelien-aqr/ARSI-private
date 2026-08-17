@@ -191,6 +191,66 @@ def test_cancel_lands_mid_frame_and_keeps_what_was_judged(fake_client, img_facto
     assert fr.detections                        # what was judged is kept
 
 
+def test_per_frame_references_reach_the_right_frame(fake_client, img_factory,
+                                                    tmp_path):
+    """A benchmark protocol can give every frame its own clean reference (39T:
+    four cameras, four references, one run). Getting this wrong would diff a
+    frame against another camera's view and score the whole viewpoint as
+    anomalous."""
+    ref_a = img_factory("ref_a.jpg", color=(200, 200, 200))
+    ref_b = img_factory("ref_b.jpg", color=(100, 100, 100))
+    f1, f2 = img_factory("f1.jpg"), img_factory("f2.jpg")
+    client = fake_client([CLEAN, CLEAN])
+    cfg = make_cfg(tmp_path, [f1, f2], script="vlm_02",
+                   frame_references=[str(ref_a), str(ref_b)])
+    result = run_job(cfg, client=client)
+
+    assert [f.status for f in result.frames] == ["ok", "ok"]
+    # vlm_02 sends [reference, inspection]
+    assert client._impl.calls[0]["messages"][0]["images"] == [str(ref_a), str(f1)]
+    assert client._impl.calls[1]["messages"][0]["images"] == [str(ref_b), str(f2)]
+    assert result.config["n_references"] == 2
+
+
+def test_per_frame_references_are_masked_individually(fake_client, img_factory,
+                                                      tmp_path):
+    ref_a = img_factory("ref_a.jpg", color=(200, 200, 200))
+    ref_b = img_factory("ref_b.jpg", color=(100, 100, 100))
+    f1, f2 = img_factory("f1.jpg"), img_factory("f2.jpg")
+    mask = MaskSpec(name="win", image_size=[400, 300], zones=[
+        {"id": "z", "label": "w", "polygon": [[0, 0], [100, 0], [100, 50], [0, 50]]}])
+    mask_path = mask.save(tmp_path / "win.json")
+
+    client = fake_client([CLEAN, CLEAN])
+    run_job(make_cfg(tmp_path, [f1, f2], script="vlm_02",
+                     frame_references=[str(ref_a), str(ref_b)],
+                     mask=str(mask_path)), client=client)
+    masked = tmp_path / "job" / "masked"
+    assert client._impl.calls[0]["messages"][0]["images"][0] == str(masked / "ref_a.jpg")
+    assert client._impl.calls[1]["messages"][0]["images"][0] == str(masked / "ref_b.jpg")
+
+
+def test_frame_references_must_line_up_with_frames(img_factory, tmp_path):
+    from arsi_core.errors import FrameError
+    f1, f2 = img_factory("f1.jpg"), img_factory("f2.jpg")
+    with pytest.raises(FrameError):
+        make_cfg(tmp_path, [f1, f2], frame_references=["only-one.jpg"]).resolved()
+
+
+def test_missing_per_frame_reference_fails_the_job_upfront(fake_client, img_factory,
+                                                           tmp_path):
+    """One frame without a reference must fail the JOB before any VLM call, the
+    same way a missing job-level reference does — not silently run vlm_02 on a
+    single image for that frame."""
+    from arsi_core.errors import FrameError
+    ref = img_factory("ref.jpg")
+    f1, f2 = img_factory("f1.jpg"), img_factory("f2.jpg")
+    cfg = make_cfg(tmp_path, [f1, f2], script="vlm_02",
+                   frame_references=[str(ref), None])
+    with pytest.raises(FrameError):
+        run_job(cfg, client=fake_client([CLEAN, CLEAN]))
+
+
 def test_results_json_is_written_after_every_frame(fake_client, img_factory, tmp_path):
     """It used to be written once at the end, so a server killed mid-job left no
     record at all — the finished frames were lost and the job vanished from the

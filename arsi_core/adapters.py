@@ -426,6 +426,7 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
                 break
             key = f"{ref_key}|{img_key}|{r['bbox']}|{model}|{fp}{mask_part}"
             hit = cache.get(key) if cache is not None else None
+            cached = hit is not None
             if hit is not None:
                 is_obj, label = hit["yes"], hit["label"]
             else:
@@ -471,7 +472,11 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
                           "verdict": "yes" if said_yes else "no",
                           "outcome": "kept" if is_obj else
                                      ("filtered" if said_yes else "rejected"),
-                          "dropped_by": dropped_by})
+                          "dropped_by": dropped_by,
+                          # a re-score at zero fresh calls is the claim that
+                          # makes a localizer A/B trustworthy, so it has to be
+                          # countable from the results rather than asserted
+                          "cached": cached})
             if is_obj:
                 r = dict(r, vlm_label=label)
                 kept.append(r)

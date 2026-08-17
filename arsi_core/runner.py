@@ -31,23 +31,49 @@ class JobConfig:
     prompt: str = None                  # None -> script default
     prompt_name: str = "default"        # preset label for the report
     reference: str = None
+    # Per-frame reference, parallel to `frames` (None entry -> `reference`). A
+    # benchmark protocol can pair each frame with its OWN clean reference: the
+    # 39T dataset has four cameras, so scoring it in one run needs four
+    # references. Left None for the ordinary one-camera case.
+    frame_references: list = None
     mask: str = None                    # path to a MaskSpec JSON, or None
     localizer: str = None               # vlm_05 region proposal; None -> localizers.DEFAULT
     params: dict = field(default_factory=dict)   # timeout_s, max_retries + UPPER_CASE module overrides
+    bench: dict = None                  # {run_id, dataset} when this job scores a benchmark
     job_id: str = None
     job_dir: str = None
 
     def resolved(self):
         self.job_id = self.job_id or datetime.now().strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6]
         self.job_dir = Path(self.job_dir) if self.job_dir else JOBS_DIR / self.job_id
+        if self.frame_references is not None \
+                and len(self.frame_references) != len(self.frames):
+            raise FrameError(
+                f"frame_references has {len(self.frame_references)} entries for "
+                f"{len(self.frames)} frames — they must line up, or a frame "
+                f"would be diffed against the wrong camera")
         return self
 
+    def references_for_frames(self):
+        """One reference per frame, resolved. `reference` is the fallback so the
+        two spellings never have to be handled separately downstream."""
+        if self.frame_references is None:
+            return [self.reference] * len(self.frames)
+        return [r or self.reference for r in self.frame_references]
+
     def public_dict(self):
-        return {"script": self.script, "model": self.model,
-                "prompt_name": self.prompt_name, "prompt": self.prompt,
-                "reference": self.reference, "mask": self.mask,
-                "localizer": self.localizer, "n_frames": len(self.frames),
-                "params": self.params}
+        d = {"script": self.script, "model": self.model,
+             "prompt_name": self.prompt_name, "prompt": self.prompt,
+             "reference": self.reference, "mask": self.mask,
+             "localizer": self.localizer, "n_frames": len(self.frames),
+             "params": self.params}
+        if self.frame_references is not None:
+            # the count, not the list: what a reader needs is "this run used more
+            # than one reference", and the per-frame value is on each FrameResult
+            d["n_references"] = len(set(self.references_for_frames()))
+        if self.bench:
+            d["bench"] = self.bench
+        return d
 
 
 class _JobLog:
@@ -67,14 +93,15 @@ class _JobLog:
 
 
 def _materialize_mask(cfg: JobConfig, emit) -> tuple:
-    """Render masked copies of the reference and every frame into the job dir.
+    """Render masked copies of every reference and every frame into the job dir.
     The mask must hit BOTH sides identically or the diff pipelines would
-    detect the mask itself as change. Returns (frames, reference, mask_hash).
+    detect the mask itself as change. Returns (frames, references, mask_hash),
+    where `references` has one entry per frame.
 
     Everything downstream — FrameResult.image, the events, the report — then
     carries the masked paths, so what the UI shows is what the VLM saw."""
     if not cfg.mask:
-        return cfg.frames, cfg.reference, ""
+        return cfg.frames, cfg.references_for_frames(), ""
     spec = MaskSpec.load(cfg.mask)
     masked_dir = Path(cfg.job_dir) / "masked"
     done = {}
@@ -90,10 +117,10 @@ def _materialize_mask(cfg: JobConfig, emit) -> tuple:
         return done[src]
 
     frames = [mask_one(f) for f in cfg.frames]
-    reference = mask_one(cfg.reference) if cfg.reference else None
+    references = [mask_one(r) if r else None for r in cfg.references_for_frames()]
     emit("mask_applied", mask=spec.name, hash=spec.hash, n_images=len(done),
-         reference=reference)
-    return frames, reference, spec.hash
+         reference=references[0] if references else None)
+    return frames, references, spec.hash
 
 
 def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
@@ -120,8 +147,10 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
     client.ensure_model(cfg.model)          # raises ModelMissing / OllamaUnreachable
     if cache is None and cfg.script == "vlm_05":
         cache = VerdictCache()
-    if cfg.reference is None and NEEDS_REFERENCE.get(cfg.script):
-        raise FrameError(f"{cfg.script} needs a reference image")
+    if NEEDS_REFERENCE.get(cfg.script) \
+            and not all(cfg.references_for_frames()):
+        raise FrameError(f"{cfg.script} needs a reference image "
+                         f"(every frame needs one, not just the job)")
     if cfg.script == "vlm_05":
         # validate and load the region proposer BEFORE the loop: an unavailable
         # backbone must fail the job once, with one message, not per frame
@@ -137,11 +166,11 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
          localizer=cfg.localizer or "")
     t_job = time.time()
 
-    frames, reference, mask_hash = _materialize_mask(cfg, emit)
+    frames, references, mask_hash = _materialize_mask(cfg, emit)
     if mask_hash:
         # the masked reference is what the pipeline compared against — the UI
         # must show that one, not the untouched file the user picked
-        result.config["reference_masked"] = reference
+        result.config["reference_masked"] = references[0] if references else None
         result.config["mask_hash"] = mask_hash
 
     def snapshot(status):
@@ -182,7 +211,7 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
                 # The reminder is appended only after a ParseError: appending it
                 # on transport retries too would change the prompt fingerprint
                 # and silently invalidate the vlm_05 verdict cache for the frame.
-                fr = run_frame(cfg.script, frame, reference=reference,
+                fr = run_frame(cfg.script, frame, reference=references[i],
                                model=cfg.model,
                                prompt=prompt + (FORMAT_REMINDER if format_failed else ""),
                                params=params, client=client, cache=cache,
