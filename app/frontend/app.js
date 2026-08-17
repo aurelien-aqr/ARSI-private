@@ -3078,8 +3078,7 @@ function benchView() {
         ${dsChips}`}
       ${scoreOpen || B.datasets.length > 1 || !B.detail ? "" : `
         <div style="width:1px; height:26px; background:${C.bd2}; margin:0 4px;"></div>
-        <span style="font-size:12.5px; color:oklch(0.88 0.006 250);">${esc(B.detail.name || "")}</span>
-        <span style="font-family:${C.mono}; font-size:10.5px; color:${C.fg4};">
+        <span style="font-family:${C.mono}; font-size:11px; color:${C.fg3};">
           ${B.detail.n_cases} cases · ${B.detail.n_anomalous} anomalous ·
           ${B.detail.n_instances} instances · ${(B.detail.references || []).length} references</span>`}
     </div>
@@ -3426,7 +3425,7 @@ function benchRunsTab() {
                   padding:16px 18px; margin-bottom:18px;">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
           <div style="font-size:14px; font-weight:600;">Run the benchmark</div>
-          <span style="font-size:11.5px; color:${C.fg4};">on ${esc((d.name || B.ds) || "")} · ${nCases} case(s)</span>
+          <span style="font-size:11.5px; color:${C.fg4};">${nCases} case(s) selected</span>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
           <div>

@@ -49,8 +49,8 @@ def test_strict_iou_threshold_is_the_published_one():
 # --------------------------------------------------------------- load / save
 
 def test_ships_one_benchmark():
-    """One protocol over every labelled frame: the two trams are cameras of the
-    same benchmark, not two datasets."""
+    """One protocol over every labelled frame, whatever it shows: a viewpoint is a
+    `references` key, never a dataset of its own."""
     assert B.list_ids() == [B.DEFAULT]
 
 
@@ -74,7 +74,7 @@ def test_shipped_dataset_is_valid():
 
 def test_shipped_dataset_round_trips_byte_identical():
     """The writer must reproduce the committed file exactly, or the first save
-    from the Studio would rewrite all 50 cases and bury the real edit."""
+    from the Studio would rewrite every case and bury the real edit."""
     _, doc = B.load()
     assert B.dumps(doc) + "\n" == B.resolve(B.DEFAULT).read_text(encoding="utf-8")
 
@@ -131,26 +131,29 @@ def test_backups_of_two_saves_in_the_same_second_both_survive(tmp_path, monkeypa
     assert len(list((tmp_path / ".backups").glob("copy-*.json"))) == 2
 
 
-def test_summary_counts_the_whole_benchmark():
-    """Both trams, one protocol: 29 cases of 1762 (45 instances) + 21 of 39T (24)."""
+def test_summary_counts_are_derived_not_declared():
+    """Deliberately no expected totals: adding a camera, a tram or a rendered
+    scene must not break a test. What is asserted is that the counts agree with
+    the file, which is what lets the UI be the only place they appear."""
     ds_id, doc = B.load()
     s = B.summary(ds_id, doc)
-    assert (s["n_cases"], s["n_anomalous"], s["n_clean"], s["n_instances"]) \
-        == (50, 31, 19, 69)
-    assert s["references"] == ["39T-cam52", "39T-cam53", "39T-cam54", "39T-cam55",
-                              "real", "variant"]
+    cases = doc["cases"]
+    assert s["n_cases"] == len(cases) > 0
+    assert s["n_anomalous"] + s["n_clean"] == s["n_cases"]
+    assert s["n_instances"] == sum(len(c["instances"]) for c in cases)
+    assert s["references"] == sorted(doc["references"])
+    assert "name" not in doc                    # no label to go stale
 
 
 def test_the_benchmark_mixes_reference_sizes():
-    """Why every overlay resolves its coordinate space per case: `real` is
-    1920x1080, `variant` 1672x941 and the 39T cameras 1280x720."""
+    """Why every overlay resolves its coordinate space per case, and why no code
+    may assume one size per dataset. Asserted as an invariant, not as a list of
+    sizes, so it keeps holding when a viewpoint is added."""
     from PIL import Image
     _, doc = B.load()
     sizes = {k: Image.open(B.REPO_ROOT / v).size
              for k, v in doc["references"].items()}
-    assert sizes["real"] == (1920, 1080)
-    assert sizes["variant"] == (1672, 941)
-    assert sizes["39T-cam52"] == (1280, 720)
+    assert len(set(sizes.values())) > 1, sizes
 
 
 # --------------------------------------------------------------- case payloads

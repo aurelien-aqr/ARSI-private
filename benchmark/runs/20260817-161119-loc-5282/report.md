@@ -1,6 +1,6 @@
 # Benchmark run - ground_truth · localize
 
-**Run:** `20260817-153932-loc-2905`  
+**Run:** `20260817-161119-loc-5282`  
 **Status:** completed (21/21 cases)  
 **Dataset:** `ground_truth` (digest `1930a2996b23`)  
 **Localizer:** `photo` - no VLM call.  

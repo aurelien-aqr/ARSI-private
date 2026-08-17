@@ -26,7 +26,7 @@ post-filters) - it imports the script and calls the same `localize()` +
 ```
 benchmark/
 ├── datasets/
-│   └── ground_truth.json  THE benchmark: 50 cases, 69 instances, 5 cameras
+│   └── ground_truth.json  THE benchmark: every labelled frame, one protocol
 ├── runs/               one directory per run; the scores and reports are TRACKED
 │   └── cli-*/            CLI scratch (gitignored, overwritten every run), as are
 │                         the rendered runs/*/annotated/ overlays
@@ -41,30 +41,37 @@ benchmark/
 
 The datasets are read through `arsi_core/benchmarks.py`, which is also what the
 Studio, the CLI and `tools/export_lora_dataset.py` use - one loader, one set of
-scoring rules. The directory is per-dataset because a run records which one it
-scored and a second protocol may arrive (a public set, docs/PUBLIC_DATASETS.md);
-our own footage is not split by tram, a camera is a `references` key.
+scoring rules. The directory is per-dataset only because a run records which one
+it scored and an imported public protocol would be a second file
+(docs/PUBLIC_DATASETS.md). Our own material is never split: a viewpoint is a
+`references` key and a provenance is a `source`.
 
 ## The benchmark
 
-**One protocol over every labelled frame we have: 50 cases, 31 anomalous (69 typed
-instance boxes), 19 clean, across 5 cameras of 2 trams.** Each case: inspection
-image, reference key, `has_anomaly`, `types`, `source` (real / gpt / variant /
-self), instance boxes in the pixel space of THAT case's reference, and a note.
-Reference sizes differ (`real` 1920x1080, `variant` 1672x941, the four 39T cameras
-1280x720), which is why every box is read in its own reference's space.
+**One protocol over every labelled frame, whatever it shows.** Each case:
+inspection image, reference key, `has_anomaly`, `types`, `source` (real / gpt /
+variant / self), instance boxes in the pixel space of THAT case's reference, and a
+note. Reference sizes differ (`real` 1920x1080, `variant` 1672x941, the 39T
+cameras 1280x720), which is why every box is read in its own reference's space.
 
-**Tram 1762**, references `real` + `variant` (July, 29 cases, 45 instances):
-  - Anomalous: 6 real CCTV frames (forgotten objects, one with a real seated
-    person) + 10 AI-inpainted frames on the real scene (objects, graffiti,
-    damage, litter, one crowd) + 1 second synthetic scene ("variant").
-  - Clean: reference-vs-self (×2), a clean AI frame, 4 same-session empty
-    frames, and **5 cross-session empty frames** (v2/v3/v4 vs the v1
-    reference - the deployment-realistic negatives: different exposure,
-    onboard-display content changes, one walking person).
-**Tram 39T**, references `39T-cam52..55` (2026-08-11, 21 cases, 24 instances):
-see "The 39T cameras" below. Those labels were drafted by Claude from the footage;
-correct them in the Studio.
+Counts are deliberately not written down anywhere: the file is the source, the
+Studio header shows them, and adding a camera, another tram or a rendered scene is
+adding cases - not a new dataset and not a doc edit. What follows is where the
+frames come from, so far.
+
+**Reference `real`, plus the synthetic `variant` scene** - tram 1762, one camera,
+filmed in July.
+
+- Anomalous: real CCTV frames with forgotten objects (one with a real seated
+  person), AI-inpainted frames on that same scene (objects, graffiti, damage,
+  litter, a crowd), and one second synthetic scene ("variant").
+- Clean: reference-vs-self, a clean AI frame, same-session empty frames, and the
+  **cross-session** empty frames (v2/v3/v4 against the v1 reference), which are the
+  deployment-realistic negatives: different exposure, onboard-display content
+  changes, one walking person.
+
+**References `39T-cam52..55`** - tram 39T, 2026-08-11. See "The 39T cameras" below.
+Those labels were drafted by Claude from the footage; correct them in the Studio.
 
 ## How to run
 
@@ -92,7 +99,7 @@ The CLI still works and is unchanged:
 python benchmark/run_benchmark.py                    # the 1762 cases, whatever
                                                     # vlm_05 is configured with
                                                     # -> benchmark/runs/cli-latest/
-python benchmark/eval_localization.py               # localizer-only, all 50 cases
+python benchmark/eval_localization.py               # localizer-only, every case
 python benchmark/eval_localization.py --ref 39T --variants shipped   # one tram
 python benchmark/eval_localization.py --ref real --variants shipped
 ```
@@ -138,19 +145,20 @@ definition drift, so:
 Both full runs cost **0 fresh VLM calls** out of 559 and 243 regions - the score
 counts them, so that is a measurement, not a claim. 13 s and 59 s on this laptop.
 
-Each of those rows is a **camera subset** of the one benchmark, which is what keeps
-them comparable with the reports. The number for the whole thing, measured the same
-day, is worse than either half and is the one to beat:
+Each of those rows is a **reference subset** of the one benchmark, which is what
+keeps them comparable with the reports. The number for the whole thing on
+2026-08-17, when it held 50 cases and 69 instances, is worse than either half and
+is the one to beat:
 
-| whole benchmark, 50 cases · localize · `photo` | result |
+| whole benchmark (50 cases that day) · localize · `photo` | result |
 |---|---|
 | instances localized | **62 / 69** |
 | strict IoU >= 0.3 | **42 / 69** |
 | regions proposed | 825 |
 
-The 1762 half alone is 45/45 and 37/45. Averaged over five cameras the shipped
-localizer misses 7 instances and boxes 42 of 69 well - that gap IS the finding, and
-it is only visible because the two trams are scored as one protocol.
+The 1762 references alone score 45/45 and 37/45. Averaged over every viewpoint the
+shipped localizer misses 7 instances and boxes 42 of 69 well - that gap IS the
+finding, and it is only visible because everything is scored as one protocol.
 
 ## Localizer (multi-channel, since 2026-07-12)
 

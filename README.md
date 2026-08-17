@@ -102,8 +102,8 @@ objects + an added-edge channel for faint graffiti) with a YOLOv8n **person
 veto** - design rationale and measured numbers live in the USER CONFIG comments.
 
 Benchmarking lives in `benchmark/`: ONE labelled protocol,
-`benchmark/datasets/ground_truth.json` (50 cases and 69 instance boxes over 5
-cameras of 2 trams), frame- and object-level metrics, a resumable VLM cache and a
+`benchmark/datasets/ground_truth.json`, holding every labelled frame whatever it
+shows, frame- and object-level metrics, a resumable VLM cache and a
 localizer-only eval that runs in seconds. Launch and score it from **ARSI Studio →
 Benchmark**, or from the CLI (`benchmark/run_benchmark.py`,
 `benchmark/eval_localization.py`). `bench_grid.py` is the separate model × task ×

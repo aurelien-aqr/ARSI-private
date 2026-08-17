@@ -232,15 +232,17 @@ Every failure is logged (structured JSONL per job under
 ## Benchmark (datasets, scoring, runs)
 
 - There is ONE benchmark: `benchmark/datasets/ground_truth.json`, every labelled
-  frame we have (50 cases, 69 instances, 5 cameras of 2 trams), shaped
-  `{name, references: {key: path}, cases: [...]}`. A case pairs an inspection
+  frame whatever it shows, shaped
+  `{references: {key: path}, cases: [...]}`. A case pairs an inspection
   image with a reference KEY, a frame-level `has_anomaly`, and typed instance
   boxes in the pixel space of THAT case's reference - the sizes differ per camera,
   so no code may assume one coordinate space per dataset. `types` is derived from
-  the instances, never stored by hand. The trams are not split into two datasets:
-  a camera is a `references` key, which is what the filters and the run subsets
-  group on. The directory stays per-dataset because a run records which one it
-  scored and an imported public protocol would be a second file.
+  the instances, never stored by hand. Nothing in the file or the UI describes
+  what the frames show or counts them: a viewpoint is a `references` key, a
+  provenance is a `source`, and counts are derived - so adding a camera, a tram or
+  a rendered scene is adding cases, not a new dataset. The directory stays
+  per-dataset because a run records which one it scored and an imported public
+  protocol would be a second file.
 - `arsi_core/benchmarks.py` is the single loader and the single scorer for the
   app, the CLI and `tools/`. It resolves a dataset by id or path, keeps the
   pre-2026-08-17 `ground_truth*.json` locations resolvable, validates before

@@ -171,9 +171,10 @@ def create(payload: dict, submit_job, gpu: bool = True) -> dict:
         },
         "params": payload.get("params") or {},
     }
+    # the snapshot is the LABELS as they were, nothing else: no name, no counts,
+    # so it cannot carry a description that has since stopped being true
     _write_json(run_dir(run_id) / "dataset_snapshot.json",
-                {"dataset": ds_id, "name": doc.get("name", ds_id),
-                 "references": refs, "cases": cases})
+                {"dataset": ds_id, "references": refs, "cases": cases})
     save_run(run)
 
     if mode == "full":
@@ -360,8 +361,7 @@ def state(run_id: str, job_data=None, job_status=None, job_error=None) -> dict:
         save_run(run)
     return {"run": run, "score": score,
             "stale": _is_stale(run),
-            "references": snap.get("references", {}),
-            "dataset_name": snap.get("name", run["dataset"])}
+            "references": snap.get("references", {})}
 
 
 def _is_stale(run: dict) -> bool:

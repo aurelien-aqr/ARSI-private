@@ -185,7 +185,7 @@ def main():
     ap.add_argument("--quiet", action="store_true", help="summary lines only")
     ap.add_argument("--gt", "--dataset", dest="gt", default=benchmarks.DEFAULT,
                     help="dataset id or path (default: the benchmark ground "
-                         "truth, all 50 cases)")
+                         "truth, every case)")
     ap.add_argument("--ref", default="", help="only cases whose reference key "
                     "contains this (e.g. --ref 39T for the 39T cameras)")
     args = ap.parse_args()

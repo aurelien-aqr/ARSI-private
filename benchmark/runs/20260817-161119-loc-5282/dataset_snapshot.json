@@ -1,6 +1,5 @@
 {
  "dataset": "ground_truth",
- "name": "ARSI benchmark: trams 1762 and 39T, 5 cameras",
  "references": {
   "real": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
   "variant": "data/reference/tram_variant/tram_variant_reference.png",

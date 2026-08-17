@@ -1,19 +1,19 @@
 {
- "run_id": "20260817-153819-ful-c425",
+ "run_id": "20260817-160952-ful-f343",
  "dataset": "ground_truth",
  "digest": "1930a2996b23",
- "created": "2026-08-17T13:38:19+00:00",
+ "created": "2026-08-17T14:09:52+00:00",
  "status": "completed",
- "job_id": "20260817-153819-2e94d1",
+ "job_id": "20260817-160952-2c6d88",
  "progress": {
   "done": 29,
   "total": 29
  },
- "wall_seconds": 60.53,
+ "wall_seconds": 13.46,
  "config": {
   "mode": "full",
   "script": "vlm_05",
-  "localizer": "photo+dino",
+  "localizer": "photo",
   "model": "haervwe/GLM-4.6V-Flash-9B:latest",
   "prompt": null,
   "prompt_name": "conservative",

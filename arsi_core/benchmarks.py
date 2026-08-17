@@ -1,16 +1,17 @@
 """The benchmark ground truth, and the score computed against it.
 
 There is ONE benchmark: `benchmark/datasets/ground_truth.json`, every labelled
-frame we have, five cameras of two trams (50 cases, 69 instance boxes). A case
-pairs an inspection image with the clean reference it is diffed against, a
-frame-level `has_anomaly` label and zero or more typed instance boxes in the pixel
-space of THAT case's reference. It is read by the Studio, by
-`benchmark/run_benchmark.py` and by `benchmark/eval_localization.py`.
+frame, whatever it shows. A case pairs an inspection image with the clean reference
+it is diffed against, a frame-level `has_anomaly` label and zero or more typed
+instance boxes in the pixel space of THAT case's reference. It is read by the
+Studio, by `benchmark/run_benchmark.py` and by `benchmark/eval_localization.py`.
 
-The directory is per-dataset because a run records which one it scored and a
-second protocol may arrive (a public set, docs/PUBLIC_DATASETS.md). Our own
-footage is not split: a camera is a `references` key, which is what the per-camera
-filters and the per-source tables group on.
+Nothing here describes what the frames contain or how many there are: a viewpoint
+is a `references` key and a provenance is a `source`, both of which the filters,
+the run subsets and the per-source tables group on, and every count is derived
+from the file. Adding a camera, a tram or a rendered scene is adding cases. The
+directory is per-dataset only because a run records which one it scored and an
+imported public protocol would be a second file (docs/PUBLIC_DATASETS.md).
 
 Scoring rules are the ones the published reports were produced with, and they are
 NOT reimplemented from a description: `iou` / `overlaps` are copied from

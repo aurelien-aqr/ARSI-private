@@ -1,25 +1,27 @@
 {
- "run_id": "20260817-153805-ful-bd2f",
+ "run_id": "20260817-161107-loc-92c1",
  "dataset": "ground_truth",
  "digest": "1930a2996b23",
- "created": "2026-08-17T13:38:05+00:00",
+ "created": "2026-08-17T14:11:07+00:00",
  "status": "completed",
- "job_id": "20260817-153805-29157a",
+ "job_id": null,
  "progress": {
   "done": 29,
   "total": 29
  },
- "wall_seconds": 14.02,
+ "wall_seconds": 10.69,
  "config": {
-  "mode": "full",
+  "mode": "localize",
   "script": "vlm_05",
   "localizer": "photo",
-  "model": "haervwe/GLM-4.6V-Flash-9B:latest",
+  "model": null,
   "prompt": null,
-  "prompt_name": "conservative",
+  "prompt_name": "default",
   "n_cases": 29,
   "subset": true
  },
  "params": {},
+ "started": "2026-08-17T14:11:07+00:00",
+ "finished": "2026-08-17T14:11:18+00:00",
  "frozen": true
 }

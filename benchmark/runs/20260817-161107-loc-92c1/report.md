@@ -1,23 +1,23 @@
 # Benchmark run - ground_truth · localize
 
-**Run:** `20260817-153940-loc-b2a4`  
-**Status:** completed (50/50 cases)  
+**Run:** `20260817-161107-loc-92c1`  
+**Status:** completed (29/29 cases)  
 **Dataset:** `ground_truth` (digest `1930a2996b23`)  
 **Localizer:** `photo` - no VLM call.  
-**Wall-clock:** 0.3 min.
+**Wall-clock:** 0.2 min.
 
 ## Localization only (upper bound on end-to-end recall)
 
-- Instances localized: **62 / 69** → recall 0.899 (strict IoU≥0.3: 42 / 69 = 0.609)
-- Regions proposed: **825** (555 on anomaly frames, 270 on 19 clean frames)
-- Biggest box: 911,360 px (the blob canary - a frame-sized box hits every instance leniently while boxing nothing)
+- Instances localized: **45 / 45** → recall 1.000 (strict IoU≥0.3: 37 / 45 = 0.822)
+- Regions proposed: **559** (389 on anomaly frames, 170 on 12 clean frames)
+- Biggest box: 734,400 px (the blob canary - a frame-sized box hits every instance leniently while boxing nothing)
 
 | type | localized | recall |
 |---|---|---|
 | damage | 4 / 4 | 1.00 |
 | graffiti | 6 / 6 | 1.00 |
-| litter | 6 / 7 | 0.86 |
-| object | 46 / 52 | 0.88 |
+| litter | 2 / 2 | 1.00 |
+| object | 33 / 33 | 1.00 |
 
 ## Per-case
 
@@ -52,24 +52,3 @@
 | neg_v4_f0004 | clean | 18 | - | 31,104 |
 | neg_v4_f0016 | clean | 29 | - | 561,904 |
 | neg_v4_f0022 | clean | 31 | - | 463,104 |
-| 39T_cam52_084637 | anomaly | 11 | 2/2 | 558,480 |
-| 39T_cam52_085124 | anomaly | 18 | 1/1 | 495,216 |
-| 39T_cam53_083517 | anomaly | 11 | 1/2 | 143,488 |
-| 39T_cam53_084021 | anomaly | 13 | 1/2 | 144,768 |
-| 39T_cam53_084637 | anomaly | 6 | 1/1 | 613,440 |
-| 39T_cam53_085124 | anomaly | 15 | 0/1 | 119,888 |
-| 39T_cam54_083517 | anomaly | 10 | 0/1 | 130,720 |
-| 39T_cam54_084021 | anomaly | 11 | 1/1 | 840,960 |
-| 39T_cam54_084637 | anomaly | 18 | 2/2 | 252,880 |
-| 39T_cam54_085124 | anomaly | 12 | 1/3 | 102,272 |
-| 39T_cam55_083517 | anomaly | 8 | 2/2 | 911,360 |
-| 39T_cam55_084021 | anomaly | 6 | 2/2 | 911,360 |
-| 39T_cam55_084637 | anomaly | 17 | 2/2 | 117,952 |
-| 39T_cam55_085124 | anomaly | 10 | 1/2 | 86,640 |
-| 39T_cam53_085954_clean | clean | 29 | - | 276,336 |
-| 39T_cam54_085954_clean | clean | 15 | - | 419,136 |
-| 39T_cam55_085954_clean | clean | 15 | - | 207,264 |
-| 39T_cam52_ref_t120_clean | clean | 3 | - | 792,000 |
-| 39T_cam53_ref_t120_clean | clean | 13 | - | 264,576 |
-| 39T_cam54_ref_t120_clean | clean | 10 | - | 228,288 |
-| 39T_cam55_ref_t120_clean | clean | 15 | - | 622,080 |

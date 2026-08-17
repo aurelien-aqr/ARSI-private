@@ -189,7 +189,7 @@
    "instances_detected": 2,
    "instances_detected_strict": 0,
    "max_box": 558480,
-   "seconds": 0.25,
+   "seconds": 0.23,
    "error": null
   },
   {
@@ -412,7 +412,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 0,
    "max_box": 495216,
-   "seconds": 0.26,
+   "seconds": 0.23,
    "error": null
   },
   {
@@ -577,7 +577,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 0,
    "max_box": 143488,
-   "seconds": 0.35,
+   "seconds": 0.32,
    "error": null
   },
   {
@@ -762,7 +762,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 0,
    "max_box": 144768,
-   "seconds": 0.32,
+   "seconds": 0.28,
    "error": null
   },
   {
@@ -865,7 +865,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 0,
    "max_box": 613440,
-   "seconds": 0.32,
+   "seconds": 0.27,
    "error": null
   },
   {
@@ -1058,7 +1058,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 119888,
-   "seconds": 0.3,
+   "seconds": 0.28,
    "error": null
   },
   {
@@ -1354,7 +1354,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 0,
    "max_box": 840960,
-   "seconds": 0.33,
+   "seconds": 0.3,
    "error": null
   },
   {
@@ -1589,7 +1589,7 @@
    "instances_detected": 2,
    "instances_detected_strict": 2,
    "max_box": 252880,
-   "seconds": 0.24,
+   "seconds": 0.22,
    "error": null
   },
   {
@@ -1776,7 +1776,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 1,
    "max_box": 102272,
-   "seconds": 0.35,
+   "seconds": 0.29,
    "error": null
   },
   {
@@ -1911,7 +1911,7 @@
    "instances_detected": 2,
    "instances_detected_strict": 0,
    "max_box": 911360,
-   "seconds": 0.27,
+   "seconds": 0.31,
    "error": null
   },
   {
@@ -2026,7 +2026,7 @@
    "instances_detected": 2,
    "instances_detected_strict": 0,
    "max_box": 911360,
-   "seconds": 0.3,
+   "seconds": 0.27,
    "error": null
   },
   {
@@ -2251,7 +2251,7 @@
    "instances_detected": 2,
    "instances_detected_strict": 2,
    "max_box": 117952,
-   "seconds": 0.21,
+   "seconds": 0.19,
    "error": null
   },
   {
@@ -2406,7 +2406,7 @@
    "instances_detected": 1,
    "instances_detected_strict": 0,
    "max_box": 86640,
-   "seconds": 0.33,
+   "seconds": 0.27,
    "error": null
   },
   {
@@ -2726,7 +2726,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 276336,
-   "seconds": 0.29,
+   "seconds": 0.23,
    "error": null
   },
   {
@@ -2906,7 +2906,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 419136,
-   "seconds": 0.3,
+   "seconds": 0.27,
    "error": null
   },
   {
@@ -3086,7 +3086,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 207264,
-   "seconds": 0.26,
+   "seconds": 0.24,
    "error": null
   },
   {
@@ -3146,7 +3146,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 792000,
-   "seconds": 0.33,
+   "seconds": 0.26,
    "error": null
   },
   {
@@ -3436,7 +3436,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 228288,
-   "seconds": 0.3,
+   "seconds": 0.33,
    "error": null
   },
   {
@@ -3616,7 +3616,7 @@
    "instances_detected": 0,
    "instances_detected_strict": 0,
    "max_box": 622080,
-   "seconds": 0.26,
+   "seconds": 0.25,
    "error": null
   }
  ]
