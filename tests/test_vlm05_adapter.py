@@ -1,6 +1,6 @@
 """End-to-end vlm_05 adapter on synthetic images: the real localizer finds the
 synthetic object, a fake judge names it, verdicts land in (and come back
-from) the cache — keyed with and without a mask hash."""
+from) the cache - keyed with and without a mask hash."""
 import pytest
 
 from arsi_core.adapters import run_frame
@@ -56,7 +56,7 @@ def test_mask_hash_partitions_the_cache(fake_client, img_factory, cache):
     run_frame("vlm_05", insp, reference=ref, params=PARAMS, cache=cache,
               client=fake_client(["YES, white box on floor."] * 5))
     # same images, but a mask is now active: cached unmasked verdicts must NOT
-    # be served — the judge is called again under the mask-suffixed key
+    # be served - the judge is called again under the mask-suffixed key
     client = fake_client(["NO, same empty floor."] * 5)
     fr = run_frame("vlm_05", insp, reference=ref, params=PARAMS, cache=cache,
                    client=client, mask_hash="abc123def456")

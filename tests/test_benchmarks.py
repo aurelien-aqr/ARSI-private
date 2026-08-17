@@ -1,4 +1,4 @@
-"""arsi_core.benchmarks — dataset I/O, validation, and the scoring rules.
+"""arsi_core.benchmarks - dataset I/O, validation, and the scoring rules.
 
 The point of the last test class: the Studio scores a benchmark run through
 `score_full`, while `benchmark/run_benchmark.py` scores the CLI run through its
@@ -48,15 +48,16 @@ def test_strict_iou_threshold_is_the_published_one():
 
 # --------------------------------------------------------------- load / save
 
-def test_ships_two_datasets():
-    ids = B.list_ids()
-    assert "tram1762" in ids and "39T" in ids
+def test_ships_one_benchmark():
+    """One protocol over every labelled frame: the two trams are cameras of the
+    same benchmark, not two datasets."""
+    assert B.list_ids() == [B.DEFAULT]
 
 
 def test_load_accepts_id_and_path():
-    by_id, doc = B.load("tram1762")
-    by_path, doc2 = B.load("benchmark/datasets/tram1762.json")
-    assert by_id == by_path == "tram1762"
+    by_id, doc = B.load(B.DEFAULT)
+    by_path, doc2 = B.load(f"benchmark/datasets/{B.DEFAULT}.json")
+    assert by_id == by_path == B.DEFAULT
     assert doc == doc2
 
 
@@ -65,31 +66,28 @@ def test_load_unknown_dataset_raises():
         B.load("nope")
 
 
-def test_shipped_datasets_are_valid():
-    for ds in ("tram1762", "39T"):
-        _, doc = B.load(ds)
-        errors, _ = B.validate(doc)
-        assert errors == [], f"{ds}: {errors}"
+def test_shipped_dataset_is_valid():
+    _, doc = B.load()
+    errors, _ = B.validate(doc)
+    assert errors == []
 
 
-def test_shipped_datasets_round_trip_byte_identical():
+def test_shipped_dataset_round_trips_byte_identical():
     """The writer must reproduce the committed file exactly, or the first save
-    from the Studio would rewrite all 29/21 cases and bury the real edit."""
-    for ds in ("tram1762", "39T"):
-        path = B.resolve(ds)
-        _, doc = B.load(ds)
-        assert B.dumps(doc) + "\n" == path.read_text(encoding="utf-8"), ds
+    from the Studio would rewrite all 50 cases and bury the real edit."""
+    _, doc = B.load()
+    assert B.dumps(doc) + "\n" == B.resolve(B.DEFAULT).read_text(encoding="utf-8")
 
 
 def test_dumps_is_reloadable_and_stable():
-    _, doc = B.load("39T")
+    _, doc = B.load()
     reparsed = json.loads(B.dumps(doc))
     assert reparsed == doc
     assert B.dumps(reparsed) == B.dumps(doc)
 
 
 def test_digest_tracks_labels_not_formatting():
-    _, doc = B.load("tram1762")
+    _, doc = B.load()
     same = json.loads(json.dumps(doc, indent=4))
     assert B.digest(same) == B.digest(doc)
     moved = json.loads(json.dumps(doc))
@@ -98,7 +96,7 @@ def test_digest_tracks_labels_not_formatting():
 
 
 def test_save_writes_backup_and_rejects_invalid(tmp_path, monkeypatch):
-    _, doc = B.load("39T")                       # before redirecting the dir
+    _, doc = B.load()                       # before redirecting the dir
     monkeypatch.setattr(B, "DATASETS_DIR", tmp_path)
     monkeypatch.setattr(B, "BACKUPS_DIR", tmp_path / ".backups")
     B.save("copy", doc)
@@ -117,29 +115,14 @@ def test_a_stray_non_dict_case_is_a_validation_error_not_a_crash():
     assert len(errors) == 2 and all("must be an object" in e for e in errors)
 
 
-def test_legacy_file_keeps_its_dataset_id(tmp_path, monkeypatch):
-    """A pre-2026-08-17 ground_truth_39T.json picked up by the fallback is still
-    the `39T` dataset. Returning its file stem instead made every save-by-id
-    write a NEW dataset next to the one being edited."""
-    _, doc = B.load("39T")
-    monkeypatch.setattr(B, "DATASETS_DIR", tmp_path)          # canonical: empty
-    legacy = tmp_path / "legacy" / "ground_truth_39T.json"
-    legacy.parent.mkdir()
-    legacy.write_text(B.dumps(doc), encoding="utf-8")
-    monkeypatch.setattr(B, "LEGACY_PATHS", {"39T": legacy})
-
-    assert B.load("39T")[0] == "39T"
-    assert B.summary(*B.load("39T"))["n_cases"] == 21
-
-
 def test_dumps_keeps_header_keys_it_does_not_know_about():
-    _, doc = B.load("39T")
+    _, doc = B.load()
     doc["provenance"] = {"built_by": "someone else"}
     assert json.loads(B.dumps(doc))["provenance"] == {"built_by": "someone else"}
 
 
 def test_backups_of_two_saves_in_the_same_second_both_survive(tmp_path, monkeypatch):
-    _, doc = B.load("39T")
+    _, doc = B.load()
     monkeypatch.setattr(B, "DATASETS_DIR", tmp_path)
     monkeypatch.setattr(B, "BACKUPS_DIR", tmp_path / ".backups")
     B.save("copy", doc)
@@ -148,12 +131,26 @@ def test_backups_of_two_saves_in_the_same_second_both_survive(tmp_path, monkeypa
     assert len(list((tmp_path / ".backups").glob("copy-*.json"))) == 2
 
 
-def test_summary_counts_the_39T_protocol():
-    ds_id, doc = B.load("39T")
+def test_summary_counts_the_whole_benchmark():
+    """Both trams, one protocol: 29 cases of 1762 (45 instances) + 21 of 39T (24)."""
+    ds_id, doc = B.load()
     s = B.summary(ds_id, doc)
     assert (s["n_cases"], s["n_anomalous"], s["n_clean"], s["n_instances"]) \
-        == (21, 14, 7, 24)
-    assert len(s["references"]) == 4
+        == (50, 31, 19, 69)
+    assert s["references"] == ["39T-cam52", "39T-cam53", "39T-cam54", "39T-cam55",
+                              "real", "variant"]
+
+
+def test_the_benchmark_mixes_reference_sizes():
+    """Why every overlay resolves its coordinate space per case: `real` is
+    1920x1080, `variant` 1672x941 and the 39T cameras 1280x720."""
+    from PIL import Image
+    _, doc = B.load()
+    sizes = {k: Image.open(B.REPO_ROOT / v).size
+             for k, v in doc["references"].items()}
+    assert sizes["real"] == (1920, 1080)
+    assert sizes["variant"] == (1672, 941)
+    assert sizes["39T-cam52"] == (1280, 720)
 
 
 # --------------------------------------------------------------- case payloads
@@ -234,7 +231,7 @@ def test_score_case_frame_outcomes():
 
 @pytest.mark.parametrize("status", ["failed", "cancelled"])
 def test_incomplete_frame_is_not_counted_as_a_prediction(status):
-    """A crashed frame must not be scored as 'predicted clean' — that would turn
+    """A crashed frame must not be scored as 'predicted clean' - that would turn
     infrastructure failures into recall. `cancelled` counts as incomplete too:
     the runner builds that status for a frame stopped part-way through its
     regions, so its instances were never judged either."""
@@ -295,7 +292,7 @@ def test_aggregation_matches_the_published_report():
     strict 33/45, 29 FP of 86). Feed those same per-case counts through this
     module's aggregation and the totals must come out identical."""
     rows = json.loads((ARCHIVE / "results.json").read_text())["rows"]
-    _, doc = B.load("tram1762")
+    _, doc = B.load()
     by_id = {c["id"]: c for c in doc["cases"]}
 
     cases, frames = [], []
@@ -331,7 +328,7 @@ def test_aggregation_matches_the_published_report():
 
 def _hits(row, case):
     """Which instances of `case` the published row counted as detected. The row
-    only stores the COUNT, so take the first n — per-type totals still line up
+    only stores the COUNT, so take the first n - per-type totals still line up
     because a row's instances are almost always one type, and the two
     multi-type rows are fully detected."""
     n = row["instances_detected"]

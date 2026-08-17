@@ -1,4 +1,4 @@
-"""Error taxonomy — behaviours are part of docs/SPEC.md.
+"""Error taxonomy - behaviours are part of docs/SPEC.md.
 
 Job-fatal (abort before/at start):      OllamaUnreachable, ModelMissing
 Frame-level, retried then skipped:      ParseError, VLMCallError
@@ -13,7 +13,7 @@ class ArsiError(Exception):
 class OllamaUnreachable(ArsiError):
     def __init__(self, detail=""):
         super().__init__(
-            "could not reach the Ollama server — start it with: ollama serve"
+            "could not reach the Ollama server - start it with: ollama serve"
             + (f" ({detail})" if detail else ""))
 
 
@@ -21,7 +21,7 @@ class ModelMissing(ArsiError):
     def __init__(self, model: str):
         self.model = model
         super().__init__(
-            f"model '{model}' is not installed — install it with: ollama pull {model}")
+            f"model '{model}' is not installed - install it with: ollama pull {model}")
 
 
 class ParseError(ArsiError):

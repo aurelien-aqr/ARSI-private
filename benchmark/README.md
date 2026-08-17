@@ -18,16 +18,15 @@ anomaly detection in a fixed-camera tram).
 
 The benchmark always scores the **current configuration** of
 `vlm_05_reference_diff.py` (model, prompt, localizer channels, person filter,
-post-filters) — it imports the script and calls the same `localize()` +
+post-filters) - it imports the script and calls the same `localize()` +
 `classify_with_vlm()` the live script uses.
 
 ## Where things live (reorganised 2026-08-17)
 
 ```
 benchmark/
-├── datasets/           the labelled protocols — the ground truth
-│   ├── tram1762.json     29 cases, one camera, July
-│   └── 39T.json          21 cases, four cameras, 2026-08-11
+├── datasets/
+│   └── ground_truth.json  THE benchmark: 50 cases, 69 instances, 5 cameras
 ├── runs/               one directory per run; the scores and reports are TRACKED
 │   └── cli-*/            CLI scratch (gitignored, overwritten every run), as are
 │                         the rendered runs/*/annotated/ overlays
@@ -36,49 +35,52 @@ benchmark/
 │   └── annotated/       the rendered overlays of the 2026-07/08 runs
 ├── cache.json          per-region VLM verdicts (image, reference, box, model, prompt)
 ├── zones_tram_1762.json  Task-3 zones-of-interest (used by bench_grid.py)
-├── run_benchmark.py    the frozen CLI: tram1762, whatever vlm_05 is configured with
+├── run_benchmark.py    the frozen CLI: the 1762 cases, whatever vlm_05 is set to
 └── eval_localization.py  localization-only, any dataset, any diff variant
 ```
 
 The datasets are read through `arsi_core/benchmarks.py`, which is also what the
-Studio, the CLI and `tools/export_lora_dataset.py` use — one loader, one set of
-scoring rules. It resolves a dataset by **id** (`tram1762`, `39T`) or by path,
-and still finds the pre-2026-08-17 `ground_truth*.json` if a copy-back from the
-GPU box recreates them.
+Studio, the CLI and `tools/export_lora_dataset.py` use - one loader, one set of
+scoring rules. The directory is per-dataset because a run records which one it
+scored and a second protocol may arrive (a public set, docs/PUBLIC_DATASETS.md);
+our own footage is not split by tram, a camera is a `references` key.
 
-## The datasets
+## The benchmark
 
-- `datasets/tram1762.json` — **29 cases: 17 anomalous (45 typed instance boxes),
-  12 clean.** Each case: inspection image,
-  reference key, `has_anomaly`, `types`, `source` (real / gpt / variant /
-  self), instance boxes in reference pixel space, and a human note.
+**One protocol over every labelled frame we have: 50 cases, 31 anomalous (69 typed
+instance boxes), 19 clean, across 5 cameras of 2 trams.** Each case: inspection
+image, reference key, `has_anomaly`, `types`, `source` (real / gpt / variant /
+self), instance boxes in the pixel space of THAT case's reference, and a note.
+Reference sizes differ (`real` 1920x1080, `variant` 1672x941, the four 39T cameras
+1280x720), which is why every box is read in its own reference's space.
+
+**Tram 1762**, references `real` + `variant` (July, 29 cases, 45 instances):
   - Anomalous: 6 real CCTV frames (forgotten objects, one with a real seated
     person) + 10 AI-inpainted frames on the real scene (objects, graffiti,
     damage, litter, one crowd) + 1 second synthetic scene ("variant").
   - Clean: reference-vs-self (×2), a clean AI frame, 4 same-session empty
     frames, and **5 cross-session empty frames** (v2/v3/v4 vs the v1
-    reference — the deployment-realistic negatives: different exposure,
+    reference - the deployment-realistic negatives: different exposure,
     onboard-display content changes, one walking person).
-- `datasets/39T.json` — the second protocol, 21 cases / 24 instances, four
-  cameras (see "Second protocol" below). **Labelled by Claude, not yet reviewed
-  by a human** — correct it in the Studio, which counts how many cases a human
-  has confirmed.
+**Tram 39T**, references `39T-cam52..55` (2026-08-11, 21 cases, 24 instances):
+see "The 39T cameras" below. Those labels were drafted by Claude from the footage;
+correct them in the Studio.
 
 ## How to run
 
 **From ARSI Studio → Benchmark** (the normal way since 2026-08-17): pick the
-dataset, the mode, and — this is what the CLI cannot do — the
+dataset, the mode, and - this is what the CLI cannot do - the
 localizer × script × judge model × prompt. Two modes:
 
 - **full**, with the judge: every case goes through the ordinary job queue, so it
   gets live progress, cancel, the shared verdict cache, and the run is openable
   in the Results screen like any other. Scored at frame and object level.
 - **localization only**: no VLM, no Ollama, ~0.4 s per case. Scores what the
-  region proposer found — the ceiling on end-to-end recall, and the number to
+  region proposer found - the ceiling on end-to-end recall, and the number to
   tune thresholds on.
 
 Each run writes `benchmark/runs/<run_id>/` with `run.json`, `score.json`,
-`report.md` and **`dataset_snapshot.json`** — the labels exactly as they were
+`report.md` and **`dataset_snapshot.json`** - the labels exactly as they were
 when it ran. The ground truth is editable now, so a run keeps reporting what it
 measured and is flagged `stale GT` once the dataset moves on, instead of silently
 comparing against corrected boxes.
@@ -87,19 +89,22 @@ The CLI still works and is unchanged:
 
 ```bash
 # from the repository root, with the venv active and `ollama serve` running:
-python benchmark/run_benchmark.py                        # tram1762, whatever
-                                                         # vlm_05 is configured with
-                                                         # -> benchmark/runs/cli-latest/
-python benchmark/eval_localization.py                    # localizer-only (no VLM)
-python benchmark/eval_localization.py --dataset 39T --variants shipped
+python benchmark/run_benchmark.py                    # the 1762 cases, whatever
+                                                    # vlm_05 is configured with
+                                                    # -> benchmark/runs/cli-latest/
+python benchmark/eval_localization.py               # localizer-only, all 50 cases
+python benchmark/eval_localization.py --ref 39T --variants shipped   # one tram
+python benchmark/eval_localization.py --ref real --variants shipped
 ```
 
-`run_benchmark.py` deliberately takes no arguments: `tools/rescore_gate.py`
-parses its own argv and then calls `main()`, so an argparse there would break the
-A/B tooling. Anything you would want a flag for is a control in the Studio.
+`run_benchmark.py` deliberately takes no arguments, and deliberately scores only
+the 1762 cases: its whole value is that its numbers are the published ones, and
+`tools/rescore_gate.py` parses its own argv and then calls `main()`, so an argparse
+there would break the A/B tooling. Anything you would want a flag for - the whole
+benchmark, another camera, another judge - is a control in the Studio.
 
 Cases are processed cheapest-first, so the negatives and the confusion matrix
-populate first. If interrupted, **re-run the same command** — cached regions
+populate first. If interrupted, **re-run the same command** - cached regions
 are skipped. Changing the model or prompt invalidates the cache automatically
 (the key includes both); changing localizer thresholds only re-evaluates the
 regions whose boxes changed.
@@ -107,13 +112,13 @@ regions whose boxes changed.
 Measured cost per FRESH VLM call (side-by-side crop): **~2–4 min on CPU**
 (this laptop, 8 cores, shared load), ~1–2 s expected on the target RTX
 3080 Ti. A full fresh run is ~300–450 calls ≈ **12–24 h CPU / 10–20 min
-GPU** — fresh full runs are GPU work; CPU is fine for cache-only re-scoring
+GPU** - fresh full runs are GPU work; CPU is fine for cache-only re-scoring
 (minutes) and for the localizer-only eval (seconds).
 
 ## Two scorers, and why you can trust the new one (2026-08-17)
 
 There are now two implementations of these metrics: `run_benchmark.metrics` (the
-CLI, frozen — every published number came from it) and
+CLI, frozen - every published number came from it) and
 `arsi_core/benchmarks.score_full` (the Studio). Two implementations of one
 definition drift, so:
 
@@ -125,13 +130,27 @@ definition drift, so:
 
 | Studio run (GLM-4.6V-Flash-9B × conservative) | result | matches |
 |---|---|---|
-| tram1762 · full · `photo` | 17/0/12/0 · 40/45 · strict 33/45 · 20 FP of 74 · precision 0.730 | `archive/report_gateshipped.md` |
-| tram1762 · full · `photo+dino` | same matrix · 40/45 · 33/45 · 12 FP of 65 · precision 0.815 · 243 regions | `archive/report_gate0.08.md` |
-| tram1762 · localize · `photo` | 45/45 · strict 37/45 · 559 regions | this file, above |
-| 39T · localize · `photo` | 17/24 · strict 5/24 · 100 regions on 7 clean frames | this file, below |
+| 1762 cases · full · `photo` | 17/0/12/0 · 40/45 · strict 33/45 · 20 FP of 74 · precision 0.730 | `archive/report_gateshipped.md` |
+| 1762 cases · full · `photo+dino` | same matrix · 40/45 · 33/45 · 12 FP of 65 · precision 0.815 · 243 regions | `archive/report_gate0.08.md` |
+| 1762 cases · localize · `photo` | 45/45 · strict 37/45 · 559 regions | this file, above |
+| 39T cases · localize · `photo` | 17/24 · strict 5/24 · 100 regions on 7 clean frames | this file, below |
 
-Both full runs cost **0 fresh VLM calls** out of 559 and 243 regions — the score
+Both full runs cost **0 fresh VLM calls** out of 559 and 243 regions - the score
 counts them, so that is a measurement, not a claim. 13 s and 59 s on this laptop.
+
+Each of those rows is a **camera subset** of the one benchmark, which is what keeps
+them comparable with the reports. The number for the whole thing, measured the same
+day, is worse than either half and is the one to beat:
+
+| whole benchmark, 50 cases · localize · `photo` | result |
+|---|---|
+| instances localized | **62 / 69** |
+| strict IoU >= 0.3 | **42 / 69** |
+| regions proposed | 825 |
+
+The 1762 half alone is 45/45 and 37/45. Averaged over five cameras the shipped
+localizer misses 7 instances and boxes 42 of 69 well - that gap IS the finding, and
+it is only visible because the two trams are scored as one protocol.
 
 ## Localizer (multi-channel, since 2026-07-12)
 
@@ -144,7 +163,7 @@ domain) + a YOLOv8n person veto (IoA ≥ 0.6, loses zero GT instances) + a
 salience-ranked MAX_REGIONS cap on the base channel only.
 **Localization recall 41/45 → 45/45** (the XRP tag of gpt_03 was long scored
 as a miss because its GT box was misplaced onto the ventilation grille next to
-it — fixed 2026-07-12; the channels box the real tag and every judge names it).
+it - fixed 2026-07-12; the channels box the real tag and every judge names it).
 
 ## GPU results (2026-07-12/13, 29 cases, multi-channel localizer, corrected GT)
 
@@ -159,15 +178,15 @@ it — fixed 2026-07-12; the channels box the real tag and every judge names it)
 | minicpm-v4.6 × conservative | disqualified³ | | | | | |
 
 ¹ GLM's 5 missed instances are all type `object` inside real multi-object frames
-that it flags anyway — frame-level detection stays perfect. **Corrected
+that it flags anyway - frame-level detection stays perfect. **Corrected
 2026-07-30: they are NOT all small items.** The miss in `real_f0205` is a
 129,648 px instance, so "too small to see" does not explain them; see the merge
 A/B section below.
 
 ⁴ Measured with `MERGE_REGIONS = False`. The shipped configuration merges, which
-raises this to **0.730** at identical recall — see below.
+raises this to **0.730** at identical recall - see below.
 
-## Merge A/B — ANSWERED 2026-07-30 (GLM × conservative, 29 cases)
+## Merge A/B - ANSWERED 2026-07-30 (GLM × conservative, 29 cases)
 
 Question: `localize()` merges neighbouring regions before the judge
 (`MERGE_REGIONS`, gap 24, min fill 0.50). Does that recover the 5 missed
@@ -189,7 +208,7 @@ is identical (object 28/33, graffiti 6/6, damage 4/4, litter 2/2).
 the ~559 estimated: 651 pre-merge regions become 559, but 491 of those keep
 byte-identical coordinates and came back from cache. So the shipped merge
 re-judged ~14% of regions and flipped none of the 5 misses. That is conclusive
-for *this merge at these settings* — it does not prove fragmentation is
+for *this merge at these settings* - it does not prove fragmentation is
 irrelevant in general. A more aggressive merge cannot settle it either: fill 0.25
 was already tested and rejected because it chains neighbours into a full-frame
 box (strict IoU collapses 37/45 → 22/45).
@@ -209,7 +228,7 @@ diff the crop pairs GLM rejects against the ones it accepts on the same scene.
 
 Reports: `archive/report_merge_on.md`, `archive/report_merge_off.md`.
 
-## DINOv2 feature gate — ANSWERED 2026-08-12 (GLM × conservative, 29 cases)
+## DINOv2 feature gate - ANSWERED 2026-08-12 (GLM × conservative, 29 cases)
 
 The anomalib family (PatchCore / AnomalyDINO / Dinomaly / EfficientAD) had never
 been looked at in this project. `tools/dino_localizer.py` implements the
@@ -218,7 +237,7 @@ DINOv2 ViT-S/14-reg patch features, cosine distance to the nominal reference
 within ±1 patch **at the same grid position**, robust-z **and** an absolute floor.
 
 **Replacing the photometric diff is a bad trade.** As a standalone localizer it
-halves the cross-session noise, which is exactly what it was expected to do —
+halves the cross-session noise, which is exactly what it was expected to do -
 but its boxes are quantised to the 24 px patch grid, so strict IoU drops:
 
 | clean-frame candidate regions | shipped | dino z=6 |
@@ -228,7 +247,7 @@ but its boxes are quantised to the 24 px patch grid, so strict IoU drops:
 | frame containing a person (v2_f0001) | 14 | 7 |
 
 (the same-session blow-up was a normalisation artefact: on a near-identical pair
-the MAD collapses and the z amplifies feature jitter — hence `ABS_FLOOR`. Even
+the MAD collapses and the z amplifies feature jitter - hence `ABS_FLOOR`. Even
 fixed, the best standalone setting reaches 45/45 lenient at 32/45 strict vs
 shipped's 37/45.)
 
@@ -255,13 +274,13 @@ Cost: +1.8 s/frame on this CPU, ~20 ms on the GPU, against −57 % VLM calls.
 no GT instance loses its region (last row). From 0.10 up, the far phone of
 `real_f0219` (~1 patch wide) is gated away; end-to-end recall does not move only
 because GLM already rejected it, which makes it a loss waiting to surface under
-another judge — the same trap that disqualified InternVL. Raising the grid does
+another judge - the same trap that disqualified InternVL. Raising the grid does
 not buy it back: at `DINO_INPUT_W=1400` (19 px/patch) gate 0.12 loses 3 instances
 instead of 1 *and* keeps more regions, DINOv2 drifting from its training scale.
 
 **Scope it honestly.** On a cross-session empty frame the gate still keeps 12 of
 31 regions (patch distances 0.15–0.40: a different session really does move the
-features), so it does *not* make cross-session negatives clean at proposal time —
+features), so it does *not* make cross-session negatives clean at proposal time -
 GLM was already answering NO to those. The measured wins are the 70 % cost cut and
 the FP-box halving on anomaly frames. It also does not touch the 5 FN: they are
 judge rejections, and their patch distances are high (the four real_f0037 objects
@@ -276,11 +295,11 @@ Reports: `archive/report_gateshipped.md`, `archive/report_gate0.06/0.08/0.1/0.12
 Regression check without the VLM: `python benchmark/eval_localization.py
 --variants shipped,gate0.12,dino4@0.10`.
 
-## Dinomaly, reference-free — ANSWERED 2026-08-16 (localization only, 0 VLM calls)
+## Dinomaly, reference-free - ANSWERED 2026-08-16 (localization only, 0 VLM calls)
 
 The other half of the anomalib question. `photo` and `photo+dino` both compare
 the frame to ONE reference, so they inherit that reference's session; Dinomaly
-(CVPR 2025) needs no reference at inference — a frozen DINOv2 encoder plus a
+(CVPR 2025) needs no reference at inference - a frozen DINOv2 encoder plus a
 trained noisy-bottleneck decoder flags what it cannot reconstruct.
 `tools/dinomaly.py` + `dinomaly_train.py` + `dinomaly_localizer.py`, ViT-S/14-reg,
 15.4 M trainable params, 135 nominal frames (v1+v3, one in two), 40 epochs, 56 min
@@ -290,7 +309,7 @@ on this laptop's CPU.
 within ±15 of a benchmark frame is dropped (consecutive frames are
 near-duplicates and the 12 clean cases come from these very videos), v2 is
 excluded (people and staged objects throughout) and **v4 is excluded even though
-it is the only dark session** — 3 of its 22 frames are benchmark negatives, so
+it is the only dark session** - 3 of its 22 frames are benchmark negatives, so
 any use of it would leak. That makes v4 the one fully held-out session.
 
 | | localized | strict IoU≥0.3 | regions to the VLM |
@@ -303,12 +322,12 @@ any use of it would leak. That makes v4 the one fully held-out session.
 
 **As a localizer it loses**, and for the same reason `dino` alone lost: patch-grid
 boxes. 28/45 strict against 37/45, while barely cutting the region count. Two of
-its 5 misses are the `variant` scene, which this model was never trained on — in
+its 5 misses are the `variant` scene, which this model was never trained on - in
 domain it is 38/41, still below the pixel diff's 41/41.
 
 **As a veto it works but is dominated.** `dgate0.05` reaches the shipped recall
 AND the shipped box quality at 314 regions, but the reference-based gate already
-does that at 243 — for no training, no per-camera checkpoint and no extra
+does that at 243 - for no training, no per-camera checkpoint and no extra
 forward pass. Stacking both vetoes is the only configuration that beats the
 shipped gate (210, −14 %), and that is not worth 59 MB and ~1 h of training per
 camera, times 26 cameras, for ~3 s/frame more CPU. **Not adopted**: it stays a
@@ -316,7 +335,7 @@ camera, times 26 cameras, for ~3 s/frame more CPU. **Not adopted**: it stays a
 
 **The diagnostic, and the fix that does not rescue it.** The heatmap says why the
 standalone localizer proposes so much: reconstruction error is high on thin
-structures — handrails, poster frames, the mask borders — on every frame,
+structures - handrails, poster frames, the mask borders - on every frame,
 nominal or not. Those are not anomalies, they are where this decoder is weak. So
 `_baseline()` subtracts the mean error at each patch POSITION over the training
 frames (`DINOMALY_BASELINE=1`), which asks the right question: is this patch
@@ -335,8 +354,8 @@ the baseline OFF by default, and the shipped-quality configuration remains
 `bgate0.08+0.05` at 210 regions.
 
 Two results worth keeping anyway:
-- **The reference-free promise holds at the score level.** On v4 — the dark
-  session it never saw — the model scores like v1 (per-frame max 0.10–0.12 vs
+- **The reference-free promise holds at the score level.** On v4 - the dark
+  session it never saw - the model scores like v1 (per-frame max 0.10–0.12 vs
   0.09–0.12), so the cross-session exposure shift that floods the pixel diff does
   not move it. What it does not fix is that the *boxes* still come from the pixel
   diff in the gate configurations.
@@ -350,52 +369,53 @@ The checkpoint (59 MB) and the feature cache live in `weights/`, untracked.
 
 Caveats stated rather than buried: 135 training frames from two daylight sessions
 is thin, and the hard-mining loss was made tie-safe (top-k by count instead of a
-quantile threshold) *after* this checkpoint was trained — the two select the same
+quantile threshold) *after* this checkpoint was trained - the two select the same
 points on continuous features, but a rerun for publication should use the current
 code: `python tools/dinomaly_train.py --camera tram_1762 --epochs 40`.
 ² InternVL's frame F1 flatters it: it systematically says NO to real phones
 (2/4 instances on every real multi-object frame) and misses real_f0205 whole.
 ³ minicpm-v4.6 ignores the reply format AND claims an object appeared on 198 of
-199 crops from CLEAN frames ("bag visible on right" on empty seats) — unusable
+199 crops from CLEAN frames ("bag visible on right" on empty seats) - unusable
 as a crop judge via Ollama, though it answers sensibly on whole frames (see the
 xlsx grid). Details in the note atop `archive/report_openbmb_minicpm-v4.6.md`.
 
 Findings:
-- **The prompt effect is model-dependent — measure, never assume.** The
+- **The prompt effect is model-dependent - measure, never assume.** The
   "conservative" prompt (name a specific object, if unsure say NO) *helps*
-  qwen3.5 (F1 0.919 vs 0.872 lenient) but *backfires* on qwen3-vl — asked to
+  qwen3.5 (F1 0.919 vs 0.872 lenient) but *backfires* on qwen3-vl - asked to
   name a specific new object, it actively finds one ("Blue seat cushion
   slightly shifted", "Black cable snake-like") and answers YES: region
   precision 0.355 vs 0.534 for the shorter lenient prompt.
 - **GLM-4.6V-Flash-9B × conservative is the best frame-level judge**: 17/17
   anomalous frames flagged, 0 false alarms on 12 clean frames (including all
-  5 cross-session negatives). Caveat: 29 cases is small — a perfect confusion
+  5 cross-session negatives). Caveat: 29 cases is small - a perfect confusion
   matrix here is a strong signal, not a guarantee.
 - **qwen3.5:9b × conservative is the best instance-inventory judge** (object
   recall 0.978 at the best specificity of the high-recall group) and the
-  fastest. Its lack of grounding is irrelevant here — vlm_05 never asks for
+  fastest. Its lack of grounding is irrelevant here - vlm_05 never asks for
   coordinates.
 - Deployment recommendation: **GLM as the alarm judge**; qwen3.5 ×
   conservative when a per-object inventory matters more than false-alarm
   rate. A GLM-then-qwen3.5 two-stage (qwen3.5 only on GLM-flagged frames)
   would give both at +0.7 s/region on flagged frames only.
 - The preserved `archive/report_lenient_qwen3vl.md` is the OLD baseline (24-case GT,
-  single-channel localizer, CPU) — not comparable to the table above.
+  single-channel localizer, CPU) - not comparable to the table above.
 
-## Second protocol: 39T, 4 cameras — NEW 2026-08-16
+## Second protocol: 39T, 4 cameras - NEW 2026-08-16
 
 Everything above was measured on ONE camera of tram 1762, filmed in July.
-`benchmark/datasets/39T.json` (built by `tools/build_39T_benchmark.py`) is a
+The 39T cameras of `benchmark/datasets/ground_truth.json` (built by
+`tools/build_39T_benchmark.py`) are a
 second, independent protocol: **21 cases, 24 instances, 4 viewpoints of tram
 39T**, from the 2026-08-11 multi-camera capture. Every frame is masked with its
 own camera's mask, each camera is its own reference (moment 08-55-37, verified
 empty on all 15 interior cameras), and the other moments are **separate runs of
-the line** — so a negative here means clean under a different sun, at a different
+the line** - so a negative here means clean under a different sun, at a different
 place on the track.
 
-Labelled by Claude, not yet reviewed by a human: objects were found by eye on a
-6-moment strip per camera — never by running our own localizer, which would have
-made the ground truth agree with the system under test — then every instance was
+Labelled by Claude from the footage alone: objects were found by eye on a
+6-moment strip per camera - never by running our own localizer, which would have
+made the ground truth agree with the system under test - then every instance was
 confirmed by comparing the same crop in the reference and in the inspection
 frame. That test rejected two candidates (a seat cover present in both frames, a
 sunlit floor patch) and it is also what tells the tram's yellow validators from a
@@ -421,7 +441,7 @@ visible in the per-case output:
   the light through the windows continuously, so "one clean reference per
   camera" is a much weaker assumption here than the July footage suggested;
 - **the DINOv2 gate does not transfer.** `gate0.08`, tuned on 1762, removes
-  166 → 153 regions here (8 %, against 57 % there) — its threshold is calibrated
+  166 → 153 regions here (8 %, against 57 % there) - its threshold is calibrated
   on that camera's feature scale.
 
 The small instances are what is missed: the green item on a rail (twice), the

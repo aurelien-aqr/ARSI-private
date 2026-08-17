@@ -1,4 +1,4 @@
-# RUNBOOK — LoRA fine-tuning of the vlm_05 crop judge (RTX 3080 Ti)
+# RUNBOOK - LoRA fine-tuning of the vlm_05 crop judge (RTX 3080 Ti)
 
 Goal: teach the judge to stop hallucinating on our cameras' crop pairs
 (the measured FP templates: "seat cushion shifted", equipment bag, onboard
@@ -21,7 +21,7 @@ draw the boxes the model missed, confirm each frame. The staged-objects
 video job (20260714-151709) alone yields ~230 samples once reviewed.
 Aim for **≥300 crops total with a YES:NO ratio between 1:3 and 3:1**
 (`stats.json` will warn otherwise). Reviews of cross-session empty-video
-runs are the most valuable NO source — they are the deployment FPs.
+runs are the most valuable NO source - they are the deployment FPs.
 
 ## 2. Export the dataset (LAPTOP)
 
@@ -37,7 +37,7 @@ self-sufficient for llamafactory-cli.
 
 Do NOT pass `--include-benchmark` unless you accept losing the 29-case
 benchmark as an eval set. Copy `data/lora_dataset/` to the workstation
-(`scp -r` or a USB stick — it is a few MB of crops).
+(`scp -r` or a USB stick - it is a few MB of crops).
 
 ## 3. Train (~minutes at this dataset size)
 
@@ -47,12 +47,12 @@ benchmark as an eval set. Copy `data/lora_dataset/` to the workstation
 llamafactory-cli train tools/lora/qwen3vl_lora.yaml
 ```
 
-Watch eval loss between epochs — with a few hundred samples, 3 epochs is
+Watch eval loss between epochs - with a few hundred samples, 3 epochs is
 already generous; stop at the epoch where val loss turns.
 
 ## 4. Merge the adapter
 
-QLoRA note: merge onto the **unquantized** base (standard practice — drop
+QLoRA note: merge onto the **unquantized** base (standard practice - drop
 `quantization_bit` at export time, LLaMA-Factory refuses otherwise):
 
 ```bash
@@ -66,7 +66,7 @@ llamafactory-cli export \
 ## 5. Convert to GGUF + reuse the official mmproj
 
 The vision tower and projector were frozen (yaml), so the **official**
-Qwen mmproj GGUF stays byte-for-byte valid — only the text backbone
+Qwen mmproj GGUF stays byte-for-byte valid - only the text backbone
 changed:
 
 ```bash
@@ -75,9 +75,9 @@ llama.cpp/build/bin/llama-quantize arsi-judge-f16.gguf arsi-judge-q4_k_m.gguf Q4
 # mmproj: download once from Qwen/Qwen3-VL-8B-Instruct-GGUF on Hugging Face
 ```
 
-## 6. Serve — try Ollama, fall back to llama-server
+## 6. Serve - try Ollama, fall back to llama-server
 
-**Ollama import** (KNOWN-FRAGILE for vision models — Gemma3/qwen35moe had
+**Ollama import** (KNOWN-FRAGILE for vision models - Gemma3/qwen35moe had
 mmproj-import bugs; qwen3-vl is a natively supported arch so it may work):
 
 ```bash
@@ -96,7 +96,7 @@ llama.cpp/build/bin/llama-server -m arsi-judge-q4_k_m.gguf \
   --mmproj mmproj-Qwen3-VL-8B-Instruct-f16.gguf --port 11435
 ```
 
-and point the pipeline at it — the shim is already written
+and point the pipeline at it - the shim is already written
 (`arsi_core/llamacpp_client.py`, unit-tested):
 
 ```python
@@ -106,7 +106,7 @@ client = OllamaClient(impl=LlamaCppServer("http://localhost:11435"))
 # benchmark / raw scripts: vlm_05_reference_diff.ollama = client
 ```
 
-## 7. Evaluate — the untouched benchmark decides
+## 7. Evaluate - the untouched benchmark decides
 
 ```bash
 # exactly like the base-model sweeps (RUNBOOK_GPU.md): fresh cache, judge = arsi-judge
@@ -115,7 +115,7 @@ cd benchmark && python run_benchmark.py   # with MODEL_NAME=arsi-judge
 
 Compare against `report_lenient_qwen3vl.md` / the GLM report. **Go/no-go
 (docs/LORA_PLAN.md): region precision must gain ≥ +0.10 with object recall
-dropping ≤ 0.02 — otherwise the adapter is not worth the serving
+dropping ≤ 0.02 - otherwise the adapter is not worth the serving
 complexity.** Also sanity-check output format: 20 random crops must still
 answer `YES <label>` / `NO` (a fine-tune that breaks the format silently
 zeroes the parser).
@@ -123,5 +123,5 @@ zeroes the parser).
 ## Copy-back discipline
 
 Bring back to the laptop: `out/qwen3vl-arsi-lora/` (adapter, small),
-`benchmark/report*.md`, `benchmark/cache.json`, and nothing else — never
+`benchmark/report*.md`, `benchmark/cache.json`, and nothing else - never
 overwrite working-dir files wholesale (this bit us on 2026-07-13).

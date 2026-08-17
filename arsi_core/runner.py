@@ -1,5 +1,5 @@
 """Job runner: batch execution with per-frame isolation, retries, masking and
-structured logging (docs/SPEC.md "Error taxonomy" — behaviour is the spec)."""
+structured logging (docs/SPEC.md "Error taxonomy" - behaviour is the spec)."""
 import json
 import time
 import uuid
@@ -50,7 +50,7 @@ class JobConfig:
                 and len(self.frame_references) != len(self.frames):
             raise FrameError(
                 f"frame_references has {len(self.frame_references)} entries for "
-                f"{len(self.frames)} frames — they must line up, or a frame "
+                f"{len(self.frames)} frames - they must line up, or a frame "
                 f"would be diffed against the wrong camera")
         return self
 
@@ -98,7 +98,7 @@ def _materialize_mask(cfg: JobConfig, emit) -> tuple:
     detect the mask itself as change. Returns (frames, references, mask_hash),
     where `references` has one entry per frame.
 
-    Everything downstream — FrameResult.image, the events, the report — then
+    Everything downstream - FrameResult.image, the events, the report - then
     carries the masked paths, so what the UI shows is what the VLM saw."""
     if not cfg.mask:
         return cfg.frames, cfg.references_for_frames(), ""
@@ -128,7 +128,7 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
     """Execute the batch. Job-fatal errors (Ollama down, model missing) raise
     BEFORE any frame runs; per-frame errors never stop the batch. `stop` is an
     optional callable checked between frames AND, for the crop-judging pipelines,
-    between regions inside a frame — a busy frame is 20-30 VLM calls, so a
+    between regions inside a frame - a busy frame is 20-30 VLM calls, so a
     frame-only check made cancellation take minutes. When it returns True the job
     ends with status "cancelled", keeping the partial results (including the
     regions already judged in the frame that was interrupted)."""
@@ -168,7 +168,7 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
 
     frames, references, mask_hash = _materialize_mask(cfg, emit)
     if mask_hash:
-        # the masked reference is what the pipeline compared against — the UI
+        # the masked reference is what the pipeline compared against - the UI
         # must show that one, not the untouched file the user picked
         result.config["reference_masked"] = references[0] if references else None
         result.config["mask_hash"] = mask_hash
@@ -176,7 +176,7 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
     def snapshot(status):
         """Persist what exists so far, atomically. Called after EVERY frame: the
         file used to be written once at the end, so a server killed mid-job left
-        no record at all — the job vanished from the history and its finished
+        no record at all - the job vanished from the history and its finished
         frames were lost. `status` is "running" until the job actually ends, which
         is also what lets the history spot an interrupted job (a file that says
         running with no live worker behind it)."""

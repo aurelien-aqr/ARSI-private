@@ -2,7 +2,7 @@
 missed-object boxes (FN) drawn by the reviewer, and per-frame confirmation.
 
 Stored as review.json next to the job's results.json. Metrics are recomputed
-from (results, review) on every read/write — the file stores only judgements,
+from (results, review) on every read/write - the file stores only judgements,
 never derived numbers, so the two can never disagree.
 
 Frame-level correctness follows the supervisor's spreadsheet rule: a frame
@@ -52,7 +52,7 @@ def _norm_missed(entry, frame_id):
 def validate_review(results: dict, frames_payload: dict) -> dict:
     """Return a normalized {frame_id: {verdicts, missed, done}} dict or raise
     ReviewError. A frame may only be marked done once every detection has a
-    verdict — 'reviewed' must mean reviewed."""
+    verdict - 'reviewed' must mean reviewed."""
     by_id = {f["frame_id"]: f for f in results.get("frames", [])}
     if not isinstance(frames_payload, dict):
         raise ReviewError("'frames' must be an object keyed by frame_id")
@@ -75,7 +75,7 @@ def validate_review(results: dict, frames_payload: dict) -> dict:
         missed = [_norm_missed(m, frame_id) for m in (entry.get("missed") or [])[:100]]
         done = bool(entry.get("done"))
         if done and len(verdicts) < n_dets:
-            raise ReviewError(f"{frame_id}: cannot confirm — "
+            raise ReviewError(f"{frame_id}: cannot confirm - "
                               f"{n_dets - len(verdicts)} detection(s) unreviewed")
         if verdicts or missed or done:
             out[frame_id] = {"verdicts": verdicts, "missed": missed, "done": done}

@@ -44,7 +44,7 @@ def test_unknown_localizer_is_rejected_before_the_job():
 
 
 def test_photo_is_the_shipped_localizer_untouched(img_factory):
-    """DEFAULT must stay byte-identical to vlm_05.localize() — every published
+    """DEFAULT must stay byte-identical to vlm_05.localize() - every published
     benchmark number and every job in the history was produced with it."""
     ref = img_factory("ref.jpg", **REF_KW)
     insp = img_factory("insp.jpg", **REF_KW, rects=INSP_RECTS)
@@ -127,7 +127,7 @@ def test_job_config_records_the_localizer():
 
 def test_candidates_record_which_stage_dropped_each_region(fake_client, img_factory,
                                                            cache):
-    """A miss has two causes — never localized, or localized and rejected — and
+    """A miss has two causes - never localized, or localized and rejected - and
     the frame result must let you tell them apart without reading raw text."""
     ref = img_factory("ref.jpg", **REF_KW)
     insp = img_factory("insp.jpg", **REF_KW, rects=INSP_RECTS)

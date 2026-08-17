@@ -71,7 +71,7 @@ def test_run_frame_vlm02_sends_both_images(fake_client, img_factory):
     fr = run_frame("vlm_02", img, reference=ref, client=client)
     assert fr.anomaly is False
     sent = client._impl.calls[0]["messages"][0]["images"]
-    assert sent == [str(ref), str(img)]     # reference first — order matters
+    assert sent == [str(ref), str(img)]     # reference first - order matters
 
 
 def test_run_frame_vlm02_without_reference_fails(fake_client, img_factory):
@@ -109,7 +109,7 @@ def test_parse_bbox_json_tolerant_variants():
     # single bare object
     assert len(parse_bbox_json('{"label": "vandalism", "bbox": [0,0,1,1]}')) == 1
     # text around the array still works
-    assert parse_bbox_json('Here are the anomalies: [] — nothing found.') == []
+    assert parse_bbox_json('Here are the anomalies: [] - nothing found.') == []
 
 
 GLM_REPORT = """GRAFFITI: <no> - No visible graffiti on walls or seats.  

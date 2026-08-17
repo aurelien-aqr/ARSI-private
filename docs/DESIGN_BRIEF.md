@@ -1,4 +1,4 @@
-# ARSI Studio — design brief (paste this into Claude Design)
+# ARSI Studio - design brief (paste this into Claude Design)
 
 You are designing **ARSI Studio**, a local web app for a public-transport
 operator's R&D team. It analyses tram CCTV footage with local vision-language
@@ -7,7 +7,7 @@ wallets), graffiti/tags, vandalism (slashed seats), litter. Users are
 engineers/researchers, not the general public. Everything runs on one
 workstation; there is no cloud, no login.
 
-Language: **English**. Tone: technical, calm, trustworthy — a lab instrument,
+Language: **English**. Tone: technical, calm, trustworthy - a lab instrument,
 not a consumer app. Dark-mode friendly (CCTV review rooms are dim). Dense but
 readable; keyboard-friendly galleries.
 
@@ -35,7 +35,7 @@ readable; keyboard-friendly galleries.
      mask" is a valid choice. Design both states: drawing mode and
      preset-picked summary.
    - Step 3 pipeline: script selector (5 pipelines, one-line description
-     each, "vlm_05 reference-diff — recommended" highlighted); model
+     each, "vlm_05 reference-diff - recommended" highlighted); model
      dropdown where NOT-installed models show a "Pull (4.7 GB)" button with
      progress; prompt preset dropdown (Conservative / Lenient / Custom)
      opening an editable text area; reference-frame picker (required for
@@ -55,17 +55,17 @@ readable; keyboard-friendly galleries.
    - Left: filterable frame gallery (all / anomalous / failed / by type).
    - Center: selected frame LARGE with bounding-box overlays + labels
      (e.g. "phone on seat"); toggle side-by-side reference|inspection view.
-   - Bottom: video-timeline strip — one tick per frame, red ticks where
+   - Bottom: video-timeline strip - one tick per frame, red ticks where
      anomalies were found; click to jump.
    - Right: per-region verdict list (label, type chip, YES/NO, seconds).
    - **Compare mode**: same frames, two configs (e.g. two models) as two
      synchronized columns with their two verdict sets.
    - Export bar: Report (HTML/MD), results.json, XLSX.
 
-5. **History & report viewer** — jobs table + rendered report page
+5. **History & report viewer** - jobs table + rendered report page
    (summary numbers, confusion-style counts, per-frame table).
 
-6. **Settings** — Ollama URL + test button, model manager (installed list,
+6. **Settings** - Ollama URL + test button, model manager (installed list,
    sizes, pull/remove), default script/model/prompt, storage usage.
 
 ## Components that need care
@@ -81,17 +81,17 @@ readable; keyboard-friendly galleries.
 - Empty states for every screen (no jobs yet, no models installed).
 
 ## Real data to design with (uploaded alongside this brief)
-- Annotated CCTV frames with boxes (green/red/blue) — use these as the
+- Annotated CCTV frames with boxes (green/red/blue) - use these as the
   gallery/detail imagery, they are the real output.
-- One raw frame + its masked counterpart (black windows) — the mask
+- One raw frame + its masked counterpart (black windows) - the mask
   editor's before/after reference.
-- A sample results JSON and a sample markdown report — use their real
+- A sample results JSON and a sample markdown report - use their real
   field names and realistic numbers (e.g. "29 cases, F1 0.919, 0.7 s/call").
 - Real label strings for verdict lists: "phone on seat", "graffiti tag
   'XRP' on panel", "torn seat cushion", "black backpack on floor".
 
 ## Constraints for the exported code
 - Single-page app talking to a local FastAPI backend (REST + SSE for
-  progress). No cloud fonts/CDNs — fully offline. No heavy framework
+  progress). No cloud fonts/CDNs - fully offline. No heavy framework
   requirements; plain React or vanilla is fine. Standalone HTML export
   must be wirable to `fetch('/api/...')` endpoints listed in docs/SPEC.md.

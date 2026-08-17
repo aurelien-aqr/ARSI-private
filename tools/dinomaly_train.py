@@ -11,7 +11,7 @@
 #  model trained on them would be scored on its training data, and consecutive
 #  frames are near-duplicates, so excluding the exact file is not enough - every
 #  frame within HOLDOUT of a benchmark frame is dropped too. The exclusion list
-#  is DERIVED from benchmark/datasets/tram1762.json (not hand-typed) so it cannot
+#  is DERIVED from the benchmark ground truth (not hand-typed) so it cannot
 #  drift away from the benchmark it protects.
 #
 #  CONTAMINATION. "Nominal" has to mean nominal:
@@ -46,7 +46,7 @@ sys.path.insert(0, str(REPO_ROOT))
 import tools.dinomaly as dm                                   # noqa: E402
 
 MASKED_DIR = REPO_ROOT / "data" / "masked"
-GT_DATASET = "tram1762"     # moved to benchmark/datasets/ on 2026-08-17
+
 
 TRAIN_SESSIONS = ("v1", "v3")
 V3_MAX = 150                # staging starts well before the GT anomaly at f0205
@@ -57,7 +57,7 @@ FRAME_RE = re.compile(r"tram_(\d+)_(v\d+)_f(\d+)")
 def benchmark_frames():
     """{(session, index)} used by the benchmark, from the GT file itself."""
     from arsi_core import benchmarks
-    _, gt = benchmarks.load(GT_DATASET)
+    _, gt = benchmarks.load()
     paths = [c["image"] for c in gt["cases"]] + list(gt["references"].values())
     out = set()
     for p in paths:

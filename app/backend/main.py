@@ -1,4 +1,4 @@
-"""ARSI Studio backend — FastAPI over arsi_core (docs/SPEC.md milestone 2).
+"""ARSI Studio backend - FastAPI over arsi_core (docs/SPEC.md milestone 2).
 
 Run from the repo root:  venv/bin/python -m uvicorn app.backend.main:app --port 8321
 """
@@ -122,7 +122,7 @@ def health():
     return {"ollama": h["reachable"], "detail": h.get("detail", ""),
             "models": h["models"], "gpu": gpu,
             "cpu_warning": None if gpu else
-            "No NVIDIA GPU detected — VLM calls take 2-4 min each on CPU.",
+            "No NVIDIA GPU detected - VLM calls take 2-4 min each on CPU.",
             "version": app.version}
 
 
@@ -206,7 +206,7 @@ def media_url(path) -> str:
 
 @app.get("/api/demo-frames")
 def demo_frames():
-    _, gt = benchmarks.load("tram1762")
+    _, gt = benchmarks.load()
     refs = gt["references"]
     out = []
     for c in gt["cases"]:
@@ -457,7 +457,7 @@ def create_job(payload: dict):
         params=payload.get("params") or {})
     # A fresh crop call takes 2-4 min on CPU while the runner's default timeout is
     # 120 s, so on a machine with no GPU every uncached frame failed with
-    # ReadTimeout — the pipeline looked broken when it was only slow. Raise it
+    # ReadTimeout - the pipeline looked broken when it was only slow. Raise it
     # unless the caller asked for a specific timeout.
     if "timeout_s" not in cfg.params and not has_gpu():
         cfg.params = {**cfg.params, "timeout_s": CPU_TIMEOUT_S}
@@ -498,7 +498,7 @@ def jobs_index():
         hist.append({"job_id": jid, "status": status,
                      "config": data["config"], "summary": data["summary"]})
     # Newest first. The job_id is prefixed with a %Y%m%d-%H%M%S timestamp, so it
-    # sorts chronologically — and unlike file mtime it survives jobs copied in
+    # sorts chronologically - and unlike file mtime it survives jobs copied in
     # from the GPU box or results.json being rewritten.
     jobs = sorted(list(live.values()) + hist,
                   key=lambda j: j["job_id"], reverse=True)
@@ -529,7 +529,7 @@ def job_detail(job_id: str):
         # jobs run before the runner recorded it: the masked copy is still on
         # disk under the job dir, and it is the one that was compared against.
         # Frames are masked first, so a frame with the same basename owns that
-        # path and the reference got a suffixed one — don't guess wrong then.
+        # path and the reference got a suffixed one - don't guess wrong then.
         guess = JOBS_DIR / job_id / "masked" / Path(cfg["reference"]).name
         taken = {f["image"] for f in data.get("frames", [])
                  if f["image"] != cfg["reference"]}
@@ -590,10 +590,10 @@ def job_cancel(job_id: str, payload: dict = None):
 
 
 def _finished_job(job_id: str) -> dict:
-    """results.json of a finished job — reviews only apply to saved results."""
+    """results.json of a finished job - reviews only apply to saved results."""
     live = manager.get(job_id)
     if _live_busy(live):
-        raise HTTPException(409, "job is still running — review it once finished")
+        raise HTTPException(409, "job is still running - review it once finished")
     data = load_saved(job_id)
     if data is None:
         raise HTTPException(404, job_id)
@@ -629,7 +629,7 @@ def delete_review(job_id: str):
 
 @app.get("/api/reviews")
 def reviews_index():
-    """One row per job that has a review — the Labels screen."""
+    """One row per job that has a review - the Labels screen."""
     out = []
     for res_path in sorted(JOBS_DIR.glob("*/results.json"),
                            key=lambda p: p.stat().st_mtime, reverse=True):
@@ -764,7 +764,7 @@ def bench_run_report(run_id: str):
     except bench_runs.BenchError as exc:
         raise HTTPException(404, str(exc))
     if not path.is_file():
-        raise HTTPException(404, "no report yet — the run has not scored a case")
+        raise HTTPException(404, "no report yet - the run has not scored a case")
     return PlainTextResponse(path.read_text(encoding="utf-8"))
 
 
@@ -800,7 +800,7 @@ CANDIDATE_LIMIT = 300
 
 @app.get("/api/benchmarks/{ds_id}/candidates")
 def benchmark_candidates(ds_id: str):
-    """Images in the dataset's own folders that no case uses yet — what "add a
+    """Images in the dataset's own folders that no case uses yet - what "add a
     case" picks from. `dirs` is reported too: for 39T the answer is currently
     empty, because the frames of the moments left unlabelled (cam52 at 08-35,
     08-40, 08-59) were never extracted, and the UI should say that rather than
@@ -834,8 +834,7 @@ def _save_dataset(ds_id: str, doc: dict):
 
 @app.put("/api/benchmarks/{ds_id}/cases/{case_id}")
 def put_benchmark_case(ds_id: str, case_id: str, payload: dict):
-    """Correct one case. Marks it human-reviewed: that flag is the whole point of
-    the screen for the 39T draft, which was labelled by a model."""
+    """Correct one case."""
     try:
         ds_id, doc = benchmarks.load(ds_id)
         cases = doc["cases"]
@@ -844,8 +843,6 @@ def put_benchmark_case(ds_id: str, case_id: str, payload: dict):
             raise HTTPException(404, f"no case '{case_id}' in {ds_id}")
         case = benchmarks.normalize_case({**payload, "id": case_id},
                                          doc.get("references") or {})
-        if payload.get("reviewed") is not False:
-            benchmarks.touch_reviewed(case)
         cases[idx] = case
     except benchmarks.DatasetError as exc:
         raise HTTPException(400, str(exc))
@@ -860,7 +857,6 @@ def post_benchmark_case(ds_id: str, payload: dict):
         case = benchmarks.normalize_case(payload, doc.get("references") or {})
         if any(c["id"] == case["id"] for c in doc["cases"]):
             raise HTTPException(409, f"case '{case['id']}' already exists")
-        benchmarks.touch_reviewed(case)
         doc["cases"].append(case)
     except benchmarks.DatasetError as exc:
         raise HTTPException(400, str(exc))
@@ -921,7 +917,7 @@ def lora_status():
 
 @app.post("/api/lora/export")
 def lora_export(payload: dict = None):
-    """Run tools/export_lora_dataset.py (review source only — the benchmark
+    """Run tools/export_lora_dataset.py (review source only - the benchmark
     stays an eval set; use the CLI flag deliberately if you must)."""
     cmd = [sys.executable, str(REPO_ROOT / "tools" / "export_lora_dataset.py"),
            "--out", str(LORA_DATASET_DIR)]
@@ -1032,7 +1028,7 @@ def delete_video(video_id: str):
     for j in manager.jobs.values():
         if _live_busy(j) and any(str(vdir) in f for f in j.cfg.frames):
             raise HTTPException(409, "a queued or running job uses frames of "
-                                     "this video — cancel it first")
+                                     "this video - cancel it first")
     shutil.rmtree(vdir)
     return {"ok": True}
 
@@ -1041,7 +1037,7 @@ def delete_video(video_id: str):
 def delete_job(job_id: str):
     live = manager.get(job_id)
     if _live_busy(live):
-        raise HTTPException(409, "job is queued or running — cancel it first")
+        raise HTTPException(409, "job is queued or running - cancel it first")
     jdir = (JOBS_DIR / job_id).resolve()
     if jdir.parent != JOBS_DIR.resolve() or not jdir.is_dir():
         raise HTTPException(404, job_id)

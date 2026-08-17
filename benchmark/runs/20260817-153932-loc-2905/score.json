@@ -1,0 +1,3623 @@
+{
+ "mode": "localize",
+ "n_cases": 21,
+ "n_scored": 21,
+ "localization": {
+  "inst_total": 24,
+  "inst_localized": 17,
+  "recall": 0.7083333333333334,
+  "inst_localized_strict": 5,
+  "recall_strict": 0.20833333333333334,
+  "regions_anomaly": 166,
+  "regions_clean": 100,
+  "frames_clean": 7,
+  "regions_total": 266,
+  "max_box": 911360,
+  "per_type": {
+   "object": {
+    "detected": 13,
+    "total": 19,
+    "recall": 0.6842105263157895
+   },
+   "litter": {
+    "detected": 4,
+    "total": 5,
+    "recall": 0.8
+   }
+  }
+ },
+ "cases": [
+  {
+   "id": "39T_cam52_084637",
+   "image": "data/benchmark_39T/39T-cam52_08-46-37_t60.jpg",
+   "reference": "39T-cam52",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam52, moment 08-46-37, t=60s (tram circulating)",
+   "n_regions": 11,
+   "regions": [
+    {
+     "bbox": [
+      360,
+      4,
+      1140,
+      720
+     ],
+     "area": 222800,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      116,
+      312,
+      504,
+      720
+     ],
+     "area": 48864,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      244,
+      364,
+      476,
+      512
+     ],
+     "area": 17168,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      48,
+      0,
+      100,
+      28
+     ],
+     "area": 1440,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      872,
+      280,
+      900,
+      312
+     ],
+     "area": 896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      484,
+      456,
+      532,
+      492
+     ],
+     "area": 1296,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      408,
+      0,
+      472,
+      48
+     ],
+     "area": 1952,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      204,
+      176,
+      236,
+      212
+     ],
+     "area": 1120,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      100,
+      100,
+      128,
+      132
+     ],
+     "area": 864,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      420,
+      116,
+      444,
+      148
+     ],
+     "area": 736,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      160,
+      116,
+      192,
+      156
+     ],
+     "area": 1008,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 1,
+    "edge": 3,
+    "total": 12,
+    "capped": false,
+    "before_merge": 12,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "purple bag on seat",
+     "bbox": [
+      190,
+      660,
+      300,
+      720
+     ],
+     "hit": true,
+     "strict": false
+    },
+    {
+     "type": "object",
+     "label": "small white item on far seat",
+     "bbox": [
+      525,
+      55,
+      580,
+      92
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 0,
+   "max_box": 558480,
+   "seconds": 0.25,
+   "error": null
+  },
+  {
+   "id": "39T_cam52_085124",
+   "image": "data/benchmark_39T/39T-cam52_08-51-24_t60.jpg",
+   "reference": "39T-cam52",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam52, moment 08-51-24, t=60s (tram circulating)",
+   "n_regions": 18,
+   "regions": [
+    {
+     "bbox": [
+      416,
+      36,
+      1140,
+      720
+     ],
+     "area": 182640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      104,
+      572,
+      504,
+      684
+     ],
+     "area": 25600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      972,
+      636,
+      1132,
+      720
+     ],
+     "area": 7264,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      136,
+      72,
+      192,
+      164
+     ],
+     "area": 3760,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      336,
+      120,
+      412,
+      304
+     ],
+     "area": 8208,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      288,
+      396,
+      392,
+      484
+     ],
+     "area": 4880,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      248,
+      464,
+      288,
+      532
+     ],
+     "area": 2176,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      136,
+      304,
+      224,
+      544
+     ],
+     "area": 7488,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1208,
+      96,
+      1256,
+      140
+     ],
+     "area": 1904,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      16,
+      56,
+      60
+     ],
+     "area": 1776,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      408,
+      8,
+      472,
+      60
+     ],
+     "area": 2592,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      228,
+      692,
+      304,
+      720
+     ],
+     "area": 1664,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      148,
+      680,
+      200,
+      720
+     ],
+     "area": 1632,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      516,
+      4,
+      548,
+      84
+     ],
+     "area": 2240,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      340,
+      704,
+      456,
+      720
+     ],
+     "area": 1536,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      400,
+      364,
+      432,
+      392
+     ],
+     "area": 864,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      492,
+      684,
+      516,
+      720
+     ],
+     "area": 848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      408,
+      480,
+      440,
+      508
+     ],
+     "area": 832,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 17,
+    "second": 0,
+    "edge": 4,
+    "total": 21,
+    "capped": false,
+    "before_merge": 21,
+    "merged_away": 3,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "small dark item on seat",
+     "bbox": [
+      460,
+      398,
+      515,
+      440
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 495216,
+   "seconds": 0.26,
+   "error": null
+  },
+  {
+   "id": "39T_cam53_083517",
+   "image": "data/benchmark_39T/39T-cam53_08-35-17_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam53, moment 08-35-17, t=60s (tram circulating)",
+   "n_regions": 11,
+   "regions": [
+    {
+     "bbox": [
+      52,
+      156,
+      524,
+      460
+     ],
+     "area": 68176,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      632,
+      524,
+      916,
+      720
+     ],
+     "area": 29232,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      576,
+      128,
+      720,
+      188
+     ],
+     "area": 7088,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      324,
+      8,
+      544,
+      184
+     ],
+     "area": 16960,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      992,
+      0,
+      1056,
+      196
+     ],
+     "area": 8256,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      372,
+      124,
+      552
+     ],
+     "area": 8064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      356,
+      684,
+      416,
+      720
+     ],
+     "area": 1856,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      928,
+      672,
+      984,
+      716
+     ],
+     "area": 1840,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1012,
+      676,
+      1040,
+      708
+     ],
+     "area": 848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1064,
+      704,
+      1144,
+      720
+     ],
+     "area": 1168,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1240,
+      656,
+      1268,
+      680
+     ],
+     "area": 656,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 1,
+    "person_veto": 2,
+    "base": 5,
+    "second": 3,
+    "edge": 4,
+    "total": 12,
+    "capped": false,
+    "before_merge": 12,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "yellow bag on flip seat",
+     "bbox": [
+      163,
+      198,
+      268,
+      270
+     ],
+     "hit": true,
+     "strict": false
+    },
+    {
+     "type": "object",
+     "label": "green item on rail",
+     "bbox": [
+      893,
+      178,
+      942,
+      218
+     ],
+     "hit": false,
+     "strict": false
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 143488,
+   "seconds": 0.35,
+   "error": null
+  },
+  {
+   "id": "39T_cam53_084021",
+   "image": "data/benchmark_39T/39T-cam53_08-40-21_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam53, moment 08-40-21, t=60s (tram circulating)",
+   "n_regions": 13,
+   "regions": [
+    {
+     "bbox": [
+      64,
+      148,
+      528,
+      460
+     ],
+     "area": 70912,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1012,
+      404,
+      1280,
+      640
+     ],
+     "area": 34432,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      324,
+      80,
+      720,
+      188
+     ],
+     "area": 21584,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      456,
+      0,
+      508,
+      120
+     ],
+     "area": 5200,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      608,
+      640,
+      756,
+      720
+     ],
+     "area": 9952,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      344,
+      624,
+      452,
+      720
+     ],
+     "area": 9200,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      388,
+      92,
+      516
+     ],
+     "area": 6592,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      856,
+      564,
+      900,
+      612
+     ],
+     "area": 1920,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      764,
+      552,
+      820,
+      624
+     ],
+     "area": 3328,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      932,
+      672,
+      984,
+      712
+     ],
+     "area": 1632,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      964,
+      568,
+      988,
+      600
+     ],
+     "area": 768,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1064,
+      708,
+      1136,
+      720
+     ],
+     "area": 864,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      0,
+      500,
+      12,
+      544
+     ],
+     "area": 528,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 7,
+    "second": 3,
+    "edge": 4,
+    "total": 14,
+    "capped": false,
+    "before_merge": 14,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "yellow bag on flip seat",
+     "bbox": [
+      165,
+      198,
+      268,
+      272
+     ],
+     "hit": true,
+     "strict": false
+    },
+    {
+     "type": "object",
+     "label": "green item on rail",
+     "bbox": [
+      895,
+      180,
+      940,
+      212
+     ],
+     "hit": false,
+     "strict": false
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 144768,
+   "seconds": 0.32,
+   "error": null
+  },
+  {
+   "id": "39T_cam53_084637",
+   "image": "data/benchmark_39T/39T-cam53_08-46-37_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam53, moment 08-46-37, t=60s (tram circulating)",
+   "n_regions": 6,
+   "regions": [
+    {
+     "bbox": [
+      428,
+      0,
+      1280,
+      720
+     ],
+     "area": 323424,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      112,
+      444,
+      492
+     ],
+     "area": 88464,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      600,
+      120,
+      720
+     ],
+     "area": 6048,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      524,
+      48,
+      576
+     ],
+     "area": 2048,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      320,
+      588,
+      364,
+      652
+     ],
+     "area": 2064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      100,
+      552,
+      136,
+      592
+     ],
+     "area": 1184,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 14,
+    "second": 1,
+    "edge": 2,
+    "total": 17,
+    "capped": false,
+    "before_merge": 17,
+    "merged_away": 11,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "green item on flip seat",
+     "bbox": [
+      172,
+      193,
+      235,
+      252
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 613440,
+   "seconds": 0.32,
+   "error": null
+  },
+  {
+   "id": "39T_cam53_085124",
+   "image": "data/benchmark_39T/39T-cam53_08-51-24_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam53, moment 08-51-24, t=60s (tram circulating)",
+   "n_regions": 15,
+   "regions": [
+    {
+     "bbox": [
+      620,
+      212,
+      856,
+      720
+     ],
+     "area": 64208,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      296,
+      488,
+      520,
+      720
+     ],
+     "area": 34112,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1108,
+      268,
+      1280,
+      448
+     ],
+     "area": 13392,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      16,
+      132,
+      268,
+      292
+     ],
+     "area": 16656,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      56,
+      312,
+      116,
+      396
+     ],
+     "area": 3680,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      380,
+      64,
+      540
+     ],
+     "area": 5456,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1028,
+      200,
+      1188,
+      268
+     ],
+     "area": 5040,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      988,
+      664,
+      1024,
+      688
+     ],
+     "area": 848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      272,
+      400,
+      348,
+      480
+     ],
+     "area": 2864,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1172,
+      676,
+      1204,
+      704
+     ],
+     "area": 880,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1216,
+      212,
+      1256,
+      280
+     ],
+     "area": 2160,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      72,
+      452,
+      120,
+      572
+     ],
+     "area": 3040,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      204,
+      464,
+      232,
+      500
+     ],
+     "area": 944,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1260,
+      164,
+      1280,
+      196
+     ],
+     "area": 592,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      136,
+      284,
+      160,
+      312
+     ],
+     "area": 656,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 7,
+    "second": 6,
+    "edge": 4,
+    "total": 17,
+    "capped": false,
+    "before_merge": 17,
+    "merged_away": 2,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "pink item hanging on pole",
+     "bbox": [
+      443,
+      178,
+      492,
+      278
+     ],
+     "hit": false,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 119888,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "39T_cam54_083517",
+   "image": "data/benchmark_39T/39T-cam54_08-35-17_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam54, moment 08-35-17, t=60s (tram circulating)",
+   "n_regions": 10,
+   "regions": [
+    {
+     "bbox": [
+      884,
+      468,
+      1280,
+      720
+     ],
+     "area": 51424,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      344,
+      380
+     ],
+     "area": 62256,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      500,
+      408,
+      840,
+      720
+     ],
+     "area": 38848,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      392,
+      0,
+      512,
+      188
+     ],
+     "area": 12768,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      696,
+      244,
+      784,
+      364
+     ],
+     "area": 6528,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      52,
+      76,
+      104,
+      124
+     ],
+     "area": 1952,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      8,
+      156,
+      60,
+      232
+     ],
+     "area": 2432,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      284,
+      40,
+      356,
+      68
+     ],
+     "area": 1856,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      84,
+      324,
+      144,
+      384
+     ],
+     "area": 1984,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      464,
+      16,
+      516
+     ],
+     "area": 768,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 1,
+    "person_veto": 5,
+    "base": 7,
+    "second": 0,
+    "edge": 4,
+    "total": 11,
+    "capped": false,
+    "before_merge": 11,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "litter",
+     "label": "plastic bag on floor",
+     "bbox": [
+      125,
+      600,
+      260,
+      700
+     ],
+     "hit": false,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 130720,
+   "seconds": 0.32,
+   "error": null
+  },
+  {
+   "id": "39T_cam54_084021",
+   "image": "data/benchmark_39T/39T-cam54_08-40-21_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam54, moment 08-40-21, t=60s (tram circulating)",
+   "n_regions": 11,
+   "regions": [
+    {
+     "bbox": [
+      112,
+      0,
+      1280,
+      720
+     ],
+     "area": 320912,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      908,
+      432,
+      1280,
+      720
+     ],
+     "area": 59600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      536,
+      352,
+      716
+     ],
+     "area": 35184,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      252,
+      104,
+      364
+     ],
+     "area": 6496,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      236,
+      372,
+      344,
+      480
+     ],
+     "area": 4496,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      8,
+      156,
+      68,
+      236
+     ],
+     "area": 3472,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      444,
+      28,
+      520
+     ],
+     "area": 1552,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      300,
+      40,
+      352,
+      64
+     ],
+     "area": 1200,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      24,
+      388,
+      52,
+      416
+     ],
+     "area": 752,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      60,
+      76,
+      100,
+      112
+     ],
+     "area": 1184,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      108,
+      324,
+      144,
+      364
+     ],
+     "area": 992,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 2,
+    "edge": 2,
+    "total": 12,
+    "capped": false,
+    "before_merge": 12,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "litter",
+     "label": "plastic bag on floor",
+     "bbox": [
+      128,
+      598,
+      278,
+      698
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 840960,
+   "seconds": 0.33,
+   "error": null
+  },
+  {
+   "id": "39T_cam54_084637",
+   "image": "data/benchmark_39T/39T-cam54_08-46-37_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam54, moment 08-46-37, t=60s (tram circulating)",
+   "n_regions": 18,
+   "regions": [
+    {
+     "bbox": [
+      700,
+      284,
+      1280,
+      720
+     ],
+     "area": 131040,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      380,
+      0,
+      580,
+      420
+     ],
+     "area": 36512,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      632,
+      148,
+      804,
+      472
+     ],
+     "area": 25584,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      216,
+      40,
+      356,
+      188
+     ],
+     "area": 14448,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      484,
+      636,
+      640,
+      720
+     ],
+     "area": 7152,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      292,
+      96,
+      380
+     ],
+     "area": 5008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      524,
+      420,
+      600,
+      472
+     ],
+     "area": 2960,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      224,
+      544,
+      312,
+      632
+     ],
+     "area": 5216,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      328,
+      400,
+      412,
+      468
+     ],
+     "area": 4400,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      4,
+      132,
+      72,
+      236
+     ],
+     "area": 3840,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      496,
+      496,
+      584,
+      552
+     ],
+     "area": 2816,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      336,
+      580,
+      380,
+      644
+     ],
+     "area": 2096,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      152,
+      660,
+      180,
+      700
+     ],
+     "area": 1104,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      144,
+      508,
+      208,
+      580
+     ],
+     "area": 1904,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      904,
+      4,
+      1048,
+      256
+     ],
+     "area": 8816,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      180,
+      204,
+      232,
+      236
+     ],
+     "area": 1248,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      144,
+      144,
+      164,
+      172
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      152,
+      32,
+      188,
+      60
+     ],
+     "area": 912,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 15,
+    "second": 4,
+    "edge": 4,
+    "total": 23,
+    "capped": false,
+    "before_merge": 23,
+    "merged_away": 5,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "cloth on seat",
+     "bbox": [
+      208,
+      122,
+      340,
+      182
+     ],
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "label": "laptop on far-left seat",
+     "bbox": [
+      0,
+      290,
+      120,
+      360
+     ],
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 2,
+   "max_box": 252880,
+   "seconds": 0.24,
+   "error": null
+  },
+  {
+   "id": "39T_cam54_085124",
+   "image": "data/benchmark_39T/39T-cam54_08-51-24_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam54, moment 08-51-24, t=60s (tram circulating)",
+   "n_regions": 12,
+   "regions": [
+    {
+     "bbox": [
+      576,
+      184,
+      848,
+      560
+     ],
+     "area": 43664,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      292,
+      268,
+      592,
+      600
+     ],
+     "area": 39024,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      516,
+      116,
+      620,
+      304
+     ],
+     "area": 13504,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      80,
+      68,
+      164
+     ],
+     "area": 4288,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      480,
+      144,
+      704
+     ],
+     "area": 15216,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      412,
+      596,
+      480,
+      720
+     ],
+     "area": 5680,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      180,
+      480,
+      244,
+      552
+     ],
+     "area": 2208,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1208,
+      388,
+      1268,
+      504
+     ],
+     "area": 3488,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1200,
+      308,
+      1240,
+      384
+     ],
+     "area": 2576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      272,
+      424,
+      296,
+      448
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      224,
+      20,
+      256
+     ],
+     "area": 576,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1264,
+      272,
+      1280,
+      308
+     ],
+     "area": 560,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 6,
+    "second": 2,
+    "edge": 4,
+    "total": 12,
+    "capped": false,
+    "before_merge": 12,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "flat item on seat",
+     "bbox": [
+      200,
+      145,
+      340,
+      210
+     ],
+     "hit": false,
+     "strict": false
+    },
+    {
+     "type": "object",
+     "label": "green cloth on seat",
+     "bbox": [
+      80,
+      260,
+      150,
+      315
+     ],
+     "hit": false,
+     "strict": false
+    },
+    {
+     "type": "litter",
+     "label": "plastic bag on floor",
+     "bbox": [
+      420,
+      600,
+      590,
+      710
+     ],
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 3,
+   "instances_detected": 1,
+   "instances_detected_strict": 1,
+   "max_box": 102272,
+   "seconds": 0.35,
+   "error": null
+  },
+  {
+   "id": "39T_cam55_083517",
+   "image": "data/benchmark_39T/39T-cam55_08-35-17_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam55, moment 08-35-17, t=60s (tram circulating)",
+   "n_regions": 8,
+   "regions": [
+    {
+     "bbox": [
+      0,
+      8,
+      1280,
+      720
+     ],
+     "area": 359616,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      552,
+      404,
+      720,
+      452
+     ],
+     "area": 6784,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      432,
+      20,
+      528,
+      124
+     ],
+     "area": 6288,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      612,
+      40,
+      720,
+      80
+     ],
+     "area": 3696,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      68,
+      0,
+      168,
+      88
+     ],
+     "area": 3904,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      504,
+      260,
+      528,
+      292
+     ],
+     "area": 752,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      564,
+      364,
+      588,
+      388
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      144,
+      24,
+      180
+     ],
+     "area": 736,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 0,
+    "edge": 0,
+    "total": 8,
+    "capped": false,
+    "before_merge": 8,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "grey laptop on seat",
+     "bbox": [
+      412,
+      190,
+      520,
+      300
+     ],
+     "hit": true,
+     "strict": false
+    },
+    {
+     "type": "litter",
+     "label": "plastic bag on floor",
+     "bbox": [
+      365,
+      580,
+      480,
+      705
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 0,
+   "max_box": 911360,
+   "seconds": 0.27,
+   "error": null
+  },
+  {
+   "id": "39T_cam55_084021",
+   "image": "data/benchmark_39T/39T-cam55_08-40-21_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam55, moment 08-40-21, t=60s (tram circulating)",
+   "n_regions": 6,
+   "regions": [
+    {
+     "bbox": [
+      0,
+      8,
+      1280,
+      720
+     ],
+     "area": 385728,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      500,
+      400,
+      788,
+      452
+     ],
+     "area": 10496,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      612,
+      40,
+      736,
+      80
+     ],
+     "area": 4640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      592,
+      320,
+      640,
+      352
+     ],
+     "area": 1392,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      68,
+      0,
+      168,
+      84
+     ],
+     "area": 3744,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      564,
+      364,
+      588,
+      388
+     ],
+     "area": 576,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 7,
+    "second": 0,
+    "edge": 0,
+    "total": 7,
+    "capped": false,
+    "before_merge": 7,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "grey laptop on seat",
+     "bbox": [
+      418,
+      188,
+      516,
+      302
+     ],
+     "hit": true,
+     "strict": false
+    },
+    {
+     "type": "litter",
+     "label": "plastic bag on floor",
+     "bbox": [
+      363,
+      578,
+      480,
+      706
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 0,
+   "max_box": 911360,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "39T_cam55_084637",
+   "image": "data/benchmark_39T/39T-cam55_08-46-37_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam55, moment 08-46-37, t=60s (tram circulating)",
+   "n_regions": 17,
+   "regions": [
+    {
+     "bbox": [
+      812,
+      416,
+      1200,
+      720
+     ],
+     "area": 57520,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      408,
+      612,
+      800,
+      720
+     ],
+     "area": 30208,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      808,
+      164,
+      1016,
+      412
+     ],
+     "area": 24688,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      440,
+      276,
+      796,
+      360
+     ],
+     "area": 17296,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1152,
+      72,
+      1280,
+      308
+     ],
+     "area": 10400,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      520,
+      120,
+      608,
+      232
+     ],
+     "area": 6832,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      0,
+      12,
+      52,
+      80
+     ],
+     "area": 2416,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      864,
+      0,
+      984,
+      20
+     ],
+     "area": 1840,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1072,
+      204,
+      1168,
+      380
+     ],
+     "area": 6208,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1048,
+      392,
+      1076,
+      428
+     ],
+     "area": 976,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      456,
+      68,
+      524,
+      120
+     ],
+     "area": 2320,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      852,
+      64,
+      912,
+      116
+     ],
+     "area": 1872,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      372,
+      0,
+      596,
+      36
+     ],
+     "area": 4128,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      172,
+      24,
+      204
+     ],
+     "area": 736,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      64,
+      0,
+      164,
+      88
+     ],
+     "area": 3232,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      420,
+      152,
+      444,
+      176
+     ],
+     "area": 560,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      660,
+      88,
+      696,
+      112
+     ],
+     "area": 864,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 12,
+    "second": 5,
+    "edge": 4,
+    "total": 21,
+    "capped": false,
+    "before_merge": 21,
+    "merged_away": 4,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "white laptop on seat",
+     "bbox": [
+      443,
+      273,
+      580,
+      348
+     ],
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "label": "cloth on right seat",
+     "bbox": [
+      838,
+      250,
+      975,
+      378
+     ],
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 2,
+   "max_box": 117952,
+   "seconds": 0.21,
+   "error": null
+  },
+  {
+   "id": "39T_cam55_085124",
+   "image": "data/benchmark_39T/39T-cam55_08-51-24_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "39T, cam55, moment 08-51-24, t=60s (tram circulating)",
+   "n_regions": 10,
+   "regions": [
+    {
+     "bbox": [
+      768,
+      248,
+      1148,
+      476
+     ],
+     "area": 42896,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      976,
+      488,
+      1176,
+      720
+     ],
+     "area": 20432,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      560,
+      648,
+      764,
+      720
+     ],
+     "area": 11968,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      832,
+      0,
+      1040,
+      40
+     ],
+     "area": 5808,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      716,
+      128,
+      800,
+      196
+     ],
+     "area": 3024,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      592,
+      204,
+      620,
+      244
+     ],
+     "area": 1008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      104,
+      92,
+      188
+     ],
+     "area": 2992,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      564,
+      184,
+      588,
+      212
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      76,
+      44,
+      116,
+      84
+     ],
+     "area": 1264,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      444,
+      104,
+      472,
+      124
+     ],
+     "area": 560,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 4,
+    "second": 3,
+    "edge": 4,
+    "total": 11,
+    "capped": false,
+    "before_merge": 11,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "label": "green item on seat",
+     "bbox": [
+      545,
+      272,
+      610,
+      398
+     ],
+     "hit": false,
+     "strict": false
+    },
+    {
+     "type": "object",
+     "label": "white laptop on seat",
+     "bbox": [
+      805,
+      288,
+      955,
+      362
+     ],
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 86640,
+   "seconds": 0.33,
+   "error": null
+  },
+  {
+   "id": "39T_cam53_085954_clean",
+   "image": "data/benchmark_39T/39T-cam53_08-59-54_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, a DIFFERENT run of the line than the reference",
+   "n_regions": 29,
+   "regions": [
+    {
+     "bbox": [
+      512,
+      228,
+      1196,
+      632
+     ],
+     "area": 127296,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      108,
+      472,
+      384
+     ],
+     "area": 69456,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      340,
+      552,
+      468,
+      716
+     ],
+     "area": 14848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      324,
+      352,
+      476,
+      480
+     ],
+     "area": 11504,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      616,
+      560,
+      724,
+      632
+     ],
+     "area": 5680,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      392,
+      88,
+      540
+     ],
+     "area": 7744,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      448,
+      688,
+      568,
+      720
+     ],
+     "area": 2704,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      680,
+      444,
+      780,
+      540
+     ],
+     "area": 4352,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      916,
+      688,
+      996,
+      720
+     ],
+     "area": 2064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      172,
+      16,
+      256,
+      164
+     ],
+     "area": 5936,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      548,
+      276,
+      580,
+      368
+     ],
+     "area": 2272,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      700,
+      164,
+      748,
+      200
+     ],
+     "area": 1584,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      868,
+      192,
+      932,
+      232
+     ],
+     "area": 2080,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      544,
+      140,
+      608,
+      232
+     ],
+     "area": 3104,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      144,
+      364,
+      184,
+      424
+     ],
+     "area": 1664,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1028,
+      660,
+      1140,
+      720
+     ],
+     "area": 3488,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1180,
+      288,
+      1248,
+      380
+     ],
+     "area": 3376,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      476,
+      488,
+      512,
+      516
+     ],
+     "area": 880,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      696,
+      436,
+      724,
+      460
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1224,
+      508,
+      1248,
+      532
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1232,
+      424,
+      1272,
+      472
+     ],
+     "area": 1312,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      496,
+      424,
+      520,
+      448
+     ],
+     "area": 576,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1256,
+      540,
+      1280,
+      588
+     ],
+     "area": 1024,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      948,
+      0,
+      996,
+      20
+     ],
+     "area": 864,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      644,
+      188,
+      672,
+      212
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      480,
+      36,
+      516,
+      140
+     ],
+     "area": 2544,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      120,
+      588,
+      148,
+      624
+     ],
+     "area": 880,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      8,
+      48,
+      32,
+      72
+     ],
+     "area": 576,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1260,
+      164,
+      1280,
+      196
+     ],
+     "area": 592,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 29,
+    "second": 5,
+    "edge": 2,
+    "total": 36,
+    "capped": true,
+    "before_merge": 32,
+    "merged_away": 3,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 276336,
+   "seconds": 0.29,
+   "error": null
+  },
+  {
+   "id": "39T_cam54_085954_clean",
+   "image": "data/benchmark_39T/39T-cam54_08-59-54_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, a DIFFERENT run of the line than the reference",
+   "n_regions": 15,
+   "regions": [
+    {
+     "bbox": [
+      108,
+      12,
+      700,
+      720
+     ],
+     "area": 194000,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      604,
+      120,
+      1280,
+      712
+     ],
+     "area": 151280,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      688,
+      644,
+      888,
+      720
+     ],
+     "area": 9824,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1204,
+      308,
+      1280,
+      608
+     ],
+     "area": 12736,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1008,
+      0,
+      1124,
+      60
+     ],
+     "area": 5488,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      788,
+      580,
+      848,
+      652
+     ],
+     "area": 3376,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      116,
+      48,
+      188
+     ],
+     "area": 2576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1000,
+      264,
+      1084,
+      328
+     ],
+     "area": 3232,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      12,
+      540,
+      72,
+      592
+     ],
+     "area": 2208,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      144,
+      76,
+      168,
+      108
+     ],
+     "area": 736,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      912,
+      228,
+      952,
+      256
+     ],
+     "area": 1104,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1156,
+      428,
+      1188,
+      460
+     ],
+     "area": 944,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      60,
+      96,
+      84,
+      120
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1140,
+      580,
+      1164,
+      604
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      484,
+      12,
+      528
+     ],
+     "area": 528,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 13,
+    "second": 3,
+    "edge": 0,
+    "total": 16,
+    "capped": false,
+    "before_merge": 16,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 419136,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "39T_cam55_085954_clean",
+   "image": "data/benchmark_39T/39T-cam55_08-59-54_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, a DIFFERENT run of the line than the reference",
+   "n_regions": 15,
+   "regions": [
+    {
+     "bbox": [
+      416,
+      612,
+      800,
+      720
+     ],
+     "area": 37440,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      500,
+      72,
+      984,
+      452
+     ],
+     "area": 81600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      816,
+      284,
+      1280,
+      720
+     ],
+     "area": 86512,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      180,
+      112,
+      588,
+      620
+     ],
+     "area": 73840,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      604,
+      56,
+      752,
+      188
+     ],
+     "area": 10256,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1232,
+      100,
+      1280,
+      140
+     ],
+     "area": 1856,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      272,
+      0,
+      488,
+      56
+     ],
+     "area": 6512,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      492,
+      0,
+      620,
+      16
+     ],
+     "area": 1920,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      220,
+      80,
+      340
+     ],
+     "area": 4624,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      464,
+      84,
+      524,
+      120
+     ],
+     "area": 1872,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1224,
+      188,
+      1260,
+      240
+     ],
+     "area": 1392,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      560,
+      276,
+      588,
+      300
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      468,
+      560,
+      492,
+      584
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      756,
+      212,
+      776,
+      240
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1004,
+      228,
+      1048,
+      264
+     ],
+     "area": 1296,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 10,
+    "second": 2,
+    "edge": 4,
+    "total": 16,
+    "capped": false,
+    "before_merge": 16,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 207264,
+   "seconds": 0.26,
+   "error": null
+  },
+  {
+   "id": "39T_cam52_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam52_08-55-37_t120.jpg",
+   "reference": "39T-cam52",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "n_regions": 3,
+   "regions": [
+    {
+     "bbox": [
+      88,
+      0,
+      1188,
+      720
+     ],
+     "area": 417040,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      88,
+      76,
+      144
+     ],
+     "area": 3392,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      0,
+      16,
+      72,
+      60
+     ],
+     "area": 2416,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 14,
+    "second": 1,
+    "edge": 4,
+    "total": 19,
+    "capped": false,
+    "before_merge": 19,
+    "merged_away": 16,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 792000,
+   "seconds": 0.33,
+   "error": null
+  },
+  {
+   "id": "39T_cam53_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam53_08-55-37_t120.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "n_regions": 13,
+   "regions": [
+    {
+     "bbox": [
+      864,
+      84,
+      1280,
+      720
+     ],
+     "area": 137216,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      656,
+      156,
+      852,
+      492
+     ],
+     "area": 46464,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      424,
+      544
+     ],
+     "area": 110480,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      416,
+      0,
+      612,
+      600
+     ],
+     "area": 58224,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      40,
+      660,
+      128,
+      720
+     ],
+     "area": 3696,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      344,
+      624,
+      460,
+      720
+     ],
+     "area": 8368,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      500,
+      604,
+      612,
+      700
+     ],
+     "area": 5600,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      260,
+      616,
+      308,
+      692
+     ],
+     "area": 3088,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      196,
+      448,
+      256,
+      488
+     ],
+     "area": 1840,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      652,
+      632,
+      688,
+      664
+     ],
+     "area": 1120,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      592,
+      504,
+      616,
+      528
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      944,
+      0,
+      1004,
+      48
+     ],
+     "area": 2000,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1032,
+      0,
+      1068,
+      16
+     ],
+     "area": 544,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 10,
+    "second": 3,
+    "edge": 4,
+    "total": 17,
+    "capped": false,
+    "before_merge": 17,
+    "merged_away": 4,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 264576,
+   "seconds": 0.26,
+   "error": null
+  },
+  {
+   "id": "39T_cam54_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam54_08-55-37_t120.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "n_regions": 10,
+   "regions": [
+    {
+     "bbox": [
+      388,
+      372,
+      1044,
+      720
+     ],
+     "area": 106080,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      392,
+      0,
+      436,
+      204
+     ],
+     "area": 7984,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      516,
+      260,
+      600,
+      316
+     ],
+     "area": 3904,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      764,
+      344,
+      844,
+      396
+     ],
+     "area": 3536,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      12,
+      568,
+      140,
+      704
+     ],
+     "area": 9600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      996,
+      0,
+      1060,
+      44
+     ],
+     "area": 2224,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      196,
+      492,
+      232,
+      528
+     ],
+     "area": 1120,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      248,
+      196,
+      316,
+      252
+     ],
+     "area": 2224,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      168,
+      256,
+      236,
+      312
+     ],
+     "area": 1808,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      480,
+      16,
+      520
+     ],
+     "area": 608,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 5,
+    "second": 1,
+    "edge": 4,
+    "total": 10,
+    "capped": false,
+    "before_merge": 10,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 228288,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "39T_cam55_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam55_08-55-37_t120.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "n_regions": 15,
+   "regions": [
+    {
+     "bbox": [
+      416,
+      0,
+      1280,
+      720
+     ],
+     "area": 215376,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      404,
+      612,
+      800,
+      720
+     ],
+     "area": 38352,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      248,
+      272,
+      328,
+      432
+     ],
+     "area": 8304,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      632,
+      44,
+      748,
+      76
+     ],
+     "area": 3376,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      84,
+      332,
+      232,
+      504
+     ],
+     "area": 7392,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      288,
+      560,
+      360,
+      624
+     ],
+     "area": 3088,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      368,
+      300,
+      452,
+      400
+     ],
+     "area": 4192,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      456,
+      400,
+      576,
+      428
+     ],
+     "area": 2976,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      220,
+      80,
+      344
+     ],
+     "area": 4832,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      372,
+      0,
+      412,
+      16
+     ],
+     "area": 592,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      60,
+      64,
+      96,
+      88
+     ],
+     "area": 816,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      424,
+      204,
+      448,
+      240
+     ],
+     "area": 832,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      436,
+      280,
+      464,
+      312
+     ],
+     "area": 848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      40,
+      0,
+      72,
+      24
+     ],
+     "area": 720,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      20,
+      108,
+      44,
+      132
+     ],
+     "area": 576,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 12,
+    "second": 2,
+    "edge": 1,
+    "total": 15,
+    "capped": false,
+    "before_merge": 15,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 622080,
+   "seconds": 0.26,
+   "error": null
+  }
+ ]
+}

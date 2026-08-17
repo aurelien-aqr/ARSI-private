@@ -2,7 +2,7 @@
 aware), pull with progress, and chat with a per-call timeout.
 
 Adapters inject this object as the `ollama` attribute of the vlm_0x modules,
-so every script call goes through the same timeout/error handling — and tests
+so every script call goes through the same timeout/error handling - and tests
 inject a fake with the same .chat()/.list() surface.
 """
 import socket
@@ -44,7 +44,7 @@ class OllamaClient:
         return names
 
     def has_model(self, model: str) -> bool:
-        # Ollama stores tag-less pulls as "name:latest" — accept both forms.
+        # Ollama stores tag-less pulls as "name:latest" - accept both forms.
         names = self.model_names()
         return model in names or f"{model}:latest" in names
 
@@ -81,7 +81,7 @@ class OllamaClient:
         Measured, because the obvious things do not work: `Client.close()`
         returns instantly but leaves the reader blocked (120 s+), and closing the
         socket's file descriptor does not wake it either. Only
-        `shutdown(SHUT_RDWR)` does — it unblocked the read in 0.0 s and the call
+        `shutdown(SHUT_RDWR)` does - it unblocked the read in 0.0 s and the call
         raised RemoteProtocolError. The pool is private API of httpx/httpcore, so
         every step is defensive and a failure just means "nothing aborted".
         """

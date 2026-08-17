@@ -1,11 +1,16 @@
-"""Benchmark datasets — the labelled ground truth, and the score computed against it.
+"""The benchmark ground truth, and the score computed against it.
 
-A *dataset* is one protocol: a set of cases, each pairing an inspection image with
-the clean reference it is diffed against, a frame-level `has_anomaly` label and
-zero or more typed instance boxes in the REFERENCE image's pixel space. They live
-in `benchmark/datasets/<id>.json` (`tram1762` = one camera of tram 1762, July;
-`39T` = four cameras of tram 39T, August) and are read by the Studio, by
+There is ONE benchmark: `benchmark/datasets/ground_truth.json`, every labelled
+frame we have, five cameras of two trams (50 cases, 69 instance boxes). A case
+pairs an inspection image with the clean reference it is diffed against, a
+frame-level `has_anomaly` label and zero or more typed instance boxes in the pixel
+space of THAT case's reference. It is read by the Studio, by
 `benchmark/run_benchmark.py` and by `benchmark/eval_localization.py`.
+
+The directory is per-dataset because a run records which one it scored and a
+second protocol may arrive (a public set, docs/PUBLIC_DATASETS.md). Our own
+footage is not split: a camera is a `references` key, which is what the per-camera
+filters and the per-source tables group on.
 
 Scoring rules are the ones the published reports were produced with, and they are
 NOT reimplemented from a description: `iou` / `overlaps` are copied from
@@ -26,7 +31,7 @@ shows up as a one-line git diff instead of reshuffling the whole file.
 import hashlib
 import json
 import re
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 
 from . import REPO_ROOT
@@ -37,23 +42,18 @@ DATASETS_DIR = BENCH_DIR / "datasets"
 BACKUPS_DIR = DATASETS_DIR / ".backups"
 RUNS_DIR = BENCH_DIR / "runs"
 
+#: The one benchmark. Everything defaults to it; a caller may still name another
+#: dataset id or hand over a path (an archived copy, an imported protocol).
+DEFAULT = "ground_truth"
+
 #: Instance types that get their own recall row. `unknown` is accepted on a case
-#: (schema.ANOMALY_TYPES) but is not a benchmark category — same set as
+#: (schema.ANOMALY_TYPES) but is not a benchmark category. Same set as
 #: run_benchmark.TYPES, so the per-type tables match the published reports.
 TYPES = ("object", "graffiti", "damage", "litter")
 STRICT_IOU = 0.3
 
-#: Where these files lived before 2026-08-17. A wholesale copy-back from the GPU
-#: workstation (RUNBOOK_GPU.md) can recreate them, and silently reading a stale
-#: copy is worse than either failing or picking it up on purpose — so they stay
-#: resolvable by id, and `list_ids()` surfaces them.
-LEGACY_PATHS = {
-    "tram1762": BENCH_DIR / "ground_truth.json",
-    "39T": BENCH_DIR / "ground_truth_39T.json",
-}
-
 CASE_KEYS = ("id", "image", "reference", "source", "has_anomaly", "types",
-             "note", "reviewed", "instances")
+             "note", "instances")
 INSTANCE_KEYS = ("type", "label", "bbox", "note")
 SOURCES = ("real", "gpt", "variant", "self")
 
@@ -99,18 +99,13 @@ def dataset_path(ds_id: str) -> Path:
 
 
 def list_ids():
-    """Dataset ids, canonical location first, then any legacy file still around."""
-    ids = sorted(p.stem for p in DATASETS_DIR.glob("*.json")) \
+    return sorted(p.stem for p in DATASETS_DIR.glob("*.json")) \
         if DATASETS_DIR.exists() else []
-    for ds_id, path in LEGACY_PATHS.items():
-        if path.exists() and ds_id not in ids:
-            ids.append(ds_id)
-    return ids
 
 
 def resolve(ref) -> Path:
     """Accept a dataset id, a repo-relative path or an absolute path."""
-    ref = str(ref)
+    ref = str(ref or DEFAULT)
     direct = Path(ref) if Path(ref).is_absolute() else REPO_ROOT / ref
     if ref.endswith(".json") and direct.is_file():
         return direct
@@ -120,25 +115,11 @@ def resolve(ref) -> Path:
         raise DatasetError(f"no benchmark dataset at '{ref}'")
     if path.is_file():
         return path
-    legacy = LEGACY_PATHS.get(ref)
-    if legacy and legacy.is_file():
-        return legacy
     raise DatasetError(f"no benchmark dataset '{ref}' (have: "
                        f"{', '.join(list_ids()) or 'none'})")
 
 
-def canonical_id(path: Path) -> str:
-    """The id a dataset is known by. NOT simply the file stem: a legacy
-    `ground_truth_39T.json` picked up by the fallback is still the `39T` dataset,
-    and returning its stem would make every caller that saves by id write a new
-    file next to the one the user is editing."""
-    for ds_id, legacy in LEGACY_PATHS.items():
-        if path == legacy:
-            return ds_id
-    return path.stem
-
-
-def load(ref):
+def load(ref=DEFAULT):
     """(ds_id, doc) for a dataset id or path. Raises DatasetError if unreadable."""
     path = resolve(ref)
     try:
@@ -149,7 +130,7 @@ def load(ref):
         raise DatasetError(f"{path.name} is not a dataset document "
                            f"(needs 'references' + 'cases')")
     doc.setdefault("references", {})
-    return canonical_id(path), doc
+    return path.stem, doc
 
 
 def _one_line(obj, keys) -> str:
@@ -167,7 +148,7 @@ def dumps(doc: dict) -> str:
     keys one per line, then one line per case with its instances listed one per
     line underneath. Stable, so editing one box is a one-line diff.
 
-    Unknown header keys are preserved after the known ones — dropping them would
+    Unknown header keys are preserved after the known ones - dropping them would
     make the first save from the Studio silently delete provenance a dataset
     carries that this module happens not to know about."""
     head = [k for k in ("_about", "name") if k in doc]
@@ -216,7 +197,7 @@ def digest(doc: dict) -> str:
 
 def save(ds_id: str, doc: dict) -> Path:
     """Validate, back up the current file, then write atomically. Raises
-    DatasetError before touching anything if the document is unusable — a
+    DatasetError before touching anything if the document is unusable - a
     half-valid ground truth is worse than a rejected edit."""
     errors, _ = validate(doc)
     if errors:
@@ -275,7 +256,7 @@ def validate(doc: dict):
     for i, case in enumerate(doc.get("cases") or []):
         # the isinstance check comes FIRST: a stray string or null in `cases`
         # (hand-edited file) used to raise AttributeError here, which the API
-        # cannot turn into a validation error — it 500s the whole screen
+        # cannot turn into a validation error - it 500s the whole screen
         if not isinstance(case, dict):
             errors.append(f"case #{i}: must be an object, got {type(case).__name__}")
             continue
@@ -350,19 +331,12 @@ def normalize_case(payload: dict, refs: dict) -> dict:
         if str(inst.get("note") or "").strip():
             out["note"] = str(inst["note"]).strip()
         case["instances"].append(out)
-    # `types` is a derived summary of the instance types — it was maintained by
+    # `types` is a derived summary of the instance types - it was maintained by
     # hand and drifted; deriving it removes a whole class of silent mismatch.
     case["types"] = sorted({i["type"] for i in case["instances"]})
-    if payload.get("reviewed"):
-        case["reviewed"] = str(payload["reviewed"])
     if case["reference"] not in refs:
         raise DatasetError(f"reference '{case['reference']}' is not a key of "
                            f"'references' ({', '.join(refs) or 'none'})")
-    return case
-
-
-def touch_reviewed(case: dict) -> dict:
-    case["reviewed"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
     return case
 
 
@@ -388,7 +362,6 @@ def summary(ds_id: str, doc: dict) -> dict:
         "n_anomalous": sum(1 for c in cases if c.get("has_anomaly")),
         "n_clean": sum(1 for c in cases if not c.get("has_anomaly")),
         "n_instances": sum(len(c.get("instances") or []) for c in cases),
-        "n_reviewed": sum(1 for c in cases if c.get("reviewed")),
         "references": cams,
         "digest": digest(doc),
         "errors": errors,
@@ -422,7 +395,7 @@ def score_case(case: dict, frame: dict) -> dict:
 
     A frame that did not complete gets outcome "ERR" and is left out of every
     aggregate: counting a crashed frame as a clean prediction would quietly turn
-    infrastructure failures into recall. That includes `cancelled` — the runner
+    infrastructure failures into recall. That includes `cancelled` - the runner
     builds that status for a frame stopped mid-way through its regions,
     explicitly so it is not read as "clean frame, fully looked at"."""
     instances = case.get("instances") or []
@@ -617,22 +590,22 @@ def headline(score: dict) -> dict:
 
 
 def report_md(run: dict, score: dict) -> str:
-    """Markdown report — same sections and wording as run_benchmark.write_report,
+    """Markdown report - same sections and wording as run_benchmark.write_report,
     with the run's configuration in the header (that script scores whatever
     vlm_05 is configured with; here the configuration is a choice, so it has to
     be written down next to the numbers)."""
     cfg = run.get("config") or {}
-    L = [f"# Benchmark run — {run.get('dataset', '?')} · {cfg.get('mode', 'full')}\n"]
+    L = [f"# Benchmark run - {run.get('dataset', '?')} · {cfg.get('mode', 'full')}\n"]
     L.append(f"**Run:** `{run.get('run_id', '')}`  ")
     L.append(f"**Status:** {run.get('status', '?')} "
              f"({score.get('n_scored', 0)}/{score.get('n_cases', 0)} cases)  ")
     L.append(f"**Dataset:** `{run.get('dataset', '')}` "
              f"(digest `{run.get('digest', '')}`)  ")
     if cfg.get("mode") == "localize":
-        L.append(f"**Localizer:** `{cfg.get('localizer', '')}` — no VLM call.  ")
+        L.append(f"**Localizer:** `{cfg.get('localizer', '')}` - no VLM call.  ")
     else:
         L.append(f"**Pipeline:** `{cfg.get('script', '')}` · localizer "
-                 f"`{cfg.get('localizer') or '—'}` · judge `{cfg.get('model', '')}` "
+                 f"`{cfg.get('localizer') or '-'}` · judge `{cfg.get('model', '')}` "
                  f"· prompt `{cfg.get('prompt_name', '')}`  ")
     if run.get("params"):
         L.append(f"**Params:** `{json.dumps(run['params'], sort_keys=True)}`  ")
@@ -649,7 +622,7 @@ def report_md(run: dict, score: dict) -> str:
                  f"({loc['regions_anomaly']} on anomaly frames, "
                  f"{loc['regions_clean']} on {loc['frames_clean']} clean frames)")
         L.append(f"- Biggest box: {loc['max_box']:,} px "
-                 f"(the blob canary — a frame-sized box hits every instance "
+                 f"(the blob canary - a frame-sized box hits every instance "
                  f"leniently while boxing nothing)\n")
         if loc["per_type"]:
             L.append("| type | localized | recall |")
@@ -663,7 +636,7 @@ def report_md(run: dict, score: dict) -> str:
         for r in score["cases"]:
             truth = "anomaly" if r["has_anomaly"] else "clean"
             inst = (f"{r['instances_detected']}/{r['instances_total']}"
-                    if r["instances_total"] else "—")
+                    if r["instances_total"] else "-")
             L.append(f"| {r['id']} | {truth} | {r['n_regions']} | {inst} | "
                      f"{r['max_box']:,} |")
         L.append("")
@@ -696,7 +669,7 @@ def report_md(run: dict, score: dict) -> str:
              f"**{ob['fp_regions']}** of {ob['kept_total']} kept "
              f"→ region precision {ob['region_precision']:.3f}")
     fresh, cached = score.get("fresh_calls", 0), score.get("cached_calls", 0)
-    L.append(f"- Regions sent to the judge: {score.get('regions_judged', 0)} — "
+    L.append(f"- Regions sent to the judge: {score.get('regions_judged', 0)} - "
              + (f"**{fresh} fresh VLM call(s)**, {cached} served from cache.\n"
                 if fresh else f"all {cached} verdicts served from cache "
                               f"(0 new calls).\n"))
@@ -721,8 +694,8 @@ def report_md(run: dict, score: dict) -> str:
     for r in sorted(score["cases"], key=lambda x: (order[x["outcome"]], x["id"])):
         truth = "anomaly" if r["has_anomaly"] else "clean"
         inst = (f"{r['instances_detected']}/{r['instances_total']}"
-                if r["instances_total"] else "—")
-        labels = ", ".join(x for x in r["kept_labels"] if x) or "—"
+                if r["instances_total"] else "-")
+        labels = ", ".join(x for x in r["kept_labels"] if x) or "-"
         L.append(f"| {r['id']} | {truth} | **{r['outcome']}** | {inst} | "
                  f"{r['fp_regions']} | {labels} |")
     L.append("")

@@ -3,7 +3,7 @@
 #  ARSI-VLM - benchmark/run_benchmark.py
 #  Reproducible benchmark for the vlm_05 reference-diff anomaly detector.
 #
-#  For every labelled case of datasets/tram1762.json it runs the SAME pipeline as
+#  For every tram-1762 case of datasets/ground_truth.json it runs the SAME pipeline as
 #  vlm_05_reference_diff.py (diff -> connected-component regions -> per-region
 #  VLM YES/NO in "filter" mode -> drop person/"disappeared" labels -> de-dupe
 #  overlapping boxes) and scores it against the ground truth at TWO levels:
@@ -33,12 +33,16 @@ import vlm_05_reference_diff as m           # the script under test
 from PIL import Image, ImageDraw, ImageFont
 
 BENCH_DIR  = Path(__file__).resolve().parent
-# The datasets moved to benchmark/datasets/ on 2026-08-17 (tram1762 = what this
-# script has always scored). No CLI flag here on purpose: tools/rescore_gate.py
-# parses its OWN argv and then calls main(), so an argparse in this module would
-# break it. Picking a dataset / model / localizer is what the Studio's Benchmark
-# screen is for; this stays the frozen path the published numbers came from.
-GT_PATH    = BENCH_DIR / "datasets" / "tram1762.json"
+# The ground truth moved to benchmark/datasets/ on 2026-08-17 and the two tram
+# protocols became ONE benchmark. This script keeps scoring the 29 cases it always
+# scored - the tram 1762 camera and the variant scene - because its whole value is
+# that its numbers are the published ones and tools/rescore_gate.py's control arm
+# must reproduce benchmark/archive/report.md to the digit. Score the whole
+# benchmark from the Studio, which is also where the dataset / model / localizer
+# are chosen. No CLI flag here on purpose: rescore_gate parses its OWN argv and
+# then calls main(), so an argparse in this module would break it.
+GT_PATH    = BENCH_DIR / "datasets" / "ground_truth.json"
+GT_REFS    = ("real", "variant")     # the references this script has always used
 CACHE_PATH = BENCH_DIR / "cache.json"
 RESULTS    = BENCH_DIR / "runs" / "cli-latest" / "results.json"
 REPORT     = BENCH_DIR / "runs" / "cli-latest" / "report.md"
@@ -234,7 +238,7 @@ def metrics(rows):
 
 def write_report(rows, frame, obj, elapsed, done, total):
     L = []
-    L.append("# vlm_05 reference-diff — anomaly detection benchmark\n")
+    L.append("# vlm_05 reference-diff - anomaly detection benchmark\n")
     status = "COMPLETE" if done == total else f"PARTIAL ({done}/{total} cases)"
     L.append(f"**Status:** {status}  ")
     L.append(f"**Model:** `{m.MODEL_NAME}` (Ollama)  ")
@@ -295,8 +299,8 @@ def write_report(rows, frame, obj, elapsed, done, total):
     for r in sorted(rows, key=lambda x: (order[x["outcome"]], x["id"])):
         truth = "anomaly" if r["has_anomaly"] else "clean"
         inst = (f"{r['instances_detected']}/{r['instances_total']}"
-                if r["instances_total"] else "—")
-        labels = ", ".join(x for x in r["kept_labels"] if x) or "—"
+                if r["instances_total"] else "-")
+        labels = ", ".join(x for x in r["kept_labels"] if x) or "-"
         L.append(f"| {r['id']} | {truth} | **{r['outcome']}** | {inst} | "
                  f"{r['fp_regions']} | {labels} |")
     L.append("")
@@ -308,7 +312,8 @@ def write_report(rows, frame, obj, elapsed, done, total):
 
 def main():
     gt = load_json(GT_PATH, None)
-    refmap, cases = gt["references"], gt["cases"]
+    refmap = gt["references"]
+    cases = [c for c in gt["cases"] if c.get("reference") in GT_REFS]
     cache = load_json(CACHE_PATH, {})
     fp = prompt_fingerprint()
     if m.USE_VLM:

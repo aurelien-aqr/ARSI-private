@@ -13,7 +13,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 # ARSI_APP_DATA relocates all runtime state (jobs, masks, videos, cache,
-# settings) — the test suite points it at a temp dir to leave data/app alone.
+# settings) - the test suite points it at a temp dir to leave data/app alone.
 APP_DATA = Path(os.environ.get("ARSI_APP_DATA") or REPO_ROOT / "data" / "app")
 
 __version__ = "0.1.0"

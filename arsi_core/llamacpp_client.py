@@ -2,7 +2,7 @@
 
 This is the prepared fallback of RUNBOOK_LORA.md step 6: if Ollama's GGUF
 vision import drops the projector, serve the fine-tuned judge with
-llama.cpp's server instead and swap this in — everything downstream
+llama.cpp's server instead and swap this in - everything downstream
 (adapters, runner, benchmark) keeps calling the same OllamaClient surface:
 
     from arsi_core.ollama_client import OllamaClient
@@ -50,7 +50,7 @@ class LlamaCppServer:
         return {"message": {"content": content}}
 
     def pull(self, model, stream=True):
-        raise NotImplementedError("llama-server serves one fixed model — "
+        raise NotImplementedError("llama-server serves one fixed model - "
                                   "pulling happens at server start")
 
     def delete(self, model):

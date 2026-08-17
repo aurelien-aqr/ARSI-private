@@ -182,7 +182,7 @@ def _stats(camera):
     Prints p99 and max per case, clean cases first: a usable floor sits above
     every clean p99 and below the max of every anomalous frame."""
     from arsi_core import benchmarks
-    _, gt = benchmarks.load("tram1762")
+    _, gt = benchmarks.load()
     rows = []
     for c in sorted(gt["cases"], key=lambda c: c["has_anomaly"]):
         if "1762" not in c["image"] and c["source"] != "gpt":

@@ -1,4 +1,4 @@
-/* ARSI Studio frontend — faithful implementation of the Claude Design mockup
+/* ARSI Studio frontend - faithful implementation of the Claude Design mockup
    (ARSI Studio.dc.html), wired to the FastAPI backend of docs/SPEC.md.
    Vanilla JS, full re-render on state change, event delegation via data-act. */
 "use strict";
@@ -74,7 +74,7 @@ const S = {
   bench: {                    // Benchmark screen: the labelled ground truth + scored runs
     tab: "data",              // data | runs
     datasets: null, ds: null, detail: null,
-    filter: "all",            // all | anomaly | clean | unreviewed | ref:<key>
+    filter: "all",            // all | anomaly | clean | ref:<key>
     sel: null,                // case id open in the editor
     draft: null,              // editable copy of that case (never the stored one)
     dirty: false, saving: false,
@@ -83,7 +83,7 @@ const S = {
     hover: -1,                // instance row <-> box highlight
     candidates: null, adding: null,   // "add a case" picker + its draft
     // no global bbox coordinate space: it is per case, resolved from that case's
-    // OWN reference image by sizeOf() — a dataset can mix sizes
+    // OWN reference image by sizeOf() - a dataset can mix sizes
     runs: null,
     form: { mode: "full", script: "vlm_05", model: null, localizer: null,
             promptPreset: "conservative", promptText: "", subset: "all",
@@ -252,9 +252,9 @@ async function loadBenchDataset(ds) {
   B.candidates = null;
 }
 /* Instance boxes live in the pixel space of THEIR OWN reference, and a dataset
-   can mix sizes: tram1762 has `real` at 1920x1080 and `variant` at 1672x941, and
-   a 39T run opened while tram1762 is selected is 1280x720. One global size drew
-   those at the wrong scale and — worse — turned a drawn box into corrupted
+   can mix sizes: `real` is 1920x1080, `variant` 1672x941 and the four 39T
+   cameras 1280x720. One global size drew
+   those at the wrong scale and - worse - turned a drawn box into corrupted
    coordinates. So the space is resolved per case, from its reference image.
    Returns null until the size is known, then re-renders once. */
 const _sizePending = new Set();
@@ -282,7 +282,7 @@ function benchCase(id) {
 }
 /* Typing in a label or the note must light up "Save corrections", but those
    fields are data-live and re-rendering on every keystroke is what the focus
-   guard in render() exists to survive — so re-render exactly once, when dirty
+   guard in render() exists to survive - so re-render exactly once, when dirty
    flips. Both fields carry a stable id, so the caret comes back where it was. */
 function benchTouch() {
   if (!S.bench.dirty) { S.bench.dirty = true; render(); }
@@ -662,8 +662,8 @@ function histPerFrame(script, model, localizer) {
   if (!done.length) return null;
   const sameModel = done.filter(j => j.config.model === model);
   if (sameModel.length) done = sameModel;
-  // the localizer decides how many crops a frame costs — the gate sends ~57%
-  // fewer regions to the judge — so photo history over-predicts a photo+dino
+  // the localizer decides how many crops a frame costs - the gate sends ~57%
+  // fewer regions to the judge - so photo history over-predicts a photo+dino
   // run and under-predicts the other way round
   const sameLoc = localizer ? done.filter(j => locName(j.config) === localizer) : [];
   if (sameLoc.length) done = sameLoc;
@@ -691,7 +691,7 @@ function estimate() {
   } else {
     const t = ROUGH_PER_FRAME[(S.health && S.health.gpu) ? "gpu" : "cpu"];
     perFrame = t[script] || t._; rough = true;
-    basis = "rough guess — the real speed appears as soon as the run starts";
+    basis = "rough guess - the real speed appears as soon as the run starts";
   }
   return { frames, perFrame, total: frames * perFrame, basis, rough };
 }
@@ -738,7 +738,7 @@ ACT.launchRun = async () => {
               thumbs: [], log: [`[start] job ${job_id} · ${w.pipeline}${body.localizer ? " · " + body.localizer : ""} · ${w.model}`],
               frames: w.frames.slice(), script: w.pipeline, model: w.model,
               // reference/mask: the masked copies replace these as soon as the
-              // runner reports mask_applied — the screen must show what the VLM saw
+              // runner reports mask_applied - the screen must show what the VLM saw
               refImg: body.reference ? "/api/media/" + body.reference : null,
               masked: !!maskName, maskName,
               reel: [], live: null, stage: null,   // big "current frame" viewer
@@ -746,7 +746,7 @@ ACT.launchRun = async () => {
     setScreen("run");
     watchRun(job_id);
   } catch (e) {
-    if (String(e.message).includes("not installed")) toast(e.message + " — pull it in step 4.");
+    if (String(e.message).includes("not installed")) toast(e.message + " - pull it in step 4.");
     else toast("Launch failed: " + e.message);
   }
 };
@@ -842,7 +842,7 @@ function pumpStage() {
     if (i >= 0) run.stage = Object.assign(run.reel.splice(i, 1)[0],
                                           { phase: "result", at: Date.now() });
   }
-  // a verdict that has had its time makes way — but only for something real,
+  // a verdict that has had its time makes way - but only for something real,
   // so the last frame of a run stays up instead of blanking
   if (run.stage && run.stage.phase === "result"
       && Date.now() - run.stage.at >= stageHold(run)
@@ -865,7 +865,7 @@ function pumpStage() {
 ACT.cancelRun = async () => {
   if (!S.run || S.run.cancelling || S.run.done) return;
   S.run.cancelling = true;               // the button must change on the click,
-  S.run.log.unshift("[cancel] requested — finishing the region in flight");
+  S.run.log.unshift("[cancel] requested - finishing the region in flight");
   render();                              // not minutes later when the job ends
   try { await jpost(`/api/jobs/${S.run.jobId}/cancel`); }
   catch (e) { S.run.cancelling = false; toast(e.message); render(); return; }
@@ -882,7 +882,7 @@ ACT.forceStop = async () => {
   render();
 };
 /* The cancel flag is read between regions, so the job ends within one VLM call
-   (seconds on GPU, up to a few minutes on CPU) — but if the SSE stream died
+   (seconds on GPU, up to a few minutes on CPU) - but if the SSE stream died
    while we waited, nothing would ever tell this screen. Poll the job state as a
    safety net until it reaches a terminal status. */
 async function watchCancel(jobId) {
@@ -924,7 +924,7 @@ async function openResults(jobId) {
   } catch (e) { toast("Could not load job: " + e.message); }
   setScreen("results");
 }
-/* A masked job compared the frames against the MASKED reference — showing the
+/* A masked job compared the frames against the MASKED reference - showing the
    untouched one would misrepresent what the pipeline saw. */
 function jobRefImg(data) {
   const cfg = (data && data.config) || {};
@@ -934,7 +934,7 @@ ACT.openJob = (jobId) => openResults(jobId);
 /* A half-drawn missed box belongs to the frame it was drawn on. Every change of
    frame drops it: it used to be global state, so the dashed outline followed the
    reviewer onto every other frame (only a page reload cleared it) and labelling
-   it there filed the box — with the original frame's coordinates — under the
+   it there filed the box - with the original frame's coordinates - under the
    wrong frame. Every S.res.sel change must go through setSel. */
 function revClearPending() {
   Object.assign(S.rev, { pending: null, corner: null, pendingLabel: "",
@@ -943,7 +943,7 @@ function revClearPending() {
 function setSel(i) {
   if (S.res.sel !== i && (S.rev.pending || S.rev.corner)) {
     revClearPending();
-    toast("Unfinished box discarded — it belonged to the previous frame.");
+    toast("Unfinished box discarded - it belonged to the previous frame.");
   }
   S.res.sel = i; S.res.hoverV = -1;
 }
@@ -989,14 +989,14 @@ function comparableJobs(exceptSlot) {
   return S.jobs.filter(j => j.summary && j.summary.n_frames
     && j.job_id !== S.res.jobId && !taken.includes(j.job_id));
 }
-/* A job id says nothing about what was run — the model and the pipeline are the
+/* A job id says nothing about what was run - the model and the pipeline are the
    whole point of a comparison, so they travel with the id everywhere a run is
    named in this view. */
 /* A vlm_05 run is not identified by its model alone: the same model on two
    localizers is two different experiments, and the boxes it judged are not the
    same boxes. So the localizer travels with the script and the model everywhere
-   a run is named. Runs from before the picker carry no field — they all ran the
-   shipped pixel diff, which is still the default — so they read "photo", with
+   a run is named. Runs from before the picker carry no field - they all ran the
+   shipped pixel diff, which is still the default - so they read "photo", with
    locTitle() saying that was inferred rather than recorded. */
 function locName(cfg) {
   const c = cfg || {};
@@ -1005,7 +1005,7 @@ function locName(cfg) {
 function locTitle(cfg) {
   const c = cfg || {};
   return c.script === "vlm_05" && !c.localizer
-    ? "localizer not recorded — this run predates the picker, when vlm_05 always used the photo pixel diff"
+    ? "localizer not recorded - this run predates the picker, when vlm_05 always used the photo pixel diff"
     : "";
 }
 /* HTML fragment (" · name"), empty for pipelines with no localization stage. */
@@ -1113,7 +1113,7 @@ function iouBox(a, b) {
 function revPropagate(fromFrame, det, verdict) {
   // The camera is fixed and forgotten objects don't move: the same object
   // shows up as a near-identical box on every frame. Copy the verdict to
-  // UNSET verdicts of unconfirmed frames only — never overwrite a judgement.
+  // UNSET verdicts of unconfirmed frames only - never overwrite a judgement.
   if (!det.bbox) return 0;
   let nBoxes = 0;
   for (const f of S.res.data.frames) {
@@ -1171,7 +1171,7 @@ ACT.revImgClick = (_, ev) => {
   const a = S.rev.corner;
   const bbox = [Math.min(a.x, x), Math.min(a.y, y), Math.max(a.x, x), Math.max(a.y, y)];
   S.rev.corner = null;
-  if (bbox[2] - bbox[0] < 5 || bbox[3] - bbox[1] < 5) { toast("Box too small — click two opposite corners."); render(); return; }
+  if (bbox[2] - bbox[0] < 5 || bbox[3] - bbox[1] < 5) { toast("Box too small - click two opposite corners."); render(); return; }
   S.rev.pending = bbox; S.rev.pendingLabel = ""; S.rev.pendingType = "object";
   S.rev.pendingFrame = curFrame().frame_id;
   render();
@@ -1201,7 +1201,7 @@ ACT.revConfirm = () => {
   }
   e.done = true;
   revTouch();
-  // auto-advance to the next unreviewed frame — within the active filter, so
+  // auto-advance to the next unreviewed frame - within the active filter, so
   // the selection never lands on a frame the gallery isn't showing
   const frames = S.res.data.frames;
   const vis = visibleIndices();
@@ -1286,7 +1286,7 @@ ACT.benchToggleAnom = () => {
   if (!d) return;
   if (d.has_anomaly && d.instances.length
       && !confirm(`Mark "${d.id}" clean? Its ${d.instances.length} instance `
-                  + "box(es) will be removed — a clean case cannot carry boxes.")) return;
+                  + "box(es) will be removed - a clean case cannot carry boxes.")) return;
   d.has_anomaly = !d.has_anomaly;
   if (!d.has_anomaly) d.instances = [];
   S.bench.dirty = true; render();
@@ -1315,7 +1315,7 @@ ACT.benchImgClick = (_, ev) => {
   const a = B.corner; B.corner = null;
   const bbox = [Math.min(a.x, x), Math.min(a.y, y), Math.max(a.x, x), Math.max(a.y, y)];
   if (bbox[2] - bbox[0] < 4 || bbox[3] - bbox[1] < 4) {
-    toast("Box too small — click two opposite corners."); render(); return;
+    toast("Box too small - click two opposite corners."); render(); return;
   }
   B.draft.instances.push({ type: "object", label: "", bbox });
   B.draw = false; B.dirty = true; B.hover = B.draft.instances.length - 1;
@@ -1359,7 +1359,7 @@ ACT.benchSave = async () => {
     B.datasets = (B.datasets || []).map(d => d.id === r.dataset.id ? r.dataset : d);
     B.draft = JSON.parse(JSON.stringify(r.case));
     B.dirty = false;
-    toast(`Saved · ${r.dataset.n_reviewed}/${r.dataset.n_cases} cases reviewed`);
+    toast(`Saved · ${r.dataset.n_cases} cases, ${r.dataset.n_instances} instances`);
   } catch (e) { toast("Not saved: " + e.message); }
   B.saving = false; render();
 };
@@ -1409,7 +1409,7 @@ ACT.benchAddCase = async () => {
     B.adding = null;
     await loadBenchDataset(B.ds);
     ACT.benchSelCase(r.case.id);
-    toast("Case added — now draw its boxes.");
+    toast("Case added - now draw its boxes.");
   } catch (e) { toast(e.message); }
   render();
 };
@@ -1453,7 +1453,7 @@ ACT.benchLaunch = async () => {
   } catch (e) { toast("Could not start: " + e.message); }
   B.launching = false; render();
 };
-/* "all" (send no case list) or an explicit id list — the server records whether
+/* "all" (send no case list) or an explicit id list - the server records whether
    the run covered the whole protocol, which is what makes two runs comparable. */
 function benchSubsetIds() {
   const cases = ((S.bench.detail || {}).cases) || [];
@@ -1461,7 +1461,8 @@ function benchSubsetIds() {
   if (f === "all") return cases.length ? "all" : null;
   const pick = cases.filter(c => f === "anomaly" ? c.has_anomaly
                               : f === "clean" ? !c.has_anomaly
-                              : f === "unreviewed" ? !c.reviewed : true);
+                              : f.startsWith("ref:") ? c.reference === f.slice(4)
+                              : true);
   return pick.length ? pick.map(c => c.id) : null;
 }
 ACT.benchOpenRun = async (runId) => { S.bench.scoreSel = null; await loadBenchRun(runId); };
@@ -1543,7 +1544,7 @@ const CHANGE = {
   },
   diff: v => { S.wiz.diff = +v; }, minArea: v => { S.wiz.minArea = +v; },
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
-  /* benchmark — the case editor writes into the DRAFT only */
+  /* benchmark - the case editor writes into the DRAFT only */
   benchNote: v => { S.bench.draft.note = v; benchTouch(); },
   benchSource: v => { S.bench.draft.source = v; S.bench.dirty = true; render(); },
   benchInstLabel: (v, el) => {
@@ -1620,7 +1621,7 @@ function render() {
   });
   // innerHTML destroys the focused field: without this, a render landing while
   // the user types (autosave, an expiring toast) dropped focus to <body> and
-  // the next keystrokes were read as review shortcuts — 'a' confirmed a frame
+  // the next keystrokes were read as review shortcuts - 'a' confirmed a frame
   // with every box marked TP and jumped to the next one.
   const act = document.activeElement;
   const focus = act && act.id && app.contains(act)
@@ -1739,7 +1740,7 @@ function topbar() {
   const titles = { dashboard: "Dashboard", wizard: "New analysis", run: "Run",
                    results: "Results", history: "History", settings: "Settings",
                    labels: "Labels", lora: "LoRA training data",
-                   benchmark: "Benchmark — ground truth & score" };
+                   benchmark: "Benchmark - ground truth & score" };
   const themeIcon = S.theme === "dark"
     ? `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M15.5 10.5 A6.8 6.8 0 0 1 7.5 2.5 A6.8 6.8 0 1 0 15.5 10.5 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`
     : `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.4"/><g stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="9" y1="1.5" x2="9" y2="3"/><line x1="9" y1="15" x2="9" y2="16.5"/><line x1="1.5" y1="9" x2="3" y2="9"/><line x1="15" y1="9" x2="16.5" y2="9"/></g></svg>`;
@@ -1774,7 +1775,7 @@ function statusMeta(st) {
     return { fg: C.acc, bg: C.accBg, bd: C.accBd, label: st };
   if (st === "failed") return { fg: C.redFg, bg: C.redBg, bd: C.redBd, label: "Failed" };
   if (st === "cancelled") return { fg: C.fg2, bg: "oklch(0.22 0.012 250)", bd: C.bdBtn, label: "Cancelled" };
-  // a results.json left saying "running" with no worker behind it — the server
+  // a results.json left saying "running" with no worker behind it - the server
   // was restarted mid-job. Its finished frames are still there.
   if (st === "interrupted") return { fg: "oklch(0.8 0.11 75)", bg: "oklch(0.24 0.05 75)", bd: "oklch(0.5 0.09 75)", label: "Interrupted" };
   return { fg: "oklch(0.82 0.11 150)", bg: C.greenBg, bd: C.greenBd, label: "Complete" };
@@ -1788,7 +1789,7 @@ function jobRow(j, cols) {
     <div><div style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">${esc(j.job_id)}</div>
       <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(j.config.script)}${locChip(j.config)} · ${esc(j.config.model || "")}</div></div>
     <span style="text-align:right; font-family:${C.mono}; color:${C.fg2};">${s.n_frames ?? j.config.n_frames ?? ""}</span>
-    <span style="text-align:right; font-family:${C.mono}; color:${anomC}; font-weight:600;">${s.n_anomalous ?? "—"}</span>
+    <span style="text-align:right; font-family:${C.mono}; color:${anomC}; font-weight:600;">${s.n_anomalous ?? "-"}</span>
     <span style="display:flex; justify-content:flex-end;"><span style="font-size:11.5px; color:${m.fg}; background:${m.bg}; border:1px solid ${m.bd}; padding:3px 9px; border-radius:12px;">${m.label}</span></span>
   </div>`;
 }
@@ -1828,7 +1829,7 @@ function dashboard() {
         <span>Job</span><span style="text-align:right;">Frames</span><span style="text-align:right;">Anomalies</span><span style="text-align:right;">Status</span>
       </div>
       ${jobs.length ? jobs.map(j => jobRow(j, "2.4fr 0.8fr 1fr 1.1fr")).join("") :
-        `<div style="padding:32px; text-align:center; color:${C.fg4}; font-size:12.5px;">No jobs yet — run your first analysis.</div>`}
+        `<div style="padding:32px; text-align:center; color:${C.fg4}; font-size:12.5px;">No jobs yet - run your first analysis.</div>`}
     </div>
   </div>`;
 }
@@ -1872,7 +1873,7 @@ function wizStep1() {
       <div style="border:1.5px dashed ${C.accBd}; border-radius:12px; padding:44px; text-align:center; background:${C.bgCard2};">
         <div style="width:34px; height:34px; margin:0 auto 14px; border-radius:50%; border:3px solid ${C.bd3}; border-top-color:${C.acc}; animation:arsispin 0.9s linear infinite;"></div>
         <div style="font-size:14px; font-weight:500; margin-bottom:4px;">Uploading &amp; probing <span style="font-family:${C.mono};">${esc(w.uploading)}</span>…</div>
-        <div style="font-size:12px; color:${C.fg3};">Large files take a while — the filmstrip appears when it's done.</div>
+        <div style="font-size:12px; color:${C.fg3};">Large files take a while - the filmstrip appears when it's done.</div>
       </div>` : w.video ? `
       <div style="padding:16px 18px; border-radius:11px; background:${C.accBg}; border:1px solid ${C.accBd};">
         <div style="font-size:13.5px; font-weight:600; margin-bottom:4px;">Video loaded</div>
@@ -1881,7 +1882,7 @@ function wizStep1() {
       </div>` : `
       <div data-act="pickVideoFile" style="border:1.5px dashed oklch(0.36 0.014 250); border-radius:12px; padding:44px; text-align:center; background:${C.bgCard2}; cursor:pointer;">
         <div style="font-size:14px; font-weight:500; margin-bottom:4px;">Drop a video file here</div>
-        <div style="font-size:12px; color:${C.fg3};">.mp4 .mkv .avi — or <span style="color:${C.acc};">browse</span></div>
+        <div style="font-size:12px; color:${C.fg3};">.mp4 .mkv .avi - or <span style="color:${C.acc};">browse</span></div>
       </div>`;
   } else if (w.source === "reuse") {
     const pool = w.framePool || [], sel = w.frameSel || [];
@@ -1945,7 +1946,7 @@ function wizStep2() {
   const seg = (on) => on ? `background:${C.accSel}; color:${C.accFg};` : `background:transparent; color:oklch(0.65 0.012 250);`;
   return `
   <div style="max-width:820px;">
-    <div style="font-size:13px; color:${C.fg3}; margin-bottom:16px;">Sampling rate ${hint("How many frames to analyze. 'Every N seconds' keeps 1 frame per N seconds of video (usual choice: 1-3 s — a forgotten object stays visible for many seconds). 'Every N frames' counts in raw video frames (25-30 per second).")}</div>
+    <div style="font-size:13px; color:${C.fg3}; margin-bottom:16px;">Sampling rate ${hint("How many frames to analyze. 'Every N seconds' keeps 1 frame per N seconds of video (usual choice: 1-3 s - a forgotten object stays visible for many seconds). 'Every N frames' counts in raw video frames (25-30 per second).")}</div>
     <div style="display:inline-flex; padding:3px; border-radius:9px; background:${C.bg}; border:1px solid ${C.bd}; margin-bottom:20px;">
       <div data-act="setExtMode" data-arg="seconds" style="padding:7px 15px; border-radius:7px; font-size:12.5px; cursor:pointer; ${seg(w.extractMode === "seconds")}">Every N seconds</div>
       <div data-act="setExtMode" data-arg="frames" style="padding:7px 15px; border-radius:7px; font-size:12.5px; cursor:pointer; ${seg(w.extractMode === "frames")}">Every N frames</div>
@@ -2151,7 +2152,7 @@ function wizStep4() {
       </div>
       <div>
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-          <span style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono};">Prompt ${hint("The instruction sent to the model for every frame/region. Conservative = strict, fewer false alarms; Lenient = flags more, more false alarms. Edit freely — but a changed prompt means cached verdicts no longer apply, so the run recomputes every call.")}</span>
+          <span style="font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4}; font-family:${C.mono};">Prompt ${hint("The instruction sent to the model for every frame/region. Conservative = strict, fewer false alarms; Lenient = flags more, more false alarms. Edit freely - but a changed prompt means cached verdicts no longer apply, so the run recomputes every call.")}</span>
           <select data-change="promptPreset" style="padding:6px 9px; border-radius:7px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:12px;">
             ${promptOpts}<option value="custom" ${w.promptPreset === "custom" ? "selected" : ""}>Custom</option>
           </select>
@@ -2267,7 +2268,7 @@ function wizStep5() {
         : []),
     ["Model", m.name || w.model],
     ["Prompt", w.promptPreset],
-    ["Reference", needRef() ? (w.refPath || "—").split("/").pop() : "n/a"],
+    ["Reference", needRef() ? (w.refPath || "-").split("/").pop() : "n/a"],
   ].map(([k, v]) => `
     <div style="display:grid; grid-template-columns:180px 1fr; padding:13px 18px; border-top:1px solid oklch(0.22 0.01 250); font-size:13px;">
       <span style="color:oklch(0.58 0.012 250);">${k}</span>
@@ -2415,10 +2416,10 @@ function runView() {
     </div>
     <div style="display:flex; gap:12px;">
       ${!run.done ? (run.cancelling
-        ? `<button disabled title="The cancel flag is read between regions, so the job stops after the VLM call in flight — seconds on GPU, up to a few minutes on CPU." style="display:flex; align-items:center; gap:9px; font-size:13px; color:oklch(0.78 0.08 22); background:oklch(0.18 0.02 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:default;">
-            <span style="width:13px; height:13px; border-radius:50%; border:2px solid oklch(0.4 0.05 22); border-top-color:oklch(0.85 0.1 22); animation:arsispin 0.8s linear infinite;"></span>Stopping — finishing the region in flight</button>`
+        ? `<button disabled title="The cancel flag is read between regions, so the job stops after the VLM call in flight - seconds on GPU, up to a few minutes on CPU." style="display:flex; align-items:center; gap:9px; font-size:13px; color:oklch(0.78 0.08 22); background:oklch(0.18 0.02 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:default;">
+            <span style="width:13px; height:13px; border-radius:50%; border:2px solid oklch(0.4 0.05 22); border-top-color:oklch(0.85 0.1 22); animation:arsispin 0.8s linear infinite;"></span>Stopping - finishing the region in flight</button>`
         : `<button data-act="cancelRun" style="font-size:13px; color:oklch(0.85 0.1 22); background:oklch(0.2 0.03 22); border:1px solid ${C.redBd}; padding:11px 20px; border-radius:9px; cursor:pointer;">Cancel (keep partial results)</button>`) : ""}
-      ${!run.done && run.cancelling ? `<button data-act="forceStop" ${run.forcing ? "disabled" : ""} title="Cuts the connection of the VLM call in flight — the only way to stop Ollama mid-generation. Everything already judged is kept; the crop being judged right now is lost." style="font-size:13px; font-weight:600; color:${run.forcing ? C.fg3 : "oklch(0.9 0.02 22)"}; background:${run.forcing ? C.bgBtn : "oklch(0.42 0.16 22)"}; border:1px solid oklch(0.55 0.18 22); padding:11px 18px; border-radius:9px; cursor:${run.forcing ? "default" : "pointer"};">
+      ${!run.done && run.cancelling ? `<button data-act="forceStop" ${run.forcing ? "disabled" : ""} title="Cuts the connection of the VLM call in flight - the only way to stop Ollama mid-generation. Everything already judged is kept; the crop being judged right now is lost." style="font-size:13px; font-weight:600; color:${run.forcing ? C.fg3 : "oklch(0.9 0.02 22)"}; background:${run.forcing ? C.bgBtn : "oklch(0.42 0.16 22)"}; border:1px solid oklch(0.55 0.18 22); padding:11px 18px; border-radius:9px; cursor:${run.forcing ? "default" : "pointer"};">
           ${run.forcing ? "Aborting…" : "Force stop now"}</button>
         <span style="font-size:11.5px; color:${C.fg4}; align-self:center;">Force stop drops the crop being judged; frames already done are kept.</span>` : ""}
       ${run.done ? `<button data-act="viewRunResults" style="font-size:13px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:11px 22px; border-radius:9px; cursor:pointer;">Open results</button>
@@ -2439,9 +2440,9 @@ function bboxOverlay(frame, cs, hoverIdx = -1) {
       <span style="position:absolute; top:-18px; left:0; font-size:10px; font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.85); color:oklch(0.85 0.1 150); padding:1px 5px; border-radius:4px; white-space:nowrap;">${esc(d.label)}</span></div>`;
   }).join("");
 }
-/* The localization stage, made visible. A miss has two very different causes —
+/* The localization stage, made visible. A miss has two very different causes -
    the localizer never proposed a box over the object, or it did and the judge
-   said NO — and until now the only way to tell them apart was reading the raw
+   said NO - and until now the only way to tell them apart was reading the raw
    text. Kept regions are already drawn by bboxOverlay/reviewOverlay, so this
    draws ONLY the ones that were dropped, dimmer and dashed, underneath. */
 const CAND_COL = { rejected: "oklch(0.62 0.13 22)", filtered: "oklch(0.68 0.13 300)" };
@@ -2520,7 +2521,7 @@ function reviewSidebar(sel) {
   const pendingForm = S.rev.pending ? `
     <div style="padding:10px; border-radius:9px; margin-bottom:8px; background:oklch(0.18 0.03 300); border:1px solid oklch(0.42 0.1 300);">
       <div style="font-size:11px; color:oklch(0.85 0.1 300); margin-bottom:7px; font-family:${C.mono};">missed box [${S.rev.pending.join(", ")}]</div>
-      <input id="revLabel" data-change="revLabel" data-live placeholder="label — e.g. phone on seat" value="${esc(S.rev.pendingLabel)}" style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:12px; margin-bottom:7px;">
+      <input id="revLabel" data-change="revLabel" data-live placeholder="label - e.g. phone on seat" value="${esc(S.rev.pendingLabel)}" style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:12px; margin-bottom:7px;">
       <div style="display:flex; gap:6px;">
         <select data-change="revType" style="flex:1; padding:6px 8px; border-radius:7px; background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
           ${["object", "graffiti", "damage", "litter", "unknown"].map(t => `<option ${t === S.rev.pendingType ? "selected" : ""}>${t}</option>`).join("")}
@@ -2530,7 +2531,7 @@ function reviewSidebar(sel) {
       </div>
     </div>` : "";
   const canConfirm = nJudged >= nDets;
-  const stat = (label, v) => `<div style="display:flex; justify-content:space-between; font-size:11.5px; padding:2px 0;"><span style="color:${C.fg3};">${label}</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">${v ?? "—"}</span></div>`;
+  const stat = (label, v) => `<div style="display:flex; justify-content:space-between; font-size:11.5px; padding:2px 0;"><span style="color:${C.fg3};">${label}</span><span style="font-family:${C.mono}; color:oklch(0.9 0.006 250);">${v ?? "-"}</span></div>`;
   return `
     <div style="padding:14px 16px 10px; border-bottom:1px solid oklch(0.22 0.01 250);">
       <div style="display:flex; align-items:center; gap:8px;">
@@ -2541,7 +2542,7 @@ function reviewSidebar(sel) {
       <div style="font-size:11px; color:${C.fg4}; margin-top:4px;">Click a box (or TP/FP) to judge · <b>T</b>/<b>F</b> hovered · <b>A</b> all-TP+confirm · <b>M</b> missed box · <b>C</b> confirm</div>
     </div>
     <div style="padding:10px 12px;">
-      ${detRows || `<div style="font-size:12px; color:${C.fg4}; padding:6px 4px 10px;">No detections on this frame — confirm it as clean, or add the boxes the model missed.</div>`}
+      ${detRows || `<div style="font-size:12px; color:${C.fg4}; padding:6px 4px 10px;">No detections on this frame - confirm it as clean, or add the boxes the model missed.</div>`}
       ${missedRows}${pendingForm}
       <button data-act="revToggleDraw" style="width:100%; margin:4px 0 8px; font-size:12px; padding:8px 0; border-radius:8px; cursor:pointer; color:${S.rev.draw ? C.accDark : "oklch(0.85 0.12 300)"}; background:${S.rev.draw ? "oklch(0.75 0.15 300)" : "oklch(0.2 0.03 300)"}; border:1.5px solid oklch(0.45 0.11 300);">
         ${S.rev.draw ? "Click two corners on the image… (Esc cancels)" : "+ Missed object (M)"}</button>
@@ -2559,12 +2560,12 @@ function reviewSidebar(sel) {
     ${m ? `
     <div style="padding:12px 16px; border-top:1px solid oklch(0.22 0.01 250);">
       <div style="font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5}; margin-bottom:6px; font-family:${C.mono};">Metrics · ${m.progress.n_done}/${m.progress.n_frames} reviewed</div>
-      ${stat("Objects — precision", m.objects.precision)}
-      ${stat("Objects — recall", m.objects.recall)}
-      ${stat("Objects — TP / FP / FN", `${m.objects.tp} / ${m.objects.fp} / ${m.objects.fn}`)}
-      ${stat("Frames — accuracy", m.frames.accuracy)}
-      ${stat("Frames — F1", m.frames.f1)}
-      ${stat("Frames — TP/FP/TN/FN", `${m.frames.TP}/${m.frames.FP}/${m.frames.TN}/${m.frames.FN}`)}
+      ${stat("Objects - precision", m.objects.precision)}
+      ${stat("Objects - recall", m.objects.recall)}
+      ${stat("Objects - TP / FP / FN", `${m.objects.tp} / ${m.objects.fp} / ${m.objects.fn}`)}
+      ${stat("Frames - accuracy", m.frames.accuracy)}
+      ${stat("Frames - F1", m.frames.f1)}
+      ${stat("Frames - TP/FP/TN/FN", `${m.frames.TP}/${m.frames.FP}/${m.frames.TN}/${m.frames.FN}`)}
       <div style="font-size:10px; color:${C.fg5}; margin-top:6px;">Any missed object ⇒ frame scores FN (supervisor rule). Export xlsx to get the review sheet.</div>
     </div>` : ""}`;
 }
@@ -2642,7 +2643,7 @@ function resultsView() {
       </span>${tabs}
       <span style="margin-left:auto; display:flex; align-items:center; gap:10px; white-space:nowrap;">
         ${revOn && S.rev.metrics ? `<span style="font-size:11px; font-family:${C.mono}; color:oklch(0.85 0.12 90);">${Object.values(S.rev.doc.frames).filter(e => e.done).length}/${frames.length} reviewed</span>` : ""}
-        ${(sel.candidates || []).length ? `<button data-act="toggleCands" title="Show the regions the localizer proposed that never became detections — dashed red = the judge answered NO, dashed purple = a post-filter dropped a YES. Tells you whether a miss is a localization failure or a judge failure." style="display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:${R.cands ? C.accDark : "oklch(0.72 0.13 22)"}; background:${R.cands ? "oklch(0.72 0.13 22)" : "oklch(0.24 0.05 22)"}; border:1px solid oklch(0.5 0.1 22); padding:6px 12px; border-radius:8px; cursor:pointer;">
+        ${(sel.candidates || []).length ? `<button data-act="toggleCands" title="Show the regions the localizer proposed that never became detections - dashed red = the judge answered NO, dashed purple = a post-filter dropped a YES. Tells you whether a miss is a localization failure or a judge failure." style="display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:${R.cands ? C.accDark : "oklch(0.72 0.13 22)"}; background:${R.cands ? "oklch(0.72 0.13 22)" : "oklch(0.24 0.05 22)"}; border:1px solid oklch(0.5 0.1 22); padding:6px 12px; border-radius:8px; cursor:pointer;">
           ${R.cands ? "Hide" : "Show"} candidates (${(sel.candidates || []).filter(c => c.outcome !== "kept").length})</button>` : ""}
         <button data-act="toggleReview" title="Judge each detection TP/FP and box what the model missed" style="display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:${revOn ? C.accDark : "oklch(0.85 0.12 90)"}; background:${revOn ? "oklch(0.85 0.12 90)" : "oklch(0.24 0.05 90)"}; border:1px solid oklch(0.5 0.09 90); padding:6px 12px; border-radius:8px; cursor:pointer;">
           ${revOn ? "Exit review" : "Review"}</button>
@@ -2749,7 +2750,7 @@ const COMPARE_DOTS = [C.acc, "oklch(0.7 0.15 300)", "oklch(0.8 0.12 75)", "oklch
 function compareView(tabs, gallery, sel, selIdx) {
   const R = S.res;
   /* One column per run. slot === -1 is the open job: it drives the gallery and
-     the frame selection, so it stays put — the others are swappable. */
+     the frame selection, so it stays put - the others are swappable. */
   const col = (data, slot) => {
     const dot = COMPARE_DOTS[slot + 1] || C.fg3;
     const frame = data ? (data.frames || []).find(f => f.frame_id === sel.frame_id) : null;
@@ -2769,11 +2770,11 @@ function compareView(tabs, gallery, sel, selIdx) {
     /* Each swappable column carries its own picker, listing the runs by what
        distinguishes them (pipeline · model · prompt) rather than by job id. The
        dropdown truncates at four columns, so the same config is repeated below
-       it on a line that wraps — nothing about the run stays hidden. */
+       it on a line that wraps - nothing about the run stays hidden. */
     const picker = slot < 0
       ? `<span style="flex:0 0 auto; padding:4px 10px; border-radius:7px; background:${C.accBg}; border:1px solid ${C.accBd}; color:${C.accFg}; font-size:11.5px;">open run</span>`
       : `<select data-change="compareJob" data-slot="${slot}" title="${esc(label)}" style="flex:1; min-width:0; padding:4px 6px; border-radius:7px; background:${C.bgCard2}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
-           ${comparableJobs(slot).map(j => `<option value="${esc(j.job_id)}" ${data && data.job_id === j.job_id ? "selected" : ""}>${esc(runLabel(j.config))} — ${esc(j.job_id)}</option>`).join("")}
+           ${comparableJobs(slot).map(j => `<option value="${esc(j.job_id)}" ${data && data.job_id === j.job_id ? "selected" : ""}>${esc(runLabel(j.config))} - ${esc(j.job_id)}</option>`).join("")}
          </select>
          <button data-act="removeCompareJob" data-arg="${slot}" title="Remove this column" style="flex:0 0 auto; width:22px; height:22px; border-radius:6px; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; color:${C.fg3}; font-size:12px; line-height:1; cursor:pointer;">✕</button>`;
     const s = (data && data.summary) || {};
@@ -2801,7 +2802,7 @@ function compareView(tabs, gallery, sel, selIdx) {
   /* Two runs per row, wrapping into a 2x2: four columns across squeezed the
      frames down to a width where the boxes were no longer readable, which is
      the one thing this view exists for. An odd count leaves a hole in the grid
-     — filled here, or the 1px-gap trick would paint it in the border colour. */
+     - filled here, or the 1px-gap trick would paint it in the border colour. */
   const nCols = Math.min(cols.length, 2);
   const nRows = Math.ceil(cols.length / nCols);
   const filler = cols.length < nCols * nRows ? `<div style="background:${C.bg};"></div>` : "";
@@ -2829,7 +2830,7 @@ function compareView(tabs, gallery, sel, selIdx) {
 /* --------------- history --------------- */
 /* Options for one history filter: every value present in the jobs, with how many
    jobs carry it. Counting against the OTHER filter's selection (not the raw job
-   list) is what makes the two dropdowns honest together — picking a script then
+   list) is what makes the two dropdowns honest together - picking a script then
    shows "0" next to the models that script was never run with, instead of
    offering a combination that yields an empty table. */
 /* The three history filters cross-filter each other: each select counts what is
@@ -2868,7 +2869,7 @@ function histOptions(key, label) {
 
 /* History rows are wider than the dashboard's: this view exists to COMPARE runs
    (which model was faster, which one failed frames), so the numbers that used to
-   sit in a side panel are columns here. The side panel was also unreachable —
+   sit in a side panel are columns here. The side panel was also unreachable -
    clicking a row navigates away, so its selection could never be changed. */
 const HIST_COLS = "1.9fr 1.5fr 0.7fr 0.8fr 0.7fr 0.8fr 1fr 0.5fr";
 
@@ -2886,11 +2887,11 @@ function historyRow(j) {
       <div style="font-family:${C.mono}; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(j.job_id)}</div>
       <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${locChip(cfg)}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
     </div>
-    <span title="${esc(cfg.model || "")}" style="font-family:${C.mono}; font-size:11.5px; color:${C.fg2}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(cfg.model || "—")}</span>
-    ${num(s.n_frames ?? cfg.n_frames ?? "—", C.fg2)}
-    ${num(s.n_anomalous ?? "—", anomC, true)}
-    ${num(s.n_failed ?? "—", failC)}
-    ${num(s.wall_seconds != null ? fmtEta(s.wall_seconds) : "—", C.fg3)}
+    <span title="${esc(cfg.model || "")}" style="font-family:${C.mono}; font-size:11.5px; color:${C.fg2}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(cfg.model || "-")}</span>
+    ${num(s.n_frames ?? cfg.n_frames ?? "-", C.fg2)}
+    ${num(s.n_anomalous ?? "-", anomC, true)}
+    ${num(s.n_failed ?? "-", failC)}
+    ${num(s.wall_seconds != null ? fmtEta(s.wall_seconds) : "-", C.fg3)}
     <span style="display:flex; justify-content:flex-end;"><span style="font-size:11.5px; color:${m.fg}; background:${m.bg}; border:1px solid ${m.bd}; padding:3px 9px; border-radius:12px; white-space:nowrap;">${m.label}</span></span>
     <span style="display:flex; justify-content:flex-end;">
       ${s.n_frames ? `<button data-act="openReportJob" data-arg="${esc(j.job_id)}" title="Open the full HTML report in a new tab" style="font-size:11px; color:${C.fg2}; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:4px 9px; border-radius:7px; cursor:pointer; white-space:nowrap;">Report</button>` : ""}
@@ -2911,7 +2912,7 @@ function historyView() {
         <h3 style="margin:0; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg3};">${filtered ? `${jobs.length} of ${S.jobs.length} jobs` : "All jobs"}</h3>
         <select data-change="histScript" style="${selStyle} width:auto; min-width:170px;">${histOptions("script", "scripts")}</select>
         <select data-change="histModel" style="${selStyle} width:auto; min-width:230px;">${histOptions("model", "models")}</select>
-        <select data-change="histLocalizer" title="vlm_05 only — the other pipelines have no localization stage" style="${selStyle} width:auto; min-width:170px;">${histOptions("localizer", "localizers")}</select>
+        <select data-change="histLocalizer" title="vlm_05 only - the other pipelines have no localization stage" style="${selStyle} width:auto; min-width:170px;">${histOptions("localizer", "localizers")}</select>
         ${filtered ? `<button data-act="histReset" style="font-size:11px; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2}; padding:5px 10px; border-radius:7px; cursor:pointer;">Clear filters</button>` : ""}
       </div>
       <div style="border:1px solid ${C.bd}; border-radius:11px; overflow:hidden; background:${C.bgCard};">
@@ -3030,7 +3031,7 @@ function benchDraftSize() {
 }
 function gtOverlay(instances, size, hover = -1) {
   if (!size) return "";
-  // While drawing, the boxes must not swallow the click that places a corner —
+  // While drawing, the boxes must not swallow the click that places a corner -
   // so they only become hoverable targets when the draw mode is off.
   const attrs = S.bench.draw ? "" : null;
   return (instances || []).map((inst, i) => benchBox(
@@ -3056,14 +3057,12 @@ function benchView() {
   };
   const dsChips = B.datasets.map(d => {
     const on = B.ds === d.id;
-    const draft = d.n_cases && !d.n_reviewed;
     return `<div data-act="benchPickDs" data-arg="${esc(d.id)}" title="${esc(d.path || "")}"
       style="padding:8px 13px; border-radius:9px; cursor:pointer; white-space:nowrap;
              background:${on ? C.accBg : C.bgCard}; border:1px solid ${on ? C.accSelBd : C.bd};">
       <div style="font-size:12.5px; font-weight:600; color:${on ? C.accFg : "oklch(0.88 0.006 250)"};">${esc(d.name || d.id)}</div>
       <div style="font-family:${C.mono}; font-size:10px; color:${C.fg4}; margin-top:2px;">
-        ${d.n_cases} cases · ${d.n_instances} inst · ${d.n_reviewed}/${d.n_cases} reviewed
-        ${draft ? `<span style="color:oklch(0.8 0.11 75);">· draft</span>` : ""}
+        ${d.n_cases} cases · ${d.n_instances} instances · ${(d.references || []).length} references
       </div></div>`;
   }).join("");
   const scoreOpen = B.tab === "runs" && B.runId;
@@ -3074,9 +3073,15 @@ function benchView() {
     <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2};
                 display:flex; align-items:center; gap:10px; overflow-x:auto;">
       ${tab("data", "Ground truth")}${tab("runs", "Runs & score")}
-      ${scoreOpen ? "" : `
+      ${scoreOpen || B.datasets.length < 2 ? "" : `
         <div style="width:1px; height:26px; background:${C.bd2}; margin:0 4px;"></div>
         ${dsChips}`}
+      ${scoreOpen || B.datasets.length > 1 || !B.detail ? "" : `
+        <div style="width:1px; height:26px; background:${C.bd2}; margin:0 4px;"></div>
+        <span style="font-size:12.5px; color:oklch(0.88 0.006 250);">${esc(B.detail.name || "")}</span>
+        <span style="font-family:${C.mono}; font-size:10.5px; color:${C.fg4};">
+          ${B.detail.n_cases} cases · ${B.detail.n_anomalous} anomalous ·
+          ${B.detail.n_instances} instances · ${(B.detail.references || []).length} references</span>`}
     </div>
     ${body}
   </div>`;
@@ -3090,7 +3095,6 @@ function benchDataTab() {
   const match = (c) => B.filter === "all" ? true
     : B.filter === "anomaly" ? c.has_anomaly
     : B.filter === "clean" ? !c.has_anomaly
-    : B.filter === "unreviewed" ? !c.reviewed
     : B.filter.startsWith("ref:") ? c.reference === B.filter.slice(4) : true;
   const visible = cases.filter(match);
   const chip = (k, label, n) => {
@@ -3109,9 +3113,6 @@ function benchDataTab() {
             ? `<div style="position:absolute; inset:0;">${(c.instances || []).map(i =>
                 benchBox(i.bbox, sz, GT_COL, "", { width: 1.5 })).join("")}</div>` : ""; })()}
         <span style="position:absolute; top:4px; right:4px;">${benchCaseBadge(c)}</span>
-        ${c.reviewed ? `<span title="reviewed by a human" style="position:absolute; bottom:4px; right:5px;
-          width:15px; height:15px; border-radius:50%; display:flex; align-items:center;
-          justify-content:center; font-size:9px; background:oklch(0.65 0.13 150); color:oklch(0.13 0.008 250);">✓</span>` : ""}
       </div>
       <div style="padding:5px 7px; background:${C.bgCard2};">
         <div style="font-family:${C.mono}; font-size:10px; color:oklch(0.86 0.006 250);
@@ -3136,7 +3137,6 @@ function benchDataTab() {
         ${chip("all", "All", cases.length)}
         ${chip("anomaly", "Anomalous", cases.filter(c => c.has_anomaly).length)}
         ${chip("clean", "Clean", cases.filter(c => !c.has_anomaly).length)}
-        ${chip("unreviewed", "Not reviewed", cases.filter(c => !c.reviewed).length)}
         ${refKeys.length > 1 ? refKeys.map(k =>
           chip("ref:" + k, esc(k), cases.filter(c => c.reference === k).length)).join("") : ""}
         <button data-act="benchOpenAdd" style="margin-left:auto; font-size:11.5px; font-weight:600;
@@ -3188,7 +3188,7 @@ function benchEditor() {
             `<option ${t === inst.type ? "selected" : ""}>${t}</option>`).join("")}
         </select>
         <input id="benchLabel${i}" data-change="benchInstLabel" data-live data-i="${i}"
-               value="${esc(inst.label || inst.note || "")}" placeholder="what it is — e.g. purple bag on seat"
+               value="${esc(inst.label || inst.note || "")}" placeholder="what it is - e.g. purple bag on seat"
                style="flex:1; min-width:0; padding:5px 8px; border-radius:6px; background:${C.bgInput};
                       border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:11.5px;">
         <button data-act="benchDelInst" data-arg="${i}" title="Remove this instance"
@@ -3211,7 +3211,7 @@ function benchEditor() {
       <div style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.92 0.006 250);
                   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(c.id)}</div>
       <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">
-        ref ${esc(c.reference)}${stored.reviewed ? ` · reviewed ${esc(String(stored.reviewed).slice(0, 10))}` : " · never reviewed by a human"}</div>
+        ref ${esc(c.reference)} · ${(stored.instances || []).length} instance(s) on file</div>
     </div>
     <button data-act="benchToggleSide" title="Show the reference side by side"
       style="font-size:11px; color:${B.side ? C.accFg : C.fg2}; background:${B.side ? C.accBg : C.bgBtn};
@@ -3248,7 +3248,7 @@ function benchEditor() {
         color:oklch(0.8 0.09 22); background:oklch(0.19 0.02 22); border:1px solid oklch(0.36 0.07 22);
         padding:6px 10px; border-radius:7px; cursor:pointer;">Delete case</button>
     </div>
-    <input id="benchNote" data-change="benchNote" data-live value="${esc(c.note || "")}" placeholder="note — what a reader needs to know about this case"
+    <input id="benchNote" data-change="benchNote" data-live value="${esc(c.note || "")}" placeholder="note - what a reader needs to know about this case"
       style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput};
              border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:11.5px; margin-bottom:11px;">
     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5};
@@ -3270,8 +3270,8 @@ function benchEditor() {
         cursor:${B.dirty ? "pointer" : "not-allowed"}; opacity:${B.dirty ? 1 : 0.45};">Revert</button>
     </div>
     <div style="font-size:10.5px; color:${C.fg5}; margin-top:8px; line-height:1.5;">
-      Saving marks the case human-reviewed and keeps a timestamped backup of the
-      previous dataset file. Runs already scored keep their own snapshot.</div>
+      Saving keeps a timestamped backup of the previous dataset file. Runs already
+      scored keep their own snapshot of the labels they measured.</div>
   </div>`;
 }
 
@@ -3299,10 +3299,10 @@ function benchAddPanel() {
                   overflow:auto; margin-bottom:12px;">${list}</div>` : `
       <div style="font-size:11.5px; color:${C.fg4}; line-height:1.6; margin-bottom:12px;">
         No unused image in ${esc((cand.dirs || []).join(", ") || "this dataset's folders")}.
-        Every image there already belongs to a case or is a reference — extract the
+        Every image there already belongs to a case or is a reference - extract the
         frames you want to label first (Studio → New analysis, or
         <span style="font-family:${C.mono};">tools/build_39T_benchmark.py</span>).</div>`}
-    <input data-change="benchAddId" data-live value="${esc(a.id)}" placeholder="case id — e.g. 39T_cam52_083517"
+    <input data-change="benchAddId" data-live value="${esc(a.id)}" placeholder="case id - e.g. 39T_cam52_083517"
       style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput};
              border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-family:${C.mono};
              font-size:11.5px; margin-bottom:8px;">
@@ -3319,7 +3319,7 @@ function benchAddPanel() {
       Create as clean, then draw its boxes</button>
     <div style="font-size:10.5px; color:${C.fg5}; margin-top:8px; line-height:1.5;">
       A new case starts clean with no box. Drawing the first instance box flips it
-      to anomalous — so a frame you meant to add as a negative stays a negative.</div>
+      to anomalous - so a frame you meant to add as a negative stays a negative.</div>
   </div>`;
 }
 
@@ -3352,16 +3352,16 @@ function benchRunsTab() {
   }).join("");
   // Honest cost line. A re-score of an already-judged configuration is nearly
   // free (the verdict cache is keyed on the box, not the localizer), which is
-  // exactly why a localizer A/B is worth running — so say both things.
+  // exactly why a localizer A/B is worth running - so say both things.
   let cost;
   if (f.mode === "localize") {
     cost = `~${Math.max(1, Math.round(nCases * ((f.localizer || "").includes("dino") ? 2.5 : 0.5)))} s`
-         + " — no VLM call, no Ollama needed";
+         + " - no VLM call, no Ollama needed";
   } else {
     const h = histPerFrame(f.script, f.model, f.script === "vlm_05" ? (f.localizer || S.localizerDefault) : "");
     const per = h && h.perFrame >= CROP_MIN_CREDIBLE ? h.perFrame
       : ROUGH_PER_FRAME[(S.health && S.health.gpu) ? "gpu" : "cpu"][f.script] || 40;
-    cost = `${fmtDur(nCases * per)} if every region is judged fresh — a re-score of a `
+    cost = `${fmtDur(nCases * per)} if every region is judged fresh - a re-score of a `
          + `configuration already in the cache takes seconds`;
   }
   const scriptOpts = S.pipelines.map(p =>
@@ -3387,7 +3387,7 @@ function benchRunsTab() {
           <span style="font-size:9.5px; padding:1px 6px; border-radius:7px;
                 background:${r.config.mode === "localize" ? "oklch(0.24 0.05 300)" : C.accBg};
                 color:${r.config.mode === "localize" ? "oklch(0.85 0.11 300)" : C.accFg};">${r.config.mode}</span>
-          ${r.stale ? `<span title="the dataset was edited after this run — its numbers are for the labels it measured"
+          ${r.stale ? `<span title="the dataset was edited after this run - its numbers are for the labels it measured"
             style="font-size:9.5px; padding:1px 6px; border-radius:7px; background:oklch(0.24 0.05 75);
             color:oklch(0.88 0.1 75);">stale GT</span>` : ""}
           ${r.config.subset ? `<span style="font-size:9.5px; color:${C.fg4};">subset</span>` : ""}
@@ -3440,7 +3440,10 @@ function benchRunsTab() {
                         font-family:${C.mono}; margin-bottom:7px;">Cases</div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
               ${seg("subset", "all", "All")}${seg("subset", "anomaly", "Anomalous")}
-              ${seg("subset", "clean", "Clean")}${seg("subset", "unreviewed", "Not reviewed")}
+              ${seg("subset", "clean", "Clean")}
+              ${(d.references || []).map(k => seg("subset", "ref:" + k, esc(k),
+                  "Only the cases of this camera. This is how a number measured on one "
+                  + "camera stays comparable with the reports.")).join("")}
             </div>
             <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4};
                         font-family:${C.mono}; margin-bottom:7px;">Localizer · stage 1</div>
@@ -3454,7 +3457,7 @@ function benchRunsTab() {
               background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250);
               font-size:12px; margin-bottom:7px;">${scriptOpts}</select>
             ${noBoxes ? `<div style="font-size:10.5px; color:oklch(0.85 0.1 75); margin-bottom:7px;">
-              ${esc(f.script)} reports no boxes, so this run is scored at frame level only —
+              ${esc(f.script)} reports no boxes, so this run is scored at frame level only -
               object recall and region precision will read 0/0.</div>` : ""}
             <select data-change="benchModel" style="width:100%; padding:7px 9px; border-radius:7px;
               background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250);
@@ -3481,7 +3484,7 @@ function benchRunsTab() {
                     border:1px solid oklch(0.4 0.09 300); font-size:11.5px; color:oklch(0.86 0.06 300);
                     line-height:1.6;">
                 <b>No judge in this mode.</b> Only the region proposer runs, and an
-                instance counts as localized if any proposed region overlaps it — the
+                instance counts as localized if any proposed region overlaps it - the
                 upper bound on what the judge could ever recall. This is the number
                 to tune thresholds on: it costs seconds instead of hours, and it
                 needs no Ollama.</div>`}
@@ -3561,7 +3564,7 @@ function benchScoreView() {
     ${B.stale ? `<div style="margin-bottom:12px; padding:9px 12px; border-radius:9px; font-size:11.5px;
       background:oklch(0.22 0.04 75); border:1px solid oklch(0.42 0.09 75); color:oklch(0.9 0.08 75);
       line-height:1.5;">The dataset has been edited since this run. These numbers are
-      correct for the labels it measured — the snapshot is kept alongside the score —
+      correct for the labels it measured - the snapshot is kept alongside the score -
       but comparing them with a newer run compares two different ground truths.</div>` : ""}`;
   if (!score || !score.n_scored) return `
     <div data-scroll="benchscore" style="flex:1; min-height:0; overflow:auto; padding:18px 20px;">
@@ -3598,7 +3601,7 @@ function benchScoreView() {
              `${ob.fp_regions} of ${ob.kept_total} kept boxes matched no real anomaly.`)
       + card(score.fresh_calls, "fresh VLM calls",
              score.fresh_calls ? undefined : C.green,
-             `${score.regions_judged} regions judged, ${score.cached_calls} served from the shared verdict cache. Zero fresh calls means this run is a pure re-score — which is what makes a localizer A/B trustworthy.`);
+             `${score.regions_judged} regions judged, ${score.cached_calls} served from the shared verdict cache. Zero fresh calls means this run is a pure re-score - which is what makes a localizer A/B trustworthy.`);
     tables = `
       <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:16px;">
         ${benchTable("Confusion matrix", ["", "pred. anomaly", "pred. clean"],
@@ -3614,7 +3617,7 @@ function benchScoreView() {
             [s, v.cases, `${v.inst_detected} / ${v.inst_total}`, v.fp_regions])) : ""}
       </div>
       ${fr.n_failed ? `<div style="margin-top:12px; font-size:11.5px; color:oklch(0.85 0.1 75);">
-        ${fr.n_failed} frame(s) failed and are excluded from the confusion matrix —
+        ${fr.n_failed} frame(s) failed and are excluded from the confusion matrix -
         a crashed frame is not a clean prediction.</div>` : ""}`;
   }
   const filters = isLoc
@@ -3668,7 +3671,7 @@ function benchTable(title, cols, rows) {
   </div>`;
 }
 
-/* One scored case: the overlay IS the annotated image — drawn from the score
+/* One scored case: the overlay IS the annotated image - drawn from the score
    instead of shipping rendered jpgs (that is what benchmark/annotated used to
    be). Blue = ground truth, green = a kept box that matched one, red = a kept
    box that matched nothing, dashed = proposed then dropped. */
@@ -3738,7 +3741,7 @@ function loraView() {
       <span style="color:${C.fg4};">${j.n_done}/${j.n_frames} frames</span>
       <span style="font-family:${C.mono}; white-space:nowrap;">${j.exportable
         ? `<span style="color:${REV_COL.tp};">${j.yes} YES</span> · <span style="color:${REV_COL.fp};">${j.no} NO</span>`
-        : `<span style="color:${C.fg4};">no reference — skipped</span>`}</span>
+        : `<span style="color:${C.fg4};">no reference - skipped</span>`}</span>
     </div>`).join("");
   const le = st.last_export;
   const step = (done, label, sub) => `
@@ -3757,16 +3760,16 @@ function loraView() {
             <span style="font-size:12px; color:${C.fg3};">/ ${target} crop samples ${hint("Human-verified crop pairs harvested from Reviews: each judged detection (TP→YES label, FP→NO) and each missed box. 300 is the working lower bound from the CCTV LoRA paper.")}</span>
           </div>
           <div style="height:7px; border-radius:5px; background:${C.bg}; overflow:hidden; margin:10px 0 14px;"><div style="width:${pct}%; height:100%; background:${a.samples >= target ? C.green : "oklch(0.85 0.12 90)"};"></div></div>
-          <div style="font-size:11.5px; color:${C.fg3}; margin-bottom:6px;">Class balance — <span style="color:${REV_COL.tp};">${a.yes} YES</span> · <span style="color:${REV_COL.fp};">${a.no} NO</span></div>
+          <div style="font-size:11.5px; color:${C.fg3}; margin-bottom:6px;">Class balance - <span style="color:${REV_COL.tp};">${a.yes} YES</span> · <span style="color:${REV_COL.fp};">${a.no} NO</span></div>
           <div style="height:7px; border-radius:5px; overflow:hidden; display:flex; background:${C.bg};">
             <div style="width:${yesPct}%; background:${REV_COL.tp};"></div><div style="flex:1; background:${REV_COL.fp};"></div>
           </div>
-          ${st.balance_warning ? `<div style="margin-top:10px; font-size:11.5px; color:oklch(0.88 0.1 75); background:oklch(0.24 0.05 75); border:1px solid oklch(0.44 0.09 75); border-radius:8px; padding:8px 10px;">Balance is skewed — review more frames of the under-represented class (empty cross-session videos are the best NO source) before training.</div>` : ""}
+          ${st.balance_warning ? `<div style="margin-top:10px; font-size:11.5px; color:oklch(0.88 0.1 75); background:oklch(0.24 0.05 75); border:1px solid oklch(0.44 0.09 75); border-radius:8px; padding:8px 10px;">Balance is skewed - review more frames of the under-represented class (empty cross-session videos are the best NO source) before training.</div>` : ""}
           ${a.skipped_no_bbox ? `<div style="margin-top:8px; font-size:10.5px; color:${C.fg4};">${a.skipped_no_bbox} verdict(s) without a bbox (vlm_01/02) can't become crops.</div>` : ""}
         </div>
         <div style="border-top:1px solid ${C.bd2}; padding:8px 0 2px;">
           <div style="padding:4px 18px; font-size:11px; font-weight:600; color:${C.fg3};">Per reviewed job</div>
-          ${jobRows || `<div style="padding:10px 18px 16px; font-size:12px; color:${C.fg4};">Nothing reviewed yet — start in the Labels tab.</div>`}
+          ${jobRows || `<div style="padding:10px 18px 16px; font-size:12px; color:${C.fg4};">Nothing reviewed yet - start in the Labels tab.</div>`}
         </div>
         <div style="border-top:1px solid ${C.bd2}; padding:14px 18px;">
           <button data-act="loraExport" ${a.samples && !S.lora.exporting ? "" : "disabled"} style="font-size:12.5px; font-weight:600; color:${C.accDark}; background:${a.samples ? "oklch(0.85 0.12 90)" : C.bgBtn}; border:none; padding:9px 16px; border-radius:8px; cursor:${a.samples ? "pointer" : "not-allowed"}; opacity:${S.lora.exporting ? 0.6 : 1};">
@@ -3778,14 +3781,14 @@ function loraView() {
       </div>
       <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; padding:16px 18px;">
         <div style="font-size:14px; font-weight:600; margin-bottom:6px;">Training pipeline</div>
-        <div style="font-size:11px; color:${C.fg4}; margin-bottom:8px;">Steps 3–6 run on the RTX workstation — full commands in <span style="font-family:${C.mono};">RUNBOOK_LORA.md</span>, rationale in <span style="font-family:${C.mono};">docs/LORA_PLAN.md</span>.</div>
+        <div style="font-size:11px; color:${C.fg4}; margin-bottom:8px;">Steps 3–6 run on the RTX workstation - full commands in <span style="font-family:${C.mono};">RUNBOOK_LORA.md</span>, rationale in <span style="font-family:${C.mono};">docs/LORA_PLAN.md</span>.</div>
         ${step(a.samples >= target, `1 · Label ≥ ${target} crops in Review mode`, `${a.samples} ready`)}
-        ${step(!!le, "2 · Export the dataset", le ? `done — copy ${esc(st.dataset_dir)}/ to the workstation` : "")}
-        ${step(false, "3 · Train — QLoRA rank 8, vision frozen", "llamafactory-cli train tools/lora/qwen3vl_lora.yaml · minutes on the 3080 Ti")}
+        ${step(!!le, "2 · Export the dataset", le ? `done - copy ${esc(st.dataset_dir)}/ to the workstation` : "")}
+        ${step(false, "3 · Train - QLoRA rank 8, vision frozen", "llamafactory-cli train tools/lora/qwen3vl_lora.yaml · minutes on the 3080 Ti")}
         ${step(false, "4 · Merge the adapter", "llamafactory-cli export (unquantized base)")}
         ${step(false, "5 · GGUF + official mmproj → serve", "convert_hf_to_gguf.py · try Ollama import, fallback llama-server --mmproj")}
-        ${step(false, "6 · Benchmark A/B — go/no-go", "region precision ≥ +0.10, object recall drop ≤ 0.02, YES/NO format intact")}
-        <div style="margin-top:10px; font-size:11px; color:${C.fg4}; border-top:1px solid ${C.bd2}; padding-top:10px;">The 29-case benchmark stays out of training — it is the eval set. The exporter's <span style="font-family:${C.mono};">--include-benchmark</span> flag exists only as a deliberate CLI decision.</div>
+        ${step(false, "6 · Benchmark A/B - go/no-go", "region precision ≥ +0.10, object recall drop ≤ 0.02, YES/NO format intact")}
+        <div style="margin-top:10px; font-size:11px; color:${C.fg4}; border-top:1px solid ${C.bd2}; padding-top:10px;">The 29-case benchmark stays out of training - it is the eval set. The exporter's <span style="font-family:${C.mono};">--include-benchmark</span> flag exists only as a deliberate CLI decision.</div>
       </div>
     </div>
   </div>`;
@@ -3884,7 +3887,7 @@ function storageCleanupCard() {
       <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; overflow:hidden; margin-top:18px;">
         <div style="padding:16px 20px; border-bottom:1px solid ${C.bd2};">
           <span style="font-size:14px; font-weight:600;">Storage cleanup</span>
-          <span style="font-size:11.5px; color:${C.fg4}; margin-left:10px;">verdict cache ${fmtMB(st.cache_bytes)} — kept (re-runs on identical inputs are free thanks to it)</span>
+          <span style="font-size:11.5px; color:${C.fg4}; margin-left:10px;">verdict cache ${fmtMB(st.cache_bytes)} - kept (re-runs on identical inputs are free thanks to it)</span>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr;">
           <div style="border-right:1px solid ${C.bd2};">
@@ -3947,7 +3950,7 @@ document.addEventListener("keydown", (ev) => {
       ev.preventDefault(); revClearPending(); S.rev.draw = false; render(); return;
     }
     // A pending missed box means the reviewer is writing its label. Letters are
-    // label text, never shortcuts — whatever happened to the focus.
+    // label text, never shortcuts - whatever happened to the focus.
     if (S.rev.pending) return;
     if (key === "c") { ev.preventDefault(); ACT.revConfirm(); return; }
     if (key === "a") { ev.preventDefault(); ACT.revAllTpConfirm(); return; }

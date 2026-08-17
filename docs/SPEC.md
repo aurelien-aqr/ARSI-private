@@ -1,4 +1,4 @@
-# ARSI Studio — application spec (v0)
+# ARSI Studio - application spec (v0)
 
 Web application around the existing vlm_01–05 scripts: load a tram CCTV video,
 extract frames, run the pipeline of your choice (script × model × prompt),
@@ -6,7 +6,7 @@ watch progress live, browse boxed results, export a report. Local-only
 (Ollama), English UI, must run on the RTX 3080 Ti workstation and degrade
 gracefully on CPU (with honest time estimates).
 
-Status: DRAFT — amend freely; this file is the contract every coding session
+Status: DRAFT - amend freely; this file is the contract every coding session
 reads first.
 
 ## Architecture (3 layers, same repo)
@@ -35,14 +35,14 @@ any frame and applies to every frame of that camera/video.
 
 - Mask spec = named JSON preset: `data/app/masks/<name>.json` →
   `{name, camera, image_size: [w, h], zones: [{id, label, polygon: [[x,y],…]}]}`.
-  Polygons (not just rectangles) in reference pixel space — the existing
+  Polygons (not just rectangles) in reference pixel space - the existing
   `data/masked/` frames follow exactly this convention (pure-black window
   contours) but were produced outside the repo; the app reproduces and
   replaces that external step.
 - `apply_mask(image, mask) -> image`: fill polygons with black; scales
   zones if the frame size differs from `image_size` (same aspect).
 - **Applied identically to the reference AND every inspection frame, at
-  pipeline input** (not at extraction — raw frames stay reusable with a
+  pipeline input** (not at extraction - raw frames stay reusable with a
   different mask). If only one side were masked, the diff pipelines
   (02/05) would detect the mask itself as change.
 - vlm_05 verdict-cache keys must include a hash of the active mask
@@ -54,7 +54,7 @@ vlm_05 is TWO stages that fail for different reasons, so both are chosen
 independently: the **localizer** proposes candidate regions and the **judge**
 (model + prompt) answers YES/NO on each crop.
 
-- Registry: `arsi_core/localizers.py` — `photo` (shipped pixel diff, the
+- Registry: `arsi_core/localizers.py` - `photo` (shipped pixel diff, the
   DEFAULT), `photo+dino` (pixel diff + DINOv2 feature gate, recommended),
   `dino` (DINOv2 features alone, AnomalyDINO-style). All share vlm_05's
   `(regions, info)` contract with bboxes in reference pixel space and reuse
@@ -65,8 +65,8 @@ independently: the **localizer** proposes candidate regions and the **judge**
   `public_dict()`, results.json, report.md/html and the xlsx.
 - A run is NAMED by script + localizer + model, never script + model: two
   vlm_05 runs that differ only by the proposal stage judged different boxes.
-  So the localizer appears wherever a run is listed — dashboard, history,
-  results header, compare picker and headers, review list, storage — and in
+  So the localizer appears wherever a run is listed - dashboard, history,
+  results header, compare picker and headers, review list, storage - and in
   `/api/reviews` + `/api/storage`. A vlm_05 job with no `localizer` field
   predates the picker and ran the pixel diff, so it is named `photo` and
   marked inferred (`exports.localizer_of() -> (name, recorded)`); blank would
@@ -88,13 +88,13 @@ independently: the **localizer** proposes candidate regions and the **judge**
   candidates"), which is what answers "was it localized at all?".
 - The verdict-cache key deliberately does NOT include the localizer: a box is
   a box, so identical coordinates from two localizers share one verdict. This
-  is what makes a localizer A/B nearly free — the gate produces a strict
+  is what makes a localizer A/B nearly free - the gate produces a strict
   subset of the pixel diff's boxes (locked by
   `tests/test_localizers.py`).
 - **Camera identity**: a mask is only valid for the viewpoint it was drawn on,
   so `camera` is seeded from the uploaded file name (`1760-cam05.mp4` →
   `1760-cam05`, `camera_slug()`), stored in `videos/<id>/origin.json`, and
-  editable in the wizard. Never hardcode it — a 20-camera tram needs 20 masks.
+  editable in the wizard. Never hardcode it - a 20-camera tram needs 20 masks.
 - **LabelMe interop** (the team's annotation tool): same polygons, different
   keys (`shapes[].points` vs `zones[].polygon`, both image pixels).
   `MaskSpec.from_labelme`/`to_labelme` + `POST /api/masks/labelme` (import,
@@ -102,7 +102,7 @@ independently: the **localizer** proposes candidate regions and the **judge**
   `GET /api/masks/<name>/labelme` (export). Rectangles/circles are expanded to
   polygons; open shapes (line, linestrip, point) enclose no area and are
   skipped, reported via `labelme_skipped()`. Integral coordinates stay ints so
-  a round-trip through LabelMe keeps the mask hash — otherwise it would
+  a round-trip through LabelMe keeps the mask hash - otherwise it would
   invalidate every cached verdict for nothing. This is the *occlusion* mask,
   not the Task-3 zones-of-interest below.
 
@@ -194,49 +194,53 @@ Every failure is logged (structured JSONL per job under
   judged so far.
 - `GET  /api/jobs` history; `GET /api/jobs/{id}/report.{md,html}`;
   `GET /api/jobs/{id}/export.xlsx` (rows in the ARSI_results_EN format)
-- Jobs run in a worker thread queue (one VLM job at a time — Ollama is the
+- Jobs run in a worker thread queue (one VLM job at a time - Ollama is the
   bottleneck); state machine `queued → running → completed|failed|cancelled`.
   `results.json` is rewritten atomically after EVERY frame with
   `status: "running"`, so a crash keeps the finished frames. A saved job that
   still says running/queued with no live worker is reported as
-  `interrupted` — never as a phantom `running`.
+  `interrupted` - never as a phantom `running`.
 
 ## Frontend screens (see docs/DESIGN_BRIEF.md for the visual spec)
 
-1. **Home / dashboard** — health status, quick-start cards, recent jobs.
-2. **New analysis wizard** — source (upload video | demo frames | previous
+1. **Home / dashboard** - health status, quick-start cards, recent jobs.
+2. **New analysis wizard** - source (upload video | demo frames | previous
    extraction) → extraction params → mask step (pick a saved mask, draw a
    new one on any frame, or none) → pipeline config (script, model with
    installed-badge + pull button, prompt preset dropdown + editable text,
    advanced params) → review + launch.
-3. **Run view** — progress bar + ETA, per-frame counters (done/anomalous/
+3. **Run view** - progress bar + ETA, per-frame counters (done/anomalous/
    failed), live log tail, growing thumbnail strip, cancel button.
-4. **Results view** — gallery of frames with box overlays; detail view with
+4. **Results view** - gallery of frames with box overlays; detail view with
    side-by-side reference|inspection and per-region verdicts; filters
    (anomalous only / failed / by type); video-timeline strip with flagged
    frames marked; compare mode = two result columns on the same frames.
-5. **History & reports** — job table, report viewer, export buttons.
-6. **Benchmark** — the labelled ground truth and the runs scored against it, in
+5. **History & reports** - job table, report viewer, export buttons.
+6. **Benchmark** - the labelled ground truth and the runs scored against it, in
    two tabs. *Ground truth*: the cases of a dataset as a grid with their instance
-   boxes drawn, filters (anomalous / clean / not reviewed / camera), and an editor
+   boxes drawn, filters (anomalous / clean / camera), and an editor
    that draws, nudges, retypes and deletes boxes, flips `has_anomaly`, and adds or
-   removes a case. Saving marks the case human-reviewed. *Runs & score*: mode ×
-   subset × localizer × script × model × prompt, then the score — frame confusion
+   removes a case. *Runs & score*: mode ×
+   subset (all / anomalous / clean / one camera) × localizer × script × model ×
+   prompt, then the score - frame confusion
    matrix, instance recall lenient and strict, region precision, per type, per
    source, fresh-vs-cached VLM calls, and a per-case list whose overlays are drawn
    from the score (blue GT, dashed blue for a missed instance, green matched, red
    FP, dashed grey for judge rejections).
-7. **Settings** — Ollama URL, defaults, model manager, data folder sizes.
+7. **Settings** - Ollama URL, defaults, model manager, data folder sizes.
 
 ## Benchmark (datasets, scoring, runs)
 
-- A **dataset** is one protocol: `benchmark/datasets/<id>.json` with
+- There is ONE benchmark: `benchmark/datasets/ground_truth.json`, every labelled
+  frame we have (50 cases, 69 instances, 5 cameras of 2 trams), shaped
   `{name, references: {key: path}, cases: [...]}`. A case pairs an inspection
   image with a reference KEY, a frame-level `has_anomaly`, and typed instance
-  boxes in the REFERENCE image's pixel space. `types` is derived from the
-  instances, never stored by hand. `reviewed` is set when a human saves the case
-  from the Studio — the only record of how much of a model-drafted protocol has
-  been checked.
+  boxes in the pixel space of THAT case's reference - the sizes differ per camera,
+  so no code may assume one coordinate space per dataset. `types` is derived from
+  the instances, never stored by hand. The trams are not split into two datasets:
+  a camera is a `references` key, which is what the filters and the run subsets
+  group on. The directory stays per-dataset because a run records which one it
+  scored and an imported public protocol would be a second file.
 - `arsi_core/benchmarks.py` is the single loader and the single scorer for the
   app, the CLI and `tools/`. It resolves a dataset by id or path, keeps the
   pre-2026-08-17 `ground_truth*.json` locations resolvable, validates before
@@ -249,8 +253,8 @@ Every failure is logged (structured JSONL per job under
   confusion matrix rather than counted as a clean prediction.
 - A **run** is `benchmark/runs/<run_id>/` = `run.json` (config, status, progress,
   `job_id`), `dataset_snapshot.json` (the labels as they were), `score.json`,
-  `report.md`. Mode `full` submits an ordinary `JobConfig` to the job queue — so
-  it inherits SSE, cancel, the verdict cache and the Results screen — and mode
+  `report.md`. Mode `full` submits an ordinary `JobConfig` to the job queue - so
+  it inherits SSE, cancel, the verdict cache and the Results screen - and mode
   `localize` runs the proposer only, in its own worker, with no Ollama. The score
   is recomputed from the job's `results.json` on every read while the run is live
   and frozen when it ends. A run whose dataset digest no longer matches the file
@@ -261,7 +265,7 @@ Every failure is logged (structured JSONL per job under
   `PUT|POST|DELETE /api/benchmarks/{ds}/cases[/{case_id}]`;
   `GET /api/benchmarks/runs[/{run_id}[/report.md]]`;
   `POST /api/benchmarks/runs/{run_id}/cancel`; `DELETE …/runs/{run_id}`.
-  The `runs` routes are declared BEFORE `/{ds_id}` — FastAPI matches in
+  The `runs` routes are declared BEFORE `/{ds_id}` - FastAPI matches in
   declaration order and would otherwise read "runs" as a dataset id.
 - `JobConfig.frame_references` (parallel to `frames`) is what lets one run cover a
   multi-camera protocol: the 39T dataset has one clean reference per camera, and

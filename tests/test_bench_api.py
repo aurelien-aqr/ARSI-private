@@ -1,6 +1,6 @@
 """Benchmark API: browse and correct a dataset, launch a scored run.
 
-Everything here runs against a synthetic two-case dataset in a temp directory —
+Everything here runs against a synthetic two-case dataset in a temp directory -
 the shipped protocols are the measurement, and a test suite that edits them
 would be editing the results.
 """
@@ -43,7 +43,6 @@ def bench(monkeypatch, tmp_path):
     """A temp datasets dir holding `demo`, a temp runs dir, and a TestClient."""
     monkeypatch.setattr(benchmarks, "DATASETS_DIR", tmp_path / "datasets")
     monkeypatch.setattr(benchmarks, "BACKUPS_DIR", tmp_path / "datasets" / ".backups")
-    monkeypatch.setattr(benchmarks, "LEGACY_PATHS", {})
     monkeypatch.setattr(bench_runs, "RUNS_DIR", tmp_path / "runs")
 
     ref = _img("ref.jpg")
@@ -107,7 +106,7 @@ def test_unknown_dataset_is_404(bench):
 
 
 def test_candidates_reports_the_dirs_it_scanned(bench):
-    """An empty candidate list must be explainable — for 39T it means the
+    """An empty candidate list must be explainable - for 39T it means the
     unlabelled moments were never extracted, not that the endpoint is broken."""
     client, _ = bench()
     r = client.get("/api/benchmarks/demo/candidates").json()
@@ -117,7 +116,7 @@ def test_candidates_reports_the_dirs_it_scanned(bench):
 
 # ---------------------------------------------------------------- editing
 
-def test_put_case_saves_and_marks_it_human_reviewed(bench):
+def test_put_case_saves_the_correction(bench):
     client, _ = bench()
     case = client.get("/api/benchmarks/demo").json()["cases"][0]
     case["instances"][0]["bbox"] = [160, 110, 240, 190]
@@ -127,8 +126,6 @@ def test_put_case_saves_and_marks_it_human_reviewed(bench):
     saved = r.json()["case"]
     assert saved["instances"][0]["bbox"] == [160, 110, 240, 190]
     assert saved["note"] == "corrected by hand"
-    assert saved["reviewed"]                       # the point of the screen
-    assert r.json()["dataset"]["n_reviewed"] == 1
     # and it is on disk, not just in the response
     assert benchmarks.load("demo")[1]["cases"][0]["instances"][0]["bbox"] \
         == [160, 110, 240, 190]
@@ -327,7 +324,7 @@ def test_bad_run_requests(bench, payload, code):
 
 def test_full_run_model_missing_is_409_and_leaves_no_phantom_run(bench):
     """The refused submission must not leave a run row stuck at "queued" with no
-    job behind it — nothing could stop such a row, only delete it."""
+    job behind it - nothing could stop such a row, only delete it."""
     client, _ = bench(models=("something-else",))
     r = client.post("/api/benchmarks/runs", json={
         "dataset": "demo", "mode": "full", "model": "qwen3-vl:8b-instruct"})

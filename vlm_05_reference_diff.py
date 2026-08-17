@@ -96,7 +96,7 @@ MAX_AREA  = 400000
 # out of the cap in a busy cross-session frame.
 MAX_REGIONS = 25
 
-# --- Multi-channel localization (measured on benchmark/datasets/tram1762.json) -
+# --- Multi-channel localization (measured on the tram 1762 benchmark cases) ----
 # A single global threshold cannot both catch faint anomalies and keep the
 # region count sane: LOWERING the base threshold to 25 merges busy frames into
 # giant blobs that the MAX_AREA gate then deletes (real_f0112 went 4/4 -> 0/4).
@@ -646,7 +646,7 @@ def find_regions(mask, downscale: int, dilate: int, min_area: int, max_area: int
 
 
 def render_crop_pair(image, reference, bbox, margin: int, context: float):
-    """Reference|inspection side-by-side crop of a padded bbox — the exact
+    """Reference|inspection side-by-side crop of a padded bbox - the exact
     image the judge sees. Factored out so training-data export (tools/
     export_lora_dataset.py) renders samples identically to inference."""
     width, height = image.size

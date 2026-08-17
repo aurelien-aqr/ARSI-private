@@ -6,20 +6,20 @@ from io import BytesIO
 
 
 def used_reference(cfg: dict):
-    """The reference the pipeline actually compared against — the masked copy
+    """The reference the pipeline actually compared against - the masked copy
     on a masked job, so it matches the (also masked) per-frame image paths."""
     return cfg.get("reference_masked") or cfg.get("reference")
 
 
 def localizer_of(cfg: dict):
-    """`(name, recorded)` — how a run should NAME its localizer, or ("", True)
+    """`(name, recorded)` - how a run should NAME its localizer, or ("", True)
     for pipelines that have no localization stage.
 
     Two vlm_05 runs with the same model and different localizers are different
     experiments, so the localizer belongs everywhere the script and the model
     are shown. Jobs that predate the picker carry no field: they all ran the
     shipped pixel diff, which is still `localizers.DEFAULT`, so they read
-    "photo" — flagged as inferred so it is never mistaken for a recorded
+    "photo" - flagged as inferred so it is never mistaken for a recorded
     choice."""
     if cfg.get("script") != "vlm_05":
         return "", True
@@ -29,12 +29,12 @@ def localizer_of(cfg: dict):
 def report_md(data: dict) -> str:
     cfg, s = data["config"], data["summary"]
     loc, loc_rec = localizer_of(cfg)
-    L = [f"# ARSI Studio report — {data['job_id']}", "",
+    L = [f"# ARSI Studio report - {data['job_id']}", "",
          f"**Status:** {data['status']}  ",
          f"**Pipeline:** `{cfg['script']}` · **Model:** `{cfg['model']}` · "
          f"**Prompt:** {cfg['prompt_name']}"
          + (f" · **Localizer:** `{loc}`"
-            + ("" if loc_rec else " _(not recorded — predates the picker)_")
+            + ("" if loc_rec else " _(not recorded - predates the picker)_")
             + "  " if loc else "  "),
          f"**Mask:** {cfg.get('mask') or 'none'} · **Reference:** {used_reference(cfg) or 'n/a'}  ",
          f"**Started:** {data['started']} · **Finished:** {data['finished']} · "
@@ -56,8 +56,8 @@ def report_md(data: dict) -> str:
          "| frame | status | anomaly | detections | attempts | s |",
          "|---|---|---|---|---|---|"]
     for f in data["frames"]:
-        dets = "; ".join(f"{d['label']} [{d['type']}]" for d in f["detections"]) or "—"
-        anom = {True: "**YES**", False: "no"}.get(f["anomaly"], "—")
+        dets = "; ".join(f"{d['label']} [{d['type']}]" for d in f["detections"]) or "-"
+        anom = {True: "**YES**", False: "no"}.get(f["anomaly"], "-")
         L.append(f"| {f['frame_id']} | {f['status']} | {anom} | {dets} | "
                  f"{f['attempts']} | {f['seconds']} |")
     if cfg.get("prompt"):
@@ -68,7 +68,7 @@ def report_md(data: dict) -> str:
 def report_html(data: dict) -> str:
     body = []
     cfg, s = data["config"], data["summary"]
-    body.append(f"<h1>ARSI Studio report — {html.escape(data['job_id'])}</h1>")
+    body.append(f"<h1>ARSI Studio report - {html.escape(data['job_id'])}</h1>")
     loc, loc_rec = localizer_of(cfg)
     body.append(f"<p><b>Status:</b> {data['status']} · <b>Pipeline:</b> "
                 f"{html.escape(cfg['script'])}"
@@ -88,8 +88,8 @@ def report_html(data: dict) -> str:
                 "<th>detections</th><th>attempts</th><th>s</th></tr>")
     for f in data["frames"]:
         dets = "<br>".join(f"{html.escape(d['label'])} <i>[{d['type']}]</i>"
-                           for d in f["detections"]) or "—"
-        anom = {True: "<b class='yes'>YES</b>", False: "no"}.get(f["anomaly"], "—")
+                           for d in f["detections"]) or "-"
+        anom = {True: "<b class='yes'>YES</b>", False: "no"}.get(f["anomaly"], "-")
         cls = " class='failed'" if f["status"] == "failed" else ""
         body.append(f"<tr{cls}><td>{html.escape(f['frame_id'])}</td>"
                     f"<td>{f['status']}</td><td>{anom}</td><td>{dets}</td>"
@@ -112,7 +112,7 @@ def results_xlsx(data: dict, review: dict = None, metrics: dict = None) -> bytes
     """Rows in the spirit of ARSI_results_EN.xlsx: one row per frame. When a
     review exists, each row carries the human verdict (Correctness TP/FP/TN/FN
     per the supervisor's any-miss-is-FN rule) and a Review sheet holds the
-    aggregated metrics — the by-hand grid, generated."""
+    aggregated metrics - the by-hand grid, generated."""
     from openpyxl import Workbook
     wb = Workbook()
     ws = wb.active

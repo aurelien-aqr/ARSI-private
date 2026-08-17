@@ -26,7 +26,7 @@ PIPELINE_DOCS = {
              "yes."),
         ],
         "strengths": [
-            "No reference image needed — works on any camera, any framing.",
+            "No reference image needed - works on any camera, any framing.",
             "One VLM call per frame: the cheapest pipeline here.",
         ],
         "limits": [
@@ -57,14 +57,14 @@ PIPELINE_DOCS = {
         "limits": [
             "Still no bounding box.",
             "The comparison is done inside the model, over two full frames. "
-            "Small objects occupy very few tokens and are routinely missed — "
+            "Small objects occupy very few tokens and are routinely missed - "
             "this is the failure mode vlm_05 exists to fix.",
         ],
     },
 
     "vlm_03": {
         "summary": "Asks the VLM itself to output bounding boxes as JSON over "
-                   "the whole frame — the model does both the finding and the "
+                   "the whole frame - the model does both the finding and the "
                    "localizing.",
         "inputs": "One inspection frame.",
         "output": "JSON list of detections (label, normalized box, severity) "
@@ -80,7 +80,7 @@ PIPELINE_DOCS = {
             "Boxes without any extra detector or reference image.",
         ],
         "limits": [
-            "Box coordinates from a general-purpose VLM are approximate — the "
+            "Box coordinates from a general-purpose VLM are approximate - the "
             "box often lands near the object rather than on it.",
             "Output can be unparseable JSON, which costs a retry.",
         ],
@@ -104,7 +104,7 @@ PIPELINE_DOCS = {
              "context and sent to the VLM for a short yes/no + label."),
         ],
         "strengths": [
-            "Needs no reference image if the filter step is off — usable on a "
+            "Needs no reference image if the filter step is off - usable on a "
             "moving camera.",
             "The detector gives tight, honest boxes.",
         ],
@@ -142,19 +142,19 @@ PIPELINE_DOCS = {
              "regions above MAX_AREA (a global exposure shift) are dropped too."),
             ("Two extra channels", "A second photometric pass at a lower "
              "threshold catches low-contrast objects (a dark bottle on a dark "
-             "floor). An added-edge channel — extra edge energy where the "
-             "reference is locally flat — catches faint graffiti that no global "
+             "floor). An added-edge channel - extra edge energy where the "
+             "reference is locally flat - catches faint graffiti that no global "
              "threshold reaches. Both only ADD boxes; they never modify the "
              "base ones."),
             ("Person veto", "YOLOv8-nano finds people once per frame. Regions "
              "mostly inside a person box are dropped before any VLM call. This "
              "is what separates 'jacket worn by a passenger' (vetoed) from "
-             "'jacket forgotten on a seat' (kept) — a label blacklist cannot "
+             "'jacket forgotten on a seat' (kept) - a label blacklist cannot "
              "make that distinction."),
             ("Salience cap", "At most MAX_REGIONS regions per frame are kept, "
              "ranked by salience (mean diff intensity × √area), so a bright "
              "small phone is not evicted by a dim large lighting blob."),
-            ("Merge fragments", "One object rarely produces one region — a "
+            ("Merge fragments", "One object rarely produces one region - a "
              "backpack and its strap land as separate components. Neighbouring "
              "regions are fused before any VLM call, so the judge sees the "
              "object rather than a fragment. A fill guard stops the merge from "
@@ -172,8 +172,8 @@ PIPELINE_DOCS = {
              "NO regions are dropped; in 'label' mode every region is kept and "
              "just named."),
             ("Everything is recorded", "Each proposed region is stored with "
-             "what happened to it — kept, rejected by the judge, or dropped by a "
-             "post-filter — so the Results screen can draw the regions that "
+             "what happened to it - kept, rejected by the judge, or dropped by a "
+             "post-filter - so the Results screen can draw the regions that "
              "never became detections. That is how you tell a localization miss "
              "(no box over the object at all) from a judge miss (a correct box "
              "answered NO)."),
@@ -185,7 +185,7 @@ PIPELINE_DOCS = {
             "The diff finds everything: measured localization recall is 45/45 "
             "instances on the 29-case ground truth, including faint tags and "
             "objects too small for any detector.",
-            "The VLM never has to search the frame — it only answers a yes/no "
+            "The VLM never has to search the frame - it only answers a yes/no "
             "about one small crop, which it does far more reliably.",
             "Frame-level accuracy 1.000 on the benchmark (17 anomalous, 12 "
             "clean, no false alarm and no miss).",
@@ -193,7 +193,7 @@ PIPELINE_DOCS = {
         "limits": [
             "Needs a fixed camera and a clean reference of the same scene. A "
             "different session (exposure, onboard displays) produces many more "
-            "candidate regions — the VLM still rejects them, but the cost rises.",
+            "candidate regions - the VLM still rejects them, but the cost rises.",
             "Object-level precision is the weak point: 0.730 region precision "
             "and 0.889 instance recall. The pre-VLM merge was A/B'd end to end "
             "on 2026-07-30: it cut false-positive boxes 29 → 20 but left recall "
@@ -201,10 +201,10 @@ PIPELINE_DOCS = {
             "not a fragmentation artefact.",
             "The 5 missed instances are all forgotten OBJECTS on real footage "
             "(graffiti, damage and litter score 100%), and the localizer boxes "
-            "all 45 — so every miss is the judge saying NO to a region that did "
+            "all 45 - so every miss is the judge saying NO to a region that did "
             "contain the object.",
             "Cost scales with the number of changed regions: roughly 20 VLM "
-            "calls per frame on a busy frame — which the DINOv2 gate roughly "
+            "calls per frame on a busy frame - which the DINOv2 gate roughly "
             "halves.",
             "The DINOv2 localizers need PyTorch and download an 84 MB backbone "
             "on first use. The gate does NOT make cross-session frames clean at "

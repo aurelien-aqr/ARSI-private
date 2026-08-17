@@ -82,7 +82,7 @@ def test_mask_is_materialized_for_frames_and_reference(fake_client, img_factory,
 
 def test_masked_run_reports_masked_paths_to_the_ui(fake_client, img_factory, tmp_path):
     """The run screen and the results page render whatever the events and the
-    saved config point at, so those must be the masked copies — showing the
+    saved config point at, so those must be the masked copies - showing the
     untouched frame would misrepresent what the VLM was given."""
     ref = img_factory("ref.jpg", color=(200, 200, 200))
     f1 = img_factory("f1.jpg", color=(200, 200, 200))
@@ -240,7 +240,7 @@ def test_frame_references_must_line_up_with_frames(img_factory, tmp_path):
 def test_missing_per_frame_reference_fails_the_job_upfront(fake_client, img_factory,
                                                            tmp_path):
     """One frame without a reference must fail the JOB before any VLM call, the
-    same way a missing job-level reference does — not silently run vlm_02 on a
+    same way a missing job-level reference does - not silently run vlm_02 on a
     single image for that frame."""
     from arsi_core.errors import FrameError
     ref = img_factory("ref.jpg")
@@ -253,7 +253,7 @@ def test_missing_per_frame_reference_fails_the_job_upfront(fake_client, img_fact
 
 def test_results_json_is_written_after_every_frame(fake_client, img_factory, tmp_path):
     """It used to be written once at the end, so a server killed mid-job left no
-    record at all — the finished frames were lost and the job vanished from the
+    record at all - the finished frames were lost and the job vanished from the
     history. The snapshot also carries status "running", which is what lets the
     history tell an interrupted job from a live one."""
     import json

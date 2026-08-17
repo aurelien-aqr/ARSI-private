@@ -1,6 +1,6 @@
 """Benchmark runs: score a dataset with a chosen pipeline, in one of two modes.
 
-    full      the real thing — every case goes through the pipeline the Studio
+    full      the real thing - every case goes through the pipeline the Studio
               runs (script x localizer x model x prompt) via the ordinary job
               queue, so it gets SSE progress, cancel, the shared verdict cache
               and shows up in the Results screen like any other run. Scored at
@@ -20,7 +20,7 @@ A run is a directory under benchmark/runs/<run_id>/:
 
 The snapshot is the point. Ground truth is editable now, so a run scored against
 labels that have since been corrected must keep reporting what it actually
-measured, and say that the dataset moved on — `stale` in the run summary.
+measured, and say that the dataset moved on - `stale` in the run summary.
 """
 import json
 import queue
@@ -113,7 +113,7 @@ def _select_cases(doc: dict, case_ids):
            or c.get("reference") not in refs]
     if bad:
         raise BenchError(f"the dataset has {len(bad)} unusable case(s) "
-                         f"({', '.join(map(str, bad[:3]))}) — each case needs an "
+                         f"({', '.join(map(str, bad[:3]))}) - each case needs an "
                          f"'id' and a 'reference' that is a key of 'references'")
     if case_ids:
         wanted = list(dict.fromkeys(case_ids))
@@ -178,7 +178,7 @@ def create(payload: dict, submit_job, gpu: bool = True) -> dict:
 
     if mode == "full":
         # If the submission is refused (model not installed, Ollama down) the
-        # caller gets that error — but the run directory must not survive as a row
+        # caller gets that error - but the run directory must not survive as a row
         # stuck at "queued" with no job behind it, which nothing could then stop.
         try:
             _submit_full(run, cases, refs, script, localizer, ds_id, submit_job)
@@ -202,7 +202,7 @@ def _submit_full(run, cases, refs, script, localizer, ds_id, submit_job):
         params=run["params"],
         bench={"run_id": run["run_id"], "dataset": ds_id})
     # The benchmark images are already masked (each was written through its own
-    # camera's mask), so no mask is applied here — doing it twice would change the
+    # camera's mask), so no mask is applied here - doing it twice would change the
     # verdict-cache key and throw away 4642 cached verdicts.
     run["job_id"] = submit_job(cfg)
     run["status"] = "running"
@@ -327,7 +327,7 @@ def _freeze(run: dict, score: dict):
 
 def state(run_id: str, job_data=None, job_status=None, job_error=None) -> dict:
     """Everything the UI needs about one run: the run record, its live status and
-    its score. `job_data` is the results.json of the backing job (full mode) —
+    its score. `job_data` is the results.json of the backing job (full mode) -
     passed in so this module needs no import of the job manager.
 
     The score is recomputed from those results on every read while the job runs
@@ -366,7 +366,7 @@ def state(run_id: str, job_data=None, job_status=None, job_error=None) -> dict:
 
 def _is_stale(run: dict) -> bool:
     """True when the dataset has been edited since this run was scored. Not an
-    error — the run's numbers stay valid for the labels it used — but a
+    error - the run's numbers stay valid for the labels it used - but a
     comparison against a newer run would be apples to oranges."""
     try:
         _, doc = benchmarks.load(run["dataset"])

@@ -1,4 +1,4 @@
-# LLaMA-Factory SFT config — vlm_05 crop judge, Qwen3-VL-8B, QLoRA rank 8
+# LLaMA-Factory SFT config - vlm_05 crop judge, Qwen3-VL-8B, QLoRA rank 8
 # (docs/LORA_PLAN.md; run on the RTX 3080 Ti via RUNBOOK_LORA.md).
 #
 # Before the first run:
@@ -25,7 +25,7 @@ lora_target: all            # all linear layers of the language model
 freeze_vision_tower: true
 freeze_multi_modal_projector: true
 
-quantization_bit: 4         # QLoRA — fits the 12 GB card
+quantization_bit: 4         # QLoRA - fits the 12 GB card
 
 template: qwen3_vl
 dataset_dir: /home/student/Documents/lora_dataset   # <- exported dataset dir

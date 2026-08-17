@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 # =============================================================================
 #  ARSI-VLM - tools/build_39T_benchmark.py
-#  Builds benchmark/datasets/39T.json and the masked frames it points at,
-#  from the 39T multi-camera footage (data/videos/39T/<moment>/39T-camNN.mp4).
+#  Builds the 39T cameras of benchmark/datasets/ground_truth.json and the masked
+#  frames they point at, from the 39T multi-camera footage
+#  (data/videos/39T/<moment>/39T-camNN.mp4). It MERGES into the one benchmark:
+#  every case on a 39T camera is replaced, the rest of the ground truth is left
+#  alone.
 #
-#  WHY a second benchmark. Everything measured until 2026-08-16 came from ONE
-#  camera of tram 1762, filmed in July: 29 cases, one viewpoint, one tram. Every
-#  verdict in docs/DECISIONS.md rests on it. This one covers 4 viewpoints of a
-#  different tram, and its negatives are frames of OTHER runs of the line, so
-#  "clean" here means clean under a different sun and a different position on
-#  the track - the deployment case.
+#  WHY these cameras. Everything measured until 2026-08-16 came from ONE camera of
+#  tram 1762, filmed in July: 29 cases, one viewpoint, one tram. Every verdict in
+#  docs/DECISIONS.md rests on it. These 4 viewpoints are a different tram, and
+#  their negatives are frames of OTHER runs of the line, so "clean" here means
+#  clean under a different sun and a different position on the track - the
+#  deployment case.
 #
 #  THE LABELS ARE IN THIS FILE (CASES below), on purpose: the frames are
 #  reproducible from the videos, so the only thing worth versioning by hand is
 #  the human judgement. Re-running this script rebuilds everything.
 #
-#  HOW THEY WERE MADE (2026-08-16, by Claude, unreviewed by a human):
+#  HOW THEY WERE MADE (2026-08-16, by Claude, from the footage alone):
 #    1. one frame per camera per moment, masked, laid out as a 6-up strip;
 #    2. objects spotted by eye on the strip - NOT by running our own localizer,
 #       which would have made the ground truth agree with the system under test;
@@ -48,7 +51,6 @@ from PIL import Image                                           # noqa: E402
 VIDEOS = REPO_ROOT / "data" / "videos" / "39T"
 MASKS = REPO_ROOT / "data" / "masks_labelme" / "39T"
 OUT_DIR = REPO_ROOT / "data" / "benchmark_39T"
-GT_OUT = REPO_ROOT / "benchmark" / "datasets" / "39T.json"
 
 REF_MOMENT = "08-55-37"      # verified empty on all 15 cameras
 T_CASE = 60                  # seconds into the video
@@ -153,38 +155,31 @@ def build():
             "note": f"clean, SAME run as the reference, {T_SECOND_NEGATIVE - T_CASE}s "
                     f"later - the cheapest possible negative",
         })
-    gt = {"_about": ABOUT, "name": "tram 39T — four cameras, 2026-08-11 capture",
-          "references": refs, "cases": cases}
-    # Through benchmarks.save: it validates before writing and snapshots the
-    # current file into benchmark/datasets/.backups/ first. That matters now that
-    # the labels are corrected by hand in the Studio — re-running this builder
-    # REPLACES those corrections, and the backup is what gets them back.
-    benchmarks.save("39T", gt)
+    # There is ONE benchmark, so this builder MERGES its cameras into it rather
+    # than writing a file of its own: it replaces every case whose reference is a
+    # 39T camera and leaves the rest of the ground truth alone. Through
+    # benchmarks.save, which validates first and snapshots the current file into
+    # benchmark/datasets/.backups/ - re-running this REPLACES whatever was
+    # corrected by hand on these cameras, and the backup is what gets it back.
+    ds_id, gt = benchmarks.load()
+    kept = [c for c in gt["cases"] if not c.get("reference", "").startswith("39T-")]
+    gt["references"].update(refs)
+    gt["cases"] = kept + cases
+    benchmarks.save(ds_id, gt)
     n_inst = sum(len(c["instances"]) for c in cases)
     n_anom = sum(1 for c in cases if c["has_anomaly"])
-    print(f"{GT_OUT.relative_to(REPO_ROOT)}: {len(cases)} cases "
-          f"({n_anom} anomalous, {len(cases) - n_anom} clean), {n_inst} instances, "
-          f"{len(cams)} cameras")
+    print(f"{benchmarks.dataset_path(ds_id).relative_to(REPO_ROOT)}: "
+          f"{len(cases)} 39T cases ({n_anom} anomalous, {len(cases) - n_anom} "
+          f"clean), {n_inst} instances, {len(cams)} cameras, merged into "
+          f"{len(gt['cases'])} cases total")
     print(f"frames in {OUT_DIR.relative_to(REPO_ROOT)}: "
           f"{len(list(OUT_DIR.glob('*.jpg')))}")
 
 
-ABOUT = (
-    "Ground truth for the 39T multi-camera footage (recorded 2026-08-11), built "
-    "2026-08-16 by tools/build_39T_benchmark.py. A SECOND protocol next to "
-    "benchmark/datasets/tram1762.json, which covers one camera of tram 1762 only. Four viewpoints "
-    "of tram 39T (cam52-55); every image is the t=60 s frame of its video, masked "
-    "with that camera's own mask, so it is exactly what the pipeline sees. Each "
-    "camera has its own reference: itself during moment 08-55-37, verified empty on "
-    "all 15 interior cameras. The other moments are separate runs of the line, so a "
-    "negative here is a cross-session negative (different sun, different position on "
-    "the track). instances = object-level ground truth in reference pixel space "
-    "(1280x720), boxes intentionally generous; people are NOT instances. "
-    "Labelled by Claude and NOT yet reviewed by a human: objects were found by eye, "
-    "never by running our own localizer, and each one was confirmed by comparing the "
-    "same crop in the reference and in the inspection frame - a test that rejected "
-    "two candidates (a seat cover present in both frames, and a sunlit floor patch). "
-    "Treat it as a draft to correct in the Studio's Benchmark screen.")
+#: The provenance of these cameras is written in the merged dataset's `_about`
+#: (benchmark/datasets/ground_truth.json) and is deliberately NOT rewritten
+#: here: a rebuild replaces the 39T cases, not the description of the whole
+#: benchmark.
 
 
 if __name__ == "__main__":

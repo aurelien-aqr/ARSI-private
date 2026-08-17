@@ -1,8 +1,8 @@
 """Pre-VLM region merge in vlm_05: it must absorb fragments of one object without
 ever chaining neighbours into a frame-sized box.
 
-The blob case is the one worth guarding. It passes every lenient check — a box
-covering the frame "overlaps" every ground-truth instance — so only an explicit
+The blob case is the one worth guarding. It passes every lenient check - a box
+covering the frame "overlaps" every ground-truth instance - so only an explicit
 assertion on the merged box size catches a regression here. See the MERGE_*
 comment block in vlm_05_reference_diff.py for the measured sweep.
 """

@@ -151,7 +151,7 @@ def test_review_pure_helpers_dont_need_api():
 
 def make_reviewed_vlm05_job(job_id="fakejob-lora01"):
     """A saved vlm_05-style job + confirmed review, crafted directly in
-    JOBS_DIR — what the Labels/LoRA endpoints and the exporter consume."""
+    JOBS_DIR - what the Labels/LoRA endpoints and the exporter consume."""
     import json
     from arsi_core.runner import JOBS_DIR
     ref = app_image("lora_ref.jpg", size=(400, 300))

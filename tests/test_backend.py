@@ -26,7 +26,7 @@ TRACKED_FRAME = "data/raw/tram_1762_v1_f0001.jpg"   # committed benchmark frame
 
 
 class DownOllama:
-    """Every call fails — simulates an unreachable server."""
+    """Every call fails - simulates an unreachable server."""
     def list(self):
         raise ConnectionError("connection refused")
 
@@ -266,7 +266,7 @@ def test_localizer_catalog_and_validation(api):
 
 
 def test_job_records_the_localizer_it_ran(api):
-    """A finished job must say which localizer produced its boxes — two runs that
+    """A finished job must say which localizer produced its boxes - two runs that
     differ only by the proposal stage would otherwise be indistinguishable in the
     history, the compare view and the xlsx."""
     client, _ = api(["NO, nothing on the empty floor."] * 8)
@@ -286,7 +286,7 @@ def test_job_records_the_localizer_it_ran(api):
 
 
 def test_a_job_from_before_the_picker_is_named_photo_not_blank():
-    """Jobs that predate the localizer picker carry no field — but they DID use
+    """Jobs that predate the localizer picker carry no field - but they DID use
     one: the shipped pixel diff, which is still the default. Showing them blank
     next to a photo+dino run reads as "unknown localizer" and makes the two look
     incomparable, so they are named photo and flagged inferred. The flag is what
@@ -323,7 +323,7 @@ VALID_VLM01 = ("GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n"
 
 def test_job_flow_bad_json_isolated_per_frame(api):
     """Frame 1 parses; frame 2 answers garbage 3 times (ParseError -> retries
-    exhausted) — the job must complete with the failure isolated to frame 2."""
+    exhausted) - the job must complete with the failure isolated to frame 2."""
     client, _ = api(replies=[VALID_VLM01, "garbage", "garbage", "garbage"])
     f1, f2 = app_image("flow1.jpg"), app_image("flow2.jpg")
     r = client.post("/api/jobs", json={
@@ -457,7 +457,7 @@ def test_cpu_only_machine_gets_a_workable_vlm_timeout(api, monkeypatch):
 
 
 def test_force_cancel_aborts_the_call_in_flight(api, monkeypatch):
-    """A graceful cancel waits for the VLM call in flight — up to a few minutes on
+    """A graceful cancel waits for the VLM call in flight - up to a few minutes on
     CPU. Force stop aborts its connection, which is the only way to stop Ollama
     mid-generation (measured: Client.close() leaves the reader blocked, closing the
     fd does not wake it, socket.shutdown() does). Everything already judged is

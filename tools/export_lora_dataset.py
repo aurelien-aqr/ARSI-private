@@ -4,12 +4,12 @@ HUMAN-verified labels (docs/LORA_PLAN.md).
 
 Sources, in order of trust:
 1. App-job reviews (data/app/jobs/*/review.json, made in ARSI Studio's
-   Review mode): every judged detection becomes a sample — TP -> "YES <label>",
+   Review mode): every judged detection becomes a sample - TP -> "YES <label>",
    FP -> "NO"; every reviewer-drawn missed box becomes "YES <label>".
 2. Optionally (--include-benchmark) the benchmark ground truth: the localizer
    runs on each case, regions matching a GT instance box (IoU >= 0.3) become
    "YES <gt label>", unmatched regions become "NO". WARNING: the 29-case
-   benchmark is the eval set — training on it destroys it as an eval.
+   benchmark is the eval set - training on it destroys it as an eval.
    Only use this to bootstrap once a bigger eval exists.
 
 Each sample is the EXACT inference-time artifact: the reference|inspection
@@ -121,16 +121,16 @@ def export_reviews(ex: Exporter):
             with open(review_path, encoding="utf-8") as fh:
                 review = json.load(fh)
         except (OSError, json.JSONDecodeError) as exc:
-            print(f"  ! {job_dir.name}: unreadable ({exc}) — skipped")
+            print(f"  ! {job_dir.name}: unreadable ({exc}) - skipped")
             continue
         ref_path = (results.get("config") or {}).get("reference")
         if not ref_path:
-            print(f"  ! {job_dir.name}: no reference (whole-frame pipeline) — "
+            print(f"  ! {job_dir.name}: no reference (whole-frame pipeline) - "
                   f"skipped, crop pairs need one")
             continue
         ref_path = reanchor(ref_path)
         if not ref_path.is_file():
-            print(f"  ! {job_dir.name}: reference not found locally — skipped")
+            print(f"  ! {job_dir.name}: reference not found locally - skipped")
             continue
         ref_img = Image.open(ref_path).convert("RGB")
         by_id = {f["frame_id"]: f for f in results["frames"]}
@@ -162,13 +162,13 @@ def export_reviews(ex: Exporter):
             n_jobs += 1
             print(f"  {job_dir.name}: {used} samples")
     if not n_jobs:
-        print("  (no reviewed jobs found — open a job in ARSI Studio, "
+        print("  (no reviewed jobs found - open a job in ARSI Studio, "
               "toggle Review, judge some frames)")
 
 
 def export_benchmark(ex: Exporter):
     from arsi_core import benchmarks
-    _, gt = benchmarks.load("tram1762")
+    _, gt = benchmarks.load()
     refs = gt["references"]
     for case in gt["cases"]:
         img_path = REPO_ROOT / case["image"]
@@ -206,7 +206,7 @@ def main():
     print("== app-job reviews ==")
     export_reviews(ex)
     if args.include_benchmark:
-        print("== benchmark GT (eval-set leakage — you were warned) ==")
+        print("== benchmark GT (eval-set leakage - you were warned) ==")
         export_benchmark(ex)
     if not ex.samples:
         print("nothing to export")
@@ -216,7 +216,7 @@ def main():
           f"(train {stats['train']} / val {stats['val']}; "
           f"YES {stats['yes']} / NO {stats['no']})")
     if stats["yes"] and stats["no"] and not 0.2 < stats["yes"] / stats["no"] < 5:
-        print("! class balance is skewed — review more frames of the "
+        print("! class balance is skewed - review more frames of the "
               "under-represented class before training")
     return 0
 

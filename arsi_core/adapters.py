@@ -2,7 +2,7 @@
 adapters").
 
 The scripts are imported as modules and configured by temporarily setting
-their module attributes (MODEL_NAME, PROMPT, thresholds...) — including their
+their module attributes (MODEL_NAME, PROMPT, thresholds...) - including their
 `ollama` attribute, which is swapped for the caller's OllamaClient so every
 call shares one timeout/error policy (and tests inject a fake). Jobs run one
 at a time (the Ollama server is the bottleneck), so this is safe; `configured`
@@ -90,7 +90,7 @@ def _chat_text(client, model: str, prompt: str, images: list, module) -> str:
     try:
         response = call()
     except VLMCallError as exc:
-        # context overflow is deterministic (image tokens vary per model —
+        # context overflow is deterministic (image tokens vary per model -
         # GLM needs 5645 for two full frames): retry once with the size the
         # server asked for. Callers register NUM_CTX in configured(), so the
         # bump is restored after the job.
@@ -106,7 +106,7 @@ def _chat_text(client, model: str, prompt: str, images: list, module) -> str:
 
 
 # ---------------------------------------------------------------------------
-# vlm_01 / vlm_02 — structured whole-frame report
+# vlm_01 / vlm_02 - structured whole-frame report
 # ---------------------------------------------------------------------------
 
 # Tolerant of the decorations real models add around the requested format:
@@ -115,6 +115,8 @@ def _chat_text(client, model: str, prompt: str, images: list, module) -> str:
 # names ("**GRAFFITI:** no") or number them. The verdict word is what matters.
 _SECTION_RE = re.compile(
     r"^[\s>#*\-\d.]*[*_]*\s*(GRAFFITI|VANDALISM|FORGOTTEN OBJECTS?)\s*[*_]*\s*:\s*"
+    # the class keeps the en/em dash on purpose: it matches what a MODEL writes
+    # after its verdict ("YES — a backpack"), not prose we author
     r"[<\[({*_\s]*(yes|no|none)\b[>\])}*_]*\s*[-–—:]?\s*(.*)$",
     re.IGNORECASE)
 _ITEM_RE = re.compile(r"^\s*[-*•]\s+(.*?)(?:\(([^)]*)\))?\s*$")
@@ -198,7 +200,7 @@ def _run_whole_frame(script, image, reference, model, prompt, params, client):
 
 
 # ---------------------------------------------------------------------------
-# vlm_03 — whole-frame JSON bounding boxes
+# vlm_03 - whole-frame JSON bounding boxes
 # ---------------------------------------------------------------------------
 
 _LABEL_TO_TYPE = {"graffiti": "graffiti", "vandalism": "damage",
@@ -243,7 +245,7 @@ def parse_bbox_json(text: str):
         data = json.loads(t[start:end + 1] if end > start else t[start:])
     except json.JSONDecodeError:
         # likely truncated by the token limit (note: rfind("]") may have hit an
-        # inner bbox array) — repair on the FULL tail: keep complete elements.
+        # inner bbox array) - repair on the FULL tail: keep complete elements.
         tail = t[start:]
         cut = tail.rfind("}")
         if cut == -1:
@@ -305,7 +307,7 @@ def _run_vlm03(image, model, prompt, params, client):
 
 
 # ---------------------------------------------------------------------------
-# vlm_04 — YOLO-World localizer + VLM confirmation
+# vlm_04 - YOLO-World localizer + VLM confirmation
 # ---------------------------------------------------------------------------
 
 def _get_detector(module):
@@ -369,14 +371,14 @@ def _run_vlm04(image, reference, model, prompt, params, client, stop=None):
 
 
 # ---------------------------------------------------------------------------
-# vlm_05 — reference-diff localizer + crop judge (mirrors benchmark/run_benchmark)
+# vlm_05 - reference-diff localizer + crop judge (mirrors benchmark/run_benchmark)
 # ---------------------------------------------------------------------------
 
 _CTX_ERR_RE = re.compile(r"request \((\d+) tokens\) exceeds the available context")
 
 
 def _ctx_needed(error_text: str):
-    """Ollama's context-overflow error states the required size — a big region
+    """Ollama's context-overflow error states the required size - a big region
     crop can tokenize past NUM_CTX (seen with GLM: 4339 > 4096). Returns the
     context to retry with, or None if this is a different error."""
     m = _CTX_ERR_RE.search(error_text)
@@ -441,7 +443,7 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
                     if stop and stop():
                         aborted = True
                         break
-                    # context overflow is deterministic — retrying the frame
+                    # context overflow is deterministic - retrying the frame
                     # verbatim can never help; retry NOW with the size the
                     # server asked for (restored by configured() afterwards)
                     need = _ctx_needed(str(exc))

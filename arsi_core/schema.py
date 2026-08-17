@@ -1,4 +1,4 @@
-"""Result dataclasses — the single JSON contract shared by the runner, the
+"""Result dataclasses - the single JSON contract shared by the runner, the
 backend, the report and the exports (docs/SPEC.md "FrameResult schema")."""
 from dataclasses import dataclass, field, asdict
 from typing import Optional
@@ -26,7 +26,7 @@ class FrameResult:
     seconds: float = 0.0
     anomaly: Optional[bool] = None      # None when status != ok
     detections: list = field(default_factory=list)   # [Detection]
-    # Every region the localizer PROPOSED, with what happened to it — this is
+    # Every region the localizer PROPOSED, with what happened to it - this is
     # what separates "the localizer never boxed it" from "the judge said NO to a
     # correct box", the first question to ask about any miss. Empty for the
     # whole-frame pipelines, which have no localization stage.

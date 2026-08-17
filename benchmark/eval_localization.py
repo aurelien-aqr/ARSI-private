@@ -50,7 +50,7 @@ sys.path.insert(0, str(REPO_ROOT))
 import vlm_05_reference_diff as m
 from arsi_core import benchmarks
 
-DEFAULT_DATASET = "tram1762"
+
 
 
 # --- experimental variants (the shipped channels live in vlm_05 itself) -------
@@ -183,14 +183,17 @@ def main():
                          + ", ".join(VARIANTS))
     ap.add_argument("--cases", default="", help="only case ids containing this")
     ap.add_argument("--quiet", action="store_true", help="summary lines only")
-    ap.add_argument("--gt", "--dataset", dest="gt", default=DEFAULT_DATASET,
-                    help="dataset id or path (default: tram1762, the 29-case "
-                         "1762 benchmark; use '39T' for the four 39T cameras)")
+    ap.add_argument("--gt", "--dataset", dest="gt", default=benchmarks.DEFAULT,
+                    help="dataset id or path (default: the benchmark ground "
+                         "truth, all 50 cases)")
+    ap.add_argument("--ref", default="", help="only cases whose reference key "
+                    "contains this (e.g. --ref 39T for the 39T cameras)")
     args = ap.parse_args()
 
     ds_id, gt = benchmarks.load(args.gt)
-    cases = [c for c in gt["cases"] if args.cases in c["id"]]
-    print(f"dataset: {ds_id}  ({len(cases)} cases)")
+    cases = [c for c in gt["cases"] if args.cases in c["id"]
+             and args.ref in c.get("reference", "")]
+    print(f"dataset: {ds_id}  ({len(cases)} of {len(gt['cases'])} cases)")
 
     for name in args.variants.split(","):
         name = name.strip()

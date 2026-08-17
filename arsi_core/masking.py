@@ -104,7 +104,7 @@ class MaskSpec:
         """Build a mask from a LabelMe annotation file.
 
         LabelMe points are already in image pixels, like `zones[].polygon`, so
-        only the keys change. Shapes that enclose no area are dropped — call
+        only the keys change. Shapes that enclose no area are dropped - call
         `labelme_skipped()` to tell the user which."""
         try:
             w, h = int(data["imageWidth"]), int(data["imageHeight"])
@@ -129,7 +129,7 @@ class MaskSpec:
 
     def to_labelme(self, image_path: str = "") -> dict:
         """Export as a LabelMe annotation file, so the team can reopen and edit
-        a Studio mask in their usual tool. Every zone becomes a polygon —
+        a Studio mask in their usual tool. Every zone becomes a polygon -
         rectangles and circles imported earlier stay expanded, which LabelMe
         reads back fine."""
         return {
@@ -162,7 +162,7 @@ class MaskSpec:
 
     @property
     def hash(self) -> str:
-        """Stable content hash — joins the vlm_05 verdict-cache key, so editing
+        """Stable content hash - joins the vlm_05 verdict-cache key, so editing
         a mask invalidates cached verdicts exactly like a prompt change."""
         canon = json.dumps({"size": self.image_size,
                             "polys": sorted(z["polygon"] for z in self.zones)},

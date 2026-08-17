@@ -84,7 +84,7 @@ class JobManager:
         """Graceful cancel sets the flag, which the runner reads between regions:
         the job stops after the VLM call in flight (up to a few minutes on CPU).
         `force` also aborts that call's connection, which is the only way to stop
-        Ollama mid-generation — everything already judged is still kept."""
+        Ollama mid-generation - everything already judged is still kept."""
         job = self.jobs.get(job_id)
         if not job:
             return {"ok": False}
@@ -129,7 +129,7 @@ def saved_jobs():
     if not JOBS_DIR.exists():
         return out
     # Order is left to the caller (see jobs_index), which sorts by the
-    # timestamp-prefixed job_id — reliable even when file mtimes are not.
+    # timestamp-prefixed job_id - reliable even when file mtimes are not.
     for res in JOBS_DIR.glob("*/results.json"):
         try:
             with open(res, encoding="utf-8") as fh:
