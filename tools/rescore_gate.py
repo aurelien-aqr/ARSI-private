@@ -12,11 +12,12 @@
 #  Scoring is NOT reimplemented: run_benchmark.run_case/metrics/write_report are
 #  reused as-is, with m.localize monkeypatched and the output paths redirected,
 #  so the control arm (--gate -1, which filters nothing) must reproduce
-#  benchmark/report.md to the digit.
+#  benchmark/archive/report.md to the digit.
 #
 #      python tools/rescore_gate.py --gate -1     # control = shipped
 #      python tools/rescore_gate.py --gate 0.08
-#      -> benchmark/report_gate<X>.md / results_gate<X>.json
+#      -> benchmark/runs/cli-gate<X>/{report.md,results.json}
+#  (the 2026-08 reports this produced are kept in benchmark/archive/.)
 # =============================================================================
 
 import sys, argparse
@@ -44,8 +45,10 @@ def main():
 
     m.MODEL_NAME = args.model
     tag = "shipped" if args.gate < 0 else f"{args.gate:g}"
-    rb.REPORT = rb.BENCH_DIR / f"report_gate{tag}.md"
-    rb.RESULTS = rb.BENCH_DIR / f"results_gate{tag}.json"
+    out = rb.BENCH_DIR / "runs" / f"cli-gate{tag}"
+    out.mkdir(parents=True, exist_ok=True)
+    rb.REPORT = out / "report.md"
+    rb.RESULTS = out / "results.json"
 
     def gated(ref_path, img_path):
         regions, info = dl.localize_gated(ref_path, img_path,

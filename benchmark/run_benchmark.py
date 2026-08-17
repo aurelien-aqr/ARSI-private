@@ -33,12 +33,17 @@ import vlm_05_reference_diff as m           # the script under test
 from PIL import Image, ImageDraw, ImageFont
 
 BENCH_DIR  = Path(__file__).resolve().parent
-GT_PATH    = BENCH_DIR / "ground_truth.json"
+# The datasets moved to benchmark/datasets/ on 2026-08-17 (tram1762 = what this
+# script has always scored). No CLI flag here on purpose: tools/rescore_gate.py
+# parses its OWN argv and then calls main(), so an argparse in this module would
+# break it. Picking a dataset / model / localizer is what the Studio's Benchmark
+# screen is for; this stays the frozen path the published numbers came from.
+GT_PATH    = BENCH_DIR / "datasets" / "tram1762.json"
 CACHE_PATH = BENCH_DIR / "cache.json"
-RESULTS    = BENCH_DIR / "results.json"
-REPORT     = BENCH_DIR / "report.md"
-ANNOT_DIR  = BENCH_DIR / "annotated"
-ANNOT_DIR.mkdir(exist_ok=True)
+RESULTS    = BENCH_DIR / "runs" / "cli-latest" / "results.json"
+REPORT     = BENCH_DIR / "runs" / "cli-latest" / "report.md"
+ANNOT_DIR  = BENCH_DIR / "runs" / "cli-latest" / "annotated"
+ANNOT_DIR.mkdir(parents=True, exist_ok=True)
 
 TYPES = ["object", "graffiti", "damage", "litter"]
 STRICT_IOU = 0.3      # secondary, stricter box-match criterion reported alongside
@@ -295,9 +300,9 @@ def write_report(rows, frame, obj, elapsed, done, total):
         L.append(f"| {r['id']} | {truth} | **{r['outcome']}** | {inst} | "
                  f"{r['fp_regions']} | {labels} |")
     L.append("")
-    L.append("Annotated images: `benchmark/annotated/<id>.jpg` "
+    L.append(f"Annotated images: `{ANNOT_DIR.relative_to(REPO_ROOT)}/<id>.jpg` "
              "(blue = ground-truth boxes, green = correct detections, red = "
-             "false-positive boxes). Raw results: `benchmark/results.json`.\n")
+             f"false-positive boxes). Raw results: `{RESULTS.relative_to(REPO_ROOT)}`.\n")
     REPORT.write_text("\n".join(L), encoding="utf-8")
 
 

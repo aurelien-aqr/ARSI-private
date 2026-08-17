@@ -19,6 +19,7 @@ from fastapi.responses import (FileResponse, HTMLResponse, JSONResponse,  # noqa
 from fastapi.staticfiles import StaticFiles                        # noqa: E402
 
 from arsi_core import APP_DATA                                     # noqa: E402
+from arsi_core import benchmarks                                   # noqa: E402
 from arsi_core.adapters import SCRIPTS, get_module                 # noqa: E402
 from arsi_core.errors import ArsiError, ModelMissing, OllamaUnreachable  # noqa: E402
 from arsi_core.masking import (MASKS_DIR, MaskSpec, labelme_skipped,  # noqa: E402
@@ -169,7 +170,10 @@ def models_remove(tag: str):
 
 # ---------------------------------------------------------------- media (guarded)
 
-MEDIA_ROOTS = [REPO_ROOT / "data", REPO_ROOT / "benchmark" / "annotated"]
+#: What /api/media may serve, and (via create_job's _abs) what a job may read.
+#: Deliberately narrow: `benchmark/` as a whole would expose cache.json and the
+#: datasets through the media endpoint. Benchmark case images live under data/.
+MEDIA_ROOTS = [REPO_ROOT / "data", REPO_ROOT / "benchmark" / "archive" / "annotated"]
 
 
 @app.get("/api/media/{path:path}")
@@ -201,9 +205,7 @@ def media_url(path) -> str:
 
 @app.get("/api/demo-frames")
 def demo_frames():
-    gt_path = REPO_ROOT / "benchmark" / "ground_truth.json"
-    with open(gt_path, encoding="utf-8") as fh:
-        gt = json.load(fh)
+    _, gt = benchmarks.load("tram1762")
     refs = gt["references"]
     out = []
     for c in gt["cases"]:
@@ -851,6 +853,25 @@ def set_settings(payload: dict):
               if k in ("ollama_url", "defaults")})
     _save_settings(s)
     return {"ok": True}
+
+
+# ---------------------------------------------------------------- notes
+
+#: Standalone HTML notes kept in docs/, opened from the sidebar. Self-contained
+#: (figures inlined), so they are served as-is rather than rendered by the app.
+NOTES = {
+    "camera-alignment": REPO_ROOT / "docs" / "camera_alignment"
+                        / "camera_framing_drift_1760_39T.html",
+}
+
+
+@app.get("/notes/{key}")
+def note(key: str):
+    """One of the named notes. A whitelist, not a static mount on docs/."""
+    path = NOTES.get(key)
+    if path is None or not path.is_file():
+        raise HTTPException(404, key)
+    return FileResponse(path, media_type="text/html")
 
 
 # ---------------------------------------------------------------- frontend

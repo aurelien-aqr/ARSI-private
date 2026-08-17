@@ -5,7 +5,7 @@
 #
 #  The full benchmark (run_benchmark.py) costs ~15 s of CPU VLM time per region.
 #  But the change-detection stage can be scored on its own against the instance
-#  boxes in ground_truth.json in SECONDS: an anomaly instance is "localized" if
+#  boxes of a dataset in benchmark/datasets/ in SECONDS: an instance is "localized" if
 #  ANY candidate region overlaps its GT box (same lenient rule as the benchmark;
 #  the VLM can only keep what the localizer produced, so this is an upper bound
 #  on end-to-end recall). This makes threshold / diff-variant tuning a measured
@@ -38,17 +38,19 @@
 #      python benchmark/eval_localization.py
 #      python benchmark/eval_localization.py --variants shipped
 #      python benchmark/eval_localization.py --variants photo,shipped --cases gpt
+#      python benchmark/eval_localization.py --dataset 39T --variants shipped
 # =============================================================================
 
-import sys, json, argparse
+import sys, argparse
 from pathlib import Path
 import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 import vlm_05_reference_diff as m
+from arsi_core import benchmarks
 
-GT_PATH = Path(__file__).resolve().parent / "ground_truth.json"
+DEFAULT_DATASET = "tram1762"
 
 
 # --- experimental variants (the shipped channels live in vlm_05 itself) -------
@@ -181,13 +183,14 @@ def main():
                          + ", ".join(VARIANTS))
     ap.add_argument("--cases", default="", help="only case ids containing this")
     ap.add_argument("--quiet", action="store_true", help="summary lines only")
-    ap.add_argument("--gt", default=str(GT_PATH),
-                    help="ground-truth file (default: the 1762 benchmark; use "
-                         "benchmark/ground_truth_39T.json for the 39T cameras)")
+    ap.add_argument("--gt", "--dataset", dest="gt", default=DEFAULT_DATASET,
+                    help="dataset id or path (default: tram1762, the 29-case "
+                         "1762 benchmark; use '39T' for the four 39T cameras)")
     args = ap.parse_args()
 
-    gt = json.loads(Path(args.gt).read_text())
+    ds_id, gt = benchmarks.load(args.gt)
     cases = [c for c in gt["cases"] if args.cases in c["id"]]
+    print(f"dataset: {ds_id}  ({len(cases)} cases)")
 
     for name in args.variants.split(","):
         name = name.strip()

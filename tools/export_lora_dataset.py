@@ -167,9 +167,8 @@ def export_reviews(ex: Exporter):
 
 
 def export_benchmark(ex: Exporter):
-    gt_path = REPO_ROOT / "benchmark" / "ground_truth.json"
-    with open(gt_path, encoding="utf-8") as fh:
-        gt = json.load(fh)
+    from arsi_core import benchmarks
+    _, gt = benchmarks.load("tram1762")
     refs = gt["references"]
     for case in gt["cases"]:
         img_path = REPO_ROOT / case["image"]

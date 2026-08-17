@@ -51,3 +51,14 @@ data/app/cache/
 data/app/videos/
 data/app/.pytest-tmp/
 .pytest_cache/
+# Ground-truth safety copies made on every Studio edit; git history is the real
+# archive, these only cover the gap between two commits.
+benchmark/datasets/.backups/
+
+# Benchmark run artifacts. score.json / report.md ARE results and stay tracked
+# (as the old benchmark/report_*.md were). Excluded: the rendered overlay images
+# (the UI draws them from score.json) and the CLI scratch dirs, which every
+# `python benchmark/run_benchmark.py` overwrites — copy what you want to keep
+# into benchmark/archive/, as RUNBOOK_GPU.md does.
+benchmark/runs/*/annotated/
+benchmark/runs/cli-*/

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # =============================================================================
 #  ARSI-VLM - tools/build_39T_benchmark.py
-#  Builds benchmark/ground_truth_39T.json and the masked frames it points at,
+#  Builds benchmark/datasets/39T.json and the masked frames it points at,
 #  from the 39T multi-camera footage (data/videos/39T/<moment>/39T-camNN.mp4).
 #
 #  WHY a second benchmark. Everything measured until 2026-08-16 came from ONE
@@ -41,13 +41,14 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
+from arsi_core import benchmarks                                # noqa: E402
 from arsi_core.masking import MaskSpec                          # noqa: E402
 from PIL import Image                                           # noqa: E402
 
 VIDEOS = REPO_ROOT / "data" / "videos" / "39T"
 MASKS = REPO_ROOT / "data" / "masks_labelme" / "39T"
 OUT_DIR = REPO_ROOT / "data" / "benchmark_39T"
-GT_OUT = REPO_ROOT / "benchmark" / "ground_truth_39T.json"
+GT_OUT = REPO_ROOT / "benchmark" / "datasets" / "39T.json"
 
 REF_MOMENT = "08-55-37"      # verified empty on all 15 cameras
 T_CASE = 60                  # seconds into the video
@@ -152,8 +153,13 @@ def build():
             "note": f"clean, SAME run as the reference, {T_SECOND_NEGATIVE - T_CASE}s "
                     f"later - the cheapest possible negative",
         })
-    gt = {"_about": ABOUT, "references": refs, "cases": cases}
-    GT_OUT.write_text(json.dumps(gt, indent=1, ensure_ascii=False))
+    gt = {"_about": ABOUT, "name": "tram 39T — four cameras, 2026-08-11 capture",
+          "references": refs, "cases": cases}
+    # Through benchmarks.save: it validates before writing and snapshots the
+    # current file into benchmark/datasets/.backups/ first. That matters now that
+    # the labels are corrected by hand in the Studio — re-running this builder
+    # REPLACES those corrections, and the backup is what gets them back.
+    benchmarks.save("39T", gt)
     n_inst = sum(len(c["instances"]) for c in cases)
     n_anom = sum(1 for c in cases if c["has_anomaly"])
     print(f"{GT_OUT.relative_to(REPO_ROOT)}: {len(cases)} cases "
@@ -166,7 +172,7 @@ def build():
 ABOUT = (
     "Ground truth for the 39T multi-camera footage (recorded 2026-08-11), built "
     "2026-08-16 by tools/build_39T_benchmark.py. A SECOND protocol next to "
-    "ground_truth.json, which covers one camera of tram 1762 only. Four viewpoints "
+    "benchmark/datasets/tram1762.json, which covers one camera of tram 1762 only. Four viewpoints "
     "of tram 39T (cam52-55); every image is the t=60 s frame of its video, masked "
     "with that camera's own mask, so it is exactly what the pipeline sees. Each "
     "camera has its own reference: itself during moment 08-55-37, verified empty on "
@@ -178,7 +184,7 @@ ABOUT = (
     "never by running our own localizer, and each one was confirmed by comparing the "
     "same crop in the reference and in the inspection frame - a test that rejected "
     "two candidates (a seat cover present in both frames, and a sunlit floor patch). "
-    "Treat it as a draft to correct in the Studio's Labels screen.")
+    "Treat it as a draft to correct in the Studio's Benchmark screen.")
 
 
 if __name__ == "__main__":
