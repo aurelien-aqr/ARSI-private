@@ -216,7 +216,56 @@ Every failure is logged (structured JSONL per job under
    (anomalous only / failed / by type); video-timeline strip with flagged
    frames marked; compare mode = two result columns on the same frames.
 5. **History & reports** — job table, report viewer, export buttons.
-6. **Settings** — Ollama URL, defaults, model manager, data folder sizes.
+6. **Benchmark** — the labelled ground truth and the runs scored against it, in
+   two tabs. *Ground truth*: the cases of a dataset as a grid with their instance
+   boxes drawn, filters (anomalous / clean / not reviewed / camera), and an editor
+   that draws, nudges, retypes and deletes boxes, flips `has_anomaly`, and adds or
+   removes a case. Saving marks the case human-reviewed. *Runs & score*: mode ×
+   subset × localizer × script × model × prompt, then the score — frame confusion
+   matrix, instance recall lenient and strict, region precision, per type, per
+   source, fresh-vs-cached VLM calls, and a per-case list whose overlays are drawn
+   from the score (blue GT, dashed blue for a missed instance, green matched, red
+   FP, dashed grey for judge rejections).
+7. **Settings** — Ollama URL, defaults, model manager, data folder sizes.
+
+## Benchmark (datasets, scoring, runs)
+
+- A **dataset** is one protocol: `benchmark/datasets/<id>.json` with
+  `{name, references: {key: path}, cases: [...]}`. A case pairs an inspection
+  image with a reference KEY, a frame-level `has_anomaly`, and typed instance
+  boxes in the REFERENCE image's pixel space. `types` is derived from the
+  instances, never stored by hand. `reviewed` is set when a human saves the case
+  from the Studio — the only record of how much of a model-drafted protocol has
+  been checked.
+- `arsi_core/benchmarks.py` is the single loader and the single scorer for the
+  app, the CLI and `tools/`. It resolves a dataset by id or path, keeps the
+  pre-2026-08-17 `ground_truth*.json` locations resolvable, validates before
+  saving, snapshots the previous file into `datasets/.backups/`, and writes
+  through a stable formatter so a corrected box is a one-line diff.
+- Matching rules are copied from `vlm_05` and locked to it by a test: lenient
+  (IoU > 0.1 or centre containment) for the headline recall, strict IoU ≥ 0.3
+  reported alongside because the lenient rule credits a frame-sized blob with
+  hitting everything. A **failed** frame scores `ERR` and is excluded from the
+  confusion matrix rather than counted as a clean prediction.
+- A **run** is `benchmark/runs/<run_id>/` = `run.json` (config, status, progress,
+  `job_id`), `dataset_snapshot.json` (the labels as they were), `score.json`,
+  `report.md`. Mode `full` submits an ordinary `JobConfig` to the job queue — so
+  it inherits SSE, cancel, the verdict cache and the Results screen — and mode
+  `localize` runs the proposer only, in its own worker, with no Ollama. The score
+  is recomputed from the job's `results.json` on every read while the run is live
+  and frozen when it ends. A run whose dataset digest no longer matches the file
+  is reported `stale`.
+- `POST /api/benchmarks/runs {dataset, mode, script?, model?, prompt?,
+  prompt_name?, localizer?, params?, cases?}` → `{run_id, job_id?}`;
+  `GET /api/benchmarks[/{ds}[/candidates]]`;
+  `PUT|POST|DELETE /api/benchmarks/{ds}/cases[/{case_id}]`;
+  `GET /api/benchmarks/runs[/{run_id}[/report.md]]`;
+  `POST /api/benchmarks/runs/{run_id}/cancel`; `DELETE …/runs/{run_id}`.
+  The `runs` routes are declared BEFORE `/{ds_id}` — FastAPI matches in
+  declaration order and would otherwise read "runs" as a dataset id.
+- `JobConfig.frame_references` (parallel to `frames`) is what lets one run cover a
+  multi-camera protocol: the 39T dataset has one clean reference per camera, and
+  masking renders each of them.
 
 ## Non-goals (v1)
 - No auth, no multi-user, no docker (plain `uvicorn` on localhost).

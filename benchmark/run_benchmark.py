@@ -3,7 +3,7 @@
 #  ARSI-VLM - benchmark/run_benchmark.py
 #  Reproducible benchmark for the vlm_05 reference-diff anomaly detector.
 #
-#  For every labelled case in ground_truth.json it runs the SAME pipeline as
+#  For every labelled case of datasets/tram1762.json it runs the SAME pipeline as
 #  vlm_05_reference_diff.py (diff -> connected-component regions -> per-region
 #  VLM YES/NO in "filter" mode -> drop person/"disappeared" labels -> de-dupe
 #  overlapping boxes) and scores it against the ground truth at TWO levels:

@@ -181,8 +181,8 @@ def _stats(camera):
     """Score distribution over the benchmark cases - how the floor is chosen.
     Prints p99 and max per case, clean cases first: a usable floor sits above
     every clean p99 and below the max of every anomalous frame."""
-    import json
-    gt = json.loads((REPO_ROOT / "benchmark" / "ground_truth.json").read_text())
+    from arsi_core import benchmarks
+    _, gt = benchmarks.load("tram1762")
     rows = []
     for c in sorted(gt["cases"], key=lambda c: c["has_anomaly"]):
         if "1762" not in c["image"] and c["source"] != "gpt":

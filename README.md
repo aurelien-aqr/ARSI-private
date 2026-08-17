@@ -24,9 +24,14 @@ using a local **vision-language model (VLM)** — Qwen2.5-VL served through
 ## ARSI Studio — the web app
 
 A local web UI over the five scripts: upload a tram CCTV video, extract
-frames, draw a window mask once (fixed camera), pick pipeline × model ×
-prompt, watch the run live, browse boxed results, export report / JSON /
+frames, draw a window mask once (fixed camera), pick pipeline × localizer ×
+model × prompt, watch the run live, browse boxed results, export report / JSON /
 XLSX. Contracts in `docs/SPEC.md`; UI designed in claude.ai/design.
+
+Its **Benchmark** screen is where the labelled ground truth lives: browse and
+correct the instance boxes of `benchmark/datasets/*.json`, then score a run —
+full (with the judge) or localization-only (no VLM, seconds) — and read the
+frame/object metrics per case. See `benchmark/README.md`.
 
 ```bash
 venv/bin/python -m uvicorn app.backend.main:app --port 8321
@@ -96,10 +101,14 @@ does not), then the **VLM classifies** each changed region as an anomaly or not
 objects + an added-edge channel for faint graffiti) with a YOLOv8n **person
 veto** — design rationale and measured numbers live in the USER CONFIG comments.
 
-Benchmarking lives in `benchmark/` (frame- and object-level metrics against a
-29-case hand-labelled ground truth, resumable VLM cache, localizer-only eval)
-and `bench_grid.py` (model × task × image sweep that fills the ARSI results
-spreadsheet). See `benchmark/README.md` and `RUNBOOK_GPU.md`.
+Benchmarking lives in `benchmark/`: two labelled protocols in
+`benchmark/datasets/` (29 cases on one camera of tram 1762, 21 cases on four
+cameras of 39T), frame- and object-level metrics, a resumable VLM cache and a
+localizer-only eval that runs in seconds. Launch and score it from **ARSI Studio →
+Benchmark**, or from the CLI (`benchmark/run_benchmark.py`,
+`benchmark/eval_localization.py`). `bench_grid.py` is the separate model × task ×
+image sweep that fills the ARSI results spreadsheet. See `benchmark/README.md`
+and `RUNBOOK_GPU.md`.
 
 **Which approaches we actually use, and which were tried and rejected:
 `docs/DECISIONS.md`** — one line per settled question, with what it was measured

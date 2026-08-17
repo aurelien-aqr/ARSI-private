@@ -24,7 +24,7 @@ Since then we have the **1760 and 39T multi-camera captures** — other trams,
 other angles, 26 masked cameras.
 
 **A second protocol now exists** for 4 of those cameras:
-`benchmark/ground_truth_39T.json`, 21 cases / 24 instances on tram 39T (built
+`benchmark/datasets/39T.json`, 21 cases / 24 instances on tram 39T (built
 2026-08-16, labelled by Claude, unreviewed). Its first measurement already moves
 the ground under the table above: the shipped localizer scores **17/24
 instances and 5/24 strict IoU** there, against 45/45 and 37/45 on 1762, and the
@@ -40,8 +40,12 @@ The remaining 22 cameras are still unmeasured, so:
   single multi-class model covering all of them. A multi-camera protocol is
   exactly the setting where that argument could flip;
 - what is missing is not code, it is **labels**: clean and anomalous frames per
-  camera, with instance boxes, in the `benchmark/ground_truth.json` format. The
-  Studio's Labels screen already produces the review data.
+  camera, with instance boxes, in the `benchmark/datasets/` format. Since
+  2026-08-17 the Studio's **Benchmark** screen browses and corrects those labels
+  directly (and counts how many cases a human has confirmed — 39T is still 0/21),
+  and launches a scored run on any dataset × localizer × judge × prompt. The
+  Labels screen is a different thing: TP/FP review of a job's own output, for the
+  LoRA dataset.
 
 Treat this page as valid *for the 1762 benchmark* until that second protocol
 exists.

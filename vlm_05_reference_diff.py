@@ -96,7 +96,7 @@ MAX_AREA  = 400000
 # out of the cap in a busy cross-session frame.
 MAX_REGIONS = 25
 
-# --- Multi-channel localization (measured on benchmark/ground_truth.json) -----
+# --- Multi-channel localization (measured on benchmark/datasets/tram1762.json) -
 # A single global threshold cannot both catch faint anomalies and keep the
 # region count sane: LOWERING the base threshold to 25 merges busy frames into
 # giant blobs that the MAX_AREA gate then deletes (real_f0112 went 4/4 -> 0/4).

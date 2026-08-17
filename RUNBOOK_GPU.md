@@ -7,6 +7,16 @@
 > Results + verdicts: benchmark/README.md "GPU results" section.
 > Remaining GPU work = step 6 (optional) and future precision levers.
 
+> **UPDATE 2026-08-17 — most of the `sed` in this runbook is obsolete.** ARSI
+> Studio → Benchmark now runs a scored benchmark with the dataset, localizer,
+> judge model and prompt picked in the UI, so switching the judge no longer means
+> editing `MODEL_NAME` in `vlm_05_reference_diff.py` and remembering to put it
+> back. The recipes below still work and are kept because they are the record of
+> what produced the published numbers — but for a NEW sweep, use the screen.
+> Paths moved too: datasets are `benchmark/datasets/{tram1762,39T}.json`, the CLI
+> writes to `benchmark/runs/cli-latest/`, and the historical reports are in
+> `benchmark/archive/`.
+
 Everything below was prepared and smoke-tested on CPU (2026-07-12). On the
 RTX 3080 Ti workstation each step is minutes, not hours. Do them in order —
 each produces a result the next one uses.
@@ -49,7 +59,7 @@ python benchmark/eval_localization.py --variants shipped --quiet
 ## 1b) ANSWERED 2026-07-30 — the merge does NOT fix the 5 FN, but keep it anyway
 
 Run on the RTX (GLM judge, conservative prompt, 29 cases; merge-ON 2.0 min,
-merge-OFF 0.3 min from cache). Reports: `report_merge_on.md` / `report_merge_off.md`.
+merge-OFF 0.3 min from cache). Reports: `archive/report_merge_on.md` / `archive/report_merge_off.md`.
 
 | | merge OFF | merge ON | Δ |
 |---|---|---|---|
@@ -73,7 +83,7 @@ precision above 0.663 with recall intact). It stays shipped as `MERGE_REGIONS = 
 Per-case FP gains: gpt_07 4→1, gpt_02 4→2, real_f0053 3→2, real_f0100 1→0,
 real_f0112 1→0, gpt_11 6→5.
 
-**Validation worth noting:** merge-OFF reproduced the published `report.md`
+**Validation worth noting:** merge-OFF reproduced the published `archive/report.md`
 numbers exactly (0.889 / 0.663 / 29 FP of 86), so this was a genuinely controlled
 A/B and the reported figures are reproducible.
 
@@ -94,7 +104,7 @@ merge nor MAX_REGIONS.
 
 # ---- STEP 0, MANDATORY: run_benchmark.py has NO --model flag. It reads
 # m.MODEL_NAME from the module, and that default is qwen3-vl. The baseline being
-# compared against (report.md: object recall 0.889, region precision 0.663) is
+# compared against (archive/report.md: object recall 0.889, region precision 0.663) is
 # GLM's, so the judge MUST be switched or the A/B compares nothing.
 sed -i 's|^MODEL_NAME = .*|MODEL_NAME = "haervwe/GLM-4.6V-Flash-9B:latest"|' \
     vlm_05_reference_diff.py
@@ -105,14 +115,14 @@ grep -n '^MODEL_NAME' vlm_05_reference_diff.py     # verify before spending GPU 
 
 # ---- merge ON (the experiment): ~559 fresh calls
 python benchmark/run_benchmark.py
-cp benchmark/report.md    benchmark/report_merge_on.md
-cp benchmark/results.json benchmark/results_merge_on.json   # per-case internals
+cp benchmark/runs/cli-latest/report.md    benchmark/archive/report_merge_on.md
+cp benchmark/runs/cli-latest/results.json benchmark/archive/results_merge_on.json
 
 # ---- merge OFF (the baseline): 651 GLM verdicts are already in cache -> ~0 calls
 sed -i 's/^MERGE_REGIONS  = True/MERGE_REGIONS  = False/' vlm_05_reference_diff.py
 python benchmark/run_benchmark.py
-cp benchmark/report.md    benchmark/report_merge_off.md
-cp benchmark/results.json benchmark/results_merge_off.json
+cp benchmark/runs/cli-latest/report.md    benchmark/archive/report_merge_off.md
+cp benchmark/runs/cli-latest/results.json benchmark/archive/results_merge_off.json
 
 # ---- restore both constants
 sed -i 's/^MERGE_REGIONS  = False/MERGE_REGIONS  = True/' vlm_05_reference_diff.py
@@ -124,11 +134,14 @@ Sanity check while it runs: the merge-OFF run should report **0 fresh calls**. I
 starts making calls, the fingerprint moved (prompt or model edited by mistake) and the
 two halves are no longer comparable — stop and fix rather than let it finish.
 
-Copy back to the laptop afterwards: `benchmark/report_merge_{on,off}.md`,
-`benchmark/results.json` and `benchmark/cache.json`. **Copy the cache, and do not let
-the copy-back overwrite `benchmark/README.md`, `ground_truth.json` or
+Copy back to the laptop afterwards: `benchmark/archive/report_merge_{on,off}.md`,
+their results.json and `benchmark/cache.json`. **Copy the cache, and do not let
+the copy-back overwrite `benchmark/README.md`, `benchmark/datasets/` or
 `run_benchmark.py`** — that happened on 2026-07-13 and silently restored stale
-versions.
+versions. Since 2026-08-17 the loader prefers `benchmark/datasets/` and only falls
+back to a pre-move `benchmark/ground_truth*.json` when the canonical file is
+absent — so a copy-back cannot shadow the current labels, but if it restores that
+old file, delete it instead of leaving it as a decoy.
 
 Compare the OBJECT-level block, not the frame-level one — frame-level is already
 1.000 on these 29 cases and cannot move. Keep the merge if instance recall rises
@@ -138,15 +151,15 @@ recall drops. Either way the answer belongs in benchmark/README.md.
 ## 2) Benchmark: conservative prompt × new localizer (~20-40 min)
 
 The CPU run of 2026-07-12 scored the conservative PROMPT on the OLD 24-case
-GT + single-channel localizer (see benchmark/report_conservative_cpu.md if
-present, else the repo's committed report.md). Now score the CURRENT stack —
+GT + single-channel localizer (see benchmark/archive/report_conservative_cpu.md if
+present, else the repo's committed archive/report.md). Now score the CURRENT stack —
 29 cases, multi-channel localizer, person filter:
 
 ```bash
 python benchmark/run_benchmark.py
 # base-channel region boxes are unchanged -> most verdicts come from cache;
 # only new-channel boxes and the 5 new cross-session negatives hit the VLM.
-cp benchmark/report.md benchmark/report_conservative_multichannel.md
+cp benchmark/runs/cli-latest/report.md benchmark/archive/report_conservative_multichannel.md
 ```
 
 Read: frame F1, object recall (lenient + strict IoU), region precision,
@@ -158,7 +171,7 @@ negatives (neg_v2/v3/v4_*) — that last number is the deployment story.
 ```bash
 # swap the default prompt: in vlm_05_reference_diff.py set  PROMPT = PROMPT_LENIENT
 python benchmark/run_benchmark.py          # full re-run (new fingerprint)
-cp benchmark/report.md benchmark/report_lenient_multichannel.md
+cp benchmark/runs/cli-latest/report.md benchmark/archive/report_lenient_multichannel.md
 # swap back to the conservative PROMPT afterwards.
 ```
 
@@ -176,7 +189,7 @@ for M in qwen3.5:9b blaifa/InternVL3_5:8b haervwe/GLM-4.6V-Flash-9B \
          openbmb/minicpm-v4.6; do
   sed -i "s|^MODEL_NAME = .*|MODEL_NAME = \"$M\"|" vlm_05_reference_diff.py
   python benchmark/run_benchmark.py
-  cp benchmark/report.md "benchmark/report_$(echo $M | tr '/:' '__').md"
+  cp benchmark/runs/cli-latest/report.md "benchmark/archive/report_$(echo $M | tr '/:' '__').md"
 done
 sed -i 's|^MODEL_NAME = .*|MODEL_NAME = "qwen3-vl:8b-instruct"|' vlm_05_reference_diff.py
 ```
