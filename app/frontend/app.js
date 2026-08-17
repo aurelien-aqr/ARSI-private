@@ -71,6 +71,25 @@ const S = {
     propagate: true,                    // copy verdicts to similar boxes on other frames
   },
   labels: null,               // rows of GET /api/reviews (Labels screen)
+  bench: {                    // Benchmark screen: the labelled ground truth + scored runs
+    tab: "data",              // data | runs
+    datasets: null, ds: null, detail: null,
+    filter: "all",            // all | anomaly | clean | unreviewed | ref:<key>
+    sel: null,                // case id open in the editor
+    draft: null,              // editable copy of that case (never the stored one)
+    dirty: false, saving: false,
+    side: true,               // show the reference next to the frame
+    draw: false, corner: null,   // two-click instance-box drawing
+    hover: -1,                // instance row <-> box highlight
+    candidates: null, adding: null,   // "add a case" picker + its draft
+    size: null,               // bbox coordinate space = the REFERENCE image size
+    runs: null,
+    form: { mode: "full", script: "vlm_05", model: null, localizer: null,
+            promptPreset: "conservative", promptText: "", subset: "all",
+            advOpen: false, diff: 40, minArea: 500, maxRegions: 25 },
+    runId: null, run: null, score: null, stale: false,
+    scoreFilter: "all", scoreSel: null, launching: false,
+  },
   lora: { status: null, exporting: false, result: null },
   ollamaTest: null,
 };
@@ -134,9 +153,14 @@ function toast(msg) {
   toastTimer = setTimeout(() => { S.toast = null; render(); }, 2800);
 }
 function setScreen(s) {
+  if (S.screen === "benchmark" && s !== "benchmark") {
+    if (!benchLeaveEditor()) return;      // unsaved GT corrections
+    benchPoll(false);
+  }
   S.screen = s;
   if (s === "settings") refreshStorage();
   if (s === "labels") refreshLabels();
+  if (s === "benchmark") refreshBench();
   if (s === "lora") refreshLora();
   if (s !== "results" && playTimer) {   // leaving results stops playback
     clearInterval(playTimer); playTimer = null; S.res.playing = false;
@@ -159,10 +183,12 @@ async function boot() {
     jget("/api/settings").then(d => { S.settings = d; }),
   ]);
   const hash = location.hash.slice(1);
-  if (["dashboard", "wizard", "run", "results", "history", "labels", "lora", "settings"].includes(hash)) {
+  if (["dashboard", "wizard", "run", "results", "history", "labels", "benchmark",
+       "lora", "settings"].includes(hash)) {
     if (hash === "results") await openResults(); else S.screen = hash;
     if (hash === "settings") refreshStorage();
     if (hash === "labels") refreshLabels();
+    if (hash === "benchmark") refreshBench();
     if (hash === "lora") refreshLora();
   }
   render();
@@ -196,6 +222,75 @@ async function refreshLabels() {
 }
 async function refreshLora() {
   try { S.lora.status = await jget("/api/lora/status"); } catch { S.lora.status = null; }
+  render();
+}
+
+/* ---- benchmark: datasets, their cases, and the scored runs over them ---- */
+async function refreshBench() {
+  const B = S.bench;
+  try { B.datasets = (await jget("/api/benchmarks")).datasets; }
+  catch { B.datasets = []; }
+  if (!B.ds && B.datasets.length) B.ds = B.datasets[0].id;
+  await Promise.allSettled([loadBenchDataset(B.ds), refreshBenchRuns()]);
+  if (!B.form.localizer) B.form.localizer = S.localizerDefault;
+  if (!B.form.model) {
+    // the benchmark's own judge, not the wizard's: default to the model with the
+    // most cached verdicts if we can tell, else the pipeline default
+    const p = S.pipelines.find(x => x.key === "vlm_05");
+    B.form.model = (S.models.find(m => m.installed && m.recommended) || {}).tag
+      || (p && p.default_model) || null;
+  }
+  if (!B.form.promptText) benchSetPrompt(B.form.promptPreset);
+  render();
+}
+async function loadBenchDataset(ds) {
+  const B = S.bench;
+  if (!ds) { B.detail = null; return; }
+  try { B.detail = await jget(`/api/benchmarks/${encodeURIComponent(ds)}`); }
+  catch (e) { B.detail = null; toast(e.message); return; }
+  B.candidates = null;
+  // instance boxes live in the REFERENCE pixel space, so that is the coordinate
+  // space every overlay and every drawn box must use
+  const first = Object.values(B.detail.references_map || {})[0];
+  if (first) imageSize(first.img).then(sz => { B.size = sz; render(); });
+}
+async function refreshBenchRuns() {
+  try { S.bench.runs = (await jget("/api/benchmarks/runs")).runs; }
+  catch { S.bench.runs = []; }
+}
+function benchSetPrompt(name) {
+  const p = S.pipelines.find(x => x.key === "vlm_05");
+  S.bench.form.promptPreset = name;
+  if (p && p.prompts[name] !== undefined) S.bench.form.promptText = p.prompts[name];
+}
+function benchCase(id) {
+  return ((S.bench.detail || {}).cases || []).find(c => c.id === id) || null;
+}
+/* Typing in a label or the note must light up "Save corrections", but those
+   fields are data-live and re-rendering on every keystroke is what the focus
+   guard in render() exists to survive — so re-render exactly once, when dirty
+   flips. Both fields carry a stable id, so the caret comes back where it was. */
+function benchTouch() {
+  if (!S.bench.dirty) { S.bench.dirty = true; render(); }
+}
+/* A run in flight is polled rather than streamed: a benchmark run is scored
+   per case, and the score endpoint already recomputes from the job's
+   results.json, so one poll gives progress AND the live numbers. */
+let benchTimer = null;
+function benchPoll(on) {
+  clearInterval(benchTimer); benchTimer = null;
+  if (on) benchTimer = setInterval(() => loadBenchRun(S.bench.runId, true), 2500);
+}
+async function loadBenchRun(runId, quiet = false) {
+  const B = S.bench;
+  if (!runId) return;
+  let st;
+  try { st = await jget(`/api/benchmarks/runs/${encodeURIComponent(runId)}`); }
+  catch (e) { if (!quiet) toast(e.message); benchPoll(false); return; }
+  B.runId = runId; B.run = st.run; B.score = st.score; B.stale = st.stale;
+  const live = ["queued", "running"].includes(st.run.status);
+  benchPoll(live);
+  if (!live) refreshBenchRuns();
   render();
 }
 function initWizardDefaults() {
@@ -1139,6 +1234,244 @@ ACT.loraExport = async () => {
   await refreshLora();
 };
 
+/* --- benchmark: ground truth --- */
+ACT.benchTab = (t) => {
+  if (t === "data") { S.bench.runId = null; benchPoll(false); }
+  S.bench.tab = t; render();
+};
+ACT.benchPickDs = async (ds) => {
+  if (!benchLeaveEditor()) return;
+  S.bench.ds = ds; S.bench.sel = null; S.bench.draft = null; S.bench.filter = "all";
+  await loadBenchDataset(ds); render();
+};
+ACT.benchFilter = (f) => { S.bench.filter = f; render(); };
+/* The editor works on a DRAFT: the stored case is only replaced by what the
+   server accepted, so a rejected edit can never leave the screen showing labels
+   that are not on disk. */
+ACT.benchSelCase = (id) => {
+  if (!benchLeaveEditor()) return;
+  const c = benchCase(id);
+  if (!c) return;
+  Object.assign(S.bench, {
+    sel: id, draft: JSON.parse(JSON.stringify(c)), dirty: false,
+    draw: false, corner: null, hover: -1,
+  });
+  render();
+};
+function benchLeaveEditor() {
+  if (!S.bench.dirty) return true;
+  if (!confirm("This case has unsaved corrections. Discard them?")) return false;
+  Object.assign(S.bench, { dirty: false, draft: null, sel: null,
+                           draw: false, corner: null });
+  return true;
+}
+ACT.benchCloseCase = () => { if (benchLeaveEditor()) render(); };
+ACT.benchToggleSide = () => { S.bench.side = !S.bench.side; render(); };
+ACT.benchToggleAnom = () => {
+  const d = S.bench.draft;
+  if (!d) return;
+  if (d.has_anomaly && d.instances.length
+      && !confirm(`Mark "${d.id}" clean? Its ${d.instances.length} instance `
+                  + "box(es) will be removed — a clean case cannot carry boxes.")) return;
+  d.has_anomaly = !d.has_anomaly;
+  if (!d.has_anomaly) d.instances = [];
+  S.bench.dirty = true; render();
+};
+ACT.benchToggleDraw = () => {
+  const B = S.bench;
+  if (!B.draft) return;
+  B.draw = !B.draw; B.corner = null;
+  if (B.draw && !B.draft.has_anomaly) {
+    // drawing a box on a case labelled clean is the labeller saying it is not:
+    // flip the frame label with them instead of silently rejecting the save
+    B.draft.has_anomaly = true; B.dirty = true;
+  }
+  render();
+};
+ACT.benchImgClick = (_, ev) => {
+  const B = S.bench;
+  if (!B.draw || !B.draft) return;
+  const img = document.getElementById("benchImg");
+  if (!img || !B.size) return;
+  const r = img.getBoundingClientRect();
+  const x = Math.round(Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)) * B.size.w);
+  const y = Math.round(Math.max(0, Math.min(1, (ev.clientY - r.top) / r.height)) * B.size.h);
+  if (!B.corner) { B.corner = { x, y }; render(); return; }
+  const a = B.corner; B.corner = null;
+  const bbox = [Math.min(a.x, x), Math.min(a.y, y), Math.max(a.x, x), Math.max(a.y, y)];
+  if (bbox[2] - bbox[0] < 4 || bbox[3] - bbox[1] < 4) {
+    toast("Box too small — click two opposite corners."); render(); return;
+  }
+  B.draft.instances.push({ type: "object", label: "", bbox });
+  B.draw = false; B.dirty = true; B.hover = B.draft.instances.length - 1;
+  render();
+  setTimeout(() => {
+    const el = document.getElementById(`benchLabel${B.draft.instances.length - 1}`);
+    if (el) el.focus();
+  }, 30);
+};
+ACT.benchDelInst = (i) => {
+  S.bench.draft.instances.splice(+i, 1);
+  S.bench.dirty = true; S.bench.hover = -1; render();
+};
+ACT.benchNudge = (arg) => {
+  /* Keyboard-free box adjustment: the boxes are "intentionally generous" by
+     design, so nudging an edge is the common correction, not redrawing. */
+  const [i, edge, delta] = arg.split(":");
+  const box = S.bench.draft.instances[+i].bbox;
+  const k = { x0: 0, y0: 1, x1: 2, y1: 3 }[edge];
+  box[k] += +delta;
+  if (box[2] - box[0] < 4 || box[3] - box[1] < 4) { box[k] -= +delta; return; }
+  S.bench.dirty = true; render();
+};
+ACT.benchHoverInst = (i) => { S.bench.hover = +i; render(); };
+ACT.benchUnhoverInst = () => { if (S.bench.hover !== -1) { S.bench.hover = -1; render(); } };
+ACT.benchRevert = () => {
+  const c = benchCase(S.bench.sel);
+  S.bench.draft = c ? JSON.parse(JSON.stringify(c)) : null;
+  S.bench.dirty = false; S.bench.draw = false; S.bench.corner = null; render();
+};
+ACT.benchSave = async () => {
+  const B = S.bench;
+  if (!B.draft || B.saving) return;
+  B.saving = true; render();
+  try {
+    const r = await jpost(`/api/benchmarks/${encodeURIComponent(B.ds)}/cases/`
+                          + encodeURIComponent(B.draft.id), B.draft, "PUT");
+    const i = B.detail.cases.findIndex(c => c.id === B.draft.id);
+    if (i >= 0) B.detail.cases[i] = r.case;
+    Object.assign(B.detail, r.dataset);
+    B.datasets = (B.datasets || []).map(d => d.id === r.dataset.id ? r.dataset : d);
+    B.draft = JSON.parse(JSON.stringify(r.case));
+    B.dirty = false;
+    toast(`Saved · ${r.dataset.n_reviewed}/${r.dataset.n_cases} cases reviewed`);
+  } catch (e) { toast("Not saved: " + e.message); }
+  B.saving = false; render();
+};
+ACT.benchDelCase = async (id) => {
+  const B = S.bench;
+  if (!confirm(`Delete case "${id}" from ${B.ds}? Its labels are removed from the `
+               + "dataset (a timestamped backup is kept on disk).")) return;
+  try {
+    const r = await jpost(`/api/benchmarks/${encodeURIComponent(B.ds)}/cases/`
+                          + encodeURIComponent(id), undefined, "DELETE");
+    B.datasets = (B.datasets || []).map(d => d.id === r.dataset.id ? r.dataset : d);
+    B.sel = null; B.draft = null; B.dirty = false;
+    await loadBenchDataset(B.ds);
+    toast("Case deleted.");
+  } catch (e) { toast(e.message); }
+  render();
+};
+ACT.benchOpenAdd = async () => {
+  const B = S.bench;
+  if (!benchLeaveEditor()) return;
+  if (!B.candidates) {
+    try { B.candidates = await jget(`/api/benchmarks/${encodeURIComponent(B.ds)}/candidates`); }
+    catch (e) { toast(e.message); return; }
+  }
+  const refs = Object.keys((B.detail || {}).references_map || {});
+  B.adding = { id: "", image: "", reference: refs[0] || "", source: "real",
+               has_anomaly: false, note: "", instances: [] };
+  B.sel = null; B.draft = null; render();
+};
+ACT.benchCancelAdd = () => { S.bench.adding = null; render(); };
+ACT.benchPickCandidate = (path) => {
+  const a = S.bench.adding;
+  if (!a) return;
+  a.image = path;
+  if (!a.id) a.id = path.split("/").pop().replace(/\.[a-z]+$/i, "")
+                        .replace(/[^A-Za-z0-9_.-]/g, "_").slice(0, 80);
+  render();
+};
+ACT.benchAddCase = async () => {
+  const B = S.bench, a = B.adding;
+  if (!a) return;
+  if (!a.image) { toast("Pick the image this case is about."); return; }
+  if (!a.id) { toast("Give the case an id."); return; }
+  try {
+    const r = await jpost(`/api/benchmarks/${encodeURIComponent(B.ds)}/cases`, a);
+    B.datasets = (B.datasets || []).map(d => d.id === r.dataset.id ? r.dataset : d);
+    B.adding = null;
+    await loadBenchDataset(B.ds);
+    ACT.benchSelCase(r.case.id);
+    toast("Case added — now draw its boxes.");
+  } catch (e) { toast(e.message); }
+  render();
+};
+
+/* --- benchmark: runs --- */
+ACT.benchForm = (arg) => {
+  const [k, v] = arg.split("=");
+  S.bench.form[k] = v === "true" ? true : v === "false" ? false : v;
+  if (k === "mode" && v === "localize") S.bench.form.script = "vlm_05";
+  render();
+};
+ACT.benchToggleRunAdv = () => {
+  S.bench.form.advOpen = !S.bench.form.advOpen; render();
+};
+ACT.benchLaunch = async () => {
+  const B = S.bench, f = B.form;
+  if (B.launching) return;
+  const cases = benchSubsetIds();
+  if (!cases) { toast("This subset is empty."); return; }
+  const params = {};
+  if (f.mode === "full" || f.script === "vlm_05") {
+    if (+f.diff !== 40) params.DIFF_THRESHOLD = +f.diff;
+    if (+f.minArea !== 500) params.MIN_AREA = +f.minArea;
+    if (+f.maxRegions !== 25) params.MAX_REGIONS = +f.maxRegions;
+  }
+  B.launching = true; render();
+  try {
+    const body = { dataset: B.ds, mode: f.mode, script: f.script,
+                   localizer: f.localizer, params };
+    if (cases !== "all") body.cases = cases;
+    if (f.mode === "full") {
+      body.model = f.model;
+      body.prompt_name = f.promptPreset;
+      body.prompt = f.promptText;
+    }
+    const r = await jpost("/api/benchmarks/runs", body);
+    await refreshBenchRuns();
+    await loadBenchRun(r.run_id);
+    toast(f.mode === "localize" ? "Localization run started (no VLM)."
+                                : "Benchmark run queued.");
+  } catch (e) { toast("Could not start: " + e.message); }
+  B.launching = false; render();
+};
+/* "all" (send no case list) or an explicit id list — the server records whether
+   the run covered the whole protocol, which is what makes two runs comparable. */
+function benchSubsetIds() {
+  const cases = ((S.bench.detail || {}).cases) || [];
+  const f = S.bench.form.subset;
+  if (f === "all") return cases.length ? "all" : null;
+  const pick = cases.filter(c => f === "anomaly" ? c.has_anomaly
+                              : f === "clean" ? !c.has_anomaly
+                              : f === "unreviewed" ? !c.reviewed : true);
+  return pick.length ? pick.map(c => c.id) : null;
+}
+ACT.benchOpenRun = async (runId) => { S.bench.scoreSel = null; await loadBenchRun(runId); };
+ACT.benchCloseRun = () => {
+  benchPoll(false);
+  S.bench.runId = null; S.bench.run = null; S.bench.score = null;
+  refreshBenchRuns().then(render);
+};
+ACT.benchCancelRun = async (runId) => {
+  try { await jpost(`/api/benchmarks/runs/${encodeURIComponent(runId)}/cancel`, {}); toast("Stopping…"); }
+  catch (e) { toast(e.message); }
+};
+ACT.benchDeleteRun = async (runId) => {
+  if (!confirm(`Delete benchmark run ${runId} and its score?`)) return;
+  try { await jpost(`/api/benchmarks/runs/${encodeURIComponent(runId)}`, undefined, "DELETE"); }
+  catch (e) { toast(e.message); }
+  if (S.bench.runId === runId) ACT.benchCloseRun(); else { await refreshBenchRuns(); render(); }
+};
+ACT.benchRunReport = (runId) => window.open(`/api/benchmarks/runs/${encodeURIComponent(runId)}/report.md`, "_blank");
+ACT.benchOpenRunJob = async (jobId) => { await openResults(jobId); };
+ACT.benchScoreFilter = (f) => { S.bench.scoreFilter = f; render(); };
+ACT.benchScoreSel = (id) => {
+  S.bench.scoreSel = S.bench.scoreSel === id ? null : id; render();
+};
+
 /* --- settings --- */
 ACT.testOllama = async () => {
   S.ollamaTest = "testing"; render();
@@ -1195,6 +1528,25 @@ const CHANGE = {
   },
   diff: v => { S.wiz.diff = +v; }, minArea: v => { S.wiz.minArea = +v; },
   maxRegions: v => { S.wiz.maxRegions = +v; }, retries: v => { S.wiz.retries = +v; },
+  /* benchmark — the case editor writes into the DRAFT only */
+  benchNote: v => { S.bench.draft.note = v; benchTouch(); },
+  benchSource: v => { S.bench.draft.source = v; S.bench.dirty = true; render(); },
+  benchInstLabel: (v, el) => {
+    S.bench.draft.instances[+el.dataset.i].label = v; benchTouch();
+  },
+  benchInstType: (v, el) => {
+    S.bench.draft.instances[+el.dataset.i].type = v; S.bench.dirty = true; render();
+  },
+  benchScript: v => { S.bench.form.script = v; render(); },
+  benchAddId: v => { S.bench.adding.id = v.replace(/[^A-Za-z0-9_.-]/g, "_"); },
+  benchAddRef: v => { S.bench.adding.reference = v; render(); },
+  benchAddNote: v => { S.bench.adding.note = v; },
+  benchPrompt: v => { S.bench.form.promptText = v; S.bench.form.promptPreset = "custom"; render(); },
+  benchPromptPreset: v => { benchSetPrompt(v); render(); },
+  benchModel: v => { S.bench.form.model = v; render(); },
+  benchDiff: v => { S.bench.form.diff = +v; },
+  benchMinArea: v => { S.bench.form.minArea = +v; },
+  benchMaxRegions: v => { S.bench.form.maxRegions = +v; },
   histScript: v => { S.hist.script = v; render(); },
   histModel: v => { S.hist.model = v; render(); },
   histLocalizer: v => { S.hist.localizer = v; render(); },
@@ -1270,6 +1622,7 @@ function render() {
         ${S.screen === "results" ? resultsView() : ""}
         ${S.screen === "history" ? historyView() : ""}
         ${S.screen === "labels" ? labelsView() : ""}
+        ${S.screen === "benchmark" ? benchView() : ""}
         ${S.screen === "lora" ? loraView() : ""}
         ${S.screen === "settings" ? settingsView() : ""}
       </div>
@@ -1309,7 +1662,16 @@ const I = {   // 16px stroke icons from the design
   sliders: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><line x1="2" y1="5" x2="16" y2="5" stroke="currentColor" stroke-width="1.4"/><line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.4"/><line x1="2" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="5" r="2.2" fill="${C.bgSide}" stroke="currentColor" stroke-width="1.4"/><circle cx="6" cy="9" r="2.2" fill="${C.bgSide}" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="13" r="2.2" fill="${C.bgSide}" stroke="currentColor" stroke-width="1.4"/></svg>`,
   tag: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M2 2 H8.5 L16 9.5 A1.5 1.5 0 0 1 16 11.6 L11.6 16 A1.5 1.5 0 0 1 9.5 16 L2 8.5 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><circle cx="6" cy="6" r="1.3" fill="currentColor"/></svg>`,
   spark: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 L10.8 7.2 L16.5 9 L10.8 10.8 L9 16.5 L7.2 10.8 L1.5 9 L7.2 7.2 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`,
+  gauge: `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M2 13 A7.5 7.5 0 0 1 16 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 13 L12.6 7.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="13" r="1.3" fill="currentColor"/></svg>`,
 };
+
+/* Standalone HTML notes from docs/, served by the backend at /notes/<key>.
+   A plain link in a new tab, not a screen: these are self-contained documents
+   with their own layout, and nothing in the app needs to read them back. */
+function noteLink(key, label) {
+  const icon = `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M4 1.5 H11 L15 5.5 V16.5 H4 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10.5 1.8 V5.6 H14.6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="6.5" y1="9" x2="12" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="6.5" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
+  return `<a class="navitem" href="/notes/${encodeURIComponent(key)}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; font-size:13px; margin-bottom:2px; cursor:pointer; color:oklch(0.68 0.012 250); text-decoration:none;">${icon} <span style="flex:1;">${esc(label)}</span><span style="font-size:11px; color:${C.dim};">↗</span></a>`;
+}
 
 function sidebar() {
   const h = S.health;
@@ -1346,11 +1708,14 @@ function sidebar() {
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Library</div>
       ${navItem("results", "Results", I.img)}
       ${navItem("labels", "Labels", I.tag)}
+      ${navItem("benchmark", "Benchmark", I.gauge)}
       ${navItem("history", "History", I.clock)}
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Training</div>
       ${navItem("lora", "LoRA", I.spark)}
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">System</div>
       ${navItem("settings", "Settings", I.sliders)}
+      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Notes</div>
+      ${noteLink("camera-alignment", "Camera framing drift")}
     </div>
   </div>`;
 }
@@ -1358,7 +1723,8 @@ function sidebar() {
 function topbar() {
   const titles = { dashboard: "Dashboard", wizard: "New analysis", run: "Run",
                    results: "Results", history: "History", settings: "Settings",
-                   labels: "Labels", lora: "LoRA training data" };
+                   labels: "Labels", lora: "LoRA training data",
+                   benchmark: "Benchmark — ground truth & score" };
   const themeIcon = S.theme === "dark"
     ? `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M15.5 10.5 A6.8 6.8 0 0 1 7.5 2.5 A6.8 6.8 0 1 0 15.5 10.5 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`
     : `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.4"/><g stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="9" y1="1.5" x2="9" y2="3"/><line x1="9" y1="15" x2="9" y2="16.5"/><line x1="1.5" y1="9" x2="3" y2="9"/><line x1="15" y1="9" x2="16.5" y2="9"/></g></svg>`;
@@ -2617,6 +2983,722 @@ function labelsView() {
   </div>`;
 }
 
+/* --------------- benchmark ---------------
+   The labelled ground truth, and runs scored against it. Two things the repo
+   could only do from a terminal: read/correct the labels (the 39T protocol was
+   drafted by a model and needs human review), and score a chosen
+   script x localizer x model x prompt instead of whatever vlm_05 happens to be
+   configured with. */
+const GT_COL = "oklch(0.68 0.15 250)";        // ground truth
+const HIT_COL = "oklch(0.72 0.16 150)";       // detection that matched an instance
+const FPB_COL = "oklch(0.68 0.17 22)";        // kept box matching nothing
+
+function benchPct(b, size) {
+  return `left:${b[0] / size.w * 100}%; top:${b[1] / size.h * 100}%; `
+       + `width:${(b[2] - b[0]) / size.w * 100}%; height:${(b[3] - b[1]) / size.h * 100}%;`;
+}
+function benchBox(b, size, col, label, opts = {}) {
+  const tag = label ? `<span style="position:absolute; top:-17px; left:0; font-size:10px;
+      font-family:${C.mono}; background:oklch(0.14 0.008 250 / 0.88); color:${col};
+      padding:1px 5px; border-radius:4px; white-space:nowrap;">${esc(label)}</span>` : "";
+  return `<div ${opts.attrs || ""} style="position:absolute; ${benchPct(b, size)}
+      border:${opts.width || 2}px ${opts.dashed ? "dashed" : "solid"} ${col};
+      border-radius:2px; ${opts.glow ? `box-shadow:0 0 0 2px ${col}55;` : ""}
+      pointer-events:${opts.attrs ? "auto" : "none"};">${tag}</div>`;
+}
+function gtOverlay(instances, size, hover = -1) {
+  if (!size) return "";
+  // While drawing, the boxes must not swallow the click that places a corner —
+  // so they only become hoverable targets when the draw mode is off.
+  const attrs = S.bench.draw ? "" : null;
+  return (instances || []).map((inst, i) => benchBox(
+    inst.bbox, size, GT_COL, inst.label || inst.note || inst.type,
+    { glow: hover === i, width: hover === i ? 3 : 2,
+      attrs: attrs === "" ? "" : `data-benchinst="${i}"` })).join("");
+}
+function benchCaseBadge(c) {
+  const [txt, bg, fg] = c.has_anomaly
+    ? ["ANOM", "oklch(0.3 0.1 22)", "oklch(0.9 0.12 22)"]
+    : ["clean", "oklch(0.26 0.06 150)", "oklch(0.88 0.09 150)"];
+  return `<span style="font-size:9px; font-family:${C.mono}; padding:1px 5px;
+    border-radius:6px; background:${bg}; color:${fg};">${txt}</span>`;
+}
+function benchView() {
+  const B = S.bench;
+  if (B.datasets === null) return `<div style="padding:40px; color:${C.fg4}; font-size:13px;">Loading datasets…</div>`;
+  const tab = (k, label) => {
+    const on = B.tab === k;
+    return `<div data-act="benchTab" data-arg="${k}" style="padding:6px 14px; border-radius:8px;
+      font-size:12.5px; cursor:pointer; background:${on ? C.accSel : C.bgCard};
+      color:${on ? C.accFg : "oklch(0.68 0.012 250)"}; border:1px solid ${on ? C.accBd2 : C.bd};">${label}</div>`;
+  };
+  const dsChips = B.datasets.map(d => {
+    const on = B.ds === d.id;
+    const draft = d.n_cases && !d.n_reviewed;
+    return `<div data-act="benchPickDs" data-arg="${esc(d.id)}" title="${esc(d.path || "")}"
+      style="padding:8px 13px; border-radius:9px; cursor:pointer; white-space:nowrap;
+             background:${on ? C.accBg : C.bgCard}; border:1px solid ${on ? C.accSelBd : C.bd};">
+      <div style="font-size:12.5px; font-weight:600; color:${on ? C.accFg : "oklch(0.88 0.006 250)"};">${esc(d.name || d.id)}</div>
+      <div style="font-family:${C.mono}; font-size:10px; color:${C.fg4}; margin-top:2px;">
+        ${d.n_cases} cases · ${d.n_instances} inst · ${d.n_reviewed}/${d.n_cases} reviewed
+        ${draft ? `<span style="color:oklch(0.8 0.11 75);">· draft</span>` : ""}
+      </div></div>`;
+  }).join("");
+  const scoreOpen = B.tab === "runs" && B.runId;
+  const body = B.tab === "data" ? benchDataTab()
+             : scoreOpen ? benchScoreView() : benchRunsTab();
+  return `
+  <div style="height:100%; display:flex; flex-direction:column;">
+    <div style="flex:0 0 auto; padding:12px 20px; border-bottom:1px solid ${C.bd2};
+                display:flex; align-items:center; gap:10px; overflow-x:auto;">
+      ${tab("data", "Ground truth")}${tab("runs", "Runs & score")}
+      ${scoreOpen ? "" : `
+        <div style="width:1px; height:26px; background:${C.bd2}; margin:0 4px;"></div>
+        ${dsChips}`}
+    </div>
+    ${body}
+  </div>`;
+}
+
+function benchDataTab() {
+  const B = S.bench, d = B.detail;
+  if (!d) return `<div style="padding:40px; color:${C.fg4}; font-size:13px;">No dataset loaded.</div>`;
+  const cases = d.cases || [];
+  const refKeys = Object.keys(d.references_map || {});
+  const match = (c) => B.filter === "all" ? true
+    : B.filter === "anomaly" ? c.has_anomaly
+    : B.filter === "clean" ? !c.has_anomaly
+    : B.filter === "unreviewed" ? !c.reviewed
+    : B.filter.startsWith("ref:") ? c.reference === B.filter.slice(4) : true;
+  const visible = cases.filter(match);
+  const chip = (k, label, n) => {
+    const on = B.filter === k;
+    return `<div data-act="benchFilter" data-arg="${esc(k)}" style="display:flex; align-items:center;
+      gap:6px; padding:4px 10px; border-radius:8px; font-size:12px; cursor:pointer; white-space:nowrap;
+      background:${on ? C.accSel : C.bgCard}; color:${on ? C.accFg : "oklch(0.68 0.012 250)"};
+      border:1px solid ${on ? C.accBd2 : C.bd};">${label} <span style="font-family:${C.mono}; opacity:0.8;">${n}</span></div>`;
+  };
+  const grid = visible.map(c => `
+    <div data-act="benchSelCase" data-arg="${esc(c.id)}" style="border-radius:9px; overflow:hidden;
+         cursor:pointer; border:2px solid ${B.sel === c.id ? "oklch(0.8 0.13 225)" : C.bd2};">
+      <div style="position:relative; background:${C.bg};">
+        <img src="${c.img}" loading="lazy" style="width:100%; height:84px; object-fit:cover; display:block;">
+        ${B.size ? `<div style="position:absolute; inset:0;">${(c.instances || []).map(i =>
+            benchBox(i.bbox, B.size, GT_COL, "", { width: 1.5 })).join("")}</div>` : ""}
+        <span style="position:absolute; top:4px; right:4px;">${benchCaseBadge(c)}</span>
+        ${c.reviewed ? `<span title="reviewed by a human" style="position:absolute; bottom:4px; right:5px;
+          width:15px; height:15px; border-radius:50%; display:flex; align-items:center;
+          justify-content:center; font-size:9px; background:oklch(0.65 0.13 150); color:oklch(0.13 0.008 250);">✓</span>` : ""}
+      </div>
+      <div style="padding:5px 7px; background:${C.bgCard2};">
+        <div style="font-family:${C.mono}; font-size:10px; color:oklch(0.86 0.006 250);
+                    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(c.id)}</div>
+        <div style="font-size:9.5px; color:${C.fg4}; margin-top:1px;">${(c.instances || []).length} inst · ${esc(c.reference || "")}</div>
+      </div>
+    </div>`).join("");
+  const warnings = (d.warnings || []).length ? `
+    <div style="margin:0 0 12px; padding:9px 12px; border-radius:9px; font-size:11.5px;
+                background:oklch(0.22 0.04 75); border:1px solid oklch(0.42 0.09 75);
+                color:oklch(0.9 0.08 75);">
+      ${d.warnings.length} warning(s): ${esc(d.warnings.slice(0, 3).join(" · "))}</div>` : "";
+  const errors = (d.errors || []).length ? `
+    <div style="margin:0 0 12px; padding:9px 12px; border-radius:9px; font-size:11.5px;
+                background:${C.redBg}; border:1px solid ${C.redBd}; color:${C.redFg};">
+      ${d.errors.length} error(s): ${esc(d.errors.slice(0, 3).join(" · "))}</div>` : "";
+  return `
+  <div style="flex:1; min-height:0; display:flex;">
+    <div data-scroll="benchgrid" style="flex:1; min-width:0; overflow:auto; padding:16px 18px;">
+      ${errors}${warnings}
+      <div style="display:flex; align-items:center; gap:7px; margin-bottom:14px; flex-wrap:wrap;">
+        ${chip("all", "All", cases.length)}
+        ${chip("anomaly", "Anomalous", cases.filter(c => c.has_anomaly).length)}
+        ${chip("clean", "Clean", cases.filter(c => !c.has_anomaly).length)}
+        ${chip("unreviewed", "Not reviewed", cases.filter(c => !c.reviewed).length)}
+        ${refKeys.length > 1 ? refKeys.map(k =>
+          chip("ref:" + k, esc(k), cases.filter(c => c.reference === k).length)).join("") : ""}
+        <button data-act="benchOpenAdd" style="margin-left:auto; font-size:11.5px; font-weight:600;
+          color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2};
+          padding:5px 12px; border-radius:8px; cursor:pointer; white-space:nowrap;">+ Add case</button>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:10px;">
+        ${grid || `<div style="color:${C.fg4}; font-size:12.5px;">No case matches this filter.</div>`}
+      </div>
+      <div style="margin-top:16px; font-size:11px; color:${C.fg5}; line-height:1.6;">
+        ${esc((d.about || "").slice(0, 420))}${(d.about || "").length > 420 ? "…" : ""}
+      </div>
+    </div>
+    <div style="flex:0 0 460px; border-left:1px solid ${C.bd2}; background:${C.bgSide};
+                overflow:auto; display:flex; flex-direction:column;" data-scroll="bencheditor">
+      ${B.adding ? benchAddPanel() : B.draft ? benchEditor() : `
+      <div style="padding:26px 20px; color:${C.fg4}; font-size:12.5px; line-height:1.6;">
+        Pick a case to see its labels and correct them.<br><br>
+        Blue boxes are the ground truth, in the reference image's pixel space.
+        Instance boxes are intentionally generous: a detection counts as a hit if
+        it overlaps one (IoU &gt; 0.1 or centre inside), with a stricter IoU ≥ 0.3
+        recall reported alongside.
+      </div>`}
+    </div>
+  </div>`;
+}
+
+function benchEditor() {
+  const B = S.bench, c = B.draft, d = B.detail;
+  const ref = (d.references_map || {})[c.reference] || {};
+  const stored = benchCase(c.id) || {};
+  const size = B.size;
+  const overlay = size ? gtOverlay(c.instances, size, B.hover)
+    + (B.corner ? `<div style="position:absolute; left:calc(${B.corner.x / size.w * 100}% - 4px);
+         top:calc(${B.corner.y / size.h * 100}% - 4px); width:9px; height:9px; border-radius:50%;
+         background:${GT_COL}; pointer-events:none;"></div>` : "") : "";
+  const nudge = (i, edge, delta, sym) => `<button data-act="benchNudge" data-arg="${i}:${edge}:${delta}"
+    title="${edge} ${delta > 0 ? "+" : ""}${delta} px" style="font-family:${C.mono}; font-size:10px;
+    color:${C.fg3}; background:${C.bgBtn}; border:1px solid ${C.bd2}; width:19px; height:18px;
+    border-radius:5px; cursor:pointer; padding:0;">${sym}</button>`;
+  const instRows = c.instances.map((inst, i) => `
+    <div data-benchinst="${i}" style="padding:8px 9px; border-radius:9px;
+         margin-bottom:6px; background:${B.hover === i ? "oklch(0.2 0.03 250)" : C.bgCard2};
+         border:1px solid ${B.hover === i ? GT_COL : C.bd2};">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <select data-change="benchInstType" data-i="${i}" style="padding:4px 6px; border-radius:6px;
+          background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11px;">
+          ${["object", "graffiti", "damage", "litter", "unknown"].map(t =>
+            `<option ${t === inst.type ? "selected" : ""}>${t}</option>`).join("")}
+        </select>
+        <input id="benchLabel${i}" data-change="benchInstLabel" data-live data-i="${i}"
+               value="${esc(inst.label || inst.note || "")}" placeholder="what it is — e.g. purple bag on seat"
+               style="flex:1; min-width:0; padding:5px 8px; border-radius:6px; background:${C.bgInput};
+                      border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:11.5px;">
+        <button data-act="benchDelInst" data-arg="${i}" title="Remove this instance"
+                style="font-size:12px; color:${C.fg3}; background:transparent; border:none; cursor:pointer;">✕</button>
+      </div>
+      <div style="display:flex; align-items:center; gap:5px; margin-top:6px; flex-wrap:wrap;">
+        <span style="font-family:${C.mono}; font-size:10px; color:${C.fg4};">[${inst.bbox.join(", ")}]</span>
+        <span style="margin-left:auto; display:flex; gap:3px;">
+          ${nudge(i, "x0", -6, "←")}${nudge(i, "x0", 6, "→")}
+          ${nudge(i, "y0", -6, "↑")}${nudge(i, "y0", 6, "↓")}
+          <span style="width:6px;"></span>
+          ${nudge(i, "x1", -6, "←")}${nudge(i, "x1", 6, "→")}
+          ${nudge(i, "y1", -6, "↑")}${nudge(i, "y1", 6, "↓")}
+        </span>
+      </div>
+    </div>`).join("");
+  return `
+  <div style="padding:13px 15px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px;">
+    <div style="flex:1; min-width:0;">
+      <div style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.92 0.006 250);
+                  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(c.id)}</div>
+      <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">
+        ref ${esc(c.reference)}${stored.reviewed ? ` · reviewed ${esc(String(stored.reviewed).slice(0, 10))}` : " · never reviewed by a human"}</div>
+    </div>
+    <button data-act="benchToggleSide" title="Show the reference side by side"
+      style="font-size:11px; color:${B.side ? C.accFg : C.fg2}; background:${B.side ? C.accBg : C.bgBtn};
+             border:1px solid ${B.side ? C.accBd2 : C.bdBtn}; padding:5px 9px; border-radius:7px; cursor:pointer;">ref</button>
+    <button data-act="benchCloseCase" style="font-size:12px; color:${C.fg3}; background:transparent;
+            border:none; cursor:pointer;">✕</button>
+  </div>
+  <div style="padding:12px 15px;">
+    <div data-act="benchImgClick" style="position:relative; border-radius:8px; overflow:hidden;
+         ${B.draw ? "cursor:crosshair;" : ""}">
+      <img id="benchImg" src="${c.img || ""}" style="width:100%; display:block;">
+      ${overlay}
+    </div>
+    ${B.side && ref.img ? `
+      <div style="position:relative; margin-top:7px; border-radius:8px; overflow:hidden; opacity:0.95;">
+        <img src="${ref.img}" style="width:100%; display:block;">
+        <span style="position:absolute; top:5px; left:6px; font-size:9.5px; font-family:${C.mono};
+          background:oklch(0.14 0.008 250 / 0.85); color:${C.fg2}; padding:1px 6px; border-radius:5px;">clean reference</span>
+      </div>` : ""}
+    <div style="display:flex; align-items:center; gap:7px; margin:11px 0 9px;">
+      <button data-act="benchToggleAnom" style="font-size:11.5px; font-weight:600; padding:6px 11px;
+        border-radius:8px; cursor:pointer; white-space:nowrap;
+        color:${c.has_anomaly ? "oklch(0.9 0.12 22)" : "oklch(0.88 0.09 150)"};
+        background:${c.has_anomaly ? C.redBg : "oklch(0.24 0.05 150)"};
+        border:1px solid ${c.has_anomaly ? C.redBd : C.greenBd};">
+        ${c.has_anomaly ? "anomalous" : "clean"}</button>
+      <select data-change="benchSource" style="padding:6px 8px; border-radius:7px; background:${C.bgInput};
+        border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
+        ${["real", "gpt", "variant", "self"].map(s =>
+          `<option ${s === c.source ? "selected" : ""}>${s}</option>`).join("")}
+      </select>
+      ${hint("source groups the per-source recall table: real = a frame from the actual camera, gpt = AI-inpainted, variant = a second synthetic scene, self = a reference diffed against itself.")}
+      <button data-act="benchDelCase" data-arg="${esc(c.id)}" style="margin-left:auto; font-size:11px;
+        color:oklch(0.8 0.09 22); background:oklch(0.19 0.02 22); border:1px solid oklch(0.36 0.07 22);
+        padding:6px 10px; border-radius:7px; cursor:pointer;">Delete case</button>
+    </div>
+    <input id="benchNote" data-change="benchNote" data-live value="${esc(c.note || "")}" placeholder="note — what a reader needs to know about this case"
+      style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput};
+             border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:11.5px; margin-bottom:11px;">
+    <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg5};
+                font-family:${C.mono}; margin-bottom:7px;">Instances · ${c.instances.length}</div>
+    ${instRows || `<div style="font-size:11.5px; color:${C.fg4}; padding:2px 0 9px;">
+      No instance box. ${c.has_anomaly ? "This case scores at frame level only." : "Correct for a clean case."}</div>`}
+    <button data-act="benchToggleDraw" style="width:100%; margin:3px 0 10px; font-size:12px; padding:8px 0;
+      border-radius:8px; cursor:pointer; color:${B.draw ? C.accDark : C.accFg};
+      background:${B.draw ? GT_COL : C.accBg}; border:1.5px solid ${C.accBd2};">
+      ${B.draw ? "Click two opposite corners on the frame… (Esc cancels)" : "+ Instance box"}</button>
+    <div style="display:flex; gap:7px;">
+      <button data-act="benchSave" ${B.dirty && !B.saving ? "" : "disabled"}
+        style="flex:1; font-size:12.5px; font-weight:600; padding:9px 0; border-radius:8px;
+               cursor:${B.dirty && !B.saving ? "pointer" : "not-allowed"};
+               opacity:${B.dirty && !B.saving ? 1 : 0.45}; color:${C.accDark}; background:${C.green}; border:none;">
+        ${B.saving ? "Saving…" : B.dirty ? "Save corrections" : "Saved ✓"}</button>
+      <button data-act="benchRevert" ${B.dirty ? "" : "disabled"} style="font-size:12px; color:${C.fg2};
+        background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:9px 13px; border-radius:8px;
+        cursor:${B.dirty ? "pointer" : "not-allowed"}; opacity:${B.dirty ? 1 : 0.45};">Revert</button>
+    </div>
+    <div style="font-size:10.5px; color:${C.fg5}; margin-top:8px; line-height:1.5;">
+      Saving marks the case human-reviewed and keeps a timestamped backup of the
+      previous dataset file. Runs already scored keep their own snapshot.</div>
+  </div>`;
+}
+
+function benchAddPanel() {
+  const B = S.bench, a = B.adding, cand = B.candidates || {};
+  const list = (cand.candidates || []).slice(0, 60).map(x => `
+    <div data-act="benchPickCandidate" data-arg="${esc(x.path)}" style="border-radius:7px;
+         overflow:hidden; cursor:pointer; border:2px solid ${a.image === x.path ? "oklch(0.8 0.13 225)" : "transparent"};">
+      <img src="${x.img}" loading="lazy" style="width:100%; height:56px; object-fit:cover; display:block;">
+      <div style="font-family:${C.mono}; font-size:9px; color:${C.fg4}; padding:3px 4px;
+                  background:${C.bgCard2}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(x.name)}</div>
+    </div>`).join("");
+  const refKeys = Object.keys((B.detail || {}).references_map || {});
+  return `
+  <div style="padding:13px 15px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center;">
+    <div style="flex:1; font-size:13px; font-weight:600;">Add a case</div>
+    <button data-act="benchCancelAdd" style="font-size:12px; color:${C.fg3}; background:transparent;
+            border:none; cursor:pointer;">✕</button>
+  </div>
+  <div style="padding:12px 15px;">
+    ${(cand.candidates || []).length ? `
+      <div style="font-size:11px; color:${C.fg4}; margin-bottom:7px;">
+        ${cand.n_total} unused image(s) in ${esc((cand.dirs || []).join(", "))}</div>
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; max-height:230px;
+                  overflow:auto; margin-bottom:12px;">${list}</div>` : `
+      <div style="font-size:11.5px; color:${C.fg4}; line-height:1.6; margin-bottom:12px;">
+        No unused image in ${esc((cand.dirs || []).join(", ") || "this dataset's folders")}.
+        Every image there already belongs to a case or is a reference — extract the
+        frames you want to label first (Studio → New analysis, or
+        <span style="font-family:${C.mono};">tools/build_39T_benchmark.py</span>).</div>`}
+    <input data-change="benchAddId" data-live value="${esc(a.id)}" placeholder="case id — e.g. 39T_cam52_083517"
+      style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput};
+             border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-family:${C.mono};
+             font-size:11.5px; margin-bottom:8px;">
+    <select data-change="benchAddRef" style="width:100%; padding:7px 9px; border-radius:7px;
+      background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250);
+      font-size:11.5px; margin-bottom:8px;">
+      ${refKeys.map(k => `<option value="${esc(k)}" ${a.reference === k ? "selected" : ""}>reference: ${esc(k)}</option>`).join("")}
+    </select>
+    <input data-change="benchAddNote" data-live value="${esc(a.note)}" placeholder="note"
+      style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput};
+             border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-size:11.5px; margin-bottom:10px;">
+    <button data-act="benchAddCase" style="width:100%; font-size:12.5px; font-weight:600; padding:9px 0;
+      border-radius:8px; cursor:pointer; color:${C.accDark}; background:${C.green}; border:none;">
+      Create as clean, then draw its boxes</button>
+    <div style="font-size:10.5px; color:${C.fg5}; margin-top:8px; line-height:1.5;">
+      A new case starts clean with no box. Drawing the first instance box flips it
+      to anomalous — so a frame you meant to add as a negative stays a negative.</div>
+  </div>`;
+}
+
+function benchRunsTab() {
+  const B = S.bench, f = B.form, d = B.detail || {};
+  const ids = benchSubsetIds();
+  const nCases = ids === "all" ? (d.cases || []).length : (ids || []).length;
+  const pipe = S.pipelines.find(x => x.key === "vlm_05");
+  const modelOpts = S.models.filter(m => m.installed).map(m =>
+    `<option value="${esc(m.tag)}" ${f.model === m.tag ? "selected" : ""}>${esc(m.tag)}</option>`).join("");
+  const seg = (key, val, label, tip) => {
+    const on = f[key] === val;
+    return `<div data-act="benchForm" data-arg="${key}=${val}" title="${esc(tip || "")}"
+      style="padding:6px 12px; border-radius:7px; font-size:12px; cursor:pointer; white-space:nowrap;
+             background:${on ? C.accSel : C.bgCard}; color:${on ? C.accFg : "oklch(0.68 0.012 250)"};
+             border:1px solid ${on ? C.accBd2 : C.bd};">${label}</div>`;
+  };
+  const localizerRows = S.localizers.map(l => {
+    const on = (f.localizer || S.localizerDefault) === l.key, off = !l.available;
+    return `<div ${off ? "" : `data-act="benchForm" data-arg="localizer=${esc(l.key)}"`}
+      title="${off ? esc(l.unavailable_reason) : esc(l.summary)}"
+      style="display:flex; align-items:center; gap:8px; padding:8px 11px; border-radius:8px;
+             cursor:${off ? "not-allowed" : "pointer"}; opacity:${off ? 0.5 : 1};
+             background:${on ? C.accBg : C.bgCard}; border:1px solid ${on ? C.accSelBd : C.bd};">
+      <span style="width:12px; height:12px; border-radius:50%; flex:0 0 12px;
+        border:2px solid ${on ? C.acc : C.bd2}; background:${on ? C.acc : "transparent"};"></span>
+      <span style="font-size:12px; color:oklch(0.9 0.006 250);">${esc(l.name)}</span>
+      <span style="font-family:${C.mono}; font-size:10px; color:${C.fg4}; margin-left:auto;">${esc(l.key)}</span>
+    </div>`;
+  }).join("");
+  // Honest cost line. A re-score of an already-judged configuration is nearly
+  // free (the verdict cache is keyed on the box, not the localizer), which is
+  // exactly why a localizer A/B is worth running — so say both things.
+  let cost;
+  if (f.mode === "localize") {
+    cost = `~${Math.max(1, Math.round(nCases * ((f.localizer || "").includes("dino") ? 2.5 : 0.5)))} s`
+         + " — no VLM call, no Ollama needed";
+  } else {
+    const h = histPerFrame(f.script, f.model, f.script === "vlm_05" ? (f.localizer || S.localizerDefault) : "");
+    const per = h && h.perFrame >= CROP_MIN_CREDIBLE ? h.perFrame
+      : ROUGH_PER_FRAME[(S.health && S.health.gpu) ? "gpu" : "cpu"][f.script] || 40;
+    cost = `${fmtDur(nCases * per)} if every region is judged fresh — a re-score of a `
+         + `configuration already in the cache takes seconds`;
+  }
+  const scriptOpts = S.pipelines.map(p =>
+    `<option value="${p.key}" ${f.script === p.key ? "selected" : ""}>${esc(p.name)}</option>`).join("");
+  const noBoxes = ["vlm_01", "vlm_02"].includes(f.script);
+  const runRows = (B.runs || []).map(r => {
+    const h = r.headline || {};
+    const live = ["queued", "running"].includes(r.status);
+    const pct = r.progress && r.progress.total
+      ? Math.round(r.progress.done / r.progress.total * 100) : 0;
+    const nums = !r.headline ? `<span style="color:${C.fg4};">no score yet</span>`
+      : h.mode === "localize"
+        ? `localized <b>${h.localized}</b> · strict ${h.strict} · ${h.regions} regions`
+        : `frame F1 <b>${h.f1.toFixed(3)}</b> · ${h.counts.TP}/${h.counts.FP}/${h.counts.TN}/${h.counts.FN}
+           · inst <b>${h.detected}</b> · strict ${h.strict} · reg.prec ${h.region_precision.toFixed(3)}`;
+    return `
+    <div style="display:flex; align-items:center; gap:12px; padding:11px 18px; border-top:1px solid oklch(0.22 0.01 250);">
+      <div data-act="benchOpenRun" data-arg="${esc(r.run_id)}" style="flex:1; min-width:0; cursor:pointer;">
+        <div style="display:flex; align-items:center; gap:7px;">
+          <span style="font-family:${C.mono}; font-size:12px; color:oklch(0.9 0.006 250);">${esc(r.run_id)}</span>
+          <span style="font-size:9.5px; padding:1px 6px; border-radius:7px; background:${C.bgBtn};
+                color:${C.fg2}; border:1px solid ${C.bd2};">${esc(r.dataset)}</span>
+          <span style="font-size:9.5px; padding:1px 6px; border-radius:7px;
+                background:${r.config.mode === "localize" ? "oklch(0.24 0.05 300)" : C.accBg};
+                color:${r.config.mode === "localize" ? "oklch(0.85 0.11 300)" : C.accFg};">${r.config.mode}</span>
+          ${r.stale ? `<span title="the dataset was edited after this run — its numbers are for the labels it measured"
+            style="font-size:9.5px; padding:1px 6px; border-radius:7px; background:oklch(0.24 0.05 75);
+            color:oklch(0.88 0.1 75);">stale GT</span>` : ""}
+          ${r.config.subset ? `<span style="font-size:9.5px; color:${C.fg4};">subset</span>` : ""}
+        </div>
+        <div style="font-size:10.5px; color:${C.fg4}; margin-top:3px;">
+          ${esc(r.config.script || "")} · ${esc(r.config.localizer || "")}
+          ${r.config.mode === "full" ? `${r.config.model ? " · " + esc(r.config.model) : ""}
+            ${r.config.prompt_name ? " · " + esc(r.config.prompt_name) : ""}` : " · no judge"}
+          · ${r.progress.total} cases</div>
+        <div style="font-size:11px; color:${C.fg2}; margin-top:4px; font-family:${C.mono};">${nums}</div>
+      </div>
+      <div style="text-align:right; white-space:nowrap;">
+        ${live ? `<div style="display:flex; align-items:center; gap:7px;">
+            <div style="width:90px; height:5px; border-radius:4px; background:${C.bg}; overflow:hidden;">
+              <div style="width:${pct}%; height:100%; background:${C.acc};"></div></div>
+            <span style="font-family:${C.mono}; font-size:10.5px; color:${C.acc};">${r.progress.done}/${r.progress.total}</span>
+          </div>`
+        : `<span style="font-family:${C.mono}; font-size:10.5px; color:${statusMeta(r.status)[1]};">${esc(r.status)}</span>`}
+        <div style="font-size:10px; color:${C.fg5}; margin-top:3px;">${fmtEta(r.wall_seconds || 0)}</div>
+      </div>
+      <div style="display:flex; gap:5px;">
+        ${live ? `<button data-act="benchCancelRun" data-arg="${esc(r.run_id)}" style="font-size:11px;
+            color:oklch(0.85 0.1 22); background:oklch(0.2 0.03 22); border:1px solid oklch(0.38 0.08 22);
+            padding:5px 10px; border-radius:7px; cursor:pointer;">Stop</button>` : ""}
+        <button data-act="benchOpenRun" data-arg="${esc(r.run_id)}" style="font-size:11px; color:${C.accFg};
+          background:${C.accBg}; border:1px solid ${C.accBd2}; padding:5px 11px; border-radius:7px; cursor:pointer;">Score</button>
+        <button data-act="benchDeleteRun" data-arg="${esc(r.run_id)}" style="font-size:11px; color:${C.fg3};
+          background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:5px 9px; border-radius:7px; cursor:pointer;">✕</button>
+      </div>
+    </div>`;
+  }).join("");
+  return `
+  <div data-scroll="benchruns" style="flex:1; min-height:0; overflow:auto; padding:18px 20px;">
+    <div style="max-width:1000px;">
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2};
+                  padding:16px 18px; margin-bottom:18px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <div style="font-size:14px; font-weight:600;">Run the benchmark</div>
+          <span style="font-size:11.5px; color:${C.fg4};">on ${esc((d.name || B.ds) || "")} · ${nCases} case(s)</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4};
+                        font-family:${C.mono}; margin-bottom:7px;">Mode</div>
+            <div style="display:flex; gap:7px; margin-bottom:14px;">
+              ${seg("mode", "full", "Full · with the judge", "Every case through the whole pipeline, scored at frame AND object level.")}
+              ${seg("mode", "localize", "Localization only", "Region proposal only: no VLM, no Ollama, seconds per case. Upper bound on recall.")}
+            </div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4};
+                        font-family:${C.mono}; margin-bottom:7px;">Cases</div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
+              ${seg("subset", "all", "All")}${seg("subset", "anomaly", "Anomalous")}
+              ${seg("subset", "clean", "Clean")}${seg("subset", "unreviewed", "Not reviewed")}
+            </div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4};
+                        font-family:${C.mono}; margin-bottom:7px;">Localizer · stage 1</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">${localizerRows}</div>
+          </div>
+          <div>
+            ${f.mode === "full" ? `
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:${C.fg4};
+                        font-family:${C.mono}; margin-bottom:7px;">Pipeline & judge</div>
+            <select data-change="benchScript" style="width:100%; padding:7px 9px; border-radius:7px;
+              background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250);
+              font-size:12px; margin-bottom:7px;">${scriptOpts}</select>
+            ${noBoxes ? `<div style="font-size:10.5px; color:oklch(0.85 0.1 75); margin-bottom:7px;">
+              ${esc(f.script)} reports no boxes, so this run is scored at frame level only —
+              object recall and region precision will read 0/0.</div>` : ""}
+            <select data-change="benchModel" style="width:100%; padding:7px 9px; border-radius:7px;
+              background:${C.bgInput}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250);
+              font-family:${C.mono}; font-size:11.5px; margin-bottom:10px;">
+              ${modelOpts || `<option>no model installed</option>`}</select>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+              <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em;
+                    color:${C.fg4}; font-family:${C.mono};">Prompt</span>
+              <select data-change="benchPromptPreset" style="padding:5px 8px; border-radius:6px;
+                background:${C.bgCard}; border:1px solid ${C.bd3}; color:oklch(0.9 0.006 250); font-size:11.5px;">
+                ${pipe ? Object.keys(pipe.prompts).map(n =>
+                  `<option value="${n}" ${f.promptPreset === n ? "selected" : ""}>${n}</option>`).join("") : ""}
+                <option value="custom" ${f.promptPreset === "custom" ? "selected" : ""}>custom</option>
+              </select>
+            </div>
+            <textarea data-change="benchPrompt" style="width:100%; height:150px; padding:9px 10px;
+              border-radius:8px; background:${C.bgInput}; border:1px solid ${C.bd3};
+              color:oklch(0.85 0.006 250); font-family:${C.mono}; font-size:11px; line-height:1.5;
+              resize:none;">${esc(f.promptText)}</textarea>
+            <div style="font-size:10.5px; color:oklch(0.62 0.05 75); margin-top:6px;">
+              The model and prompt are part of the verdict-cache key: changing either
+              means every region is judged again.</div>`
+            : `<div style="padding:14px; border-radius:9px; background:oklch(0.18 0.02 300);
+                    border:1px solid oklch(0.4 0.09 300); font-size:11.5px; color:oklch(0.86 0.06 300);
+                    line-height:1.6;">
+                <b>No judge in this mode.</b> Only the region proposer runs, and an
+                instance counts as localized if any proposed region overlaps it — the
+                upper bound on what the judge could ever recall. This is the number
+                to tune thresholds on: it costs seconds instead of hours, and it
+                needs no Ollama.</div>`}
+          </div>
+        </div>
+        <div style="border:1px solid ${C.bd}; border-radius:10px; overflow:hidden; margin-top:16px;">
+          <div data-act="benchToggleRunAdv" style="padding:10px 13px; font-size:12.5px; cursor:pointer;
+               display:flex; gap:8px; color:oklch(0.8 0.012 250);">
+            <span style="font-family:${C.mono}; color:${C.fg3};">${f.advOpen ? "▾" : "▸"}</span> Localizer parameters</div>
+          ${f.advOpen ? `<div style="padding:2px 13px 14px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+            ${[["Diff threshold", "benchDiff", f.diff], ["Min region area", "benchMinArea", f.minArea],
+               ["Max regions", "benchMaxRegions", f.maxRegions]].map(([lb, k, v]) =>
+              `<label style="font-size:11px; color:${C.fg3}; display:flex; flex-direction:column; gap:4px;">
+                <span>${lb}</span><input type="number" value="${v}" data-change="${k}"
+                style="padding:6px 8px; border-radius:6px; background:${C.bgInput}; border:1px solid ${C.bd3};
+                       color:oklch(0.9 0.006 250); font-family:${C.mono}; font-size:11.5px;"></label>`).join("")}
+          </div>` : ""}
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; margin-top:14px;">
+          <button data-act="benchLaunch" ${B.launching || !nCases ? "disabled" : ""}
+            style="font-size:13px; font-weight:600; padding:10px 20px; border-radius:9px;
+                   cursor:${B.launching || !nCases ? "not-allowed" : "pointer"};
+                   opacity:${B.launching || !nCases ? 0.5 : 1}; color:${C.accDark};
+                   background:${C.acc}; border:none;">
+            ${B.launching ? "Starting…" : f.mode === "localize" ? "Score localization" : "Run and score"}</button>
+          <span style="font-size:11.5px; color:${C.fg4};">${cost}</span>
+        </div>
+      </div>
+      <div style="border:1px solid ${C.bd}; border-radius:12px; background:${C.bgCard2}; overflow:hidden;">
+        <div style="padding:13px 18px; font-size:14px; font-weight:600;">Runs
+          <span style="font-size:11px; font-weight:400; color:${C.fg4}; margin-left:8px;">newest first · click one for the full score</span></div>
+        ${runRows || `<div style="padding:24px 18px; font-size:12.5px; color:${C.fg4};">
+          No run yet. A localization-only run takes seconds and is the cheapest way to see where you stand.</div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+function benchScoreView() {
+  const B = S.bench, run = B.run, score = B.score;
+  if (!run) return `<div style="padding:40px; color:${C.fg4}; font-size:13px;">Loading run…</div>`;
+  const live = ["queued", "running"].includes(run.status);
+  const cfg = run.config || {};
+  const card = (v, label, col, tip) => `
+    <div style="border:1px solid ${C.bd}; border-radius:11px; background:${C.bgCard2};
+                padding:12px 15px; flex:1; min-width:120px;">
+      <div style="font-family:${C.mono}; font-size:20px; font-weight:700;
+                  color:${col || "oklch(0.92 0.006 250)"};">${v}</div>
+      <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">${label}${tip ? hint(tip) : ""}</div>
+    </div>`;
+  const head = `
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+      <button data-act="benchCloseRun" style="font-size:11.5px; color:${C.fg2}; background:${C.bgBtn};
+        border:1px solid ${C.bdBtn}; padding:6px 11px; border-radius:7px; cursor:pointer;">← Runs</button>
+      <span style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.9 0.006 250);">${esc(run.run_id)}</span>
+      <span style="font-size:11px; color:${C.fg4};">${esc(run.dataset)} · ${esc(cfg.mode)} ·
+        ${esc(cfg.script || "")} · ${esc(cfg.localizer || "")}
+        ${cfg.mode === "full" ? `${cfg.model ? " · " + esc(cfg.model) : ""}
+          ${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}` : " · no judge"}</span>
+      <span style="font-family:${C.mono}; font-size:11px; color:${statusMeta(run.status)[1]};">${esc(run.status)}</span>
+      ${live ? `<span style="font-family:${C.mono}; font-size:11px; color:${C.acc};">
+        ${run.progress.done}/${run.progress.total}</span>
+        <button data-act="benchCancelRun" data-arg="${esc(run.run_id)}" style="font-size:11px;
+          color:oklch(0.85 0.1 22); background:oklch(0.2 0.03 22); border:1px solid oklch(0.38 0.08 22);
+          padding:5px 10px; border-radius:7px; cursor:pointer;">Stop</button>` : ""}
+      <span style="margin-left:auto; display:flex; gap:6px;">
+        ${run.job_id ? `<button data-act="benchOpenRunJob" data-arg="${esc(run.job_id)}"
+          style="font-size:11px; color:${C.fg2}; background:${C.bgBtn}; border:1px solid ${C.bdBtn};
+          padding:6px 11px; border-radius:7px; cursor:pointer;">Open in Results</button>` : ""}
+        <button data-act="benchRunReport" data-arg="${esc(run.run_id)}" style="font-size:11px;
+          color:${C.fg2}; background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:6px 11px;
+          border-radius:7px; cursor:pointer;">report.md</button>
+      </span>
+    </div>
+    ${run.error ? `<div style="margin-bottom:12px; padding:9px 12px; border-radius:9px; font-size:11.5px;
+      background:${C.redBg}; border:1px solid ${C.redBd}; color:${C.redFg};">${esc(run.error)}</div>` : ""}
+    ${B.stale ? `<div style="margin-bottom:12px; padding:9px 12px; border-radius:9px; font-size:11.5px;
+      background:oklch(0.22 0.04 75); border:1px solid oklch(0.42 0.09 75); color:oklch(0.9 0.08 75);
+      line-height:1.5;">The dataset has been edited since this run. These numbers are
+      correct for the labels it measured — the snapshot is kept alongside the score —
+      but comparing them with a newer run compares two different ground truths.</div>` : ""}`;
+  if (!score || !score.n_scored) return `
+    <div data-scroll="benchscore" style="flex:1; min-height:0; overflow:auto; padding:18px 20px;">
+      ${head}<div style="color:${C.fg4}; font-size:12.5px;">No case scored yet.</div></div>`;
+
+  const rows = score.cases || [];
+  const isLoc = score.mode === "localize";
+  let cards, tables;
+  if (isLoc) {
+    const l = score.localization;
+    cards = card(`${l.inst_localized}/${l.inst_total}`, "instances localized",
+                 l.recall === 1 ? C.green : undefined,
+                 "An instance is localized if ANY proposed region overlaps its box (IoU > 0.1 or centre inside). The judge can only keep what was proposed, so this is the ceiling on end-to-end recall.")
+      + card(`${l.inst_localized_strict}/${l.inst_total}`, "strict IoU ≥ 0.3", undefined,
+             "The honest box-quality column: the lenient rule credits a frame-sized blob with hitting every instance, and only this one catches it.")
+      + card(l.regions_total, "regions proposed")
+      + card(`${l.regions_clean}`, `on ${l.frames_clean} clean frame(s)`, undefined,
+             "Proposals on frames with no anomaly: the noise the judge has to reject, one VLM call each.")
+      + card(l.max_box.toLocaleString(), "biggest box (px)", undefined,
+             "The blob canary. A box covering most of the frame scores a perfect lenient recall while boxing nothing.");
+    tables = Object.keys(l.per_type || {}).length ? `
+      <div style="margin-top:16px;">${benchTable("By type",
+        ["type", "localized", "recall"],
+        Object.entries(l.per_type).sort().map(([t, v]) =>
+          [t, `${v.detected} / ${v.total}`, v.recall.toFixed(2)]))}</div>` : "";
+  } else {
+    const fr = score.frame, ob = score.objects, c = fr.counts;
+    cards = card(fr.f1.toFixed(3), "frame F1", fr.f1 === 1 ? C.green : undefined)
+      + card(`${c.TP}/${c.FP}/${c.TN}/${c.FN}`, "TP / FP / TN / FN")
+      + card(`${ob.inst_detected}/${ob.inst_total}`, "instances detected", undefined,
+             "Object level: an instance counts as detected if a KEPT box overlaps it leniently.")
+      + card(`${ob.inst_detected_strict}/${ob.inst_total}`, "strict IoU ≥ 0.3")
+      + card(ob.region_precision.toFixed(3), "region precision", undefined,
+             `${ob.fp_regions} of ${ob.kept_total} kept boxes matched no real anomaly.`)
+      + card(score.fresh_calls, "fresh VLM calls",
+             score.fresh_calls ? undefined : C.green,
+             `${score.regions_judged} regions judged, ${score.cached_calls} served from the shared verdict cache. Zero fresh calls means this run is a pure re-score — which is what makes a localizer A/B trustworthy.`);
+    tables = `
+      <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:16px;">
+        ${benchTable("Confusion matrix", ["", "pred. anomaly", "pred. clean"],
+          [["<b>actual anomaly</b>", `TP = ${c.TP}`, `FN = ${c.FN}`],
+           ["<b>actual clean</b>", `FP = ${c.FP}`, `TN = ${c.TN}`]])}
+        ${Object.keys(ob.per_type || {}).length ? benchTable("By type",
+          ["type", "detected", "recall"],
+          Object.entries(ob.per_type).map(([t, v]) =>
+            [t, `${v.detected} / ${v.total}`, v.recall.toFixed(2)])) : ""}
+        ${Object.keys(ob.per_source || {}).length ? benchTable("By source",
+          ["source", "cases", "instances", "FP boxes"],
+          Object.entries(ob.per_source).sort().map(([s, v]) =>
+            [s, v.cases, `${v.inst_detected} / ${v.inst_total}`, v.fp_regions])) : ""}
+      </div>
+      ${fr.n_failed ? `<div style="margin-top:12px; font-size:11.5px; color:oklch(0.85 0.1 75);">
+        ${fr.n_failed} frame(s) failed and are excluded from the confusion matrix —
+        a crashed frame is not a clean prediction.</div>` : ""}`;
+  }
+  const filters = isLoc
+    ? [["all", "All"], ["missed", "Missed instances"], ["clean", "Clean frames"]]
+    : [["all", "All"], ["FN", "FN"], ["FP", "FP"], ["missed", "Missed instances"], ["TP", "TP"], ["TN", "TN"]];
+  const keeps = (r, f) => f === "all" ? true
+    : f === "missed" ? (r.instances || []).some(i => !i.hit)
+    : f === "clean" ? !r.has_anomaly
+    : r.outcome === f;
+  const keep = (r) => keeps(r, B.scoreFilter);
+  const chips = filters.map(([k, lb]) => {
+    const on = B.scoreFilter === k;
+    const n = rows.filter(r => keeps(r, k)).length;
+    return `<div data-act="benchScoreFilter" data-arg="${k}" style="display:flex; align-items:center; gap:6px;
+      padding:4px 10px; border-radius:8px; font-size:12px; cursor:pointer;
+      background:${on ? C.accSel : C.bgCard}; color:${on ? C.accFg : "oklch(0.68 0.012 250)"};
+      border:1px solid ${on ? C.accBd2 : C.bd};">${lb} <span style="font-family:${C.mono}; opacity:0.8;">${n}</span></div>`;
+  }).join("");
+  const caseRows = rows.filter(keep).map(r => benchScoreRow(r, isLoc)).join("");
+  return `
+  <div data-scroll="benchscore" style="flex:1; min-height:0; overflow:auto; padding:18px 20px;">
+    ${head}
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">${cards}</div>
+    ${tables}
+    <div style="display:flex; align-items:center; gap:7px; margin:20px 0 10px; flex-wrap:wrap;">
+      ${chips}
+      <span style="margin-left:auto; font-size:11px; color:${C.fg5};">
+        <span style="color:${GT_COL};">■</span> ground truth
+        ${isLoc ? `<span style="color:${HIT_COL};">■</span> proposed region`
+                : `<span style="color:${HIT_COL};">■</span> matched detection
+                   <span style="color:${FPB_COL};">■</span> false positive
+                   <span style="color:${C.fg4};">┄</span> dropped by the judge`}
+      </span>
+    </div>
+    ${caseRows || `<div style="color:${C.fg4}; font-size:12.5px;">No case matches this filter.</div>`}
+  </div>`;
+}
+
+function benchTable(title, cols, rows) {
+  return `
+  <div style="border:1px solid ${C.bd}; border-radius:11px; background:${C.bgCard2}; overflow:hidden; min-width:230px;">
+    <div style="padding:9px 13px; font-size:11px; text-transform:uppercase; letter-spacing:0.08em;
+                color:${C.fg4}; font-family:${C.mono}; border-bottom:1px solid ${C.bd2};">${title}</div>
+    <table style="border-collapse:collapse; width:100%; font-size:11.5px;">
+      <tr>${cols.map(c => `<th style="text-align:left; padding:6px 13px; color:${C.fg4};
+        font-weight:500; font-size:10.5px;">${c}</th>`).join("")}</tr>
+      ${rows.map(r => `<tr>${r.map((v, i) => `<td style="padding:6px 13px;
+        font-family:${i ? C.mono : "inherit"}; color:oklch(0.88 0.006 250);
+        border-top:1px solid oklch(0.21 0.01 250);">${v}</td>`).join("")}</tr>`).join("")}
+    </table>
+  </div>`;
+}
+
+/* One scored case: the overlay IS the annotated image — drawn from the score
+   instead of shipping rendered jpgs (that is what benchmark/annotated used to
+   be). Blue = ground truth, green = a kept box that matched one, red = a kept
+   box that matched nothing, dashed = proposed then dropped. */
+function benchScoreRow(r, isLoc) {
+  const B = S.bench, open = B.scoreSel === r.id;
+  const size = B.size;
+  const missed = (r.instances || []).filter(i => !i.hit).length;
+  const outCol = { TP: C.green, TN: "oklch(0.6 0.06 150)", FP: FPB_COL,
+                   FN: "oklch(0.75 0.15 300)", ERR: C.fg3 }[r.outcome] || C.fg3;
+  const boxes = !size ? "" :
+    (r.instances || []).map(i => benchBox(i.bbox, size, GT_COL,
+        (i.hit ? "" : "MISSED ") + (i.label || i.note || i.type),
+        { width: i.hit ? 2 : 3, dashed: !i.hit })).join("")
+    + (isLoc
+      ? (r.regions || []).map(g => benchBox(g.bbox, size, HIT_COL, "", { width: 1.5 })).join("")
+      : (r.kept || []).map(k => benchBox(k.bbox, size, k.matched ? HIT_COL : FPB_COL,
+          k.label, { width: 2 })).join("")
+        + (open ? (r.candidates || []).map(cd => benchBox(cd.bbox, size, C.fg4, "",
+            { width: 1, dashed: true })).join("") : ""));
+  const meta = isLoc
+    ? `${r.n_regions} regions · ${r.instances_detected}/${r.instances_total} localized
+       · strict ${r.instances_detected_strict}/${r.instances_total} · biggest ${r.max_box.toLocaleString()} px`
+    : `${r.n_regions} proposed · ${r.n_kept} kept · ${r.instances_detected}/${r.instances_total} hit
+       · ${r.fp_regions} FP box(es)${r.fresh_calls ? ` · ${r.fresh_calls} fresh call(s)` : ""}`;
+  return `
+  <div style="border:1px solid ${open ? C.accBd : C.bd2}; border-radius:11px; background:${C.bgCard2};
+              margin-bottom:9px; overflow:hidden;">
+    <div data-act="benchScoreSel" data-arg="${esc(r.id)}" style="display:flex; align-items:center;
+         gap:11px; padding:10px 14px; cursor:pointer;">
+      <span style="font-family:${C.mono}; font-size:11px; font-weight:700; color:${outCol};
+        min-width:32px;">${esc(r.outcome || (r.has_anomaly ? "anom" : "clean"))}</span>
+      <span style="font-family:${C.mono}; font-size:12px; color:oklch(0.9 0.006 250);">${esc(r.id)}</span>
+      ${missed ? `<span style="font-size:9.5px; padding:1px 6px; border-radius:7px;
+        background:oklch(0.24 0.06 300); color:oklch(0.86 0.11 300);">${missed} missed</span>` : ""}
+      ${r.error ? `<span style="font-size:10px; color:${C.redFg};">${esc(r.error.slice(0, 60))}</span>` : ""}
+      <span style="margin-left:auto; font-family:${C.mono}; font-size:10.5px; color:${C.fg4};
+        text-align:right;">${meta}</span>
+      <span style="font-family:${C.mono}; color:${C.fg3}; font-size:11px;">${open ? "▾" : "▸"}</span>
+    </div>
+    ${open ? `
+    <div style="padding:0 14px 13px;">
+      <div style="position:relative; border-radius:8px; overflow:hidden;">
+        <img src="${r.img || ""}" loading="lazy" style="width:100%; display:block;">
+        ${boxes}
+      </div>
+      ${(r.kept_labels || []).filter(Boolean).length ? `
+        <div style="font-size:11px; color:${C.fg2}; margin-top:8px; line-height:1.6;">
+          <span style="color:${C.fg4};">judge kept:</span> ${esc(r.kept_labels.filter(Boolean).join(" · "))}</div>` : ""}
+      ${r.note ? `<div style="font-size:11px; color:${C.fg4}; margin-top:5px;">${esc(r.note)}</div>` : ""}
+    </div>` : ""}
+  </div>`;
+}
+
 /* --------------- lora --------------- */
 function loraView() {
   const st = S.lora.status;
@@ -2820,6 +3902,14 @@ document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape") { ev.preventDefault(); ACT.closePipeDoc(); }
     return;
   }
+  if (S.screen === "benchmark") {
+    // Escape gets out of box-drawing; letters are label text, never shortcuts
+    if (ev.key === "Escape" && (S.bench.draw || S.bench.corner)) {
+      ev.preventDefault();
+      S.bench.draw = false; S.bench.corner = null; render();
+    }
+    return;
+  }
   if (S.screen !== "results" || !S.res.data) return;
   const t = ev.target;
   if (t && t.id === "revLabel" && ev.key === "Enter") {
@@ -2862,12 +3952,17 @@ document.addEventListener("keydown", (ev) => {
 document.addEventListener("mouseover", (ev) => {
   const el = ev.target.closest("[data-hover]");
   if (el && S.res.hoverV !== +el.dataset.hover) ACT.hoverV(el.dataset.hover);
+  // benchmark editor: an instance row and its box on the frame light up together
+  const bi = ev.target.closest("[data-benchinst]");
+  if (bi && S.bench.hover !== +bi.dataset.benchinst) ACT.benchHoverInst(bi.dataset.benchinst);
   const h = ev.target.closest(".hint");
   if (h) showTip(h);
 });
 document.addEventListener("mouseout", (ev) => {
   const el = ev.target.closest("[data-hover]");
   if (el && !ev.relatedTarget?.closest?.("[data-hover]")) ACT.unhoverV();
+  const bi = ev.target.closest("[data-benchinst]");
+  if (bi && !ev.relatedTarget?.closest?.("[data-benchinst]")) ACT.benchUnhoverInst();
   if (ev.target.closest(".hint")) hideTip();
 });
 function showTip(el) {
