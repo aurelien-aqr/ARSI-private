@@ -82,7 +82,8 @@ const S = {
     draw: false, corner: null,   // two-click instance-box drawing
     hover: -1,                // instance row <-> box highlight
     candidates: null, adding: null,   // "add a case" picker + its draft
-    size: null,               // bbox coordinate space = the REFERENCE image size
+    // no global bbox coordinate space: it is per case, resolved from that case's
+    // OWN reference image by sizeOf() — a dataset can mix sizes
     runs: null,
     form: { mode: "full", script: "vlm_05", model: null, localizer: null,
             promptPreset: "conservative", promptText: "", subset: "all",
@@ -249,10 +250,23 @@ async function loadBenchDataset(ds) {
   try { B.detail = await jget(`/api/benchmarks/${encodeURIComponent(ds)}`); }
   catch (e) { B.detail = null; toast(e.message); return; }
   B.candidates = null;
-  // instance boxes live in the REFERENCE pixel space, so that is the coordinate
-  // space every overlay and every drawn box must use
-  const first = Object.values(B.detail.references_map || {})[0];
-  if (first) imageSize(first.img).then(sz => { B.size = sz; render(); });
+}
+/* Instance boxes live in the pixel space of THEIR OWN reference, and a dataset
+   can mix sizes: tram1762 has `real` at 1920x1080 and `variant` at 1672x941, and
+   a 39T run opened while tram1762 is selected is 1280x720. One global size drew
+   those at the wrong scale and — worse — turned a drawn box into corrupted
+   coordinates. So the space is resolved per case, from its reference image.
+   Returns null until the size is known, then re-renders once. */
+const _sizePending = new Set();
+function sizeOf(url) {
+  if (!url) return null;
+  if (_sizeCache[url]) return _sizeCache[url];
+  if (!_sizePending.has(url)) {
+    _sizePending.add(url);
+    imageSize(url).then(() => { _sizePending.delete(url); render(); })
+                  .catch(() => _sizePending.delete(url));
+  }
+  return null;
 }
 async function refreshBenchRuns() {
   try { S.bench.runs = (await jget("/api/benchmarks/runs")).runs; }
@@ -1292,10 +1306,11 @@ ACT.benchImgClick = (_, ev) => {
   const B = S.bench;
   if (!B.draw || !B.draft) return;
   const img = document.getElementById("benchImg");
-  if (!img || !B.size) return;
+  const size = benchDraftSize();
+  if (!img || !size) return;
   const r = img.getBoundingClientRect();
-  const x = Math.round(Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)) * B.size.w);
-  const y = Math.round(Math.max(0, Math.min(1, (ev.clientY - r.top) / r.height)) * B.size.h);
+  const x = Math.round(Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)) * size.w);
+  const y = Math.round(Math.max(0, Math.min(1, (ev.clientY - r.top) / r.height)) * size.h);
   if (!B.corner) { B.corner = { x, y }; render(); return; }
   const a = B.corner; B.corner = null;
   const bbox = [Math.min(a.x, x), Math.min(a.y, y), Math.max(a.x, x), Math.max(a.y, y)];
@@ -3006,6 +3021,13 @@ function benchBox(b, size, col, label, opts = {}) {
       border-radius:2px; ${opts.glow ? `box-shadow:0 0 0 2px ${col}55;` : ""}
       pointer-events:${opts.attrs ? "auto" : "none"};">${tag}</div>`;
 }
+/* The coordinate space of the case open in the editor: its OWN reference. */
+function benchDraftSize() {
+  const B = S.bench;
+  if (!B.draft) return null;
+  const ref = ((B.detail || {}).references_map || {})[B.draft.reference];
+  return sizeOf(ref && ref.img);
+}
 function gtOverlay(instances, size, hover = -1) {
   if (!size) return "";
   // While drawing, the boxes must not swallow the click that places a corner —
@@ -3083,8 +3105,9 @@ function benchDataTab() {
          cursor:pointer; border:2px solid ${B.sel === c.id ? "oklch(0.8 0.13 225)" : C.bd2};">
       <div style="position:relative; background:${C.bg};">
         <img src="${c.img}" loading="lazy" style="width:100%; height:84px; object-fit:cover; display:block;">
-        ${B.size ? `<div style="position:absolute; inset:0;">${(c.instances || []).map(i =>
-            benchBox(i.bbox, B.size, GT_COL, "", { width: 1.5 })).join("")}</div>` : ""}
+        ${(() => { const sz = sizeOf(c.ref_img); return sz
+            ? `<div style="position:absolute; inset:0;">${(c.instances || []).map(i =>
+                benchBox(i.bbox, sz, GT_COL, "", { width: 1.5 })).join("")}</div>` : ""; })()}
         <span style="position:absolute; top:4px; right:4px;">${benchCaseBadge(c)}</span>
         ${c.reviewed ? `<span title="reviewed by a human" style="position:absolute; bottom:4px; right:5px;
           width:15px; height:15px; border-radius:50%; display:flex; align-items:center;
@@ -3145,7 +3168,7 @@ function benchEditor() {
   const B = S.bench, c = B.draft, d = B.detail;
   const ref = (d.references_map || {})[c.reference] || {};
   const stored = benchCase(c.id) || {};
-  const size = B.size;
+  const size = benchDraftSize();
   const overlay = size ? gtOverlay(c.instances, size, B.hover)
     + (B.corner ? `<div style="position:absolute; left:calc(${B.corner.x / size.w * 100}% - 4px);
          top:calc(${B.corner.y / size.h * 100}% - 4px); width:9px; height:9px; border-radius:50%;
@@ -3651,7 +3674,7 @@ function benchTable(title, cols, rows) {
    box that matched nothing, dashed = proposed then dropped. */
 function benchScoreRow(r, isLoc) {
   const B = S.bench, open = B.scoreSel === r.id;
-  const size = B.size;
+  const size = sizeOf(r.ref_img);
   const missed = (r.instances || []).filter(i => !i.hit).length;
   const outCol = { TP: C.green, TN: "oklch(0.6 0.06 150)", FP: FPB_COL,
                    FN: "oklch(0.75 0.15 300)", ERR: C.fg3 }[r.outcome] || C.fg3;

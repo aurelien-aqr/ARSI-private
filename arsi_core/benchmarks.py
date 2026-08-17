@@ -127,6 +127,17 @@ def resolve(ref) -> Path:
                        f"{', '.join(list_ids()) or 'none'})")
 
 
+def canonical_id(path: Path) -> str:
+    """The id a dataset is known by. NOT simply the file stem: a legacy
+    `ground_truth_39T.json` picked up by the fallback is still the `39T` dataset,
+    and returning its stem would make every caller that saves by id write a new
+    file next to the one the user is editing."""
+    for ds_id, legacy in LEGACY_PATHS.items():
+        if path == legacy:
+            return ds_id
+    return path.stem
+
+
 def load(ref):
     """(ds_id, doc) for a dataset id or path. Raises DatasetError if unreadable."""
     path = resolve(ref)
@@ -138,7 +149,7 @@ def load(ref):
         raise DatasetError(f"{path.name} is not a dataset document "
                            f"(needs 'references' + 'cases')")
     doc.setdefault("references", {})
-    return path.stem, doc
+    return canonical_id(path), doc
 
 
 def _one_line(obj, keys) -> str:
@@ -154,8 +165,13 @@ def _one_line(obj, keys) -> str:
 def dumps(doc: dict) -> str:
     """Serialize a dataset the way these files are written by hand: the header
     keys one per line, then one line per case with its instances listed one per
-    line underneath. Stable, so editing one box is a one-line diff."""
+    line underneath. Stable, so editing one box is a one-line diff.
+
+    Unknown header keys are preserved after the known ones — dropping them would
+    make the first save from the Studio silently delete provenance a dataset
+    carries that this module happens not to know about."""
     head = [k for k in ("_about", "name") if k in doc]
+    head += [k for k in sorted(doc) if k not in ("_about", "name", "references", "cases")]
     lines = ["{"]
     for k in head:
         lines.append(f"  {json.dumps(k, ensure_ascii=False)}: "
@@ -209,8 +225,18 @@ def save(ds_id: str, doc: dict) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
         BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
-        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        (BACKUPS_DIR / f"{ds_id}-{stamp}.json").write_bytes(path.read_bytes())
+        # This backup is what tools/build_39T_benchmark.py tells the reader to
+        # rely on when a rebuild replaces human corrections, so losing one is not
+        # acceptable. A timestamp alone does not guarantee that: two saves land in
+        # the same millisecond easily enough (measured). Resolve the collision
+        # instead of narrowing the window.
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")[:-3]
+        dest = BACKUPS_DIR / f"{ds_id}-{stamp}.json"
+        n = 0
+        while dest.exists():
+            n += 1
+            dest = BACKUPS_DIR / f"{ds_id}-{stamp}-{n}.json"
+        dest.write_bytes(path.read_bytes())
     tmp = path.with_suffix(".json.tmp")
     tmp.write_text(dumps(doc) + "\n", encoding="utf-8")
     tmp.replace(path)
@@ -247,8 +273,14 @@ def validate(doc: dict):
             errors.append(f"reference '{key}': image not found ({rel})")
     seen = set()
     for i, case in enumerate(doc.get("cases") or []):
+        # the isinstance check comes FIRST: a stray string or null in `cases`
+        # (hand-edited file) used to raise AttributeError here, which the API
+        # cannot turn into a validation error — it 500s the whole screen
+        if not isinstance(case, dict):
+            errors.append(f"case #{i}: must be an object, got {type(case).__name__}")
+            continue
         cid = case.get("id") or f"#{i}"
-        if not isinstance(case, dict) or not case.get("id"):
+        if not case.get("id"):
             errors.append(f"case #{i}: missing 'id'")
             continue
         if case["id"] in seen:
@@ -388,9 +420,11 @@ def _match(instances, kept):
 def score_case(case: dict, frame: dict) -> dict:
     """One case scored against one FrameResult dict (docs/SPEC.md schema).
 
-    A frame that FAILED gets outcome "ERR" and is left out of the confusion
-    matrix: counting a crashed frame as a clean prediction would quietly turn
-    infrastructure failures into recall."""
+    A frame that did not complete gets outcome "ERR" and is left out of every
+    aggregate: counting a crashed frame as a clean prediction would quietly turn
+    infrastructure failures into recall. That includes `cancelled` — the runner
+    builds that status for a frame stopped mid-way through its regions,
+    explicitly so it is not read as "clean frame, fully looked at"."""
     instances = case.get("instances") or []
     status = frame.get("status", "ok")
     dets = [d for d in (frame.get("detections") or []) if d.get("bbox")]
@@ -398,7 +432,7 @@ def score_case(case: dict, frame: dict) -> dict:
     hit, strict, matched = _match(instances, kept_boxes)
     flagged = bool(frame.get("anomaly")) if frame.get("anomaly") is not None \
         else bool(frame.get("detections"))
-    if status not in ("ok", "cancelled"):
+    if status != "ok":
         outcome = "ERR"
     elif case.get("has_anomaly"):
         outcome = "TP" if flagged else "FN"
@@ -443,14 +477,15 @@ def score_case(case: dict, frame: dict) -> dict:
 def score_full(cases: list, frames: list) -> dict:
     """Score a (possibly partial) run: `frames[i]` is the FrameResult of
     `cases[i]`. Metric definitions are run_benchmark.metrics'."""
-    rows = [score_case(c, f) for c, f in zip(cases, frames) if f]
+    all_rows = [score_case(c, f) for c, f in zip(cases, frames) if f]
     counts = {"TP": 0, "FP": 0, "TN": 0, "FN": 0}
-    n_err = 0
+    # An ERR row measured nothing complete, so it is excluded from the object
+    # level too: its instances are not misses, they were never judged. The count
+    # is reported instead of the row being dropped silently.
+    rows = [r for r in all_rows if r["outcome"] != "ERR"]
+    n_err = len(all_rows) - len(rows)
     for r in rows:
-        if r["outcome"] == "ERR":
-            n_err += 1
-        else:
-            counts[r["outcome"]] += 1
+        counts[r["outcome"]] += 1
     tp, fp, tn, fn = counts["TP"], counts["FP"], counts["TN"], counts["FN"]
     n = tp + fp + tn + fn
     frame = {"counts": counts, "n": n, "n_failed": n_err,
@@ -489,10 +524,12 @@ def score_full(cases: list, frames: list) -> dict:
                "per_type": per_type, "per_source": per_source}
     return {"mode": "full", "n_cases": len(cases), "n_scored": len(rows),
             "frame": frame, "objects": objects,
-            "regions_judged": sum(r["n_classified"] for r in rows),
-            "fresh_calls": sum(r["fresh_calls"] for r in rows),
-            "cached_calls": sum(r["cached_calls"] for r in rows),
-            "cases": rows}
+            "regions_judged": sum(r["n_classified"] for r in all_rows),
+            "fresh_calls": sum(r["fresh_calls"] for r in all_rows),
+            "cached_calls": sum(r["cached_calls"] for r in all_rows),
+            # every row, ERR included: the per-case list must still show what
+            # happened to a frame that failed
+            "cases": all_rows}
 
 
 # --------------------------------------------------------------- localizer-only
@@ -529,8 +566,9 @@ def score_localize(cases: list, rows: list) -> dict:
         })
     inst_total = sum(r["instances_total"] for r in out)
     per_type = {}
-    for r, case in zip(out, cases):
-        for inst in r["instances"]:
+    for r in out:                     # rows carry their own instances; zipping
+        for inst in r["instances"]:   # them back onto `cases` misaligns on a
+                                      # partial run (out skips unmeasured cases)
             t = inst.get("type", "unknown")
             d = per_type.setdefault(t, {"detected": 0, "total": 0})
             d["detected"] += int(inst["hit"])
@@ -639,7 +677,8 @@ def report_md(run: dict, score: dict) -> str:
     L.append("## 1) Frame-level (binary: is the frame anomalous?)\n")
     L.append(f"- Cases: **{fr['n']}**  (TP={c['TP']}, FP={c['FP']}, "
              f"TN={c['TN']}, FN={c['FN']})"
-             + (f"  · {fr['n_failed']} failed frame(s) excluded" if fr["n_failed"] else ""))
+             + (f"  · {fr['n_failed']} incomplete frame(s) (failed or cancelled) "
+                f"excluded from every aggregate" if fr["n_failed"] else ""))
     L.append(f"- **Accuracy** {fr['accuracy']:.3f} · **Precision** "
              f"{fr['precision']:.3f} · **Recall** {fr['recall']:.3f} · "
              f"**Specificity** {fr['specificity']:.3f} · **F1** {fr['f1']:.3f}\n")

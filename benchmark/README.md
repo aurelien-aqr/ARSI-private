@@ -28,8 +28,9 @@ benchmark/
 ├── datasets/           the labelled protocols — the ground truth
 │   ├── tram1762.json     29 cases, one camera, July
 │   └── 39T.json          21 cases, four cameras, 2026-08-11
-├── runs/               one directory per run (see "Runs" below); gitignored
-│   └── cli-*/            what run_benchmark.py / rescore_gate.py write
+├── runs/               one directory per run; the scores and reports are TRACKED
+│   └── cli-*/            CLI scratch (gitignored, overwritten every run), as are
+│                         the rendered runs/*/annotated/ overlays
 ├── archive/            every report published before the move, unchanged
 │   ├── report*.md  results*.json
 │   └── annotated/       the rendered overlays of the 2026-07/08 runs

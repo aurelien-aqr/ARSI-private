@@ -1,0 +1,7056 @@
+{
+ "mode": "localize",
+ "n_cases": 29,
+ "n_scored": 29,
+ "localization": {
+  "inst_total": 45,
+  "inst_localized": 45,
+  "recall": 1.0,
+  "inst_localized_strict": 37,
+  "recall_strict": 0.8222222222222222,
+  "regions_anomaly": 389,
+  "regions_clean": 170,
+  "frames_clean": 12,
+  "regions_total": 559,
+  "max_box": 734400,
+  "per_type": {
+   "object": {
+    "detected": 33,
+    "total": 33,
+    "recall": 1.0
+   },
+   "graffiti": {
+    "detected": 6,
+    "total": 6,
+    "recall": 1.0
+   },
+   "damage": {
+    "detected": 4,
+    "total": 4,
+    "recall": 1.0
+   },
+   "litter": {
+    "detected": 2,
+    "total": 2,
+    "recall": 1.0
+   }
+  }
+ },
+ "cases": [
+  {
+   "id": "real_f0037",
+   "image": "data/anomalies/tram_1762_v2_f0037_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "phone L seat, wallet R seat, bag near validator, backpack far-right",
+   "n_regions": 18,
+   "regions": [
+    {
+     "bbox": [
+      760,
+      732,
+      944,
+      920
+     ],
+     "area": 19472,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      904,
+      20,
+      1016,
+      132
+     ],
+     "area": 10288,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      336,
+      1016,
+      592,
+      1080
+     ],
+     "area": 12576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1668,
+      936,
+      1784,
+      1080
+     ],
+     "area": 9024,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      568,
+      48,
+      668,
+      144
+     ],
+     "area": 8000,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      68,
+      1028,
+      124,
+      1080
+     ],
+     "area": 2480,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      940,
+      628,
+      1184,
+      716
+     ],
+     "area": 8160,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      648,
+      528,
+      712,
+      612
+     ],
+     "area": 2992,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      964,
+      424,
+      1040,
+      472
+     ],
+     "area": 3264,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      556,
+      444,
+      648,
+      488
+     ],
+     "area": 3584,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1848,
+      1020,
+      1920,
+      1080
+     ],
+     "area": 2800,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      756,
+      100,
+      808,
+      152
+     ],
+     "area": 2000,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      120,
+      880,
+      208,
+      924
+     ],
+     "area": 2800,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      56,
+      712,
+      152,
+      736
+     ],
+     "area": 2208,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      324,
+      552,
+      396,
+      576
+     ],
+     "area": 1552,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      424,
+      536,
+      476,
+      572
+     ],
+     "area": 1376,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      360,
+      240,
+      384,
+      264
+     ],
+     "area": 576,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1260,
+      1060,
+      1288,
+      1080
+     ],
+     "area": 560,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 8,
+    "edge": 4,
+    "total": 20,
+    "capped": false,
+    "before_merge": 20,
+    "merged_away": 2,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      525,
+      420,
+      670,
+      505
+     ],
+     "note": "phone on left-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      940,
+      405,
+      1060,
+      490
+     ],
+     "note": "wallet on right-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator (far-left)",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      875,
+      0,
+      1040,
+      150
+     ],
+     "note": "backpack on far-right seat",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 4,
+   "max_box": 34592,
+   "seconds": 1.58,
+   "error": null
+  },
+  {
+   "id": "real_f0053",
+   "image": "data/anomalies/tram_1762_v2_f0053_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "phone, wallet, bag on floor, bag near validator",
+   "n_regions": 33,
+   "regions": [
+    {
+     "bbox": [
+      336,
+      1012,
+      604,
+      1080
+     ],
+     "area": 13984,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      796,
+      704,
+      948,
+      944
+     ],
+     "area": 16512,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      568,
+      8,
+      672,
+      144
+     ],
+     "area": 9792,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1664,
+      932,
+      1784,
+      1080
+     ],
+     "area": 9328,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      64,
+      1024,
+      128,
+      1080
+     ],
+     "area": 2864,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1064,
+      392,
+      1224,
+      436
+     ],
+     "area": 5168,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      804,
+      108,
+      892,
+      200
+     ],
+     "area": 5856,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1116,
+      20,
+      1244,
+      312
+     ],
+     "area": 15760,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      992,
+      676,
+      1104,
+      720
+     ],
+     "area": 4240,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      964,
+      416,
+      1040,
+      472
+     ],
+     "area": 3440,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      616,
+      660,
+      688,
+      716
+     ],
+     "area": 3072,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1440,
+      228,
+      1528,
+      584
+     ],
+     "area": 11936,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1416,
+      1008,
+      1516,
+      1080
+     ],
+     "area": 3920,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      908,
+      0,
+      1016,
+      76
+     ],
+     "area": 5840,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      556,
+      444,
+      648,
+      488
+     ],
+     "area": 3616,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1344,
+      684,
+      1448,
+      784
+     ],
+     "area": 5408,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1048,
+      0,
+      1076,
+      112
+     ],
+     "area": 2848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 2992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1404,
+      836,
+      1480,
+      896
+     ],
+     "area": 2624,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      288,
+      436,
+      348,
+      516
+     ],
+     "area": 3472,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1244,
+      856,
+      1336,
+      908
+     ],
+     "area": 2768,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1048,
+      512,
+      1120,
+      540
+     ],
+     "area": 1776,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      500,
+      712,
+      552,
+      748
+     ],
+     "area": 1648,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      280,
+      680,
+      316,
+      732
+     ],
+     "area": 1424,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1520,
+      972,
+      1556,
+      1040
+     ],
+     "area": 1776,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1536,
+      760,
+      1624,
+      836
+     ],
+     "area": 3456,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1276,
+      644,
+      1352,
+      680
+     ],
+     "area": 2256,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1496,
+      628,
+      1584,
+      688
+     ],
+     "area": 3472,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      644,
+      520,
+      680,
+      556
+     ],
+     "area": 1152,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1156,
+      500,
+      1264,
+      532
+     ],
+     "area": 2432,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1180,
+      656,
+      1240,
+      684
+     ],
+     "area": 1536,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      424,
+      532,
+      476,
+      572
+     ],
+     "area": 1536,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1048,
+      980,
+      1072,
+      1012
+     ],
+     "area": 752,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 30,
+    "second": 8,
+    "edge": 4,
+    "total": 42,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 4,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      525,
+      420,
+      670,
+      505
+     ],
+     "note": "phone on left-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      940,
+      405,
+      1060,
+      490
+     ],
+     "note": "wallet on right-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      775,
+      70,
+      915,
+      215
+     ],
+     "note": "backpack on the floor mid-back",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 4,
+   "max_box": 37376,
+   "seconds": 0.32,
+   "error": null
+  },
+  {
+   "id": "real_f0100",
+   "image": "data/anomalies/tram_1762_v2_f0100_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "phone L, wallet, bag on floor, bag near validator",
+   "n_regions": 31,
+   "regions": [
+    {
+     "bbox": [
+      336,
+      1012,
+      592,
+      1080
+     ],
+     "area": 12976,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      564,
+      4,
+      684,
+      160
+     ],
+     "area": 12016,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1668,
+      936,
+      1736,
+      1080
+     ],
+     "area": 7280,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      808,
+      84,
+      892,
+      200
+     ],
+     "area": 6688,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      800,
+      788,
+      892,
+      896
+     ],
+     "area": 5104,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      964,
+      420,
+      1040,
+      472
+     ],
+     "area": 3472,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      916,
+      784,
+      956,
+      856
+     ],
+     "area": 2416,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      444,
+      580,
+      648,
+      704
+     ],
+     "area": 8704,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      284,
+      700,
+      428,
+      760
+     ],
+     "area": 5104,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      304,
+      456,
+      368,
+      516
+     ],
+     "area": 2912,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1008,
+      496,
+      1304,
+      540
+     ],
+     "area": 6992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1420,
+      840,
+      1480,
+      896
+     ],
+     "area": 2656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      172,
+      628,
+      200,
+      676
+     ],
+     "area": 1344,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      316,
+      536,
+      572,
+      580
+     ],
+     "area": 6064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1848,
+      1020,
+      1920,
+      1080
+     ],
+     "area": 2800,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1512,
+      800,
+      1664,
+      848
+     ],
+     "area": 4176,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      400,
+      932,
+      512,
+      964
+     ],
+     "area": 2848,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      124,
+      912,
+      152,
+      956
+     ],
+     "area": 1184,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1732,
+      1052,
+      1788,
+      1080
+     ],
+     "area": 1296,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1328,
+      652,
+      1384,
+      680
+     ],
+     "area": 1392,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1072,
+      972,
+      1104,
+      1040
+     ],
+     "area": 1792,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      388,
+      220,
+      448,
+      252
+     ],
+     "area": 1712,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      52,
+      708,
+      160,
+      736
+     ],
+     "area": 2640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      524,
+      204,
+      576,
+      236
+     ],
+     "area": 1520,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1152,
+      184,
+      1212,
+      208
+     ],
+     "area": 1424,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1512,
+      616,
+      1656,
+      656
+     ],
+     "area": 3744,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      396,
+      444,
+      448,
+      472
+     ],
+     "area": 1360,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      964,
+      144,
+      1024,
+      200
+     ],
+     "area": 2096,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      532,
+      944,
+      580,
+      988
+     ],
+     "area": 1680,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      644,
+      532,
+      672,
+      556
+     ],
+     "area": 672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1096,
+      684,
+      1128,
+      712
+     ],
+     "area": 848,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 28,
+    "second": 8,
+    "edge": 4,
+    "total": 40,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 6,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      285,
+      445,
+      390,
+      540
+     ],
+     "note": "phone on left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      940,
+      405,
+      1060,
+      490
+     ],
+     "note": "wallet on right-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      785,
+      80,
+      910,
+      210
+     ],
+     "note": "backpack on the floor mid-back",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 4,
+   "max_box": 25296,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "real_f0112",
+   "image": "data/anomalies/tram_1762_v2_f0112_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "backpack on floor, phones on seats, bag near validator",
+   "n_regions": 34,
+   "regions": [
+    {
+     "bbox": [
+      1224,
+      572,
+      1668,
+      1032
+     ],
+     "area": 89184,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      112,
+      800,
+      420,
+      1048
+     ],
+     "area": 38624,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      328,
+      1000,
+      616,
+      1080
+     ],
+     "area": 17328,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      504,
+      0,
+      752,
+      168
+     ],
+     "area": 23360,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      904,
+      544,
+      996,
+      704
+     ],
+     "area": 8464,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1644,
+      868,
+      1784,
+      1080
+     ],
+     "area": 14992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      692,
+      428,
+      744,
+      564
+     ],
+     "area": 5392,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      760,
+      0,
+      932,
+      204
+     ],
+     "area": 12368,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      440,
+      576,
+      648,
+      728
+     ],
+     "area": 11872,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1228,
+      444,
+      1328,
+      528
+     ],
+     "area": 5920,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      512,
+      176,
+      676,
+      300
+     ],
+     "area": 8320,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 3056,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1040,
+      680,
+      1136,
+      728
+     ],
+     "area": 3888,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      476,
+      512,
+      672,
+      572
+     ],
+     "area": 6160,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      456,
+      244,
+      508,
+      376
+     ],
+     "area": 4384,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      304,
+      448,
+      384,
+      516
+     ],
+     "area": 3504,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1064,
+      480,
+      1216,
+      536
+     ],
+     "area": 5136,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      404,
+      932,
+      512,
+      964
+     ],
+     "area": 2688,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      396,
+      424,
+      572,
+      476
+     ],
+     "area": 4816,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      640,
+      800,
+      672,
+      940
+     ],
+     "area": 3280,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      300,
+      548,
+      408,
+      580
+     ],
+     "area": 3088,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      992,
+      800,
+      1056,
+      948
+     ],
+     "area": 5072,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      36,
+      980,
+      84,
+      1080
+     ],
+     "area": 3344,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      380,
+      92,
+      448,
+      276
+     ],
+     "area": 5920,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      112,
+      1016,
+      144,
+      1064
+     ],
+     "area": 1392,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      120,
+      416,
+      204,
+      692
+     ],
+     "area": 8480,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1140,
+      180,
+      1240,
+      208
+     ],
+     "area": 2672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1004,
+      176,
+      1116,
+      324
+     ],
+     "area": 5776,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1112,
+      1052,
+      1264,
+      1080
+     ],
+     "area": 3056,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      684,
+      964,
+      708,
+      1012
+     ],
+     "area": 1056,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1252,
+      272,
+      1280,
+      324
+     ],
+     "area": 1264,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      52,
+      764,
+      84,
+      792
+     ],
+     "area": 832,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      380,
+      0,
+      404,
+      32
+     ],
+     "area": 768,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1556,
+      76,
+      1584,
+      100
+     ],
+     "area": 672,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 65,
+    "second": 8,
+    "edge": 4,
+    "total": 77,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 3,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      780,
+      0,
+      915,
+      195
+     ],
+     "note": "backpack on the floor mid-back",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      290,
+      445,
+      390,
+      540
+     ],
+     "note": "phone on left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      1020,
+      650,
+      1120,
+      750
+     ],
+     "note": "phone on right foreground seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 4,
+   "max_box": 204240,
+   "seconds": 0.4,
+   "error": null
+  },
+  {
+   "id": "real_f0205",
+   "image": "data/anomalies/tram_1762_v3_f0205_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "grey jacket draped over right-mid seat, backpack in front-left seat",
+   "n_regions": 32,
+   "regions": [
+    {
+     "bbox": [
+      36,
+      788,
+      548,
+      1080
+     ],
+     "area": 80848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      872,
+      0,
+      1384,
+      584
+     ],
+     "area": 101632,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1568,
+      872,
+      1784,
+      1080
+     ],
+     "area": 22656,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1164,
+      572,
+      1404,
+      712
+     ],
+     "area": 16864,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      512,
+      0,
+      748,
+      280
+     ],
+     "area": 27712,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      416,
+      508,
+      680,
+      604
+     ],
+     "area": 11408,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      396,
+      432,
+      604,
+      476
+     ],
+     "area": 6336,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1384,
+      592,
+      1656,
+      700
+     ],
+     "area": 15008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1840,
+      1012,
+      1920,
+      1080
+     ],
+     "area": 3536,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1500,
+      756,
+      1668,
+      872
+     ],
+     "area": 10064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1632,
+      0,
+      1920,
+      160
+     ],
+     "area": 13968,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1020,
+      936,
+      1088,
+      1008
+     ],
+     "area": 3488,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      504,
+      0,
+      556,
+      132
+     ],
+     "area": 4848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      300,
+      544,
+      412,
+      580
+     ],
+     "area": 3552,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      264,
+      656,
+      428,
+      752
+     ],
+     "area": 6000,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      920,
+      496,
+      964,
+      572
+     ],
+     "area": 2560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      976,
+      728,
+      1028,
+      896
+     ],
+     "area": 4704,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      380,
+      88,
+      452,
+      280
+     ],
+     "area": 6608,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      140,
+      492,
+      204,
+      692
+     ],
+     "area": 6272,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1108,
+      1052,
+      1260,
+      1080
+     ],
+     "area": 3264,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      764,
+      44
+     ],
+     "area": 1584,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1080,
+      676,
+      1140,
+      728
+     ],
+     "area": 2224,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      96,
+      704,
+      172,
+      756
+     ],
+     "area": 2528,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      764,
+      84,
+      816,
+      120
+     ],
+     "area": 1600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      800,
+      0,
+      844,
+      40
+     ],
+     "area": 1472,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      664,
+      396,
+      716,
+      492
+     ],
+     "area": 2944,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1424,
+      244,
+      1488,
+      296
+     ],
+     "area": 1840,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1212,
+      908,
+      1308,
+      940
+     ],
+     "area": 2384,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      844,
+      152,
+      884,
+      176
+     ],
+     "area": 912,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      712,
+      516,
+      736,
+      544
+     ],
+     "area": 672,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      380,
+      0,
+      404,
+      40
+     ],
+     "area": 960,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      628,
+      656,
+      668,
+      680
+     ],
+     "area": 912,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 52,
+    "second": 8,
+    "edge": 4,
+    "total": 64,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 5,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      872,
+      0,
+      1384,
+      584
+     ],
+     "note": "jacket draped over right seats",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      36,
+      788,
+      480,
+      1080
+     ],
+     "note": "backpack in front-left seat",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 2,
+   "max_box": 299008,
+   "seconds": 0.42,
+   "error": null
+  },
+  {
+   "id": "real_f0219",
+   "image": "data/anomalies/tram_1762_v3_f0219_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "note": "jacket + backpack; a real seated person must be rejected",
+   "n_regions": 34,
+   "regions": [
+    {
+     "bbox": [
+      1052,
+      100,
+      1260,
+      488
+     ],
+     "area": 43312,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      716,
+      628,
+      988,
+      948
+     ],
+     "area": 43392,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      76,
+      976,
+      296,
+      1080
+     ],
+     "area": 16848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1228,
+      256,
+      1376,
+      528
+     ],
+     "area": 21856,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      692,
+      432,
+      740,
+      524
+     ],
+     "area": 3920,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      932,
+      584,
+      1228,
+      720
+     ],
+     "area": 17920,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      860,
+      524,
+      960,
+      628
+     ],
+     "area": 7536,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1668,
+      940,
+      1724,
+      1080
+     ],
+     "area": 5616,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      116,
+      876,
+      244,
+      932
+     ],
+     "area": 5536,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      300,
+      524,
+      684,
+      580
+     ],
+     "area": 12096,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      920,
+      484,
+      1216,
+      544
+     ],
+     "area": 9968,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      260,
+      908,
+      356,
+      952
+     ],
+     "area": 2848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1280,
+      644,
+      1384,
+      684
+     ],
+     "area": 3088,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1104,
+      1048,
+      1292,
+      1080
+     ],
+     "area": 3968,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      576,
+      72,
+      752,
+      196
+     ],
+     "area": 7232,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      336,
+      1016,
+      512,
+      1080
+     ],
+     "area": 5392,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      172,
+      620,
+      204,
+      684
+     ],
+     "area": 1872,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      272,
+      704,
+      372,
+      748
+     ],
+     "area": 2928,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1516,
+      800,
+      1664,
+      848
+     ],
+     "area": 3664,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      76,
+      48,
+      112,
+      236
+     ],
+     "area": 4816,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1508,
+      628,
+      1600,
+      660
+     ],
+     "area": 2368,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      396,
+      440,
+      460,
+      476
+     ],
+     "area": 2000,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      532,
+      200,
+      636,
+      236
+     ],
+     "area": 2576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1308,
+      856,
+      1396,
+      900
+     ],
+     "area": 2352,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      380,
+      220,
+      444,
+      248
+     ],
+     "area": 1552,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1728,
+      1048,
+      1788,
+      1080
+     ],
+     "area": 1472,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      296,
+      780,
+      344,
+      824
+     ],
+     "area": 1584,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      732,
+      0,
+      764,
+      32
+     ],
+     "area": 992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      488,
+      440,
+      600,
+      496
+     ],
+     "area": 2976,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      504,
+      712,
+      548,
+      748
+     ],
+     "area": 1280,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      468,
+      272,
+      516,
+      320
+     ],
+     "area": 1680,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      640,
+      892,
+      672,
+      940
+     ],
+     "area": 1392,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      476,
+      340,
+      504,
+      392
+     ],
+     "area": 1040,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      632,
+      752,
+      668,
+      812
+     ],
+     "area": 1472,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 1,
+    "person_veto": 3,
+    "base": 54,
+    "second": 8,
+    "edge": 4,
+    "total": 66,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 3,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      1040,
+      90,
+      1384,
+      540
+     ],
+     "note": "jacket draped over right seats",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      60,
+      930,
+      310,
+      1080
+     ],
+     "note": "backpack in front-left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      615,
+      0,
+      770,
+      80
+     ],
+     "note": "phone on far seat",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 3,
+   "instances_detected": 3,
+   "instances_detected_strict": 2,
+   "max_box": 87040,
+   "seconds": 0.35,
+   "error": null
+  },
+  {
+   "id": "gpt_01_suitcase",
+   "image": "data/anomalies/tram_anomalies_1.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "black suitcase standing in the aisle",
+   "n_regions": 15,
+   "regions": [
+    {
+     "bbox": [
+      712,
+      720,
+      916,
+      876
+     ],
+     "area": 20160,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      740,
+      508,
+      904,
+      628
+     ],
+     "area": 10496,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      796,
+      412,
+      872,
+      472
+     ],
+     "area": 3840,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      772,
+      896,
+      804,
+      940
+     ],
+     "area": 1376,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      700,
+      548,
+      724,
+      584
+     ],
+     "area": 848,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      44
+     ],
+     "area": 1856,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      840,
+      32
+     ],
+     "area": 896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1116,
+      564,
+      1148,
+      596
+     ],
+     "area": 976,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      924,
+      104
+     ],
+     "area": 2400,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      572,
+      48,
+      596,
+      88
+     ],
+     "area": 960,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      636,
+      28,
+      680,
+      104
+     ],
+     "area": 1840,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      444,
+      540,
+      472,
+      564
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1092,
+      404,
+      1112,
+      436
+     ],
+     "area": 640,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      652,
+      528,
+      680,
+      556
+     ],
+     "area": 752,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      724,
+      84,
+      752,
+      108
+     ],
+     "area": 640,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 9,
+    "second": 8,
+    "edge": 1,
+    "total": 18,
+    "capped": false,
+    "before_merge": 18,
+    "merged_away": 3,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      700,
+      405,
+      925,
+      885
+     ],
+     "note": "suitcase in the aisle",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 31824,
+   "seconds": 0.4,
+   "error": null
+  },
+  {
+   "id": "gpt_02_multi",
+   "image": "data/anomalies/tram_anomalies_2.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "backpack, water bottle, paper bag, smartphone",
+   "n_regions": 21,
+   "regions": [
+    {
+     "bbox": [
+      436,
+      304,
+      692,
+      572
+     ],
+     "area": 36800,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      700,
+      868,
+      924,
+      972
+     ],
+     "area": 11744,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      988,
+      724,
+      1072,
+      824
+     ],
+     "area": 4720,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      820,
+      608,
+      944,
+      680
+     ],
+     "area": 5584,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      880,
+      984,
+      904,
+      1012
+     ],
+     "area": 672,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      940,
+      876,
+      964,
+      904
+     ],
+     "area": 672,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      108
+     ],
+     "area": 3584,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      980,
+      460,
+      1068,
+      508
+     ],
+     "area": 2288,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      916,
+      732,
+      968,
+      768
+     ],
+     "area": 1520,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      844,
+      32
+     ],
+     "area": 992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      912,
+      40
+     ],
+     "area": 1072,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1080,
+      280,
+      1108,
+      340
+     ],
+     "area": 1520,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      640,
+      792,
+      672,
+      924
+     ],
+     "area": 2944,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      880,
+      348,
+      928,
+      456
+     ],
+     "area": 2704,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1084,
+      404,
+      1120,
+      444
+     ],
+     "area": 1232,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1116,
+      564,
+      1152,
+      592
+     ],
+     "area": 976,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1232,
+      500,
+      1272,
+      524
+     ],
+     "area": 896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      656,
+      72,
+      680,
+      100
+     ],
+     "area": 672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      892,
+      76,
+      916,
+      100
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1144,
+      504,
+      1172,
+      528
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1640,
+      616,
+      1668,
+      640
+     ],
+     "area": 656,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 16,
+    "second": 8,
+    "edge": 4,
+    "total": 28,
+    "capped": false,
+    "before_merge": 28,
+    "merged_away": 7,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      445,
+      315,
+      655,
+      545
+     ],
+     "note": "backpack on left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      950,
+      450,
+      1070,
+      535
+     ],
+     "note": "water bottle on right seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      810,
+      595,
+      945,
+      765
+     ],
+     "note": "paper shopping bag on floor",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      995,
+      695,
+      1085,
+      775
+     ],
+     "note": "smartphone",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 4,
+   "max_box": 68608,
+   "seconds": 0.5,
+   "error": null
+  },
+  {
+   "id": "gpt_03_faint_tag",
+   "image": "data/anomalies/tram_anomalies_3.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "faint 'XRP' tag on the right seat-pod side panel. GT-FIX 2026-07-12: the box previously pointed at the ventilation grille ~200px left of the tag - every 'XRP unreachable' probe measured the WRONG box. The multi-channel localizer boxes the tag at [1332,536,1412,628] and all judges name it 'XRP graffiti'.",
+   "n_regions": 16,
+   "regions": [
+    {
+     "bbox": [
+      712,
+      748,
+      1012,
+      1052
+     ],
+     "area": 48288,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1332,
+      536,
+      1412,
+      628
+     ],
+     "area": 5696,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      620,
+      720,
+      672,
+      752
+     ],
+     "area": 1568,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      48
+     ],
+     "area": 2064,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      844,
+      32
+     ],
+     "area": 992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1080,
+      284,
+      1104,
+      340
+     ],
+     "area": 1248,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      916,
+      88
+     ],
+     "area": 1600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      972,
+      16,
+      1004,
+      76
+     ],
+     "area": 1472,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1076,
+      408,
+      1108,
+      440
+     ],
+     "area": 928,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      440,
+      536,
+      476,
+      568
+     ],
+     "area": 1056,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      640,
+      884,
+      668,
+      920
+     ],
+     "area": 960,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      816,
+      84,
+      856,
+      112
+     ],
+     "area": 1056,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      880,
+      348,
+      916,
+      408
+     ],
+     "area": 1488,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      648,
+      524,
+      684,
+      556
+     ],
+     "area": 1024,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      656,
+      76,
+      680,
+      100
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      84,
+      752,
+      108
+     ],
+     "area": 640,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 8,
+    "edge": 4,
+    "total": 20,
+    "capped": false,
+    "before_merge": 20,
+    "merged_away": 4,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "graffiti",
+     "bbox": [
+      1310,
+      515,
+      1435,
+      650
+     ],
+     "note": "faint XRP tag on right pod side panel",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 1,
+   "max_box": 91200,
+   "seconds": 0.32,
+   "error": null
+  },
+  {
+   "id": "gpt_04_graffiti",
+   "image": "data/anomalies/tram_anomalies_4.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "large multicolour graffiti covering the right-side wall",
+   "n_regions": 18,
+   "regions": [
+    {
+     "bbox": [
+      1240,
+      0,
+      1920,
+      1080
+     ],
+     "area": 368560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      688,
+      788,
+      964,
+      1044
+     ],
+     "area": 39904,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1224,
+      104,
+      1264,
+      196
+     ],
+     "area": 2864,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      364,
+      60,
+      392,
+      104
+     ],
+     "area": 1200,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1112,
+      552,
+      1152,
+      600
+     ],
+     "area": 1648,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      764,
+      32
+     ],
+     "area": 1072,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      508,
+      0,
+      560,
+      64
+     ],
+     "area": 1792,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      4,
+      840,
+      32
+     ],
+     "area": 784,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      916,
+      36
+     ],
+     "area": 1104,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      888,
+      60,
+      940,
+      148
+     ],
+     "area": 2464,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      816,
+      64,
+      856,
+      112
+     ],
+     "area": 1552,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      648,
+      236,
+      672,
+      288
+     ],
+     "area": 1216,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1092,
+      404,
+      1120,
+      448
+     ],
+     "area": 1088,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      388,
+      0,
+      420,
+      24
+     ],
+     "area": 752,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1144,
+      504,
+      1172,
+      524
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      448,
+      540,
+      472,
+      564
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      668,
+      428,
+      692,
+      452
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      312,
+      60,
+      336,
+      84
+     ],
+     "area": 560,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 10,
+    "second": 8,
+    "edge": 4,
+    "total": 22,
+    "capped": false,
+    "before_merge": 22,
+    "merged_away": 4,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "graffiti",
+     "bbox": [
+      1268,
+      0,
+      1920,
+      920
+     ],
+     "note": "graffiti covering the whole right wall",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 1,
+   "max_box": 734400,
+   "seconds": 0.46,
+   "error": null
+  },
+  {
+   "id": "gpt_05_slash",
+   "image": "data/anomalies/tram_anomalies_5.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "slashed seat cushion on left-mid seat",
+   "n_regions": 16,
+   "regions": [
+    {
+     "bbox": [
+      688,
+      732,
+      1016,
+      1032
+     ],
+     "area": 54688,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      616,
+      720,
+      672,
+      756
+     ],
+     "area": 1840,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      964,
+      640,
+      1032,
+      740
+     ],
+     "area": 3664,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      556,
+      476,
+      616,
+      548
+     ],
+     "area": 2752,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      840,
+      32
+     ],
+     "area": 896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      44
+     ],
+     "area": 1968,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      912,
+      40
+     ],
+     "area": 1056,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      636,
+      16,
+      684,
+      104
+     ],
+     "area": 2432,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1088,
+      404,
+      1112,
+      440
+     ],
+     "area": 864,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      972,
+      16,
+      1000,
+      56
+     ],
+     "area": 1072,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      436,
+      536,
+      476,
+      568
+     ],
+     "area": 1152,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      892,
+      72,
+      920,
+      100
+     ],
+     "area": 752,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      648,
+      520,
+      684,
+      556
+     ],
+     "area": 1168,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      816,
+      68,
+      856,
+      112
+     ],
+     "area": 1376,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1228,
+      500,
+      1280,
+      528
+     ],
+     "area": 1344,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      724,
+      84,
+      748,
+      108
+     ],
+     "area": 560,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 6,
+    "second": 8,
+    "edge": 4,
+    "total": 18,
+    "capped": false,
+    "before_merge": 18,
+    "merged_away": 2,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "damage",
+     "bbox": [
+      470,
+      460,
+      630,
+      570
+     ],
+     "note": "slashed cushion on left-mid seat",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 98400,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "gpt_07_multi",
+   "image": "data/anomalies/tram_anomalies_7.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "backpack, slashed seat, 'HOBO' tag, bottle",
+   "n_regions": 19,
+   "regions": [
+    {
+     "bbox": [
+      640,
+      480,
+      1012,
+      1072
+     ],
+     "area": 110352,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      436,
+      304,
+      692,
+      572
+     ],
+     "area": 42416,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      336,
+      1016,
+      584,
+      1080
+     ],
+     "area": 12464,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1340,
+      428,
+      1444,
+      656
+     ],
+     "area": 13328,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      956,
+      684,
+      1056,
+      744
+     ],
+     "area": 3536,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      620,
+      716,
+      672,
+      764
+     ],
+     "area": 2048,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1080,
+      284,
+      1120,
+      340
+     ],
+     "area": 1792,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      636,
+      16,
+      680,
+      104
+     ],
+     "area": 2608,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      48
+     ],
+     "area": 1968,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1076,
+      404,
+      1120,
+      444
+     ],
+     "area": 1552,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      844,
+      32
+     ],
+     "area": 992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      920,
+      104
+     ],
+     "area": 2384,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      964,
+      116,
+      1008,
+      140
+     ],
+     "area": 1056,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1232,
+      500,
+      1272,
+      528
+     ],
+     "area": 976,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      508,
+      0,
+      560,
+      64
+     ],
+     "area": 1904,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      972,
+      20,
+      996,
+      48
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1036,
+      476,
+      1072,
+      496
+     ],
+     "area": 720,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      84,
+      752,
+      108
+     ],
+     "area": 672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1148,
+      504,
+      1172,
+      528
+     ],
+     "area": 576,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 14,
+    "second": 8,
+    "edge": 4,
+    "total": 26,
+    "capped": false,
+    "before_merge": 26,
+    "merged_away": 7,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      465,
+      295,
+      665,
+      565
+     ],
+     "note": "backpack on left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "damage",
+     "bbox": [
+      1020,
+      460,
+      1190,
+      545
+     ],
+     "note": "slashed right-mid seat",
+     "hit": true,
+     "strict": false
+    },
+    {
+     "type": "graffiti",
+     "bbox": [
+      1330,
+      460,
+      1460,
+      630
+     ],
+     "note": "HOBO tag on right pod",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      720,
+      695,
+      800,
+      785
+     ],
+     "note": "bottle on floor (photometric diff below base thr; recovered by the low-threshold channel)",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 2,
+   "max_box": 220224,
+   "seconds": 0.34,
+   "error": null
+  },
+  {
+   "id": "gpt_08_phone_tag",
+   "image": "data/anomalies/tram_anomalies_8.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "smartphone on right-mid seat, 'ZORK' tag on right pod (tag recovered by the edge channel)",
+   "n_regions": 17,
+   "regions": [
+    {
+     "bbox": [
+      1332,
+      480,
+      1420,
+      616
+     ],
+     "area": 8992,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1140,
+      428,
+      1204,
+      488
+     ],
+     "area": 3600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      980,
+      748,
+      1016,
+      836
+     ],
+     "area": 2464,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      108
+     ],
+     "area": 3168,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1116,
+      552,
+      1156,
+      592
+     ],
+     "area": 1472,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      916,
+      104
+     ],
+     "area": 2176,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      840,
+      32
+     ],
+     "area": 896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1088,
+      400,
+      1112,
+      432
+     ],
+     "area": 768,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1228,
+      496,
+      1324,
+      528
+     ],
+     "area": 2320,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1076,
+      284,
+      1104,
+      336
+     ],
+     "area": 1264,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      60,
+      864,
+      112
+     ],
+     "area": 2000,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      900,
+      412,
+      928,
+      464
+     ],
+     "area": 1360,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      648,
+      520,
+      684,
+      560
+     ],
+     "area": 1264,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      436,
+      536,
+      476,
+      568
+     ],
+     "area": 1136,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      652,
+      72,
+      684,
+      112
+     ],
+     "area": 1152,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      976,
+      24,
+      1000,
+      52
+     ],
+     "area": 656,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      880,
+      380,
+      904,
+      404
+     ],
+     "area": 576,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 10,
+    "second": 8,
+    "edge": 1,
+    "total": 19,
+    "capped": false,
+    "before_merge": 19,
+    "merged_away": 2,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      1135,
+      405,
+      1225,
+      495
+     ],
+     "note": "smartphone on right-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "graffiti",
+     "bbox": [
+      1320,
+      500,
+      1440,
+      610
+     ],
+     "note": "ZORK tag on right pod",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 2,
+   "instances_detected": 2,
+   "instances_detected_strict": 2,
+   "max_box": 11968,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "gpt_09_litter",
+   "image": "data/anomalies/tram_anomalies_9.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "green can + scattered trash on the floor",
+   "n_regions": 17,
+   "regions": [
+    {
+     "bbox": [
+      812,
+      600,
+      892,
+      668
+     ],
+     "area": 4720,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      748,
+      740,
+      808,
+      792
+     ],
+     "area": 2496,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      840,
+      932,
+      896,
+      980
+     ],
+     "area": 2176,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      540,
+      52,
+      568,
+      108
+     ],
+     "area": 1504,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1232,
+      500,
+      1308,
+      528
+     ],
+     "area": 1792,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1128,
+      556,
+      1152,
+      580
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      872,
+      816,
+      912,
+      848
+     ],
+     "area": 1216,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1140,
+      500,
+      1180,
+      528
+     ],
+     "area": 1008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      652,
+      72,
+      684,
+      112
+     ],
+     "area": 1184,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      4,
+      840,
+      32
+     ],
+     "area": 768,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      888,
+      64,
+      964,
+      148
+     ],
+     "area": 2816,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1104,
+      176,
+      1148,
+      232
+     ],
+     "area": 1568,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      736,
+      0,
+      764,
+      32
+     ],
+     "area": 848,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      816,
+      84,
+      860,
+      112
+     ],
+     "area": 1152,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      508,
+      0,
+      560,
+      60
+     ],
+     "area": 1616,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      440,
+      540,
+      472,
+      568
+     ],
+     "area": 832,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      724,
+      896,
+      752,
+      924
+     ],
+     "area": 736,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 8,
+    "edge": 1,
+    "total": 17,
+    "capped": false,
+    "before_merge": 17,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "litter",
+     "bbox": [
+      715,
+      585,
+      915,
+      985
+     ],
+     "note": "can + scattered trash on floor (cluster)",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 6384,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "gpt_10_litter",
+   "image": "data/anomalies/tram_anomalies_10.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "can + crumpled paper on the floor",
+   "n_regions": 17,
+   "regions": [
+    {
+     "bbox": [
+      768,
+      900,
+      804,
+      948
+     ],
+     "area": 1552,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      972,
+      732,
+      1012,
+      868
+     ],
+     "area": 3408,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      44
+     ],
+     "area": 1952,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      860,
+      280,
+      908,
+      320
+     ],
+     "area": 1424,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      840,
+      32
+     ],
+     "area": 896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      820,
+      336,
+      864,
+      376
+     ],
+     "area": 1584,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      888,
+      0,
+      912,
+      28
+     ],
+     "area": 672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      436,
+      536,
+      476,
+      568
+     ],
+     "area": 1136,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      636,
+      16,
+      680,
+      56
+     ],
+     "area": 1248,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      972,
+      16,
+      1000,
+      52
+     ],
+     "area": 960,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      648,
+      524,
+      684,
+      556
+     ],
+     "area": 1040,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      896,
+      72,
+      920,
+      96
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      672,
+      376,
+      712,
+      404
+     ],
+     "area": 1104,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      508,
+      0,
+      560,
+      64
+     ],
+     "area": 1696,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      644,
+      888,
+      668,
+      920
+     ],
+     "area": 752,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      656,
+      76,
+      680,
+      100
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      824,
+      244,
+      848,
+      268
+     ],
+     "area": 576,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 8,
+    "edge": 1,
+    "total": 17,
+    "capped": false,
+    "before_merge": 17,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "litter",
+     "bbox": [
+      680,
+      200,
+      915,
+      350
+     ],
+     "note": "can + trash on floor mid-back (cluster)",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 1,
+   "instances_detected": 1,
+   "instances_detected_strict": 0,
+   "max_box": 5440,
+   "seconds": 0.31,
+   "error": null
+  },
+  {
+   "id": "gpt_11_crowd",
+   "image": "data/anomalies/tram_anomalies_11.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "note": "backpack, slashed seat, 'HOBO' tag, bottle; three real people must be rejected",
+   "n_regions": 27,
+   "regions": [
+    {
+     "bbox": [
+      616,
+      680,
+      1040,
+      1080
+     ],
+     "area": 97008,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      540,
+      0,
+      1008,
+      448
+     ],
+     "area": 84208,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      420,
+      280,
+      700,
+      604
+     ],
+     "area": 51680,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      968,
+      8,
+      1232,
+      448
+     ],
+     "area": 38256,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      676,
+      492,
+      852,
+      668
+     ],
+     "area": 16608,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      336,
+      1016,
+      588,
+      1080
+     ],
+     "area": 12384,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1340,
+      428,
+      1440,
+      656
+     ],
+     "area": 13104,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      380,
+      696,
+      616,
+      824
+     ],
+     "area": 11216,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1024,
+      476,
+      1216,
+      544
+     ],
+     "area": 7200,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1300,
+      680,
+      1380,
+      884
+     ],
+     "area": 7376,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1228,
+      488,
+      1328,
+      528
+     ],
+     "area": 2768,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1252,
+      252,
+      1288,
+      368
+     ],
+     "area": 3312,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      472,
+      636,
+      496,
+      668
+     ],
+     "area": 768,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      908,
+      472,
+      964,
+      540
+     ],
+     "area": 2176,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1508,
+      632,
+      1572,
+      676
+     ],
+     "area": 2032,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1584,
+      804,
+      1664,
+      860
+     ],
+     "area": 2768,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1220,
+      368,
+      1256,
+      492
+     ],
+     "area": 2960,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      80,
+      884,
+      140,
+      928
+     ],
+     "area": 1504,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      504,
+      32,
+      536,
+      64
+     ],
+     "area": 976,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      552,
+      140,
+      580,
+      168
+     ],
+     "area": 752,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1200,
+      656,
+      1240,
+      680
+     ],
+     "area": 944,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      500,
+      220,
+      528,
+      244
+     ],
+     "area": 640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      372,
+      224,
+      396,
+      248
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      928,
+      196,
+      956,
+      220
+     ],
+     "area": 640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1700,
+      968,
+      1724,
+      992
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      180,
+      148,
+      212,
+      176
+     ],
+     "area": 816,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1628,
+      608,
+      1664,
+      640
+     ],
+     "area": 1024,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 4,
+    "person_veto": 4,
+    "base": 28,
+    "second": 8,
+    "edge": 4,
+    "total": 40,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 10,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      430,
+      295,
+      695,
+      565
+     ],
+     "note": "backpack on left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "damage",
+     "bbox": [
+      895,
+      455,
+      1185,
+      545
+     ],
+     "note": "slashed right-mid seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "graffiti",
+     "bbox": [
+      1325,
+      460,
+      1455,
+      630
+     ],
+     "note": "HOBO tag on right pod",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      715,
+      715,
+      805,
+      795
+     ],
+     "note": "bottle on floor (low-threshold channel)",
+     "hit": true,
+     "strict": false
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 3,
+   "max_box": 209664,
+   "seconds": 0.44,
+   "error": null
+  },
+  {
+   "id": "variant_01",
+   "image": "data/anomalies/tram_variant/tram_variant_anomalies.png",
+   "reference": "variant",
+   "source": "variant",
+   "has_anomaly": true,
+   "note": "backpack, 'KEPP' graffiti, torn seat, bottle (variant scene, own reference, 1672x941 space)",
+   "n_regions": 24,
+   "regions": [
+    {
+     "bbox": [
+      900,
+      492,
+      1088,
+      784
+     ],
+     "area": 26064,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      456,
+      728,
+      660,
+      840
+     ],
+     "area": 11456,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      368,
+      600,
+      468,
+      796
+     ],
+     "area": 9424,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1364,
+      304,
+      1464,
+      400
+     ],
+     "area": 6544,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1340,
+      792,
+      1444,
+      868
+     ],
+     "area": 5664,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1108,
+      856,
+      1156,
+      940
+     ],
+     "area": 2704,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1008,
+      140,
+      1044,
+      212
+     ],
+     "area": 2224,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      280,
+      772,
+      364,
+      808
+     ],
+     "area": 2160,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      552,
+      396,
+      720,
+      448
+     ],
+     "area": 4496,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      736,
+      344,
+      804,
+      380
+     ],
+     "area": 1920,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      364,
+      404,
+      436,
+      432
+     ],
+     "area": 1744,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      876,
+      332,
+      984,
+      428
+     ],
+     "area": 5536,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      200,
+      408,
+      304,
+      436
+     ],
+     "area": 2656,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      872,
+      8,
+      896,
+      52
+     ],
+     "area": 1008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1332,
+      76,
+      1408,
+      128
+     ],
+     "area": 2496,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      612,
+      60,
+      648,
+      96
+     ],
+     "area": 1248,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      864,
+      536,
+      888,
+      580
+     ],
+     "area": 1008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      776,
+      424,
+      812,
+      448
+     ],
+     "area": 864,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      852,
+      208,
+      880,
+      280
+     ],
+     "area": 1696,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      292,
+      588,
+      320,
+      620
+     ],
+     "area": 832,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      700,
+      528,
+      724,
+      552
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      896,
+      176,
+      924,
+      212
+     ],
+     "area": 976,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      880,
+      624,
+      904,
+      648
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      828,
+      92,
+      856,
+      116
+     ],
+     "area": 656,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 13,
+    "second": 8,
+    "edge": 4,
+    "total": 25,
+    "capped": false,
+    "before_merge": 25,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      250,
+      585,
+      475,
+      795
+     ],
+     "note": "backpack on left seat",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "graffiti",
+     "bbox": [
+      1355,
+      310,
+      1535,
+      425
+     ],
+     "note": "KEPP graffiti on right panel",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "damage",
+     "bbox": [
+      1315,
+      745,
+      1455,
+      865
+     ],
+     "note": "torn seat on right",
+     "hit": true,
+     "strict": true
+    },
+    {
+     "type": "object",
+     "bbox": [
+      720,
+      330,
+      815,
+      390
+     ],
+     "note": "bottle on floor",
+     "hit": true,
+     "strict": true
+    }
+   ],
+   "instances_total": 4,
+   "instances_detected": 4,
+   "instances_detected_strict": 4,
+   "max_box": 54896,
+   "seconds": 0.29,
+   "error": null
+  },
+  {
+   "id": "neg_real_ref_self",
+   "image": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+   "reference": "real",
+   "source": "self",
+   "has_anomaly": false,
+   "note": "reference vs itself: must yield 0 anomalies",
+   "n_regions": 0,
+   "regions": [],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 0,
+    "second": 0,
+    "edge": 0,
+    "total": 0,
+    "capped": false,
+    "before_merge": 0,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 0,
+   "seconds": 0.24,
+   "error": null
+  },
+  {
+   "id": "neg_variant_ref_self",
+   "image": "data/reference/tram_variant/tram_variant_reference.png",
+   "reference": "variant",
+   "source": "self",
+   "has_anomaly": false,
+   "note": "variant reference vs itself: must yield 0",
+   "n_regions": 0,
+   "regions": [],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 0,
+    "second": 0,
+    "edge": 0,
+    "total": 0,
+    "capped": false,
+    "before_merge": 0,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 0,
+   "seconds": 0.26,
+   "error": null
+  },
+  {
+   "id": "neg_gpt_06_clean",
+   "image": "data/anomalies/tram_anomalies_6.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": false,
+   "note": "clean AI-generated frame: tests robustness to render artifacts",
+   "n_regions": 17,
+   "regions": [
+    {
+     "bbox": [
+      712,
+      676,
+      936,
+      1032
+     ],
+     "area": 45504,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      592,
+      468,
+      652,
+      508
+     ],
+     "area": 2160,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      724,
+      0,
+      776,
+      108
+     ],
+     "area": 3696,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1076,
+      400,
+      1120,
+      452
+     ],
+     "area": 1840,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      884,
+      0,
+      916,
+      40
+     ],
+     "area": 1168,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1076,
+      284,
+      1104,
+      340
+     ],
+     "area": 1488,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1112,
+      552,
+      1156,
+      592
+     ],
+     "area": 1504,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      812,
+      0,
+      844,
+      32
+     ],
+     "area": 992,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      988,
+      800,
+      1012,
+      824
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      816,
+      64,
+      844,
+      112
+     ],
+     "area": 1168,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      972,
+      16,
+      1024,
+      76
+     ],
+     "area": 1904,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      648,
+      524,
+      680,
+      556
+     ],
+     "area": 976,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      672,
+      364,
+      712,
+      408
+     ],
+     "area": 1488,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      896,
+      72,
+      920,
+      96
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      440,
+      536,
+      476,
+      568
+     ],
+     "area": 1024,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      656,
+      76,
+      680,
+      100
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      880,
+      380,
+      904,
+      404
+     ],
+     "area": 576,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 8,
+    "second": 8,
+    "edge": 3,
+    "total": 19,
+    "capped": false,
+    "before_merge": 19,
+    "merged_away": 2,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 79744,
+   "seconds": 0.32,
+   "error": null
+  },
+  {
+   "id": "neg_v1_f0151",
+   "image": "data/masked/tram_1762_v1_f0151_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "empty tram, same session as the reference, camera-aligned",
+   "n_regions": 12,
+   "regions": [
+    {
+     "bbox": [
+      1664,
+      936,
+      1776,
+      1080
+     ],
+     "area": 8064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      76,
+      84,
+      120,
+      248
+     ],
+     "area": 5232,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      388,
+      88,
+      424,
+      236
+     ],
+     "area": 4528,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1576,
+      952,
+      1660,
+      1080
+     ],
+     "area": 5296,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      920,
+      848,
+      968,
+      916
+     ],
+     "area": 2448,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 2976,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      28,
+      708,
+      136,
+      732
+     ],
+     "area": 2320,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1896,
+      120,
+      1920,
+      152
+     ],
+     "area": 752,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      528,
+      0,
+      560,
+      40
+     ],
+     "area": 1072,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      276,
+      720,
+      304,
+      744
+     ],
+     "area": 656,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1632,
+      624,
+      1664,
+      652
+     ],
+     "area": 816,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1648,
+      800,
+      1672,
+      824
+     ],
+     "area": 560,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 4,
+    "second": 5,
+    "edge": 4,
+    "total": 13,
+    "capped": false,
+    "before_merge": 13,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 16128,
+   "seconds": 0.25,
+   "error": null
+  },
+  {
+   "id": "neg_v1_f0181",
+   "image": "data/masked/tram_1762_v1_f0181_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "empty tram, same session, aligned",
+   "n_regions": 8,
+   "regions": [
+    {
+     "bbox": [
+      760,
+      788,
+      944,
+      932
+     ],
+     "area": 12832,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1668,
+      936,
+      1732,
+      1080
+     ],
+     "area": 6640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      856,
+      736,
+      912,
+      792
+     ],
+     "area": 2560,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1020,
+      680,
+      1100,
+      724
+     ],
+     "area": 3136,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      768,
+      744,
+      824,
+      800
+     ],
+     "area": 1968,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 2912,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1732,
+      1052,
+      1780,
+      1080
+     ],
+     "area": 1168,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      648,
+      1024,
+      676,
+      1048
+     ],
+     "area": 672,
+     "channel": "photo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 4,
+    "second": 0,
+    "edge": 4,
+    "total": 8,
+    "capped": false,
+    "before_merge": 8,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 26496,
+   "seconds": 0.25,
+   "error": null
+  },
+  {
+   "id": "neg_v1_f0211",
+   "image": "data/masked/tram_1762_v1_f0211_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "empty tram, same session, aligned",
+   "n_regions": 6,
+   "regions": [
+    {
+     "bbox": [
+      792,
+      812,
+      940,
+      936
+     ],
+     "area": 9312,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1668,
+      936,
+      1780,
+      1080
+     ],
+     "area": 9152,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      736,
+      796,
+      808,
+      852
+     ],
+     "area": 2416,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 2944,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      836,
+      784,
+      868,
+      816
+     ],
+     "area": 992,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1896,
+      120,
+      1920,
+      156
+     ],
+     "area": 784,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 2,
+    "second": 1,
+    "edge": 4,
+    "total": 7,
+    "capped": false,
+    "before_merge": 7,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 18352,
+   "seconds": 0.25,
+   "error": null
+  },
+  {
+   "id": "neg_v1_f0241",
+   "image": "data/masked/tram_1762_v1_f0241_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "empty tram, same session, aligned",
+   "n_regions": 8,
+   "regions": [
+    {
+     "bbox": [
+      1668,
+      932,
+      1780,
+      1080
+     ],
+     "area": 9536,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      864,
+      776,
+      940,
+      932
+     ],
+     "area": 6160,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      796,
+      832,
+      880,
+      920
+     ],
+     "area": 4288,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1136,
+      1032,
+      1376,
+      1080
+     ],
+     "area": 7072,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1592,
+      996,
+      1644,
+      1060
+     ],
+     "area": 2528,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      792,
+      748,
+      860,
+      796
+     ],
+     "area": 2320,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 3024,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1896,
+      120,
+      1920,
+      156
+     ],
+     "area": 768,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 3,
+    "second": 1,
+    "edge": 4,
+    "total": 8,
+    "capped": false,
+    "before_merge": 8,
+    "merged_away": 0,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 16576,
+   "seconds": 0.25,
+   "error": null
+  },
+  {
+   "id": "neg_v2_f0001_person",
+   "image": "data/masked/tram_1762_v2_f0001_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "CROSS-SESSION hard negative: one person walking through holding a phone and a card - nothing abandoned. Tests person rejection (filter + VLM); anything he wears/holds is NOT an anomaly.",
+   "n_regions": 14,
+   "regions": [
+    {
+     "bbox": [
+      1668,
+      932,
+      1784,
+      1080
+     ],
+     "area": 9008,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1168,
+      1032,
+      1376,
+      1080
+     ],
+     "area": 6320,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1436,
+      236,
+      1520,
+      560
+     ],
+     "area": 10720,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1596,
+      996,
+      1628,
+      1040
+     ],
+     "area": 1376,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1484,
+      1060,
+      1540,
+      1080
+     ],
+     "area": 1056,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1848,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 2976,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      444,
+      0,
+      480,
+      48
+     ],
+     "area": 1568,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1408,
+      848,
+      1436,
+      876
+     ],
+     "area": 736,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1064,
+      512,
+      1108,
+      536
+     ],
+     "area": 976,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1464,
+      864,
+      1492,
+      888
+     ],
+     "area": 672,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1896,
+      124,
+      1920,
+      148
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1172,
+      508,
+      1200,
+      532
+     ],
+     "area": 672,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      552,
+      144,
+      576,
+      172
+     ],
+     "area": 656,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      460,
+      76,
+      484,
+      104
+     ],
+     "area": 656,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 1,
+    "person_veto": 6,
+    "base": 7,
+    "second": 5,
+    "edge": 4,
+    "total": 16,
+    "capped": false,
+    "before_merge": 15,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 27216,
+   "seconds": 0.29,
+   "error": null
+  },
+  {
+   "id": "neg_v3_f0001",
+   "image": "data/masked/tram_1762_v3_f0001_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "CROSS-SESSION negative: empty tram, different lighting than the v1 reference (a faint motion-blur ghost on the centre floor).",
+   "n_regions": 27,
+   "regions": [
+    {
+     "bbox": [
+      72,
+      976,
+      308,
+      1080
+     ],
+     "area": 17520,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1664,
+      936,
+      1780,
+      1080
+     ],
+     "area": 9696,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      68,
+      52,
+      124,
+      260
+     ],
+     "area": 7888,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1108,
+      1028,
+      1520,
+      1080
+     ],
+     "area": 12880,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      380,
+      100,
+      460,
+      276
+     ],
+     "area": 7328,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      908,
+      552,
+      956,
+      624
+     ],
+     "area": 2864,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      304,
+      524,
+      680,
+      576
+     ],
+     "area": 9984,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      336,
+      1016,
+      548,
+      1080
+     ],
+     "area": 6944,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      120,
+      876,
+      212,
+      920
+     ],
+     "area": 2896,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1844,
+      1016,
+      1920,
+      1080
+     ],
+     "area": 3136,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      924,
+      492,
+      1324,
+      544
+     ],
+     "area": 10784,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1024,
+      628,
+      1128,
+      660
+     ],
+     "area": 2848,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      912,
+      116,
+      1004,
+      152
+     ],
+     "area": 2640,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      576,
+      124,
+      664,
+      172
+     ],
+     "area": 3200,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      652,
+      84,
+      752,
+      116
+     ],
+     "area": 2768,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      820,
+      76,
+      916,
+      112
+     ],
+     "area": 2752,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1104,
+      540,
+      1168,
+      608
+     ],
+     "area": 2624,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      404,
+      932,
+      512,
+      964
+     ],
+     "area": 2640,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1104,
+      164,
+      1152,
+      220
+     ],
+     "area": 1952,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      932,
+      180,
+      1076,
+      216
+     ],
+     "area": 3360,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      24,
+      704,
+      160,
+      736
+     ],
+     "area": 3360,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1100,
+      912,
+      1136,
+      956
+     ],
+     "area": 1312,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      172,
+      616,
+      204,
+      676
+     ],
+     "area": 1744,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      508,
+      24,
+      536,
+      68
+     ],
+     "area": 1216,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1588,
+      804,
+      1652,
+      832
+     ],
+     "area": 1600,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1096,
+      684,
+      1132,
+      712
+     ],
+     "area": 960,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1484,
+      628,
+      1540,
+      680
+     ],
+     "area": 1744,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 40,
+    "second": 8,
+    "edge": 4,
+    "total": 52,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 10,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 24544,
+   "seconds": 0.3,
+   "error": null
+  },
+  {
+   "id": "neg_v4_f0004",
+   "image": "data/masked/tram_1762_v4_f0004_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "CROSS-SESSION negative: empty tram, markedly DARKER exposure than the reference.",
+   "n_regions": 18,
+   "regions": [
+    {
+     "bbox": [
+      380,
+      0,
+      488,
+      288
+     ],
+     "area": 18624,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      688,
+      440,
+      736,
+      516
+     ],
+     "area": 3152,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1156,
+      0,
+      1204,
+      40
+     ],
+     "area": 1888,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      748,
+      80,
+      848,
+      152
+     ],
+     "area": 4400,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      772,
+      180,
+      812,
+      244
+     ],
+     "area": 1824,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1604,
+      0,
+      1760,
+      68
+     ],
+     "area": 4416,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      804,
+      0,
+      836,
+      32
+     ],
+     "area": 944,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1796,
+      72,
+      1876,
+      124
+     ],
+     "area": 2128,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1424,
+      0,
+      1448,
+      60
+     ],
+     "area": 1440,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1836,
+      980,
+      1920,
+      1080
+     ],
+     "area": 3760,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      72,
+      0,
+      100,
+      24
+     ],
+     "area": 672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      884,
+      76,
+      924,
+      104
+     ],
+     "area": 1024,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      448,
+      1060,
+      488,
+      1080
+     ],
+     "area": 784,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1048,
+      88,
+      1080,
+      120
+     ],
+     "area": 960,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1840,
+      0,
+      1900,
+      28
+     ],
+     "area": 1360,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      660,
+      92,
+      684,
+      116
+     ],
+     "area": 576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      148,
+      0,
+      200,
+      44
+     ],
+     "area": 1488,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      32,
+      20
+     ],
+     "area": 544,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 11,
+    "second": 4,
+    "edge": 4,
+    "total": 19,
+    "capped": false,
+    "before_merge": 19,
+    "merged_away": 1,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 31104,
+   "seconds": 0.58,
+   "error": null
+  },
+  {
+   "id": "neg_v4_f0016",
+   "image": "data/masked/tram_1762_v4_f0016_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "CROSS-SESSION negative: empty tram, brighter exposure; onboard display content differs from the reference (benign state change).",
+   "n_regions": 29,
+   "regions": [
+    {
+     "bbox": [
+      20,
+      268,
+      712,
+      1080
+     ],
+     "area": 263200,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      328,
+      0,
+      848,
+      588
+     ],
+     "area": 171824,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      748,
+      320,
+      1048,
+      1072
+     ],
+     "area": 67760,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1228,
+      444,
+      1476,
+      712
+     ],
+     "area": 35088,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1124,
+      1028,
+      1380,
+      1080
+     ],
+     "area": 8272,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      824,
+      184,
+      980,
+      244
+     ],
+     "area": 7632,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1232,
+      852,
+      1480,
+      936
+     ],
+     "area": 11472,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      988,
+      88,
+      1148,
+      280
+     ],
+     "area": 13728,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1680,
+      940,
+      1724,
+      1020
+     ],
+     "area": 3056,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      196,
+      136
+     ],
+     "area": 10336,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1500,
+      816,
+      1608,
+      876
+     ],
+     "area": 3968,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1088,
+      484,
+      1216,
+      536
+     ],
+     "area": 4288,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1072,
+      672,
+      1152,
+      736
+     ],
+     "area": 2736,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1084,
+      888,
+      1160,
+      980
+     ],
+     "area": 3472,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1872,
+      1024,
+      1920,
+      1080
+     ],
+     "area": 2064,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      392,
+      668,
+      468,
+      728
+     ],
+     "area": 2256,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1496,
+      624,
+      1568,
+      656
+     ],
+     "area": 2032,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      600,
+      852,
+      632,
+      904
+     ],
+     "area": 1392,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1732,
+      1052,
+      1780,
+      1080
+     ],
+     "area": 1184,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      908,
+      100,
+      944,
+      152
+     ],
+     "area": 1616,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      88,
+      164,
+      120,
+      252
+     ],
+     "area": 2064,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1636,
+      0,
+      1920,
+      156
+     ],
+     "area": 11504,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1192,
+      560,
+      1216,
+      624
+     ],
+     "area": 1520,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      636,
+      904,
+      656,
+      932
+     ],
+     "area": 560,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      648,
+      1024,
+      676,
+      1048
+     ],
+     "area": 672,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1076,
+      408,
+      1112,
+      440
+     ],
+     "area": 1104,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1324,
+      720,
+      1356,
+      764
+     ],
+     "area": 1184,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1412,
+      704,
+      1452,
+      752
+     ],
+     "area": 1392,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1604,
+      676,
+      1632,
+      704
+     ],
+     "area": 768,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 32,
+    "second": 7,
+    "edge": 4,
+    "total": 43,
+    "capped": true,
+    "before_merge": 36,
+    "merged_away": 7,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 561904,
+   "seconds": 0.45,
+   "error": null
+  },
+  {
+   "id": "neg_v4_f0022",
+   "image": "data/masked/tram_1762_v4_f0022_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "note": "CROSS-SESSION negative: empty tram, end of the v4 session.",
+   "n_regions": 31,
+   "regions": [
+    {
+     "bbox": [
+      20,
+      276,
+      596,
+      1080
+     ],
+     "area": 216144,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      356,
+      0,
+      764,
+      568
+     ],
+     "area": 122048,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      924,
+      728,
+      1100,
+      1080
+     ],
+     "area": 33600,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1232,
+      432,
+      1476,
+      692
+     ],
+     "area": 33568,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      692,
+      352,
+      908,
+      636
+     ],
+     "area": 29680,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      740,
+      952,
+      940,
+      1056
+     ],
+     "area": 15728,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      512,
+      720,
+      692,
+      944
+     ],
+     "area": 20464,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1124,
+      1028,
+      1380,
+      1080
+     ],
+     "area": 8384,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1152,
+      844,
+      1444,
+      964
+     ],
+     "area": 18080,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      292,
+      472,
+      400,
+      576
+     ],
+     "area": 8464,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      784,
+      140,
+      984,
+      272
+     ],
+     "area": 14816,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      992,
+      96,
+      1140,
+      280
+     ],
+     "area": 10064,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      876,
+      372,
+      960,
+      556
+     ],
+     "area": 6928,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1680,
+      932,
+      1724,
+      1020
+     ],
+     "area": 3344,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1068,
+      888,
+      1160,
+      1080
+     ],
+     "area": 6576,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      760,
+      0,
+      852,
+      140
+     ],
+     "area": 6912,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      640,
+      1008,
+      676,
+      1068
+     ],
+     "area": 1824,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1452,
+      852,
+      1508,
+      904
+     ],
+     "area": 2208,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1312,
+      732,
+      1356,
+      772
+     ],
+     "area": 1616,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1496,
+      620,
+      1660,
+      656
+     ],
+     "area": 4288,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1632,
+      0,
+      1920,
+      152
+     ],
+     "area": 11760,
+     "channel": "edge"
+    },
+    {
+     "bbox": [
+      1856,
+      1020,
+      1920,
+      1080
+     ],
+     "area": 2496,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1092,
+      676,
+      1144,
+      716
+     ],
+     "area": 1696,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1188,
+      612,
+      1268,
+      684
+     ],
+     "area": 3072,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1732,
+      1048,
+      1780,
+      1080
+     ],
+     "area": 1264,
+     "channel": "photo"
+    },
+    {
+     "bbox": [
+      1084,
+      344,
+      1124,
+      392
+     ],
+     "area": 1456,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      964,
+      0,
+      1000,
+      40
+     ],
+     "area": 1328,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      984,
+      44,
+      1048,
+      88
+     ],
+     "area": 1744,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1272,
+      344,
+      1312,
+      388
+     ],
+     "area": 1200,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      144,
+      0,
+      208,
+      32
+     ],
+     "area": 1376,
+     "channel": "photo_lo"
+    },
+    {
+     "bbox": [
+      1380,
+      388,
+      1404,
+      412
+     ],
+     "area": 576,
+     "channel": "photo_lo"
+    }
+   ],
+   "localization": {
+    "persons": 0,
+    "person_veto": 0,
+    "base": 37,
+    "second": 8,
+    "edge": 4,
+    "total": 49,
+    "capped": true,
+    "before_merge": 37,
+    "merged_away": 6,
+    "localizer": "photo"
+   },
+   "instances": [],
+   "instances_total": 0,
+   "instances_detected": 0,
+   "instances_detected_strict": 0,
+   "max_box": 463104,
+   "seconds": 0.45,
+   "error": null
+  }
+ ]
+}

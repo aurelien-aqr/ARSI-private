@@ -110,6 +110,44 @@ def test_save_writes_backup_and_rejects_invalid(tmp_path, monkeypatch):
     assert list((tmp_path / ".backups").glob("copy-*.json"))
 
 
+def test_a_stray_non_dict_case_is_a_validation_error_not_a_crash():
+    """A hand-edited file with a null or a string in `cases` must produce the
+    error the API can report, not an AttributeError that 500s the whole screen."""
+    errors, _ = B.validate({"references": REFS, "cases": ["oops", None]})
+    assert len(errors) == 2 and all("must be an object" in e for e in errors)
+
+
+def test_legacy_file_keeps_its_dataset_id(tmp_path, monkeypatch):
+    """A pre-2026-08-17 ground_truth_39T.json picked up by the fallback is still
+    the `39T` dataset. Returning its file stem instead made every save-by-id
+    write a NEW dataset next to the one being edited."""
+    _, doc = B.load("39T")
+    monkeypatch.setattr(B, "DATASETS_DIR", tmp_path)          # canonical: empty
+    legacy = tmp_path / "legacy" / "ground_truth_39T.json"
+    legacy.parent.mkdir()
+    legacy.write_text(B.dumps(doc), encoding="utf-8")
+    monkeypatch.setattr(B, "LEGACY_PATHS", {"39T": legacy})
+
+    assert B.load("39T")[0] == "39T"
+    assert B.summary(*B.load("39T"))["n_cases"] == 21
+
+
+def test_dumps_keeps_header_keys_it_does_not_know_about():
+    _, doc = B.load("39T")
+    doc["provenance"] = {"built_by": "someone else"}
+    assert json.loads(B.dumps(doc))["provenance"] == {"built_by": "someone else"}
+
+
+def test_backups_of_two_saves_in_the_same_second_both_survive(tmp_path, monkeypatch):
+    _, doc = B.load("39T")
+    monkeypatch.setattr(B, "DATASETS_DIR", tmp_path)
+    monkeypatch.setattr(B, "BACKUPS_DIR", tmp_path / ".backups")
+    B.save("copy", doc)
+    B.save("copy", doc)
+    B.save("copy", doc)
+    assert len(list((tmp_path / ".backups").glob("copy-*.json"))) == 2
+
+
 def test_summary_counts_the_39T_protocol():
     ds_id, doc = B.load("39T")
     s = B.summary(ds_id, doc)
@@ -194,14 +232,21 @@ def test_score_case_frame_outcomes():
     assert B.score_case(clean, _frame([]))["outcome"] == "TN"
 
 
-def test_failed_frame_is_not_counted_as_a_prediction():
+@pytest.mark.parametrize("status", ["failed", "cancelled"])
+def test_incomplete_frame_is_not_counted_as_a_prediction(status):
     """A crashed frame must not be scored as 'predicted clean' — that would turn
-    infrastructure failures into recall."""
-    case = {"id": "a", "has_anomaly": True, "instances": []}
-    score = B.score_full([case], [_frame([], status="failed", anomaly=None,
+    infrastructure failures into recall. `cancelled` counts as incomplete too:
+    the runner builds that status for a frame stopped part-way through its
+    regions, so its instances were never judged either."""
+    case = {"id": "a", "has_anomaly": True,
+            "instances": [{"type": "object", "bbox": [0, 0, 10, 10]}]}
+    score = B.score_full([case], [_frame([], status=status, anomaly=None,
                                          error="boom")])
     assert score["cases"][0]["outcome"] == "ERR"
     assert score["frame"]["n"] == 0 and score["frame"]["n_failed"] == 1
+    # and out of the object level too: an unjudged instance is not a miss
+    assert score["objects"]["inst_total"] == 0
+    assert score["n_scored"] == 0
 
 
 def test_lenient_and_strict_instance_matching_differ():

@@ -1,0 +1,25 @@
+{
+ "run_id": "20260817-141732-ful",
+ "dataset": "tram1762",
+ "digest": "c0cd1ba792e8",
+ "created": "2026-08-17T12:17:32+00:00",
+ "status": "completed",
+ "job_id": "20260817-141732-eec772",
+ "progress": {
+  "done": 29,
+  "total": 29
+ },
+ "wall_seconds": 58.5,
+ "config": {
+  "mode": "full",
+  "script": "vlm_05",
+  "localizer": "photo+dino",
+  "model": "haervwe/GLM-4.6V-Flash-9B:latest",
+  "prompt": null,
+  "prompt_name": "conservative",
+  "n_cases": 29,
+  "subset": false
+ },
+ "params": {},
+ "frozen": true
+}

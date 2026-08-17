@@ -325,8 +325,66 @@ def test_bad_run_requests(bench, payload, code):
     assert client.post("/api/benchmarks/runs", json=payload).status_code == code
 
 
-def test_full_run_model_missing_is_409(bench):
+def test_full_run_model_missing_is_409_and_leaves_no_phantom_run(bench):
+    """The refused submission must not leave a run row stuck at "queued" with no
+    job behind it — nothing could stop such a row, only delete it."""
     client, _ = bench(models=("something-else",))
     r = client.post("/api/benchmarks/runs", json={
         "dataset": "demo", "mode": "full", "model": "qwen3-vl:8b-instruct"})
     assert r.status_code == 409
+    assert client.get("/api/benchmarks/runs").json()["runs"] == []
+
+
+def test_two_runs_started_in_the_same_second_get_their_own_directory(bench):
+    client, _ = bench()
+    ids = {client.post("/api/benchmarks/runs",
+                       json={"dataset": "demo", "mode": "localize"}).json()["run_id"]
+           for _ in range(3)}
+    assert len(ids) == 3
+    for run_id in ids:
+        wait_run(client, run_id)
+
+
+def test_a_dataset_with_an_unusable_case_is_a_400_not_a_500(bench):
+    """`validate` only runs on save, so a hand-edited file can reach the runner
+    with a case naming a reference that does not exist."""
+    client, _ = bench()
+    _, doc = benchmarks.load("demo")
+    doc["cases"][0]["reference"] = "ghost_cam"
+    # bypass save()'s validation the way an external editor would
+    benchmarks.dataset_path("demo").write_text(benchmarks.dumps(doc), encoding="utf-8")
+    r = client.post("/api/benchmarks/runs", json={"dataset": "demo", "mode": "localize"})
+    assert r.status_code == 400
+    assert "reference" in r.json()["detail"]
+
+
+def test_a_queued_run_advertises_no_score(bench):
+    """An all-zero score is a measurement claim. Until a case is judged there is
+    none, and the runs table must say so."""
+    client, _ = bench([CLEAN_CROP] * 40)
+    r = client.post("/api/benchmarks/runs", json={
+        "dataset": "demo", "mode": "full", "model": "qwen3-vl:8b-instruct"})
+    run_id = r.json()["run_id"]
+    row = next(x for x in client.get("/api/benchmarks/runs").json()["runs"]
+               if x["run_id"] == run_id)
+    if row["progress"]["done"] == 0:          # the worker may already have started
+        assert row["headline"] is None
+    wait_run(client, run_id)
+    assert client.get("/api/benchmarks/runs").json()["runs"][0]["headline"] is not None
+
+
+def test_a_full_run_whose_job_vanished_stops_saying_running(bench):
+    """Otherwise the frontend polls a run that can never move again."""
+    client, _ = bench([CLEAN_CROP] * 40)
+    r = client.post("/api/benchmarks/runs", json={
+        "dataset": "demo", "mode": "full", "model": "qwen3-vl:8b-instruct"})
+    run_id, job_id = r.json()["run_id"], r.json()["job_id"]
+    wait_run(client, run_id)
+    # forget the job entirely, as a server restart + a deleted job dir would
+    run = bench_runs.load_run(run_id)
+    run.update(status="running", frozen=False)
+    bench_runs.save_run(run)
+    backend.manager.jobs.pop(job_id, None)
+    client.delete(f"/api/jobs/{job_id}")
+    assert client.get(f"/api/benchmarks/runs/{run_id}").json()["run"]["status"] \
+        == "interrupted"

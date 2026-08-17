@@ -25,9 +25,11 @@ measured, and say that the dataset moved on — `stale` in the run summary.
 import json
 import queue
 import re
+import shutil
 import threading
 import time
 import traceback
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -98,7 +100,21 @@ def list_run_ids():
 # ------------------------------------------------------------------ launching
 
 def _select_cases(doc: dict, case_ids):
+    """The cases to run, with the two structural preconditions checked here.
+
+    A dataset is only validated on save and on `summary`, so a hand-edited or
+    externally built file can reach this point with a case that has no `id` or
+    names a reference key that does not exist. Both used to surface as a KeyError
+    (a 500); they are the caller's problem to fix, so they are BenchErrors."""
     cases = doc.get("cases") or []
+    refs = doc.get("references") or {}
+    bad = [c.get("id") or "(no id)" for c in cases
+           if not isinstance(c, dict) or not c.get("id")
+           or c.get("reference") not in refs]
+    if bad:
+        raise BenchError(f"the dataset has {len(bad)} unusable case(s) "
+                         f"({', '.join(map(str, bad[:3]))}) — each case needs an "
+                         f"'id' and a 'reference' that is a key of 'references'")
     if case_ids:
         wanted = list(dict.fromkeys(case_ids))
         by_id = {c["id"]: c for c in cases}
@@ -135,7 +151,11 @@ def create(payload: dict, submit_job, gpu: bool = True) -> dict:
         raise BenchError("localization-only scoring is a vlm_05 measurement "
                          "(it scores the region proposer, which only vlm_05 has)")
 
-    run_id = time.strftime("%Y%m%d-%H%M%S") + "-" + mode[:3]
+    # timestamp + random suffix, like a job_id: two runs of the same mode started
+    # in the same second (two tabs, a double POST, a scripted A/B) would otherwise
+    # share a directory and one would score against the other's snapshot
+    run_id = (time.strftime("%Y%m%d-%H%M%S") + "-" + mode[:3]
+              + "-" + uuid.uuid4().hex[:4])
     run = {
         "run_id": run_id, "dataset": ds_id, "digest": benchmarks.digest(doc),
         "created": _now(), "status": "queued", "job_id": None,
@@ -157,25 +177,36 @@ def create(payload: dict, submit_job, gpu: bool = True) -> dict:
     save_run(run)
 
     if mode == "full":
-        cfg = JobConfig(
-            script=script,
-            frames=[str(benchmarks.REPO_ROOT / c["image"]) for c in cases],
-            frame_references=[str(benchmarks.REPO_ROOT / refs[c["reference"]])
-                              for c in cases],
-            model=run["config"]["model"], prompt=run["config"]["prompt"],
-            prompt_name=run["config"]["prompt_name"],
-            localizer=localizer if script == "vlm_05" else None,
-            params=run["params"],
-            bench={"run_id": run_id, "dataset": ds_id})
-        # The benchmark images are already masked (each was written through its
-        # own camera's mask), so no mask is applied here — doing it twice would
-        # change the verdict-cache key and throw away 4642 cached verdicts.
-        run["job_id"] = submit_job(cfg)
-        run["status"] = "running"
-        save_run(run)
+        # If the submission is refused (model not installed, Ollama down) the
+        # caller gets that error — but the run directory must not survive as a row
+        # stuck at "queued" with no job behind it, which nothing could then stop.
+        try:
+            _submit_full(run, cases, refs, script, localizer, ds_id, submit_job)
+        except Exception:
+            shutil.rmtree(run_dir(run_id), ignore_errors=True)
+            raise
     else:
         LOCALIZE_WORKER.submit(run_id)
     return run
+
+
+def _submit_full(run, cases, refs, script, localizer, ds_id, submit_job):
+    cfg = JobConfig(
+        script=script,
+        frames=[str(benchmarks.REPO_ROOT / c["image"]) for c in cases],
+        frame_references=[str(benchmarks.REPO_ROOT / refs[c["reference"]])
+                          for c in cases],
+        model=run["config"]["model"], prompt=run["config"]["prompt"],
+        prompt_name=run["config"]["prompt_name"],
+        localizer=localizer if script == "vlm_05" else None,
+        params=run["params"],
+        bench={"run_id": run["run_id"], "dataset": ds_id})
+    # The benchmark images are already masked (each was written through its own
+    # camera's mask), so no mask is applied here — doing it twice would change the
+    # verdict-cache key and throw away 4642 cached verdicts.
+    run["job_id"] = submit_job(cfg)
+    run["status"] = "running"
+    save_run(run)
 
 
 # ------------------------------------------------- localization-only execution
@@ -294,7 +325,7 @@ def _freeze(run: dict, score: dict):
     return score
 
 
-def state(run_id: str, job_data=None, job_status=None) -> dict:
+def state(run_id: str, job_data=None, job_status=None, job_error=None) -> dict:
     """Everything the UI needs about one run: the run record, its live status and
     its score. `job_data` is the results.json of the backing job (full mode) —
     passed in so this module needs no import of the job manager.
@@ -308,13 +339,20 @@ def state(run_id: str, job_data=None, job_status=None) -> dict:
     score = _read_json(run_dir(run_id) / "score.json")
 
     if mode == "full" and not run.get("frozen"):
-        if job_status:
-            run["status"] = job_status
+        # No status and no results means nothing is working on this job and
+        # nothing was saved either (server restarted, job deleted). Reporting the
+        # stored "running" would leave the UI polling a run that can never move.
+        run["status"] = job_status or ("interrupted" if run.get("job_id")
+                                      else run["status"])
+        if job_error:
+            run["error"] = job_error
         frames = (job_data or {}).get("frames") or []
         run["progress"] = {"done": len(frames), "total": len(cases)}
         if job_data and job_data.get("summary"):
             run["wall_seconds"] = job_data["summary"].get("wall_seconds", 0.0)
-        score = benchmarks.score_full(cases, frames)
+        # No frame judged yet -> no score at all, rather than an all-zero one: a
+        # queued run advertising "frame F1 0.000" reads as a measurement.
+        score = benchmarks.score_full(cases, frames) if frames else None
         if run["status"] in ("completed", "failed", "cancelled", "interrupted"):
             run["frozen"] = bool(frames)
             if frames:
@@ -337,9 +375,9 @@ def _is_stale(run: dict) -> bool:
     return benchmarks.digest(doc) != run.get("digest")
 
 
-def summarize(run_id: str, job_data=None, job_status=None) -> dict:
+def summarize(run_id: str, job_data=None, job_status=None, job_error=None) -> dict:
     """One row of the runs table."""
-    st = state(run_id, job_data, job_status)
+    st = state(run_id, job_data, job_status, job_error)
     run, score = st["run"], st["score"]
     return {**{k: run[k] for k in ("run_id", "dataset", "status", "progress",
                                    "created", "job_id", "wall_seconds")},

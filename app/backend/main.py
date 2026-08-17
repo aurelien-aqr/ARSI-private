@@ -676,10 +676,10 @@ def benchmarks_index():
 # declaration order, so "runs" would otherwise be read as a dataset id.
 
 def _bench_job_view(run: dict):
-    """(results.json, live status) of the job backing a full-mode run."""
+    """(results.json, live status, error) of the job backing a full-mode run."""
     job_id = run.get("job_id")
     if not job_id:
-        return None, None
+        return None, None, None
     live = manager.get(job_id)
     data = load_saved(job_id)
     if data is None and live and live.result:
@@ -687,7 +687,9 @@ def _bench_job_view(run: dict):
     status = live.status if live else None
     if status is None and data and data.get("status") in ("running", "queued"):
         status = "interrupted"          # same rule as jobs_index
-    return data, status
+    # a job that failed before its first frame has its reason only on the live
+    # object; without this the score view says "failed" and explains nothing
+    return data, status, (live.error if live else None)
 
 
 @app.get("/api/benchmarks/runs")
@@ -696,8 +698,8 @@ def bench_runs_index():
     for run_id in bench_runs.list_run_ids():
         try:
             run = bench_runs.load_run(run_id)
-            data, status = _bench_job_view(run)
-            out.append(bench_runs.summarize(run_id, data, status))
+            data, status, err = _bench_job_view(run)
+            out.append(bench_runs.summarize(run_id, data, status, err))
         except bench_runs.BenchError:
             continue
     return {"runs": out}
@@ -732,8 +734,8 @@ def create_bench_run(payload: dict):
 def bench_run_detail(run_id: str):
     try:
         run = bench_runs.load_run(run_id)
-        data, status = _bench_job_view(run)
-        st = bench_runs.state(run_id, data, status)
+        data, status, err = _bench_job_view(run)
+        st = bench_runs.state(run_id, data, status, err)
     except bench_runs.BenchError as exc:
         raise HTTPException(404, str(exc))
     refs = st.pop("references", {})
