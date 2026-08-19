@@ -1,0 +1,1192 @@
+{
+ "job_id": "20260715-103346-104cfd",
+ "updated": "2026-07-20T11:25:42+00:00",
+ "frames": {
+  "f0000": {
+   "verdicts": {},
+   "missed": [],
+   "done": true
+  },
+  "f0050": {
+   "verdicts": {},
+   "missed": [
+    {
+     "bbox": [
+      971,
+      419,
+      1034,
+      462
+     ],
+     "label": "wallet",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0100": {
+   "verdicts": {},
+   "missed": [
+    {
+     "bbox": [
+      969,
+      415,
+      1034,
+      466
+     ],
+     "label": "wallet",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0150": {
+   "verdicts": {},
+   "missed": [
+    {
+     "bbox": [
+      971,
+      419,
+      1032,
+      467
+     ],
+     "label": "wallet",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0200": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0250": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0300": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0350": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0400": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "fp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0450": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      967,
+      428,
+      1036,
+      467
+     ],
+     "label": "wallet",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0600": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      573,
+      50,
+      660,
+      142
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0650": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      579,
+      47,
+      662,
+      147
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0700": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      564,
+      50,
+      658,
+      144
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0750": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0800": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0850": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0900": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      572,
+      47,
+      662,
+      138
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0950": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      904,
+      29,
+      1001,
+      122
+     ],
+     "label": "backpack",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      566,
+      31,
+      654,
+      149
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1000": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      566,
+      54,
+      671,
+      131
+     ],
+     "label": "bqckpqck",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1200": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp",
+    "2": "tp",
+    "3": "tp",
+    "4": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      573,
+      36,
+      656,
+      146
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1250": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp",
+    "2": "tp",
+    "3": "tp",
+    "4": "fp",
+    "5": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      572,
+      41,
+      654,
+      137
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1300": {
+   "verdicts": {
+    "0": "fp",
+    "1": "tp",
+    "2": "fp",
+    "3": "fp",
+    "4": "tp",
+    "5": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      577,
+      47,
+      667,
+      135
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1350": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      570,
+      50,
+      660,
+      140
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1400": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      564,
+      43,
+      656,
+      135
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1450": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      577,
+      49,
+      654,
+      151
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1500": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      573,
+      47,
+      669,
+      138
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1550": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      572,
+      38,
+      660,
+      144
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1600": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp",
+    "4": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      568,
+      49,
+      656,
+      146
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1650": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      570,
+      36,
+      662,
+      146
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1700": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      579,
+      38,
+      658,
+      133
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1750": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f1800": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f1850": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f1900": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f1950": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f2000": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      575,
+      45,
+      662,
+      140
+     ],
+     "label": "bacpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1050": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      552,
+      446,
+      649,
+      491
+     ],
+     "label": "phone",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      575,
+      34,
+      665,
+      137
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1100": {
+   "verdicts": {
+    "0": "fp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      550,
+      439,
+      644,
+      484
+     ],
+     "label": "phone",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      582,
+      38,
+      660,
+      142
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f1150": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      550,
+      448,
+      653,
+      487
+     ],
+     "label": "phone",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      568,
+      45,
+      656,
+      138
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2050": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f2100": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      575,
+      38,
+      662,
+      146
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2150": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      570,
+      41,
+      662,
+      140
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2250": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      302,
+      449,
+      361,
+      511
+     ],
+     "label": "phone",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      572,
+      43,
+      663,
+      146
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2300": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp",
+    "2": "fp",
+    "3": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      304,
+      453,
+      370,
+      509
+     ],
+     "label": "phone",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      563,
+      41,
+      662,
+      155
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2350": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp",
+    "4": "fp",
+    "5": "fp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f2400": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      586,
+      56,
+      660,
+      140
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2450": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      572,
+      34,
+      662,
+      133
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2500": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp",
+    "4": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f0500": {
+   "verdicts": {},
+   "missed": [
+    {
+     "bbox": [
+      974,
+      421,
+      1036,
+      471
+     ],
+     "label": "wallet",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      554,
+      448,
+      645,
+      476
+     ],
+     "label": "phone",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f0550": {
+   "verdicts": {
+    "0": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      913,
+      22,
+      996,
+      122
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f3550": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f2800": {
+   "verdicts": {
+    "0": "fp",
+    "1": "fp",
+    "2": "tp",
+    "3": "tp",
+    "4": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      572,
+      40,
+      665,
+      135
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2850": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f2900": {
+   "verdicts": {
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f2950": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "4": "tp",
+    "5": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f3000": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp",
+    "2": "tp",
+    "3": "tp",
+    "4": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      568,
+      41,
+      665,
+      153
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f3050": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp",
+    "4": "fp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f3100": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp",
+    "4": "fp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f3150": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f3200": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f3250": {
+   "verdicts": {
+    "0": "tp",
+    "2": "tp",
+    "3": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f3300": {
+   "verdicts": {
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f3350": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp",
+    "4": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f3400": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f3500": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f2750": {
+   "verdicts": {
+    "0": "fp",
+    "1": "tp",
+    "2": "fp",
+    "3": "tp",
+    "4": "fp",
+    "5": "tp",
+    "6": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f3450": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp",
+    "2": "tp",
+    "3": "tp",
+    "4": "tp"
+   },
+   "missed": [],
+   "done": false
+  },
+  "f2200": {
+   "verdicts": {},
+   "missed": [
+    {
+     "bbox": [
+      807,
+      86,
+      899,
+      191
+     ],
+     "label": "backpack",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      306,
+      437,
+      352,
+      502
+     ],
+     "label": "phone",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2700": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      813,
+      90,
+      893,
+      191
+     ],
+     "label": "backpack",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      307,
+      442,
+      370,
+      516
+     ],
+     "label": "phone",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2550": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      579,
+      45,
+      654,
+      137
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2600": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      572,
+      41,
+      662,
+      142
+     ],
+     "label": "backpack",
+     "type": "object"
+    }
+   ],
+   "done": true
+  },
+  "f2650": {
+   "verdicts": {
+    "0": "fp",
+    "1": "tp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      573,
+      43,
+      662,
+      140
+     ],
+     "label": "backpack",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      1041,
+      674,
+      1109,
+      717
+     ],
+     "label": "wallet",
+     "type": "object"
+    }
+   ],
+   "done": true
+  }
+ }
+}
