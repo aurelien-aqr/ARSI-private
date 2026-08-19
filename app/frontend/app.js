@@ -40,7 +40,7 @@ const S = {
   pulling: null, pullPct: 0, pullStatus: "",
   toast: null,
   docPipe: null,          // pipeline key whose "how it works" modal is open
-  hist: { script: "all", model: "all", localizer: "all" },  // history-view filters
+  hist: { script: "all", model: "all", localizer: "all", kind: "all" },  // history-view filters
   wiz: {
     step: 1, source: null, demoSel: [],
     video: null, extracting: false, extractMode: "seconds", extractN: 2,
@@ -590,7 +590,7 @@ ACT.exportLabelme = () => {
 /* "How it works" modal. Opening it must NOT also select the pipeline: the
    button carries its own data-act, and the click delegate resolves the CLOSEST
    [data-act] ancestor, so the button wins over the card it sits in. */
-ACT.histReset = () => { S.hist = { script: "all", model: "all", localizer: "all" }; render(); };
+ACT.histReset = () => { S.hist = { script: "all", model: "all", localizer: "all", kind: "all" }; render(); };
 
 ACT.showPipeDoc = (k) => { S.docPipe = k; render(); };
 ACT.closePipeDoc = () => { S.docPipe = null; render(); };
@@ -1566,6 +1566,7 @@ const CHANGE = {
   histScript: v => { S.hist.script = v; render(); },
   histModel: v => { S.hist.model = v; render(); },
   histLocalizer: v => { S.hist.localizer = v; render(); },
+  histKind: v => { S.hist.kind = v; render(); },
   compareJob: (v, el) => ACT.setCompareJob(el.dataset.slot, v),
   ollamaUrl: v => ACT.saveOllamaUrl(v),
   revLabel: v => { S.rev.pendingLabel = v; },
@@ -2839,9 +2840,18 @@ function compareView(tabs, gallery, sel, selIdx) {
    which is what makes a job from before the picker filterable as photo instead of
    dropping out of every localizer choice. Pipelines with no localization stage
    have no value, so picking a localizer narrows to vlm_05 by construction. */
-const HIST_KEYS = ["script", "model", "localizer"];
+const HIST_KEYS = ["script", "model", "localizer", "kind"];
+/* "kind" is not a config field but a reading of one: a job submitted by the
+   Benchmark screen carries config.bench = {run_id, dataset}, an ordinary run
+   does not. History lists both - a benchmark job IS a real run, and Results is
+   how you look at what the judge answered on a given case - so they are badged
+   and filterable rather than hidden. The reverse asymmetry is deliberate: an
+   ordinary run has no ground truth, so it has nothing to score and never
+   appears on the Benchmark screen. */
 function histValue(cfg, key) {
-  return key === "localizer" ? locName(cfg) : ((cfg || {})[key] || "");
+  if (key === "localizer") return locName(cfg);
+  if (key === "kind") return (cfg || {}).bench ? "benchmark" : "normal";
+  return (cfg || {})[key] || "";
 }
 function histMatch(j, except) {
   const c = j.config || {};
@@ -2871,7 +2881,19 @@ function histOptions(key, label) {
    (which model was faster, which one failed frames), so the numbers that used to
    sit in a side panel are columns here. The side panel was also unreachable -
    clicking a row navigates away, so its selection could never be changed. */
-const HIST_COLS = "1.9fr 1.5fr 0.7fr 0.8fr 0.7fr 0.8fr 1fr 0.5fr";
+const HIST_COLS = "2.4fr 1.3fr 0.6fr 0.8fr 0.6fr 0.7fr 0.9fr 0.5fr";
+
+/* Marks a job the Benchmark screen submitted, and names the dataset it scored -
+   without it a benchmark run is indistinguishable from an ordinary one here,
+   which is how History came to show 56 jobs for 55 real runs. */
+function benchChip(cfg) {
+  const b = (cfg || {}).bench;
+  if (!b) return "";
+  return ` · <span title="Scored against the ${esc(b.dataset || "")} dataset"`
+       + ` style="color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2};`
+       + ` padding:1px 6px; border-radius:6px; font-size:10px;">bench`
+       + `${b.dataset ? " · " + esc(b.dataset) : ""}</span>`;
+}
 
 function historyRow(j) {
   const m = statusMeta(j.status);
@@ -2885,7 +2907,7 @@ function historyRow(j) {
   <div class="hoverable" data-act="openJob" data-arg="${esc(j.job_id)}" style="display:grid; grid-template-columns:${HIST_COLS}; gap:8px; padding:13px 16px; border-top:1px solid oklch(0.24 0.01 250); align-items:center; font-size:13px; cursor:pointer;">
     <div style="min-width:0;">
       <div style="font-family:${C.mono}; color:oklch(0.9 0.006 250); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(j.job_id)}</div>
-      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${locChip(cfg)}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}</div>
+      <div style="font-size:11px; color:${C.fg4}; margin-top:2px;">${esc(cfg.script || "")}${locChip(cfg)}${cfg.prompt_name ? " · " + esc(cfg.prompt_name) : ""}${benchChip(cfg)}</div>
     </div>
     <span title="${esc(cfg.model || "")}" style="font-family:${C.mono}; font-size:11.5px; color:${C.fg2}; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${esc(cfg.model || "-")}</span>
     ${num(s.n_frames ?? cfg.n_frames ?? "-", C.fg2)}
@@ -2913,6 +2935,7 @@ function historyView() {
         <select data-change="histScript" style="${selStyle} width:auto; min-width:170px;">${histOptions("script", "scripts")}</select>
         <select data-change="histModel" style="${selStyle} width:auto; min-width:230px;">${histOptions("model", "models")}</select>
         <select data-change="histLocalizer" title="vlm_05 only - the other pipelines have no localization stage" style="${selStyle} width:auto; min-width:170px;">${histOptions("localizer", "localizers")}</select>
+        <select data-change="histKind" title="Benchmark jobs are runs the Benchmark screen submitted against a labelled dataset" style="${selStyle} width:auto; min-width:150px;">${histOptions("kind", "runs")}</select>
         ${filtered ? `<button data-act="histReset" style="font-size:11px; color:${C.accFg}; background:${C.accBg}; border:1px solid ${C.accBd2}; padding:5px 10px; border-radius:7px; cursor:pointer;">Clear filters</button>` : ""}
       </div>
       <div style="border:1px solid ${C.bd}; border-radius:11px; overflow:hidden; background:${C.bgCard};">
