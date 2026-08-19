@@ -1,0 +1,6197 @@
+{
+ "job_id": "20260714-162358-9cb5e8",
+ "config": {
+  "script": "vlm_04",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "default",
+  "prompt": "Is this a personal object a passenger might have forgotten\n(phone, wallet, bag)? Answer YES or NO, then name the object in 2-3 words.",
+  "reference": null,
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/_job_1784037394398.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  }
+ },
+ "started": "2026-07-14T14:23:58+00:00",
+ "finished": "2026-07-14T14:27:10+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 9.54,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      891,
+      220,
+      916,
+      261
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.68,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      738,
+      317,
+      776,
+      386
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.394,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      55
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.285,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      891,
+      218,
+      936,
+      261
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.076,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.031,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [891.4271850585938, 219.58644104003906, 915.5247802734375, 261.10723876953125] -> YES phone\ncell phone [738.4824829101562, 317.0032653808594, 776.2109985351562, 385.9437561035156] -> YES phone\ncell phone [616.2493286132812, 15.14018440246582, 641.59375, 55.46551513671875] -> YES phone\nwallet [891.3381958007812, 217.6806640625, 935.9247436523438, 261.36981201171875] -> YES wallet\nhandbag [557.5921630859375, 75.43743896484375, 600.3155517578125, 151.5962677001953] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.69,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      428,
+      1033,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.525,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      54
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.387,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      556,
+      75,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.063,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      472,
+      649,
+      972,
+      1079
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.056,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      870,
+      189,
+      1332,
+      721
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.038,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.7218017578125, 428.45440673828125, 1033.203125, 461.57257080078125] -> YES wallet\ncell phone [615.616455078125, 14.42142105102539, 641.8405151367188, 54.261924743652344] -> YES phone\nhandbag [556.010009765625, 74.51058197021484, 600.9010620117188, 150.99273681640625] -> YES phone\nbackpack [472.4241943359375, 649.213134765625, 972.1875, 1079.306884765625] -> YES wallet\nsuitcase [869.8214111328125, 189.29823303222656, 1332.2093505859375, 721.4458618164062] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.691,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      617,
+      14,
+      643,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.397,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      470,
+      579,
+      942,
+      1080
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.042,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.036,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.8873901367188, 430.83160400390625, 1033.57958984375, 462.15216064453125] -> YES wallet\ncell phone [617.4545288085938, 14.32628059387207, 643.2994995117188, 63.59410095214844] -> YES phone\nbackpack [469.7061767578125, 578.9515380859375, 941.7108154296875, 1079.56005859375] -> YES wallet\nhandbag [557.947509765625, 75.93294525146484, 600.208984375, 152.34524536132812] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.8,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      977,
+      431,
+      1033,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.712,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      642,
+      56
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.366,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      931,
+      549,
+      994,
+      654
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.037,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      392,
+      618,
+      1221,
+      1080
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [976.7301635742188, 430.9589538574219, 1033.315185546875, 462.3679504394531] -> YES wallet\ncell phone [615.3081665039062, 14.230819702148438, 642.2378540039062, 56.39292526245117] -> YES phone\ncell phone [931.3101196289062, 549.42333984375, 993.6242065429688, 653.7702026367188] -> YES wallet\nbackpack [391.56646728515625, 617.9130859375, 1221.178955078125, 1080.0] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.02,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.562,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      643,
+      56
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.156,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [975.4110717773438, 430.66900634765625, 1033.68115234375, 462.3188781738281] -> YES wallet\ncell phone [615.6953735351562, 14.302350997924805, 642.69970703125, 55.66725540161133] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 0.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.699,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.0333251953125, 430.949462890625, 1033.6351318359375, 462.5999755859375] -> YES wallet\nhandbag [554.095458984375, 76.1572265625, 601.222412109375, 151.7694854736328] -> NO handrail",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.1,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      974,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.558,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      575,
+      51,
+      639,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.236,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      542,
+      75,
+      603,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.183,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      640,
+      0,
+      752,
+      79
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.133,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      643,
+      55
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.122,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      562,
+      68,
+      605,
+      153
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.054,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      538,
+      90,
+      573,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.034,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      565,
+      63,
+      631,
+      154
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.033,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      641,
+      0,
+      692,
+      79
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.026,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.4971923828125, 431.1224670410156, 1033.66845703125, 462.2231140136719] -> YES wallet\nbackpack [575.003662109375, 51.196678161621094, 638.52197265625, 133.88912963867188] -> YES phone\nhandbag [542.2850341796875, 75.31514739990234, 602.8687744140625, 152.22805786132812] -> YES phone\nbackpack [639.5318603515625, 0.0, 751.9073486328125, 79.15525817871094] -> YES backpack\ncell phone [615.6751098632812, 14.24197769165039, 643.4529418945312, 55.22126007080078] -> YES phone\nhandbag [562.45556640625, 68.1082763671875, 605.360107421875, 153.21112060546875] -> YES phone\nhandbag [537.8146362304688, 89.50634765625, 573.1007080078125, 151.27166748046875] -> YES phone\nhandbag [564.6760864257812, 63.46592330932617, 630.87353515625, 153.57864379882812] -> YES backpack\nhandbag [640.5192260742188, 0.41626453399658203, 692.455810546875, 78.56607055664062] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.625,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.176,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      722,
+      66,
+      736,
+      93
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.095,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      785,
+      37,
+      805,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.067,
+     "channel": null
+    },
+    {
+     "label": "yellow bag",
+     "type": "object",
+     "bbox": [
+      583,
+      55,
+      650,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.044,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      588,
+      0,
+      732,
+      136
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.037,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      683,
+      129,
+      710,
+      169
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.034,
+     "channel": null
+    },
+    {
+     "label": "orange jacket",
+     "type": "object",
+     "bbox": [
+      581,
+      0,
+      646,
+      144
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.022,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.866943359375, 431.1895751953125, 1033.5078125, 462.3402099609375] -> YES wallet\nhandbag [558.2620849609375, 75.43233489990234, 601.0865478515625, 151.96817016601562] -> YES phone\ncell phone [722.15771484375, 66.1859130859375, 736.078125, 93.18719482421875] -> YES phone\nhandbag [784.7528686523438, 36.70414352416992, 804.6824340820312, 63.30527114868164] -> YES phone\nbackpack [582.830078125, 55.08714294433594, 650.22998046875, 132.46127319335938] -> YES yellow bag\nbackpack [588.2080078125, 0.0, 731.5023193359375, 135.6887969970703] -> YES wallet\nwallet [683.0177612304688, 129.02362060546875, 710.43701171875, 168.7498779296875] -> YES wallet\nbackpack [581.2623901367188, 0.0, 645.5059814453125, 144.49745178222656] -> YES orange jacket",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.3,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.712,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      868,
+      246,
+      888,
+      288
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.309,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      614,
+      13,
+      643,
+      69
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.306,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.067,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      581,
+      9,
+      661,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.026,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.171875, 431.0171813964844, 1033.6873779296875, 462.3582458496094] -> YES wallet\ncell phone [868.3658447265625, 246.08248901367188, 887.8848876953125, 287.7902526855469] -> YES phone\ncell phone [614.3828125, 13.295608520507812, 643.1162109375, 69.29058837890625] -> YES phone\nhandbag [557.8951416015625, 74.95712280273438, 600.8553466796875, 151.6689453125] -> YES phone\nbackpack [580.982177734375, 8.516258239746094, 661.1791381835938, 135.14419555664062] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.633,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      32,
+      987,
+      118
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.319,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      643,
+      55
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.158,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      1380,
+      807,
+      1917,
+      1079
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.071,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      598,
+      153
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.058,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      909,
+      0,
+      942,
+      52
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.054,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      888,
+      0,
+      942,
+      94
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.051,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      1577,
+      860,
+      1917,
+      1079
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.028,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.1578369140625, 431.08428955078125, 1033.7794189453125, 462.17926025390625] -> YES wallet\nhandbag [913.8831787109375, 32.065067291259766, 986.980712890625, 117.58341979980469] -> YES backpack\ncell phone [615.906005859375, 13.657796859741211, 642.5382080078125, 55.495201110839844] -> YES phone\nlaptop [1380.267822265625, 807.325927734375, 1917.187744140625, 1078.9112548828125] -> YES phone\nhandbag [557.6958618164062, 75.1776351928711, 597.8102416992188, 153.02548217773438] -> YES phone\nhandbag [908.5831298828125, 0.0, 942.498291015625, 51.79507827758789] -> YES backpack\nhandbag [888.1378784179688, 0.0, 941.7723999023438, 94.03897094726562] -> YES backpack\nlaptop [1576.6080322265625, 859.8649291992188, 1917.3145751953125, 1078.864990234375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.542,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      644,
+      70
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.174,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      581,
+      15,
+      659,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.127,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.095,
+     "channel": null
+    },
+    {
+     "label": "laptop",
+     "type": "object",
+     "bbox": [
+      583,
+      53,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.032,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      531,
+      1,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.031,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [975.235107421875, 430.8328857421875, 1033.799560546875, 462.0428466796875] -> YES wallet\ncell phone [614.887451171875, 13.581976890563965, 643.5661010742188, 70.37321472167969] -> YES phone\nbackpack [581.334716796875, 15.193519592285156, 659.2030639648438, 134.7597198486328] -> YES backpack\nhandbag [557.47119140625, 74.85116577148438, 600.6829833984375, 151.25872802734375] -> YES phone\nbackpack [582.9603881835938, 52.96165466308594, 645.7537841796875, 133.034423828125] -> YES laptop\nhandbag [531.4000244140625, 0.5665168762207031, 600.053955078125, 151.90835571289062] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.0,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      31,
+      986,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.553,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      1000,
+      432,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.259,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [913.7528686523438, 30.55312728881836, 986.3259887695312, 116.33786010742188] -> YES backpack\ncell phone [999.8258056640625, 431.74200439453125, 1033.664306640625, 462.730224609375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.43,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      32,
+      985,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.464,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.423,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      552,
+      75,
+      602,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [914.34228515625, 31.93334197998047, 984.8580322265625, 116.45855712890625] -> YES backpack\nwallet [975.3748168945312, 431.06488037109375, 1033.663818359375, 461.80224609375] -> YES wallet\nhandbag [551.8018188476562, 75.32279205322266, 601.8097534179688, 151.60377502441406] -> YES backpack",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.547,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      31,
+      985,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.53,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.133,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      77,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.044,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.170654296875, 430.96435546875, 1033.7003173828125, 462.2139587402344] -> YES wallet\nbackpack [914.0604858398438, 31.233718872070312, 985.4811401367188, 116.30087280273438] -> YES backpack\ncell phone [616.439697265625, 14.523822784423828, 641.4044189453125, 61.78740692138672] -> YES backpack\nhandbag [557.92333984375, 76.76959228515625, 600.884033203125, 151.444580078125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      32,
+      986,
+      117
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.511,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.287,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      56
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.07,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      583,
+      54,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.055,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.051,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      582,
+      24,
+      659,
+      140
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [913.8448486328125, 31.56644058227539, 985.8656005859375, 116.53825378417969] -> YES backpack\nwallet [974.9110107421875, 430.8930358886719, 1033.6787109375, 462.2950744628906] -> YES wallet\ncell phone [615.9829711914062, 14.139730453491211, 642.1925048828125, 55.87558364868164] -> YES phone\nbackpack [583.145263671875, 53.88376235961914, 646.1470947265625, 133.17440795898438] -> YES backpack\nhandbag [558.2272338867188, 76.05618286132812, 601.1309814453125, 151.50381469726562] -> YES backpack\nbackpack [581.8897094726562, 23.96982192993164, 658.8792724609375, 140.34957885742188] -> YES backpack",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.22,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      31,
+      987,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.507,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.476,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      16,
+      642,
+      54
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.135,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      55,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.057,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      77,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.057,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      566,
+      453,
+      639,
+      479
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.034,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      582,
+      20,
+      657,
+      138
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.03,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [913.5146484375, 31.321636199951172, 987.0714111328125, 116.24024963378906] -> YES backpack\nwallet [975.1534423828125, 431.0122375488281, 1033.6475830078125, 462.4155578613281] -> YES wallet\ncell phone [616.4240112304688, 15.52119255065918, 641.539794921875, 54.47150421142578] -> YES phone\nbackpack [582.5506591796875, 54.75135040283203, 645.8511962890625, 132.68588256835938] -> YES phone\nhandbag [557.954833984375, 76.69558715820312, 601.0428466796875, 152.0461883544922] -> YES phone\ncell phone [566.0827026367188, 453.00244140625, 639.374755859375, 478.66632080078125] -> YES phone\nbackpack [581.8052978515625, 19.652389526367188, 657.398681640625, 137.7406005859375] -> YES backpack",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.76,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.461,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      30,
+      988,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.42,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      644,
+      67
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.114,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      56,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.084,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      77,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.062,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      568,
+      452,
+      640,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.052,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.1717529296875, 431.102783203125, 1034.1829833984375, 462.4024658203125] -> YES wallet\nbackpack [913.78564453125, 30.358989715576172, 988.390869140625, 115.78463745117188] -> YES backpack\ncell phone [615.6666870117188, 14.181418418884277, 643.59033203125, 67.48208618164062] -> YES phone\nbackpack [582.7139892578125, 55.901424407958984, 645.8157958984375, 132.9240264892578] -> YES phone\nhandbag [558.1258544921875, 76.62269592285156, 601.033935546875, 150.92520141601562] -> YES phone\ncell phone [567.82666015625, 452.4939880371094, 639.84765625, 478.3464660644531] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.31,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      913,
+      33,
+      988,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.388,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.382,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      16,
+      641,
+      56
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.12,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.034,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      566,
+      453,
+      639,
+      479
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.02,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [913.431884765625, 32.577205657958984, 988.048828125, 116.47510528564453] -> YES backpack\nwallet [974.981689453125, 431.0804443359375, 1033.8475341796875, 462.498779296875] -> YES wallet\ncell phone [615.8994140625, 15.670812606811523, 641.493408203125, 55.627838134765625] -> YES phone\nhandbag [558.1422119140625, 76.13872528076172, 601.0135498046875, 151.1271514892578] -> YES backpack\ncell phone [566.3148193359375, 452.980224609375, 638.5616455078125, 478.58660888671875] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.32,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.567,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      15,
+      642,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.521,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      32,
+      986,
+      116
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.49,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      541,
+      75,
+      603,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.049,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      565,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.026,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.0078735351562, 430.8952331542969, 1033.700439453125, 462.5391540527344] -> YES wallet\ncell phone [615.3770141601562, 15.2493896484375, 642.4454956054688, 63.83415985107422] -> YES phone\nbackpack [914.1298828125, 31.791332244873047, 985.998779296875, 116.18147277832031] -> YES backpack\nhandbag [541.3289794921875, 75.46405792236328, 602.7273559570312, 151.56900024414062] -> YES phone\ncell phone [565.4114990234375, 452.350341796875, 638.8147583007812, 478.2843017578125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 6.04,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.812,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      912,
+      32,
+      985,
+      118
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.45,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      936,
+      107,
+      1006,
+      142
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.2,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      712,
+      69,
+      906,
+      308
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.159,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.108,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      54
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.091,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.079,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      937,
+      110,
+      1007,
+      164
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.046,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      582,
+      55,
+      645,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.043,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      582,
+      23,
+      659,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.04,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      965,
+      133,
+      999,
+      161
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.027,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      983,
+      139,
+      999,
+      156
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      950,
+      125,
+      1001,
+      168
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.022,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.7901611328125, 430.95220947265625, 1033.7486572265625, 463.095947265625] -> YES wallet\nbackpack [912.2817993164062, 31.796619415283203, 984.5509643554688, 118.00027465820312] -> YES backpack\ncell phone [936.08056640625, 106.91590118408203, 1005.5775146484375, 141.72561645507812] -> YES backpack\nbackpack [711.5679931640625, 68.86491394042969, 906.1646118164062, 308.0140686035156] -> YES phone\nhandbag [558.2788696289062, 75.8393783569336, 600.8402099609375, 151.11676025390625] -> YES phone\ncell phone [615.578369140625, 14.671943664550781, 642.3331298828125, 54.412227630615234] -> YES phone\ncell phone [566.9267578125, 451.80926513671875, 638.6837768554688, 477.908203125] -> YES phone\ncell phone [936.6123046875, 109.92512512207031, 1007.2721557617188, 164.4400634765625] -> YES backpack\nbackpack [582.3971557617188, 54.99752426147461, 645.264404296875, 132.77781677246094] -> YES phone\nbackpack [581.791259765625, 23.34048843383789, 658.5538330078125, 135.3326416015625] -> YES phone\ncell phone [964.54443359375, 133.21371459960938, 998.8995361328125, 160.82958984375] -> YES phone\ncell phone [982.7156982421875, 139.0633544921875, 999.0673828125, 155.72509765625] -> YES phone\ncell phone [949.5650634765625, 125.44061279296875, 1000.67333984375, 167.72360229492188] -> YES bag",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.33,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.73,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.118,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      582,
+      55,
+      646,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.078,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      547,
+      75,
+      602,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.056,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      640,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.045,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.7456665039062, 431.2503662109375, 1033.684814453125, 462.9046325683594] -> YES wallet\ncell phone [615.8533935546875, 14.753643035888672, 642.30517578125, 62.28207778930664] -> YES phone\nbackpack [582.0142822265625, 54.70176315307617, 645.5115966796875, 132.1207733154297] -> YES phone\nhandbag [546.567626953125, 74.57256317138672, 601.8319702148438, 152.1285400390625] -> YES phone\ncell phone [567.3191528320312, 452.21270751953125, 639.5423583984375, 478.101318359375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      974,
+      431,
+      1033,
+      464
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.674,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      808,
+      85,
+      868,
+      187
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.256,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.187,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      54,
+      645,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.056,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      814,
+      84,
+      901,
+      194
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.039,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      453,
+      640,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.037,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      74,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.032,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.3983154296875, 431.0321960449219, 1033.251708984375, 463.5409240722656] -> YES wallet\nbackpack [808.1445922851562, 84.73299407958984, 868.0361938476562, 187.40411376953125] -> YES bag\ncell phone [616.1697998046875, 14.531621932983398, 641.7881469726562, 62.555938720703125] -> YES phone\nbackpack [584.0952758789062, 54.29216766357422, 645.0371704101562, 133.18325805664062] -> YES phone\nhandbag [814.2542724609375, 83.98420715332031, 900.7840576171875, 194.40560913085938] -> YES bag\ncell phone [566.7804565429688, 452.6743469238281, 639.9523315429688, 478.1763610839844] -> YES phone\nhandbag [557.3611450195312, 74.4886474609375, 599.765625, 152.06654357910156] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1033,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.527,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      103,
+      885,
+      193
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.481,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.157,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      56,
+      649,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.147,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      818,
+      103,
+      846,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.046,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      453,
+      640,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.045,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      871,
+      164,
+      886,
+      184
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.043,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.041,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.8935546875, 431.1847229003906, 1033.451171875, 462.5708312988281] -> YES wallet\nbackpack [817.8099365234375, 103.47228240966797, 885.2840576171875, 192.87254333496094] -> YES backpack\ncell phone [615.7913818359375, 14.764749526977539, 641.8428955078125, 63.595603942871094] -> YES phone\nbackpack [584.2501220703125, 55.70833969116211, 648.6797485351562, 132.8501739501953] -> YES phone\nhandbag [817.6953735351562, 103.43879699707031, 845.5786743164062, 189.10302734375] -> YES bag\ncell phone [567.38720703125, 452.9264831542969, 639.5667724609375, 478.3779602050781] -> YES phone\nhandbag [871.3665161132812, 164.22010803222656, 885.6926879882812, 184.08078002929688] -> YES wallet\nhandbag [557.260498046875, 74.77385711669922, 599.884033203125, 151.4033660888672] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.767,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      643,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.226,
+     "channel": null
+    },
+    {
+     "label": "handrail",
+     "type": "object",
+     "bbox": [
+      971,
+      106,
+      1004,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.108,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.072,
+     "channel": null
+    },
+    {
+     "label": "handbag",
+     "type": "object",
+     "bbox": [
+      920,
+      104,
+      1006,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.056,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      674,
+      32,
+      861,
+      327
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.022,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.01904296875, 431.091796875, 1033.5216064453125, 462.60516357421875] -> YES wallet\ncell phone [615.4677734375, 13.61129379272461, 642.7666015625, 64.05064392089844] -> YES phone\ncell phone [970.858154296875, 106.045654296875, 1003.9405517578125, 133.11244201660156] -> YES handrail\nbackpack [581.6751708984375, 13.379035949707031, 648.9422607421875, 137.2001495361328] -> NO no specific object identified as likely forgotten.\nhandbag [556.5111083984375, 74.64241790771484, 600.033203125, 151.610107421875] -> YES phone\ncell phone [919.5638427734375, 103.9357681274414, 1006.0465087890625, 134.49310302734375] -> YES handbag\nbackpack [674.2967529296875, 31.8087158203125, 860.6640625, 327.01611328125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.32,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      99,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.602,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1033,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.531,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      12,
+      643,
+      66
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.159,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      56,
+      648,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.069,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      554,
+      73,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.038,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.7640380859375, 99.46659851074219, 884.8599243164062, 188.95513916015625] -> YES backpack\nwallet [975.2005004882812, 431.1081848144531, 1033.4937744140625, 461.6853332519531] -> YES wallet\ncell phone [615.6651000976562, 12.418144226074219, 643.46435546875, 65.61990356445312] -> YES phone\nbackpack [584.595458984375, 56.139976501464844, 647.7415771484375, 133.38711547851562] -> YES phone\nhandbag [553.5309448242188, 72.86622619628906, 601.3610229492188, 151.99826049804688] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      99,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.625,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.33,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      643,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.113,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.028,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      56,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.026,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      568,
+      453,
+      640,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.4580688476562, 99.3896713256836, 885.0635375976562, 189.72177124023438] -> YES backpack\nwallet [974.6350708007812, 430.9263610839844, 1033.84375, 462.4966735839844] -> YES wallet\ncell phone [615.8984375, 14.29226303100586, 642.9622192382812, 63.57410430908203] -> YES phone\nhandbag [556.953125, 74.83877563476562, 599.8538818359375, 152.25672912597656] -> YES phone\nbackpack [584.9613037109375, 55.88862609863281, 647.2973022460938, 133.0269775390625] -> YES phone\ncell phone [567.656005859375, 453.1191101074219, 639.675537109375, 477.96697998046875] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.33,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      188
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.635,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1033,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.568,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      614,
+      13,
+      644,
+      70
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.295,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      56,
+      647,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.13,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.094,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.660888671875, 100.020263671875, 885.399169921875, 188.36734008789062] -> YES backpack\nwallet [974.8494873046875, 430.8355407714844, 1033.0125732421875, 462.3017578125] -> YES wallet\ncell phone [614.2846069335938, 13.404247283935547, 644.1443481445312, 69.99026489257812] -> YES phone\nbackpack [583.6204833984375, 55.790313720703125, 646.7808837890625, 133.74786376953125] -> YES phone\nhandbag [558.3567504882812, 76.2674331665039, 600.71875, 151.64111328125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.66,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      974,
+      431,
+      1033,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.607,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.606,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      643,
+      69
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.108,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.105,
+     "channel": null
+    },
+    {
+     "label": "orange bag",
+     "type": "object",
+     "bbox": [
+      583,
+      55,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.042,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      582,
+      27,
+      659,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      617,
+      15,
+      640,
+      51
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      565,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.024,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.3353271484375, 430.99993896484375, 1033.4447021484375, 462.411865234375] -> YES wallet\nbackpack [818.78662109375, 100.28459930419922, 885.037109375, 188.89739990234375] -> YES backpack\ncell phone [615.9805297851562, 14.255367279052734, 643.3613891601562, 69.30235290527344] -> YES phone\nhandbag [558.35791015625, 75.60179901123047, 600.6524658203125, 151.5750274658203] -> YES wallet\nbackpack [583.2642822265625, 55.23196792602539, 646.20751953125, 132.8777313232422] -> YES orange bag\nbackpack [582.0806884765625, 27.4017333984375, 659.0575561523438, 134.43447875976562] -> YES backpack\ncell phone [616.5115356445312, 15.479925155639648, 639.7857055664062, 51.209739685058594] -> YES phone\ncell phone [565.0593872070312, 452.43402099609375, 638.56982421875, 478.41796875] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.62,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.513,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      56,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.164,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      559,
+      76,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.089,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      13,
+      643,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.085,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      565,
+      452,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.036,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.54443359375, 99.66254425048828, 885.1080322265625, 189.04928588867188] -> YES backpack\nwallet [974.770751953125, 431.0087585449219, 1033.776123046875, 461.9193420410156] -> YES wallet\nbackpack [583.4192504882812, 56.483001708984375, 646.6629638671875, 133.24917602539062] -> YES phone\nhandbag [558.8751220703125, 76.34356689453125, 601.0022583007812, 151.71200561523438] -> YES phone\ncell phone [615.9302978515625, 13.293783187866211, 643.245361328125, 63.91565704345703] -> YES phone\ncell phone [565.314208984375, 452.10931396484375, 638.2054443359375, 478.2933349609375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      99,
+      885,
+      188
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.692,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.48,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      13,
+      643,
+      61
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.12,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      559,
+      76,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.105,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      583,
+      56,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.052,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      582,
+      28,
+      658,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.03,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      565,
+      452,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.023,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.8159790039062, 99.39868927001953, 884.9349975585938, 188.351806640625] -> YES backpack\nwallet [974.5565185546875, 430.91119384765625, 1034.0460205078125, 462.1595458984375] -> YES wallet\ncell phone [615.2802124023438, 13.356090545654297, 642.986083984375, 61.05698776245117] -> YES phone\nhandbag [558.8915405273438, 76.30963897705078, 600.9349365234375, 151.4461669921875] -> YES backpack\nbackpack [583.4899291992188, 56.16958236694336, 646.1807861328125, 133.37939453125] -> YES backpack\nbackpack [581.9337158203125, 27.68353271484375, 658.0821533203125, 135.48065185546875] -> YES phone\ncell phone [565.4219970703125, 452.46112060546875, 638.2886962890625, 478.3219299316406] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.683,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.384,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      559,
+      76,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.127,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      644,
+      69
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.075,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      56,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.033,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      566,
+      452,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [819.1732177734375, 99.74221801757812, 885.1937255859375, 188.6414794921875] -> YES backpack\nwallet [974.5603637695312, 430.76824951171875, 1033.968994140625, 462.2379455566406] -> YES wallet\nhandbag [558.9141845703125, 76.07431030273438, 600.9705810546875, 151.69854736328125] -> YES phone\ncell phone [614.9971923828125, 13.568206787109375, 644.0235595703125, 69.19627380371094] -> YES phone\nbackpack [583.2775268554688, 56.26396179199219, 645.6915893554688, 132.7100372314453] -> YES phone\ncell phone [566.3597412109375, 452.3701171875, 638.4044189453125, 478.292724609375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.32,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.714,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.469,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      642,
+      57
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.1,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.067,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      453,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.045,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.93701171875, 99.85894775390625, 885.3088989257812, 188.711181640625] -> YES backpack\nwallet [974.707275390625, 430.8249206542969, 1033.791259765625, 462.2734680175781] -> YES wallet\ncell phone [615.367919921875, 14.436103820800781, 642.2813720703125, 56.83228302001953] -> YES phone\nhandbag [558.2344970703125, 76.10407257080078, 600.7135620117188, 151.43568420410156] -> YES phone\ncell phone [566.814208984375, 452.7497863769531, 638.0703735351562, 478.1382751464844] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.647,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.608,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      543,
+      74,
+      602,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.098,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      644,
+      69
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.045,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.037,
+     "channel": null
+    },
+    {
+     "label": "laptop",
+     "type": "object",
+     "bbox": [
+      582,
+      54,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.3648071289062, 99.80554962158203, 885.4290161132812, 188.7062530517578] -> YES backpack\nwallet [975.3297729492188, 431.010498046875, 1033.7861328125, 462.61944580078125] -> YES wallet\nhandbag [542.8859252929688, 73.87053680419922, 602.3322143554688, 152.21075439453125] -> YES phone\ncell phone [615.29638671875, 14.11208724975586, 643.70751953125, 69.30736541748047] -> YES phone\ncell phone [567.282958984375, 452.38897705078125, 638.999755859375, 478.4820556640625] -> YES phone\nbackpack [581.8773193359375, 54.135223388671875, 646.562744140625, 133.18235778808594] -> YES laptop",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.647,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.599,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.141,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      581,
+      21,
+      659,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.081,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      583,
+      54,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.079,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      453,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.063,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      76,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.06,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [819.0397338867188, 99.800537109375, 885.4246215820312, 188.94529724121094] -> YES backpack\nwallet [975.3173217773438, 430.7981872558594, 1033.77587890625, 461.9373779296875] -> YES wallet\ncell phone [616.0280151367188, 14.93386459350586, 641.3212890625, 61.574134826660156] -> YES phone\nbackpack [581.2021484375, 20.899612426757812, 658.5892333984375, 134.93365478515625] -> YES phone\nbackpack [582.7670288085938, 53.61338424682617, 646.35498046875, 132.59686279296875] -> YES backpack\ncell phone [567.428955078125, 452.59716796875, 638.6182861328125, 477.63922119140625] -> YES phone\nhandbag [558.3055419921875, 75.65699768066406, 600.7337646484375, 150.83145141601562] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.72,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.514,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      643,
+      65
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.311,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      560,
+      74,
+      602,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.047,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      453,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.032,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      54,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.4290771484375, 100.1865005493164, 885.0364379882812, 188.69003295898438] -> YES backpack\nwallet [975.2136840820312, 430.76043701171875, 1033.82861328125, 462.49664306640625] -> YES wallet\ncell phone [614.735107421875, 14.102482795715332, 642.7548828125, 65.43479919433594] -> YES phone\nhandbag [559.793701171875, 73.67278289794922, 602.447021484375, 151.74533081054688] -> YES phone\ncell phone [567.0079345703125, 452.54949951171875, 638.1641845703125, 477.86181640625] -> YES phone\nbackpack [582.5220947265625, 54.25029373168945, 646.9876708984375, 132.7301025390625] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      101,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.676,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.457,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      582,
+      20,
+      658,
+      136
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.063,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      644,
+      70
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.059,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.058,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.05,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      55,
+      647,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.042,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.7280883789062, 100.84652709960938, 885.2177124023438, 188.73683166503906] -> YES backpack\nwallet [974.6515502929688, 430.791015625, 1033.980224609375, 462.14654541015625] -> YES wallet\nbackpack [582.2135009765625, 20.026039123535156, 658.2982177734375, 136.31700134277344] -> YES bag\ncell phone [615.2950439453125, 14.238504409790039, 643.999267578125, 69.79791259765625] -> YES phone\ncell phone [567.3872680664062, 452.3707275390625, 638.8969116210938, 478.2281494140625] -> YES phone\nhandbag [557.0791625976562, 74.68455505371094, 600.6696166992188, 151.63751220703125] -> YES phone\nbackpack [584.7216796875, 54.89223861694336, 647.1589965820312, 132.14097595214844] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.72,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.537,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.06,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      566,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.048,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.042,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      583,
+      56,
+      647,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.04,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      581,
+      24,
+      659,
+      139
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.039,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.1185302734375, 100.12456512451172, 885.123046875, 188.7353515625] -> YES backpack\nwallet [974.9683227539062, 430.9750671386719, 1033.6981201171875, 462.3558654785156] -> YES wallet\nhandbag [557.8734130859375, 74.81681060791016, 600.7954711914062, 151.6896514892578] -> YES phone\ncell phone [566.4669799804688, 452.3345031738281, 638.54736328125, 477.9559020996094] -> YES phone\ncell phone [615.7235107421875, 13.716184616088867, 642.27001953125, 64.0820541381836] -> YES phone\nbackpack [582.9892578125, 55.61833190917969, 647.3621826171875, 133.50216674804688] -> YES backpack\nbackpack [581.4263305664062, 23.593414306640625, 659.1060791015625, 138.88372802734375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.22,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      819,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.679,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.634,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      15,
+      643,
+      65
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.075,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      584,
+      53,
+      647,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.051,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      582,
+      26,
+      658,
+      138
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.046,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.036,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.024,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.5508422851562, 100.0356674194336, 884.892333984375, 188.9456787109375] -> YES backpack\nwallet [975.4024658203125, 430.8939514160156, 1033.760009765625, 462.4082336425781] -> YES wallet\ncell phone [615.166259765625, 14.760881423950195, 642.51416015625, 65.33167266845703] -> YES phone\nbackpack [583.696533203125, 53.33342742919922, 646.5408325195312, 132.37539672851562] -> YES backpack\nbackpack [582.1034545898438, 25.85745620727539, 658.2427368164062, 137.75210571289062] -> YES phone\nhandbag [557.7633056640625, 75.029296875, 601.0841064453125, 151.8428955078125] -> YES phone\ncell phone [566.9788818359375, 452.3266296386719, 638.9061889648438, 478.2146301269531] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      101,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.595,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.589,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      642,
+      65
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.224,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      56,
+      646,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.117,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.107,
+     "channel": null
+    },
+    {
+     "label": "orange jacket",
+     "type": "object",
+     "bbox": [
+      582,
+      29,
+      660,
+      138
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.078,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.064,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.3067626953125, 100.99937438964844, 885.0587768554688, 189.69273376464844] -> YES backpack\nwallet [975.0718994140625, 430.7800598144531, 1033.8873291015625, 462.4303894042969] -> YES wallet\ncell phone [615.13671875, 14.262325286865234, 642.4085693359375, 64.96379089355469] -> YES phone\nbackpack [583.9545288085938, 55.549957275390625, 646.4786376953125, 132.34637451171875] -> YES phone\nhandbag [557.6571044921875, 74.80572509765625, 600.8211669921875, 151.605712890625] -> YES phone\nbackpack [581.9063110351562, 28.716064453125, 659.54248046875, 138.06585693359375] -> YES orange jacket\ncell phone [566.7789306640625, 452.2132873535156, 638.490478515625, 477.93548583984375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.623,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.573,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      65
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.164,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.071,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      55,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.037,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      567,
+      452,
+      639,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.033,
+     "channel": null
+    },
+    {
+     "label": "orange jacket",
+     "type": "object",
+     "bbox": [
+      582,
+      15,
+      659,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.026,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.2420654296875, 100.48217010498047, 885.131591796875, 189.196044921875] -> YES backpack\nwallet [974.9249267578125, 430.82427978515625, 1033.6029052734375, 462.37811279296875] -> YES wallet\ncell phone [615.6718139648438, 13.640390396118164, 642.1588134765625, 65.1458969116211] -> YES phone\nhandbag [557.70068359375, 75.2098159790039, 600.611572265625, 151.77212524414062] -> YES phone\nbackpack [582.9207763671875, 55.06845474243164, 645.7958984375, 132.87933349609375] -> YES phone\ncell phone [566.593505859375, 452.3996887207031, 639.1138916015625, 478.1212463378906] -> YES phone\nbackpack [581.755126953125, 14.878337860107422, 658.809326171875, 134.54049682617188] -> YES orange jacket",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      101,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.615,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.475,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.102,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      583,
+      54,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.07,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      566,
+      452,
+      638,
+      478
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.057,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      15,
+      642,
+      60
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.038,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.1265869140625, 100.60283660888672, 885.302490234375, 189.41888427734375] -> YES backpack\nwallet [974.7135009765625, 430.80322265625, 1033.9964599609375, 462.30029296875] -> YES wallet\nhandbag [557.5263061523438, 74.94288635253906, 600.2645874023438, 151.7198944091797] -> YES phone\nbackpack [583.0700073242188, 54.36161804199219, 646.1359252929688, 133.04354858398438] -> YES backpack\ncell phone [566.2635498046875, 452.2874450683594, 638.4246826171875, 478.16253662109375] -> YES phone\ncell phone [615.3976440429688, 14.692005157470703, 641.5956420898438, 60.032833099365234] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.621,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      829,
+      99,
+      885,
+      184
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.324,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      797,
+      90,
+      886,
+      184
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.05,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [975.1448364257812, 430.581787109375, 1033.7794189453125, 461.6197509765625] -> YES wallet\nhandbag [829.0545043945312, 99.47959899902344, 884.9317016601562, 184.13525390625] -> YES backpack\ncell phone [354.7264404296875, 305.1551513671875, 407.73919677734375, 461.8591003417969] -> NO handrail\nhandbag [797.1849975585938, 90.4336166381836, 886.1511840820312, 184.001220703125] -> YES bag",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.28,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.651,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.618,
+     "channel": null
+    },
+    {
+     "label": "orange jacket",
+     "type": "object",
+     "bbox": [
+      582,
+      16,
+      658,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.179,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      15,
+      642,
+      66
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.179,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.156,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      53,
+      648,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.063,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      532,
+      1,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.024,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.228515625, 430.8608093261719, 1034.0006103515625, 462.4356994628906] -> YES wallet\nbackpack [818.325439453125, 100.3714599609375, 885.0540161132812, 189.3376922607422] -> YES backpack\nbackpack [581.6585693359375, 15.52499771118164, 658.138671875, 135.16188049316406] -> YES orange jacket\ncell phone [615.2755737304688, 14.549520492553711, 642.2147827148438, 65.50867462158203] -> YES phone\nhandbag [557.8035888671875, 75.47331237792969, 600.1752319335938, 150.93409729003906] -> YES backpack\nbackpack [583.28076171875, 53.1697883605957, 647.8547973632812, 134.13087463378906] -> YES phone\nhandbag [532.4771118164062, 0.6469001770019531, 600.2423095703125, 150.97242736816406] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.733,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.693,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      549,
+      74,
+      603,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.088,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      56
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.08,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      583,
+      17,
+      659,
+      139
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.048,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.8795776367188, 100.17727661132812, 885.0770874023438, 189.90074157714844] -> YES backpack\nwallet [974.9727172851562, 430.72283935546875, 1034.175048828125, 462.64398193359375] -> YES wallet\nhandbag [549.2374877929688, 73.75506591796875, 602.9928588867188, 152.16517639160156] -> YES phone\ncell phone [615.6216430664062, 15.195058822631836, 641.7844848632812, 55.889137268066406] -> YES phone\nbackpack [582.5377197265625, 16.79153823852539, 659.0662841796875, 138.6664276123047] -> YES backpack",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      101,
+      885,
+      188
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.664,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      995,
+      433,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.213,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      914,
+      110,
+      1009,
+      174
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.027,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.4636840820312, 101.07115173339844, 884.9240112304688, 188.16680908203125] -> YES backpack\ncell phone [995.3092041015625, 432.6009521484375, 1033.9228515625, 462.58978271484375] -> YES phone\nsuitcase [913.7890625, 109.73016357421875, 1008.9461669921875, 174.42050170898438] -> YES backpack",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      101,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.609,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.468,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      643,
+      68
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.068,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      584,
+      55,
+      646,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.066,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      558,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.065,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.1359252929688, 100.52098846435547, 885.05712890625, 188.68246459960938] -> YES backpack\nwallet [975.1049194335938, 430.63348388671875, 1033.536376953125, 462.561767578125] -> YES wallet\ncell phone [615.178955078125, 14.027320861816406, 643.0326538085938, 67.90931701660156] -> YES bag\nbackpack [583.802978515625, 54.823646545410156, 646.2246704101562, 131.7542724609375] -> YES backpack\nhandbag [557.9653930664062, 75.42894744873047, 600.1942749023438, 151.22833251953125] -> YES wallet",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.636,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      101,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.603,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      13,
+      643,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.575,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      74,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.077,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      55,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.031,
+     "channel": null
+    },
+    {
+     "label": "laptop",
+     "type": "object",
+     "bbox": [
+      582,
+      13,
+      650,
+      137
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.024,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [975.052734375, 430.8527526855469, 1033.7237548828125, 462.7033996582031] -> YES wallet\nbackpack [818.1692504882812, 100.81388854980469, 885.1576538085938, 188.69415283203125] -> YES backpack\ncell phone [615.3150024414062, 12.993026733398438, 642.7010498046875, 62.668212890625] -> YES phone\nhandbag [557.60107421875, 74.14938354492188, 600.8521118164062, 152.020263671875] -> YES phone\nbackpack [584.3250122070312, 55.03235626220703, 646.85205078125, 132.50193786621094] -> YES phone\nbackpack [582.447021484375, 12.754348754882812, 649.572021484375, 137.00527954101562] -> YES laptop",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.656,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      99,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.651,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      61
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.064,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      13,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.033,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      13,
+      645,
+      127
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.032,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      547,
+      74,
+      602,
+      153
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.03,
+     "channel": null
+    }
+   ],
+   "raw_response": "wallet [974.8489379882812, 430.7442626953125, 1033.68994140625, 462.93218994140625] -> YES wallet\nbackpack [817.6051025390625, 99.16431427001953, 885.400634765625, 190.16525268554688] -> YES backpack\ncell phone [616.00146484375, 14.385286331176758, 640.649658203125, 60.857879638671875] -> YES phone\nbackpack [584.73974609375, 13.216255187988281, 646.5958251953125, 132.7862091064453] -> YES phone\ncell phone [615.1751708984375, 13.40530014038086, 644.8150024414062, 126.8411865234375] -> YES phone\nhandbag [547.3888549804688, 73.52556610107422, 601.9945678710938, 152.92953491210938] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.8,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.684,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.495,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      56,
+      646,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.081,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      13,
+      654,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.048,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      548,
+      75,
+      602,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.038,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      643,
+      66
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.027,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.305419921875, 99.98741912841797, 885.1165771484375, 189.24375915527344] -> YES backpack\nwallet [975.140625, 430.7194519042969, 1033.8486328125, 462.0361633300781] -> YES wallet\nbackpack [583.7677612304688, 56.08528518676758, 645.8565063476562, 133.53192138671875] -> YES phone\nbackpack [582.605712890625, 13.22629165649414, 653.8135986328125, 134.59661865234375] -> YES phone\nhandbag [548.2320556640625, 74.86894226074219, 602.2578735351562, 152.1116180419922] -> YES phone\ncell phone [615.9640502929688, 14.188284873962402, 642.9625854492188, 65.60319519042969] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.34,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.625,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      975,
+      431,
+      1034,
+      462
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.5,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.147,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      56,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.059,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      74,
+      601,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.035,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.3461303710938, 100.35214233398438, 885.1477661132812, 189.28358459472656] -> YES backpack\nwallet [974.52099609375, 430.80157470703125, 1033.8599853515625, 462.39898681640625] -> YES wallet\ncell phone [616.396240234375, 14.666267395019531, 640.5645751953125, 62.37803649902344] -> YES phone\nbackpack [584.34521484375, 56.388755798339844, 646.4786376953125, 132.5577392578125] -> YES phone\nhandbag [557.172119140625, 74.46340942382812, 600.8079833984375, 152.0118408203125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.647,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": [
+      974,
+      431,
+      1034,
+      463
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.547,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.359,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.061,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      56,
+      647,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.023,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      582,
+      15,
+      651,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.02,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      530,
+      0,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.02,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.765869140625, 100.04642486572266, 884.9761962890625, 189.0814208984375] -> YES backpack\nwallet [974.2252807617188, 430.694091796875, 1033.864990234375, 462.7169494628906] -> YES wallet\ncell phone [616.0361328125, 14.163740158081055, 642.1851806640625, 62.86201477050781] -> YES phone\nhandbag [557.24755859375, 75.1111068725586, 600.167236328125, 151.6351318359375] -> YES phone\nbackpack [584.2456665039062, 55.50749969482422, 646.6177978515625, 132.48916625976562] -> YES phone\nbackpack [582.4118041992188, 14.649490356445312, 651.2133178710938, 135.31118774414062] -> YES phone\nhandbag [530.2867431640625, 0.4835357666015625, 600.0513916015625, 151.87274169921875] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.41,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.201,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.077,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      14,
+      646,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [615.7843017578125, 14.172506332397461, 641.2432861328125, 62.32048797607422] -> YES phone\nhandbag [556.5899658203125, 74.68350982666016, 599.7899169921875, 151.6167755126953] -> YES phone\nbackpack [584.8929443359375, 13.540626525878906, 646.3862915039062, 132.34205627441406] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.86,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.199,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      556,
+      73,
+      602,
+      153
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.036,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [616.0811767578125, 14.653587341308594, 642.1185302734375, 63.178504943847656] -> YES phone\nsuitcase [981.344482421875, 416.5511169433594, 1332.899658203125, 707.5025634765625] -> NO no specific object identified\nhandbag [556.19677734375, 72.8649673461914, 601.5167236328125, 152.94522094726562] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.88,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      616,
+      15,
+      641,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.102,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      14,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.061,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      73,
+      602,
+      154
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.055,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": [
+      820,
+      101,
+      884,
+      139
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.031,
+     "channel": null
+    }
+   ],
+   "raw_response": "cell phone [616.4376220703125, 15.443927764892578, 640.884033203125, 62.797119140625] -> YES backpack\nbackpack [584.7489624023438, 14.092037200927734, 647.3190307617188, 132.55264282226562] -> YES phone\nhandbag [558.1419677734375, 73.00005340576172, 602.1898193359375, 153.90573120117188] -> YES phone\nbackpack [819.9158935546875, 100.53424072265625, 883.7532348632812, 138.55068969726562] -> YES bag",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      188
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.718,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.267,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      153
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.031,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      11,
+      659,
+      139
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.027,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.9737548828125, 100.12195587158203, 884.9658203125, 188.26718139648438] -> YES backpack\ncell phone [616.0598754882812, 14.046066284179688, 640.7313232421875, 62.058311462402344] -> YES phone\nhandbag [557.2178955078125, 75.03229522705078, 600.1192626953125, 152.99526977539062] -> YES phone\nbackpack [584.44287109375, 10.679935455322266, 659.2908935546875, 139.44656372070312] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.34,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      99,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.596,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.156,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      56,
+      647,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.047,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      12,
+      658,
+      137
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.035,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      73,
+      602,
+      154
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.021,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.158935546875, 99.15319061279297, 885.0863037109375, 189.04129028320312] -> YES backpack\ncell phone [616.1793212890625, 14.136096954345703, 641.9364013671875, 63.162322998046875] -> YES phone\nbackpack [585.1422119140625, 56.406795501708984, 646.624755859375, 132.13172912597656] -> YES phone\nbackpack [583.7223510742188, 12.041667938232422, 658.1829833984375, 136.63858032226562] -> YES phone\nhandbag [557.3989868164062, 72.5647201538086, 602.1071166992188, 153.69610595703125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.679,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      64
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.219,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      56,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.04,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      15,
+      658,
+      140
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.026,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      556,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.269287109375, 100.47761535644531, 884.56640625, 189.12939453125] -> YES backpack\ncell phone [616.080078125, 13.931599617004395, 642.30126953125, 63.824432373046875] -> YES phone\nbackpack [585.0123291015625, 56.10451126098633, 647.3077392578125, 133.3705291748047] -> YES phone\nbackpack [583.509765625, 15.45406723022461, 658.3839721679688, 140.35076904296875] -> YES phone\nhandbag [556.2949829101562, 74.5447998046875, 600.0230102539062, 151.34854125976562] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.43,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.663,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.139,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      56,
+      647,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.065,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.9827880859375, 99.98787689208984, 885.107421875, 188.99867248535156] -> YES backpack\ncell phone [616.2781982421875, 14.141361236572266, 641.464111328125, 63.05284881591797] -> YES phone\nbackpack [585.435546875, 56.466712951660156, 647.2322387695312, 132.20059204101562] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.89,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      100,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.662,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      12,
+      650,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.058,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.036,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      74,
+      600,
+      152
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.3822631835938, 99.67975616455078, 884.9551391601562, 189.7514190673828] -> YES backpack\nbackpack [584.6978759765625, 12.171501159667969, 649.5064086914062, 134.1068115234375] -> YES phone\ncell phone [615.7069091796875, 14.059344291687012, 640.5982666015625, 61.569923400878906] -> YES phone\nhandbag [557.5716552734375, 74.37361907958984, 600.38330078125, 152.06301879882812] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.88,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.69,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      13,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.068,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      25,
+      648,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.036,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      74,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [818.0068359375, 100.14083862304688, 884.84033203125, 188.68121337890625] -> YES backpack\ncell phone [615.5286865234375, 13.35116958618164, 641.225341796875, 62.02115249633789] -> YES phone\nbackpack [584.812744140625, 24.80258560180664, 647.5771484375, 132.7993927001953] -> YES phone\nhandbag [557.2088012695312, 74.36151885986328, 600.0272827148438, 151.37493896484375] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.89,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      102,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.598,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      13,
+      651,
+      136
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.111,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      66
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.053,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.039,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.76025390625, 101.6231918334961, 884.982177734375, 189.50823974609375] -> YES backpack\nbackpack [584.35595703125, 12.850273132324219, 650.6016845703125, 135.83880615234375] -> YES phone\ncell phone [615.91748046875, 14.168489456176758, 642.41943359375, 65.81924438476562] -> YES phone\nhandbag [557.0438232421875, 74.50790405273438, 599.989501953125, 151.0521697998047] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.34,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      99,
+      886,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.574,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.165,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      13,
+      656,
+      135
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.13,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      55,
+      648,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.069,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      74,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.025,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.5738525390625, 99.3061294555664, 885.6971435546875, 189.59381103515625] -> YES backpack\ncell phone [615.9991455078125, 13.530527114868164, 641.189697265625, 63.2587890625] -> YES phone\nbackpack [583.4530029296875, 12.691669464111328, 656.17431640625, 134.89041137695312] -> YES phone\nbackpack [584.6341552734375, 54.667545318603516, 648.0859375, 132.8092498779297] -> YES phone\nhandbag [556.9782104492188, 74.47382354736328, 600.2615356445312, 150.95330810546875] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.659,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.301,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      12,
+      649,
+      136
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.059,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.039,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.705810546875, 99.61951446533203, 885.129638671875, 188.98202514648438] -> YES backpack\ncell phone [615.8106079101562, 13.976943969726562, 641.5155029296875, 63.0981559753418] -> YES phone\nbackpack [584.740234375, 11.997665405273438, 648.8718872070312, 135.66012573242188] -> YES phone\nhandbag [557.056884765625, 74.54076385498047, 599.948974609375, 151.22689819335938] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.89,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      100,
+      886,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.62,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      14,
+      643,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.39,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      57,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.077,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      73,
+      603,
+      154
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.041,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.439208984375, 99.54908752441406, 885.8314819335938, 189.3926239013672] -> YES backpack\ncell phone [615.4801025390625, 14.36385440826416, 642.994140625, 62.5682487487793] -> YES phone\nbackpack [584.8411865234375, 57.42567443847656, 646.706298828125, 133.25454711914062] -> YES phone\nhandbag [557.3854370117188, 72.97856140136719, 602.5056762695312, 154.2257537841797] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      100,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.681,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.221,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      12,
+      650,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.087,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      74,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.023,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.3599243164062, 99.62086486816406, 885.2418823242188, 189.67515563964844] -> YES backpack\ncell phone [615.5846557617188, 13.754602432250977, 642.315673828125, 62.93914794921875] -> YES phone\nbackpack [584.4154052734375, 12.323078155517578, 649.5068359375, 134.07081604003906] -> YES phone\nhandbag [557.2960205078125, 74.38481140136719, 600.5787963867188, 151.40316772460938] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.37,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.669,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.321,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      58,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.051,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      582,
+      13,
+      654,
+      138
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.029,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      556,
+      74,
+      602,
+      153
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.023,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.4677734375, 99.90644073486328, 884.7333984375, 188.90264892578125] -> YES backpack\ncell phone [616.0465087890625, 14.020139694213867, 641.122802734375, 61.86310577392578] -> YES phone\nbackpack [583.8009033203125, 58.12574005126953, 646.8714599609375, 132.87835693359375] -> YES phone\nbackpack [581.8001708984375, 13.357475280761719, 654.070556640625, 138.37928771972656] -> YES backpack\nhandbag [555.6453247070312, 73.54437255859375, 601.5676879882812, 152.88458251953125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.89,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      99,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.577,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      74,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.037,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      28,
+      649,
+      134
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.033,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      642,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.022,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.5554809570312, 99.34634399414062, 885.0529174804688, 189.38088989257812] -> YES backpack\nhandbag [556.5896606445312, 74.4604263305664, 599.8631591796875, 150.8136749267578] -> YES phone\nbackpack [584.556640625, 28.041664123535156, 648.5748901367188, 134.1973114013672] -> YES phone\ncell phone [616.4852294921875, 14.141467094421387, 642.2952270507812, 63.11785125732422] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.88,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      817,
+      99,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.609,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      22,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.056,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.054,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      73,
+      603,
+      155
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.03,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.3333740234375, 99.35014343261719, 885.160400390625, 188.65728759765625] -> YES backpack\nbackpack [584.9968872070312, 22.32693099975586, 647.3087768554688, 132.61228942871094] -> YES phone\ncell phone [616.3727416992188, 14.409782409667969, 641.4695434570312, 62.4184455871582] -> YES phone\nhandbag [557.4398193359375, 72.95294189453125, 603.1031494140625, 154.9825439453125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.655,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      62
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.15,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      11,
+      648,
+      132
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.035,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      11,
+      646,
+      80
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.023,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.521240234375, 100.17832946777344, 884.60009765625, 189.44644165039062] -> YES backpack\ncell phone [616.246337890625, 14.35528564453125, 641.3076171875, 62.32052993774414] -> YES phone\nbackpack [584.2813720703125, 10.972732543945312, 647.843505859375, 132.17088317871094] -> YES phone\ncell phone [615.3251953125, 11.241668701171875, 645.6055297851562, 80.09117126464844] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      99,
+      885,
+      190
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.673,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      640,
+      61
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.106,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      584,
+      14,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.066,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.604736328125, 99.32981872558594, 885.4286499023438, 189.69236755371094] -> YES backpack\ncell phone [616.3614501953125, 14.223212242126465, 640.2431640625, 61.22395706176758] -> YES backpack\nbackpack [584.4261474609375, 14.37326431274414, 647.3479614257812, 132.78787231445312] -> YES phone\nhandbag [556.82861328125, 74.1716537475586, 600.36279296875, 151.0096435546875] -> NO handrail",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      100,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.682,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      616,
+      14,
+      641,
+      63
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.322,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      585,
+      50,
+      646,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.072,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      558,
+      74,
+      601,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.058,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.986328125, 99.7042236328125, 884.94873046875, 188.58897399902344] -> YES backpack\ncell phone [615.56396484375, 14.102734565734863, 641.0586547851562, 62.79597473144531] -> YES phone\nbackpack [584.7464599609375, 49.557861328125, 646.45556640625, 132.68264770507812] -> YES phone\nhandbag [557.5419921875, 74.29991149902344, 600.5574951171875, 151.03350830078125] -> YES phone",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260714-162358-9cb5e8/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      818,
+      99,
+      885,
+      189
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.605,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      615,
+      12,
+      643,
+      65
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.113,
+     "channel": null
+    },
+    {
+     "label": "laptop",
+     "type": "object",
+     "bbox": [
+      584,
+      55,
+      647,
+      133
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.112,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      583,
+      20,
+      654,
+      136
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.073,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      557,
+      75,
+      600,
+      151
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": 0.064,
+     "channel": null
+    }
+   ],
+   "raw_response": "backpack [817.8762817382812, 99.41757202148438, 885.3535766601562, 189.01141357421875] -> YES backpack\ncell phone [615.2275390625, 11.981449127197266, 642.8067016601562, 64.96427917480469] -> YES phone\nbackpack [584.2102661132812, 55.25341033935547, 646.991455078125, 132.69300842285156] -> YES laptop\nbackpack [582.9182739257812, 19.899925231933594, 654.3106689453125, 135.74539184570312] -> YES phone\nhandbag [557.3452758789062, 74.69149780273438, 600.1659545898438, 150.9923095703125] -> YES phone",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 192.0
+ }
+}

@@ -1,0 +1,167 @@
+{
+ "job_id": "20260714-110303-a7ec04",
+ "config": {
+  "script": "vlm_01",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "default",
+  "prompt": "You are inspecting the interior of a tram for problems: graffiti,\nvandalism, and forgotten/left-behind objects (bags, backpacks, bottles, phones,\nwallets, packages, etc.).\n\nInspect the image METHODICALLY, one zone at a time: the left-hand seats, the\nright-hand seats, the floor and the aisle, and the far end of the car. Small\ndark objects on a seat edge or on the floor are easy to miss - look for them on\npurpose. There may be SEVERAL objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing what you see>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": null,
+  "mask": null,
+  "n_frames": 11,
+  "params": {
+   "max_retries": 2
+  }
+ },
+ "started": "2026-07-14T09:03:03+00:00",
+ "finished": "2026-07-14T09:04:18+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 6.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "<left-hand seat area>",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag/pouch",
+     "type": "object",
+     "bbox": null,
+     "zone": "<front left seat>",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on seats, walls, or surfaces.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Backpack (<left-hand seat area>)  \n- Black bag/pouch (<front left seat>)  \n\nDESCRIPTION: The tram interior appears clean and orderly, with no visible graffiti or vandalism. However, two forgotten objects are present: a black backpack on the floor near the front left seat and another dark bag (possibly a backpack) on the front left seat itself.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0050.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.41,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0100.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.93,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0150.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.73,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0200.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.6,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism observed.\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects. All seats are empty and the floor is clear.\nSEVERITY: <1>",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0250.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.66,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0300.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 7.02,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0350.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.92,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0400.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 7.01,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects. Seats are empty and the floor is clear.\nSEVERITY: <1>",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0450.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.93,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly. All seats are intact with no visible damage or debris on them or the floor.\nSEVERITY: <1>",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/videos/20260714-105538-f88568/frames/f0500.jpg",
+   "status": "failed",
+   "attempts": 3,
+   "seconds": 6.91,
+   "anomaly": null,
+   "detections": [],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats or walls.\nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - \nDESCRIPTION: The tram interior appears clean and orderly with no visible forgotten objects on seats or the floor.\nSEVERITY: 1",
+   "error": "ParseError: no GRAFFITI/VANDALISM/FORGOTTEN OBJECT line in reply"
+  }
+ ],
+ "summary": {
+  "n_frames": 11,
+  "n_ok": 1,
+  "n_anomalous": 1,
+  "n_failed": 10,
+  "wall_seconds": 74.82
+ }
+}

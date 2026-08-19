@@ -1,0 +1,63 @@
+{
+ "job_id": "20260720-123508-84f9e5",
+ "config": {
+  "script": "vlm_05",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "conservative",
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "reference": "/home/student/Documents/ARSI-private/data/app/videos/20260720-123304-dd9453/frames/f0000.jpg",
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 175,
+  "params": {
+   "max_retries": 2,
+   "DIFF_THRESHOLD": 40,
+   "MIN_AREA": 500,
+   "MAX_REGIONS": 25
+  }
+ },
+ "started": "2026-07-20T10:35:08+00:00",
+ "finished": "2026-07-20T10:35:36+00:00",
+ "status": "cancelled",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123508-84f9e5/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 0.27,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 0, 'second': 0, 'edge': 0, 'total': 0, 'capped': False}\n",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123508-84f9e5/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 14.25,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 7, 'second': 5, 'edge': 4, 'total': 16, 'capped': False}\n[1392, 1028, 1524, 1080] [photo] -> NO \n[1168, 1032, 1376, 1080] [photo] -> NO \n[1788, 1052, 1852, 1080] [photo] -> NO \n[1704, 980, 1744, 1052] [photo] -> NO \n[1132, 168, 1160, 196] [photo] -> NO \n[1392, 0, 1428, 16] [photo] -> NO \n[1388, 272, 1412, 300] [photo] -> NO \n[1612, 632, 1652, 664] [photo_lo] -> NO \n[1400, 196, 1424, 224] [photo_lo] -> NO \n[1596, 724, 1620, 752] [photo_lo] -> NO \n[648, 1024, 676, 1048] [photo_lo] -> NO \n[1212, 212, 1240, 236] [photo_lo] -> NO \n[680, 696, 980, 1044] [edge] -> NO \n[884, 608, 1112, 748] [edge] -> NO \n[544, 656, 712, 772] [edge] -> NO \n[656, 540, 736, 620] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123508-84f9e5/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.35,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 4, 'edge': 4, 'total': 16, 'capped': False}\n[1392, 1028, 1524, 1080] [photo] -> NO \n[1688, 964, 1744, 1080] [photo] -> NO \n[1168, 1032, 1376, 1080] [photo] -> NO \n[1776, 960, 1920, 1080] [photo] -> NO \n[1624, 632, 1652, 664] [photo] -> NO \n[1372, 388, 1396, 428] [photo] -> NO \n[1908, 868, 1920, 916] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1076, 108, 1104, 140] [photo_lo] -> NO \n[0, 132, 12, 196] [photo_lo] -> NO \n[1392, 0, 1432, 16] [photo_lo] -> NO \n[1400, 196, 1424, 224] [photo_lo] -> NO \n[680, 704, 980, 992] [edge] -> NO \n[544, 656, 684, 752] [edge] -> NO \n[888, 564, 1096, 732] [edge] -> NO \n[1788, 0, 1852, 56] [edge] -> NO ",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 3,
+  "n_ok": 3,
+  "n_anomalous": 0,
+  "n_failed": 0,
+  "wall_seconds": 27.76
+ }
+}

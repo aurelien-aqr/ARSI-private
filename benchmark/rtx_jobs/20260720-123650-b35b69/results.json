@@ -1,0 +1,1518 @@
+{
+ "job_id": "20260720-123650-b35b69",
+ "config": {
+  "script": "vlm_05",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "conservative",
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "reference": "/home/student/Documents/ARSI-private/data/app/videos/20260720-123606-0d8575/frames/f1830.jpg",
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2,
+   "DIFF_THRESHOLD": 40,
+   "MIN_AREA": 500,
+   "MAX_REGIONS": 25
+  }
+ },
+ "started": "2026-07-20T10:36:50+00:00",
+ "finished": "2026-07-20T10:52:30+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f1830",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f1830.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 0.27,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 0, 'second': 0, 'edge': 0, 'total': 0, 'capped': False}\n",
+   "error": null
+  },
+  {
+   "frame_id": "f1880",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f1880.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.54,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 2, 'second': 1, 'edge': 1, 'total': 4, 'capped': False}\n[1880, 928, 1920, 1080] [photo] -> NO \n[1780, 1056, 1816, 1080] [photo] -> NO \n[1700, 984, 1728, 1028] [photo_lo] -> NO \n[868, 840, 904, 872] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f1930",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f1930.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.61,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 1, 'second': 0, 'edge': 3, 'total': 4, 'capped': False}\n[1852, 920, 1920, 1080] [photo] -> NO \n[888, 828, 924, 860] [edge] -> NO \n[600, 656, 628, 684] [edge] -> NO \n[820, 904, 844, 928] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f1980",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f1980.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.37,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 1, 'second': 0, 'edge': 4, 'total': 5, 'capped': False}\n[1852, 920, 1920, 1080] [photo] -> NO \n[732, 744, 908, 908] [edge] -> NO \n[876, 828, 932, 868] [edge] -> NO \n[820, 884, 876, 936] [edge] -> NO \n[712, 528, 740, 572] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2030",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2030.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.33,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 2, 'second': 1, 'edge': 4, 'total': 7, 'capped': False}\n[1848, 924, 1920, 1080] [photo] -> NO \n[1704, 980, 1728, 1008] [photo] -> NO \n[1784, 1056, 1816, 1080] [photo_lo] -> NO \n[884, 824, 924, 864] [edge] -> NO \n[800, 872, 840, 924] [edge] -> NO \n[772, 832, 804, 864] [edge] -> NO \n[908, 888, 940, 916] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2080",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2080.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.13,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 1, 'second': 0, 'edge': 4, 'total': 5, 'capped': False}\n[1864, 920, 1920, 1080] [photo] -> NO \n[772, 872, 828, 904] [edge] -> NO \n[688, 32, 716, 60] [edge] -> NO \n[156, 224, 184, 256] [edge] -> NO \n[880, 600, 904, 624] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2130",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2130.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.0,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 1, 'second': 0, 'edge': 2, 'total': 3, 'capped': False}\n[1880, 924, 1920, 1080] [photo] -> NO \n[840, 896, 876, 940] [edge] -> NO \n[816, 820, 840, 848] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2180",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2180.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.32,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 1, 'second': 2, 'edge': 4, 'total': 7, 'capped': False}\n[1864, 900, 1920, 1080] [photo] -> NO \n[1700, 980, 1740, 1048] [photo_lo] -> NO \n[1784, 1056, 1816, 1080] [photo_lo] -> NO \n[1600, 1000, 1632, 1040] [edge] -> NO \n[280, 1052, 316, 1080] [edge] -> NO \n[712, 528, 740, 556] [edge] -> NO \n[600, 656, 632, 684] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2230",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2230.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 3, 'second': 1, 'edge': 0, 'total': 4, 'capped': False}\n[1660, 932, 1744, 1080] [photo] -> NO \n[1740, 808, 1920, 1080] [photo] -> NO \n[1600, 636, 1648, 660] [photo] -> NO \n[1552, 644, 1584, 668] [photo_lo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2280",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2280.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 6.93,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 4, 'second': 4, 'edge': 3, 'total': 11, 'capped': False}\n[1660, 932, 1744, 1080] [photo] -> NO \n[1740, 792, 1920, 1080] [photo] -> NO \n[1604, 632, 1652, 664] [photo] -> NO \n[1604, 712, 1628, 736] [photo] -> NO \n[136, 884, 184, 912] [photo_lo] -> NO \n[1368, 376, 1396, 452] [photo_lo] -> NO \n[1908, 740, 1920, 784] [photo_lo] -> NO \n[1500, 620, 1544, 672] [photo_lo] -> NO \n[284, 1056, 316, 1080] [edge] -> NO \n[600, 660, 628, 684] [edge] -> NO \n[420, 1064, 456, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2330",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2330.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 8.32,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 7, 'edge': 1, 'total': 14, 'capped': False}\n[1696, 972, 1740, 1060] [photo] -> NO \n[1780, 824, 1920, 1080] [photo] -> NO \n[1596, 632, 1652, 668] [photo] -> NO \n[1380, 304, 1408, 364] [photo] -> NO \n[180, 0, 224, 20] [photo] -> NO \n[1908, 600, 1920, 676] [photo] -> NO \n[1392, 248, 1416, 284] [photo_lo] -> NO \n[1068, 100, 1092, 128] [photo_lo] -> NO \n[1484, 600, 1512, 632] [photo_lo] -> NO \n[1588, 740, 1612, 764] [photo_lo] -> NO \n[1196, 212, 1228, 236] [photo_lo] -> NO \n[1688, 0, 1736, 12] [photo_lo] -> NO \n[1908, 532, 1920, 584] [photo_lo] -> NO \n[1780, 0, 1848, 44] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2380",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2380.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 7.63,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 2, 'edge': 3, 'total': 13, 'capped': False}\n[1864, 896, 1920, 1080] [photo] -> NO \n[1780, 1052, 1840, 1080] [photo] -> NO \n[1400, 140, 1428, 208] [photo] -> NO \n[1092, 128, 1124, 160] [photo] -> NO \n[1376, 344, 1404, 384] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1396, 228, 1420, 264] [photo] -> NO \n[184, 0, 224, 16] [photo] -> NO \n[1704, 1000, 1740, 1048] [photo_lo] -> NO \n[1588, 716, 1624, 764] [photo_lo] -> NO \n[1368, 0, 1416, 20] [edge] -> NO \n[1780, 0, 1812, 28] [edge] -> NO \n[284, 1060, 312, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2430",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2430.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 6.68,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 3, 'second': 4, 'edge': 4, 'total': 11, 'capped': False}\n[1696, 968, 1760, 1080] [photo] -> NO \n[1776, 868, 1920, 1080] [photo] -> NO \n[1620, 636, 1648, 664] [photo] -> NO \n[128, 884, 160, 908] [photo_lo] -> NO \n[1588, 736, 1612, 764] [photo_lo] -> NO \n[1908, 156, 1920, 224] [photo_lo] -> NO \n[1408, 116, 1432, 144] [photo_lo] -> NO \n[1592, 1008, 1632, 1052] [edge] -> NO \n[284, 1056, 312, 1080] [edge] -> NO \n[236, 736, 264, 764] [edge] -> NO \n[1328, 1056, 1352, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2480",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2480.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.81,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 3, 'second': 5, 'edge': 0, 'total': 8, 'capped': False}\n[1696, 968, 1760, 1080] [photo] -> NO \n[1776, 1052, 1844, 1080] [photo] -> NO \n[1620, 636, 1644, 660] [photo] -> NO \n[1900, 1028, 1920, 1080] [photo_lo] -> NO \n[124, 924, 148, 948] [photo_lo] -> NO \n[1588, 720, 1624, 768] [photo_lo] -> NO \n[1904, 876, 1920, 936] [photo_lo] -> NO \n[1908, 168, 1920, 216] [photo_lo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2530",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2530.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 5.9,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 5, 'second': 2, 'edge': 2, 'total': 9, 'capped': False}\n[1588, 704, 1920, 1080] [photo] -> NO \n[1588, 712, 1628, 760] [photo] -> NO \n[1620, 636, 1644, 660] [photo] -> NO \n[1904, 72, 1920, 108] [photo] -> NO \n[1516, 644, 1544, 672] [photo] -> NO \n[136, 884, 184, 908] [photo_lo] -> NO \n[1216, 0, 1260, 16] [photo_lo] -> NO \n[1052, 140, 1080, 168] [edge] -> NO \n[528, 160, 552, 184] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2580",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2580.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.58,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 6, 'edge': 4, 'total': 18, 'capped': False}\n[1676, 948, 1744, 1080] [photo] -> NO \n[1772, 1052, 1844, 1080] [photo] -> NO \n[1864, 1032, 1920, 1080] [photo] -> NO \n[1600, 632, 1652, 668] [photo] -> NO \n[1908, 804, 1920, 896] [photo] -> NO \n[1256, 0, 1336, 16] [photo] -> NO \n[1384, 304, 1408, 332] [photo] -> NO \n[1908, 624, 1920, 668] [photo] -> NO \n[1760, 12, 1812, 48] [photo_lo] -> NO \n[1868, 60, 1904, 84] [photo_lo] -> NO \n[80, 980, 104, 1004] [photo_lo] -> NO \n[1484, 600, 1512, 628] [photo_lo] -> NO \n[1400, 196, 1424, 224] [photo_lo] -> NO \n[1196, 212, 1228, 236] [photo_lo] -> NO \n[432, 1024, 504, 1080] [edge] -> NO \n[868, 448, 900, 504] [edge] -> NO \n[280, 1056, 316, 1080] [edge] -> NO \n[236, 736, 264, 764] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2630",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2630.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.73,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 8, 'edge': 4, 'total': 18, 'capped': False}\n[1688, 964, 1744, 1080] [photo] -> NO \n[1776, 1052, 1840, 1080] [photo] -> NO \n[1400, 156, 1428, 196] [photo] -> NO \n[1620, 636, 1648, 660] [photo] -> NO \n[1068, 100, 1092, 128] [photo] -> NO \n[1396, 204, 1424, 236] [photo] -> NO \n[164, 888, 204, 912] [photo_lo] -> NO \n[76, 980, 104, 1012] [photo_lo] -> NO \n[1776, 16, 1804, 40] [photo_lo] -> NO \n[1096, 688, 1120, 716] [photo_lo] -> NO \n[1888, 1052, 1920, 1080] [photo_lo] -> NO \n[1588, 716, 1624, 764] [photo_lo] -> NO \n[1392, 256, 1416, 280] [photo_lo] -> NO \n[1908, 872, 1920, 916] [photo_lo] -> NO \n[436, 1024, 484, 1064] [edge] -> NO \n[868, 448, 892, 496] [edge] -> NO \n[284, 1052, 316, 1080] [edge] -> NO \n[1052, 140, 1084, 172] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2680",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2680.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 7.75,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 5, 'second': 5, 'edge': 3, 'total': 13, 'capped': False}\n[1696, 972, 1744, 1076] [photo] -> NO \n[1880, 924, 1920, 1076] [photo] -> NO \n[1800, 1064, 1844, 1080] [photo] -> NO \n[1588, 740, 1612, 764] [photo] -> NO \n[1848, 1032, 1876, 1060] [photo] -> NO \n[608, 8, 652, 72] [photo_lo] -> NO \n[120, 916, 160, 956] [photo_lo] -> NO \n[76, 980, 108, 1012] [photo_lo] -> NO \n[1616, 636, 1648, 664] [photo_lo] -> NO \n[1768, 12, 1800, 40] [photo_lo] -> NO \n[436, 1024, 500, 1068] [edge] -> NO \n[284, 1056, 312, 1080] [edge] -> NO \n[1328, 1056, 1356, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2730",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2730.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.12,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 7, 'edge': 4, 'total': 19, 'capped': False}\n[1848, 900, 1920, 1080] [photo] -> NO \n[1696, 972, 1744, 1060] [photo] -> NO \n[1772, 1052, 1840, 1080] [photo] -> NO \n[1604, 632, 1656, 668] [photo] -> NO \n[1224, 0, 1308, 12] [photo] -> NO \n[1908, 792, 1920, 896] [photo] -> NO \n[1752, 8, 1776, 32] [photo] -> NO \n[1368, 416, 1392, 444] [photo] -> NO \n[80, 980, 104, 1012] [photo_lo] -> NO \n[1380, 328, 1408, 372] [photo_lo] -> NO \n[1784, 20, 1816, 48] [photo_lo] -> NO \n[1096, 132, 1124, 160] [photo_lo] -> NO \n[296, 928, 320, 952] [photo_lo] -> NO \n[1588, 740, 1612, 764] [photo_lo] -> NO \n[1908, 632, 1920, 732] [photo_lo] -> NO \n[432, 1016, 488, 1068] [edge] -> NO \n[868, 444, 896, 492] [edge] -> NO \n[1028, 976, 1060, 1012] [edge] -> NO \n[1052, 140, 1080, 168] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2780",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2780.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.66,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 7, 'second': 7, 'edge': 4, 'total': 18, 'capped': False}\n[1692, 968, 1744, 1080] [photo] -> NO \n[1780, 1056, 1852, 1080] [photo] -> NO \n[1384, 280, 1412, 340] [photo] -> NO \n[1396, 208, 1420, 252] [photo] -> NO \n[1616, 636, 1648, 660] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1908, 552, 1920, 608] [photo] -> NO \n[124, 928, 148, 956] [photo_lo] -> NO \n[76, 980, 104, 1012] [photo_lo] -> NO \n[1064, 96, 1096, 132] [photo_lo] -> NO \n[1588, 720, 1620, 768] [photo_lo] -> NO \n[1404, 0, 1440, 16] [photo_lo] -> NO \n[1376, 360, 1400, 388] [photo_lo] -> NO \n[1908, 880, 1920, 936] [photo_lo] -> NO \n[424, 1020, 488, 1080] [edge] -> NO \n[1888, 1048, 1920, 1080] [edge] -> NO \n[1052, 140, 1084, 172] [edge] -> NO \n[232, 736, 260, 760] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2830",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2830.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 7.78,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 4, 'second': 5, 'edge': 4, 'total': 13, 'capped': False}\n[1696, 972, 1744, 1060] [photo] -> NO \n[1776, 1056, 1844, 1080] [photo] -> NO \n[1620, 636, 1644, 660] [photo] -> NO \n[1408, 136, 1432, 164] [photo] -> NO \n[76, 980, 104, 1012] [photo_lo] -> NO \n[1588, 736, 1612, 768] [photo_lo] -> NO \n[0, 148, 12, 192] [photo_lo] -> NO \n[1852, 1012, 1892, 1056] [photo_lo] -> NO \n[1908, 892, 1920, 940] [photo_lo] -> NO \n[436, 1016, 496, 1068] [edge] -> NO \n[864, 448, 896, 500] [edge] -> NO \n[1032, 980, 1056, 1008] [edge] -> NO \n[524, 152, 556, 188] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2880",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2880.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 9.52,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 6, 'edge': 4, 'total': 16, 'capped': False}\n[1684, 956, 1744, 1080] [photo] -> NO \n[1772, 1052, 1844, 1080] [photo] -> NO \n[612, 8, 636, 32] [photo] -> NO \n[1588, 736, 1612, 764] [photo] -> NO \n[1620, 636, 1644, 660] [photo] -> NO \n[1848, 996, 1904, 1060] [photo] -> NO \n[76, 980, 104, 1016] [photo_lo] -> NO \n[1588, 640, 1616, 664] [photo_lo] -> NO \n[1888, 1052, 1920, 1080] [photo_lo] -> NO \n[1904, 868, 1920, 944] [photo_lo] -> NO \n[1896, 72, 1920, 96] [photo_lo] -> NO \n[0, 276, 12, 336] [photo_lo] -> NO \n[436, 1024, 488, 1068] [edge] -> NO \n[788, 832, 816, 864] [edge] -> NO \n[688, 692, 720, 724] [edge] -> NO \n[864, 752, 888, 780] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2930",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2930.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.75,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 6, 'edge': 4, 'total': 18, 'capped': False}\n[1652, 924, 1744, 1080] [photo] -> NO \n[1776, 1000, 1920, 1080] [photo] -> NO \n[1600, 632, 1652, 664] [photo] -> NO \n[1380, 300, 1408, 356] [photo] -> NO \n[1360, 0, 1404, 16] [photo] -> NO \n[1908, 804, 1920, 912] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1908, 616, 1920, 672] [photo] -> NO \n[76, 980, 104, 1016] [photo_lo] -> NO \n[1120, 160, 1160, 196] [photo_lo] -> NO \n[136, 884, 160, 908] [photo_lo] -> NO \n[1396, 220, 1420, 248] [photo_lo] -> NO \n[1568, 644, 1592, 668] [photo_lo] -> NO \n[1208, 212, 1236, 236] [photo_lo] -> NO \n[424, 1012, 496, 1068] [edge] -> NO \n[864, 464, 896, 500] [edge] -> NO \n[716, 808, 744, 832] [edge] -> NO \n[1052, 140, 1084, 172] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f2980",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f2980.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.45,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 7, 'edge': 4, 'total': 17, 'capped': False}\n[1420, 912, 1840, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1400, 184, 1424, 216] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1404, 136, 1432, 168] [photo] -> NO \n[1908, 880, 1920, 924] [photo] -> NO \n[784, 112, 820, 144] [photo_lo] -> NO \n[124, 880, 204, 912] [photo_lo] -> NO \n[988, 824, 1016, 864] [photo_lo] -> NO \n[544, 0, 572, 24] [photo_lo] -> NO \n[1024, 60, 1052, 84] [photo_lo] -> NO \n[1588, 716, 1624, 764] [photo_lo] -> NO \n[1852, 1032, 1876, 1056] [photo_lo] -> NO \n[720, 864, 796, 904] [edge] -> NO \n[684, 812, 740, 860] [edge] -> NO \n[436, 1028, 480, 1064] [edge] -> NO \n[868, 468, 896, 496] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3030",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3030.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 7.28,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 2, 'edge': 4, 'total': 12, 'capped': False}\n[1676, 944, 1744, 1080] [photo] -> NO \n[1780, 1052, 1844, 1080] [photo] -> NO \n[1740, 1060, 1776, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[544, 0, 572, 24] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[120, 880, 160, 908] [photo_lo] -> NO \n[1588, 720, 1624, 764] [photo_lo] -> NO \n[864, 448, 896, 500] [edge] -> NO \n[1024, 968, 1060, 1012] [edge] -> NO \n[1028, 104, 1088, 172] [edge] -> NO \n[524, 152, 560, 188] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3080",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3080.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 8.87,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 3, 'second': 8, 'edge': 4, 'total': 15, 'capped': False}\n[1776, 1056, 1836, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[120, 912, 160, 956] [photo_lo] -> NO \n[544, 0, 608, 40] [photo_lo] -> NO \n[272, 712, 304, 740] [photo_lo] -> NO \n[1556, 644, 1592, 672] [photo_lo] -> NO \n[1372, 0, 1428, 16] [photo_lo] -> NO \n[1588, 740, 1612, 764] [photo_lo] -> NO \n[1908, 880, 1920, 924] [photo_lo] -> NO \n[1908, 932, 1920, 980] [photo_lo] -> NO \n[760, 816, 852, 904] [edge] -> NO \n[420, 1016, 496, 1064] [edge] -> NO \n[1024, 968, 1060, 1012] [edge] -> NO \n[1596, 1016, 1628, 1052] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3130",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3130.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 9.67,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 4, 'second': 8, 'edge': 4, 'total': 16, 'capped': False}\n[1672, 936, 1852, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[548, 0, 572, 24] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[612, 12, 644, 52] [photo_lo] -> NO \n[740, 0, 764, 28] [photo_lo] -> NO \n[812, 4, 836, 28] [photo_lo] -> NO \n[1556, 648, 1588, 672] [photo_lo] -> NO \n[1096, 684, 1124, 712] [photo_lo] -> NO \n[1588, 720, 1624, 764] [photo_lo] -> NO \n[732, 40, 756, 68] [photo_lo] -> NO \n[1904, 72, 1920, 112] [photo_lo] -> NO \n[1880, 1044, 1920, 1080] [edge] -> NO \n[1028, 972, 1060, 1012] [edge] -> NO \n[420, 1028, 472, 1060] [edge] -> NO \n[1024, 104, 1088, 172] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3180",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3180.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.14,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 9, 'second': 6, 'edge': 4, 'total': 19, 'capped': False}\n[1692, 968, 1744, 1080] [photo] -> NO \n[1640, 908, 1704, 1080] [photo] -> NO \n[1780, 1016, 1920, 1080] [photo] -> NO \n[128, 880, 188, 908] [photo] -> NO \n[1736, 1056, 1776, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1900, 72, 1920, 104] [photo] -> NO \n[180, 0, 224, 20] [photo] -> NO \n[544, 0, 608, 36] [photo_lo] -> NO \n[612, 12, 644, 52] [photo_lo] -> NO \n[740, 0, 768, 28] [photo_lo] -> NO \n[1556, 644, 1592, 672] [photo_lo] -> NO \n[1588, 720, 1624, 764] [photo_lo] -> NO \n[1904, 880, 1920, 940] [photo_lo] -> NO \n[768, 868, 856, 924] [edge] -> NO \n[404, 1024, 472, 1080] [edge] -> NO \n[664, 540, 716, 624] [edge] -> NO \n[864, 828, 928, 884] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3230",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3230.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.13,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 5, 'second': 8, 'edge': 4, 'total': 17, 'capped': False}\n[1696, 968, 1772, 1080] [photo] -> NO \n[1632, 896, 1696, 1080] [photo] -> NO \n[1780, 976, 1920, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1900, 72, 1920, 104] [photo] -> NO \n[752, 76, 820, 148] [photo_lo] -> NO \n[612, 8, 644, 48] [photo_lo] -> NO \n[800, 0, 840, 40] [photo_lo] -> NO \n[736, 0, 768, 28] [photo_lo] -> NO \n[544, 0, 572, 32] [photo_lo] -> NO \n[288, 712, 320, 740] [photo_lo] -> NO \n[576, 0, 604, 24] [photo_lo] -> NO \n[636, 136, 660, 160] [photo_lo] -> NO \n[412, 1012, 492, 1080] [edge] -> NO \n[1020, 960, 1064, 1016] [edge] -> NO \n[660, 552, 712, 628] [edge] -> NO \n[1488, 236, 1520, 304] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3280",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3280.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 9.61,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 4, 'second': 8, 'edge': 4, 'total': 16, 'capped': False}\n[1660, 936, 1744, 1080] [photo] -> NO \n[1848, 1020, 1920, 1080] [photo] -> NO \n[1780, 1052, 1836, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[132, 884, 200, 912] [photo_lo] -> NO \n[612, 12, 644, 48] [photo_lo] -> NO \n[360, 240, 396, 276] [photo_lo] -> NO \n[736, 0, 764, 28] [photo_lo] -> NO \n[812, 4, 836, 28] [photo_lo] -> NO \n[1584, 716, 1624, 768] [photo_lo] -> NO \n[400, 1036, 424, 1060] [photo_lo] -> NO \n[1100, 684, 1124, 708] [photo_lo] -> NO \n[512, 656, 664, 708] [edge] -> NO \n[1020, 964, 1060, 1012] [edge] -> NO \n[276, 1052, 320, 1080] [edge] -> NO \n[696, 808, 736, 848] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3330",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3330.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 7.77,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 4, 'second': 5, 'edge': 4, 'total': 13, 'capped': False}\n[1700, 976, 1748, 1068] [photo] -> NO \n[1780, 1056, 1844, 1080] [photo] -> NO \n[128, 880, 196, 908] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[360, 244, 396, 276] [photo_lo] -> NO \n[740, 0, 764, 28] [photo_lo] -> NO \n[1588, 740, 1612, 764] [photo_lo] -> NO \n[1904, 924, 1920, 980] [photo_lo] -> NO \n[1908, 168, 1920, 216] [photo_lo] -> NO \n[416, 1012, 484, 1080] [edge] -> NO \n[1020, 964, 1060, 1012] [edge] -> NO \n[1884, 1048, 1920, 1080] [edge] -> NO \n[684, 552, 708, 584] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3380",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3380.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 9.3,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 5, 'edge': 4, 'total': 15, 'capped': False}\n[1620, 884, 1920, 1080] [photo] -> NO \n[120, 880, 208, 916] [photo] -> NO \n[280, 712, 316, 740] [photo] -> NO \n[1892, 68, 1920, 100] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[300, 916, 340, 948] [photo_lo] -> NO \n[400, 1036, 428, 1060] [photo_lo] -> NO \n[1108, 912, 1136, 936] [photo_lo] -> NO \n[1560, 648, 1588, 668] [photo_lo] -> NO \n[1588, 736, 1612, 764] [photo_lo] -> NO \n[1020, 960, 1064, 1016] [edge] -> NO \n[1388, 660, 1436, 700] [edge] -> NO \n[664, 588, 700, 628] [edge] -> NO \n[1048, 136, 1088, 176] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3430",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3430.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.37,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 7, 'second': 8, 'edge': 4, 'total': 19, 'capped': False}\n[1700, 968, 1768, 1080] [photo] -> NO \n[1628, 892, 1696, 1080] [photo] -> NO \n[1776, 948, 1920, 1080] [photo] -> NO \n[120, 916, 156, 956] [photo] -> NO \n[276, 708, 320, 736] [photo] -> NO \n[1896, 72, 1920, 100] [photo] -> NO \n[1620, 636, 1648, 664] [photo] -> NO \n[1284, 652, 1376, 684] [photo_lo] -> NO \n[1008, 180, 1056, 208] [photo_lo] -> NO \n[1516, 800, 1632, 844] [photo_lo] -> NO \n[816, 0, 844, 36] [photo_lo] -> NO \n[308, 916, 344, 940] [photo_lo] -> NO \n[612, 24, 636, 48] [photo_lo] -> NO \n[996, 104, 1020, 128] [photo_lo] -> NO \n[400, 1032, 428, 1064] [photo_lo] -> NO \n[1020, 960, 1064, 1016] [edge] -> NO \n[660, 552, 712, 632] [edge] -> NO \n[340, 340, 376, 420] [edge] -> NO \n[864, 444, 900, 504] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3480",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3480.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 24.55,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 49, 'second': 8, 'edge': 4, 'total': 61, 'capped': True}\n[116, 276, 356, 768] [photo] -> NO \n[904, 204, 1044, 376] [photo] -> NO \n[556, 212, 724, 680] [photo] -> NO \n[528, 0, 688, 208] [photo] -> NO \n[620, 752, 692, 1080] [photo] -> NO \n[392, 28, 516, 376] [photo] -> NO \n[1616, 876, 1688, 1080] [photo] -> NO \n[1412, 836, 1520, 984] [photo] -> NO \n[512, 928, 624, 1036] [photo] -> NO \n[720, 0, 804, 232] [photo] -> NO \n[1216, 604, 1396, 692] [photo] -> NO \n[1324, 920, 1388, 1032] [photo] -> NO \n[348, 236, 472, 672] [photo] -> NO \n[1232, 260, 1280, 480] [photo] -> NO \n[1052, 856, 1116, 896] [photo] -> NO \n[1096, 692, 1280, 736] [photo] -> NO \n[1064, 284, 1108, 372] [photo] -> NO \n[1700, 928, 1920, 1080] [photo] -> NO \n[1492, 800, 1632, 856] [photo] -> NO \n[808, 0, 848, 48] [photo] -> NO \n[880, 0, 920, 48] [photo] -> NO \n[796, 56, 832, 180] [photo] -> NO \n[148, 228, 200, 276] [photo] -> NO \n[484, 712, 576, 776] [photo] -> NO \n[960, 92, 1028, 208] [photo] -> NO \n[1048, 980, 1088, 1072] [photo_lo] -> NO \n[1316, 504, 1344, 612] [photo_lo] -> NO \n[1444, 528, 1476, 584] [photo_lo] -> NO \n[400, 1016, 484, 1064] [photo_lo] -> NO \n[1168, 764, 1196, 792] [photo_lo] -> NO \n[1376, 352, 1404, 408] [photo_lo] -> NO \n[1144, 740, 1168, 764] [photo_lo] -> NO \n[300, 924, 336, 956] [photo_lo] -> NO \n[868, 448, 896, 480] [edge] -> NO \n[1372, 0, 1428, 20] [edge] -> NO \n[504, 524, 536, 548] [edge] -> NO \n[804, 872, 828, 900] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3530",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3530.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 23.02,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 39, 'second': 8, 'edge': 4, 'total': 51, 'capped': True}\n[120, 280, 352, 764] [photo] -> NO \n[532, 0, 684, 196] [photo] -> NO \n[620, 752, 680, 1080] [photo] -> NO \n[620, 196, 724, 648] [photo] -> NO \n[720, 0, 832, 228] [photo] -> NO \n[392, 56, 448, 272] [photo] -> NO \n[456, 136, 504, 316] [photo] -> NO \n[1736, 1056, 1840, 1080] [photo] -> NO \n[1416, 836, 1484, 896] [photo] -> NO \n[1096, 688, 1256, 736] [photo] -> NO \n[1224, 616, 1392, 684] [photo] -> NO \n[1860, 832, 1920, 1080] [photo] -> NO \n[1700, 972, 1744, 1056] [photo] -> NO \n[408, 540, 452, 668] [photo] -> NO \n[452, 72, 484, 124] [photo] -> NO \n[964, 136, 1028, 204] [photo] -> NO \n[1496, 800, 1628, 852] [photo] -> NO \n[492, 712, 576, 772] [photo] -> NO \n[516, 928, 604, 1020] [photo] -> NO \n[360, 240, 396, 276] [photo] -> NO \n[1344, 856, 1400, 904] [photo] -> NO \n[912, 216, 936, 264] [photo] -> NO \n[184, 416, 208, 440] [photo] -> NO \n[884, 0, 908, 36] [photo] -> NO \n[440, 520, 468, 568] [photo] -> NO \n[1336, 940, 1384, 1020] [photo_lo] -> NO \n[1024, 824, 1060, 920] [photo_lo] -> NO \n[1468, 960, 1504, 1008] [photo_lo] -> NO \n[900, 380, 928, 448] [photo_lo] -> NO \n[1252, 260, 1284, 356] [photo_lo] -> NO \n[1080, 400, 1120, 440] [photo_lo] -> NO \n[1236, 380, 1280, 440] [photo_lo] -> NO \n[1156, 1060, 1232, 1080] [photo_lo] -> NO \n[388, 1008, 516, 1080] [edge] -> NO \n[860, 440, 904, 520] [edge] -> NO \n[108, 972, 208, 1024] [edge] -> NO \n[1100, 624, 1192, 660] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3580",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3580.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 22.79,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 37, 'second': 8, 'edge': 4, 'total': 49, 'capped': True}\n[140, 412, 356, 764] [photo] -> NO \n[532, 0, 688, 164] [photo] -> NO \n[636, 368, 724, 644] [photo] -> NO \n[620, 752, 680, 1076] [photo] -> NO \n[1660, 932, 1744, 1080] [photo] -> NO \n[720, 0, 832, 236] [photo] -> NO \n[400, 96, 444, 272] [photo] -> NO \n[908, 216, 976, 296] [photo] -> NO \n[456, 176, 512, 336] [photo] -> NO \n[516, 928, 604, 1016] [photo] -> NO \n[640, 212, 688, 352] [photo] -> NO \n[1776, 1024, 1920, 1080] [photo] -> NO \n[144, 284, 204, 348] [photo] -> NO \n[1224, 616, 1392, 684] [photo] -> NO \n[492, 712, 568, 764] [photo] -> NO \n[1348, 860, 1404, 904] [photo] -> NO \n[1424, 836, 1480, 868] [photo] -> NO \n[1500, 800, 1628, 848] [photo] -> NO \n[964, 144, 1024, 204] [photo] -> NO \n[1096, 684, 1128, 736] [photo] -> NO \n[532, 144, 580, 204] [photo] -> NO \n[1080, 284, 1104, 328] [photo] -> NO \n[440, 524, 468, 568] [photo] -> NO \n[124, 880, 168, 908] [photo] -> NO \n[456, 72, 484, 104] [photo] -> NO \n[1112, 1036, 1364, 1080] [photo_lo] -> NO \n[1080, 364, 1120, 440] [photo_lo] -> NO \n[348, 232, 396, 356] [photo_lo] -> NO \n[884, 0, 932, 64] [photo_lo] -> NO \n[1252, 260, 1284, 356] [photo_lo] -> NO \n[1236, 388, 1264, 436] [photo_lo] -> NO \n[1080, 484, 1136, 540] [photo_lo] -> NO \n[1076, 740, 1120, 768] [photo_lo] -> NO \n[856, 440, 904, 516] [edge] -> NO \n[388, 1012, 504, 1080] [edge] -> NO \n[76, 108, 128, 316] [edge] -> NO \n[1452, 872, 1504, 916] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3630",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3630.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 22.47,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 40, 'second': 8, 'edge': 4, 'total': 52, 'capped': True}\n[160, 440, 356, 764] [photo] -> NO \n[620, 752, 680, 1076] [photo] -> NO \n[640, 376, 724, 632] [photo] -> NO \n[1652, 920, 1768, 1080] [photo] -> NO \n[720, 0, 804, 232] [photo] -> NO \n[516, 928, 624, 1008] [photo] -> NO \n[568, 68, 684, 164] [photo] -> NO \n[604, 4, 656, 92] [photo] -> NO \n[400, 168, 440, 272] [photo] -> NO \n[460, 220, 504, 312] [photo] -> NO \n[1224, 616, 1388, 684] [photo] -> NO \n[1236, 1048, 1316, 1080] [photo] -> NO \n[1356, 864, 1404, 904] [photo] -> NO \n[360, 240, 396, 276] [photo] -> NO \n[1500, 812, 1592, 848] [photo] -> NO \n[1864, 1032, 1920, 1080] [photo] -> NO \n[492, 712, 564, 764] [photo] -> NO \n[1780, 1056, 1836, 1080] [photo] -> NO \n[1428, 836, 1480, 868] [photo] -> NO \n[1392, 916, 1436, 944] [photo] -> NO \n[1096, 680, 1132, 736] [photo] -> NO \n[464, 184, 488, 216] [photo] -> NO \n[544, 32, 592, 88] [photo] -> NO \n[1156, 1060, 1228, 1080] [photo] -> NO \n[916, 216, 944, 248] [photo] -> NO \n[556, 216, 612, 256] [photo_lo] -> NO \n[456, 972, 540, 1004] [photo_lo] -> NO \n[404, 1016, 496, 1064] [photo_lo] -> NO \n[1236, 392, 1268, 440] [photo_lo] -> NO \n[1060, 196, 1096, 280] [photo_lo] -> NO \n[412, 468, 492, 580] [photo_lo] -> NO \n[884, 0, 920, 48] [photo_lo] -> NO \n[424, 592, 452, 672] [photo_lo] -> NO \n[856, 440, 904, 524] [edge] -> NO \n[1452, 876, 1504, 916] [edge] -> NO \n[520, 120, 560, 188] [edge] -> NO \n[348, 392, 388, 460] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3680",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3680.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 22.25,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 41, 'second': 8, 'edge': 4, 'total': 53, 'capped': True}\n[188, 548, 320, 760] [photo] -> NO \n[196, 840, 340, 956] [photo] -> NO \n[1696, 964, 1768, 1080] [photo] -> NO \n[584, 4, 688, 164] [photo] -> NO \n[72, 960, 220, 1020] [photo] -> NO \n[724, 0, 820, 200] [photo] -> NO phone\n[600, 764, 680, 980] [photo] -> NO \n[648, 396, 724, 584] [photo] -> NO \n[168, 604, 204, 680] [photo] -> NO \n[1236, 1048, 1356, 1080] [photo] -> NO \n[396, 440, 464, 476] [photo] -> NO \n[1320, 648, 1388, 684] [photo] -> NO \n[388, 1028, 472, 1064] [photo] -> NO \n[1776, 1052, 1852, 1080] [photo] -> NO \n[520, 928, 592, 1000] [photo] -> NO \n[1152, 692, 1212, 720] [photo] -> NO \n[332, 444, 384, 480] [photo] -> NO \n[504, 712, 556, 752] [photo] -> NO \n[1364, 864, 1404, 904] [photo] -> NO \n[1388, 912, 1436, 948] [photo] -> NO \n[1432, 840, 1480, 868] [photo] -> NO \n[1500, 812, 1588, 848] [photo] -> NO \n[1156, 1060, 1232, 1080] [photo] -> NO \n[1184, 656, 1236, 680] [photo] -> NO \n[404, 228, 436, 252] [photo] -> NO \n[400, 936, 508, 972] [photo_lo] -> NO \n[452, 184, 516, 328] [photo_lo] -> NO \n[556, 172, 608, 252] [photo_lo] -> NO \n[960, 0, 988, 132] [photo_lo] -> NO \n[76, 88, 108, 216] [photo_lo] -> NO \n[912, 196, 944, 268] [photo_lo] -> NO \n[1104, 180, 1196, 256] [photo_lo] -> NO \n[184, 776, 216, 800] [photo_lo] -> NO \n[860, 444, 904, 524] [edge] -> NO \n[844, 680, 936, 812] [edge] -> NO \n[1040, 620, 1200, 704] [edge] -> NO \n[736, 680, 832, 756] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3730",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3730.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 22.32,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 38, 'second': 8, 'edge': 4, 'total': 50, 'capped': True}\n[180, 508, 332, 760] [photo] -> NO \n[1368, 1008, 1556, 1080] [photo] -> NO \n[620, 752, 680, 1076] [photo] -> NO \n[640, 432, 724, 636] [photo] -> NO \n[720, 64, 828, 232] [photo] -> NO \n[1696, 968, 1840, 1080] [photo] -> NO \n[604, 4, 688, 92] [photo] -> NO \n[572, 112, 668, 164] [photo] -> NO \n[1224, 616, 1392, 684] [photo] -> NO \n[724, 0, 772, 48] [photo] -> NO \n[1160, 1052, 1292, 1080] [photo] -> NO \n[520, 928, 600, 1016] [photo] -> NO \n[960, 0, 1024, 204] [photo] -> NO \n[464, 260, 504, 312] [photo] -> NO \n[488, 712, 572, 772] [photo] -> NO \n[1344, 860, 1400, 904] [photo] -> NO \n[312, 440, 356, 500] [photo] -> NO \n[688, 388, 712, 428] [photo] -> NO \n[404, 228, 436, 272] [photo] -> NO \n[912, 212, 940, 264] [photo] -> NO \n[360, 240, 396, 272] [photo] -> NO \n[808, 0, 844, 24] [photo] -> NO \n[440, 528, 472, 568] [photo] -> NO \n[656, 68, 684, 96] [photo] -> NO \n[1056, 192, 1096, 264] [photo] -> NO \n[144, 280, 204, 360] [photo_lo] -> NO \n[884, 0, 932, 56] [photo_lo] -> NO \n[1236, 384, 1264, 440] [photo_lo] -> NO \n[484, 424, 524, 468] [photo_lo] -> NO \n[1252, 260, 1284, 340] [photo_lo] -> NO \n[1080, 400, 1120, 436] [photo_lo] -> NO \n[556, 220, 592, 252] [photo_lo] -> NO \n[1596, 1052, 1640, 1080] [photo_lo] -> NO \n[380, 36, 428, 236] [edge] -> NO \n[384, 1012, 520, 1080] [edge] -> NO \n[908, 548, 956, 616] [edge] -> NO \n[520, 140, 560, 192] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3780",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3780.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 15.2,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 13, 'second': 8, 'edge': 4, 'total': 25, 'capped': False}\n[1692, 964, 1764, 1080] [photo] -> NO \n[1780, 1052, 1840, 1080] [photo] -> NO \n[608, 8, 644, 52] [photo] -> NO \n[284, 704, 320, 740] [photo] -> NO \n[1096, 484, 1120, 512] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1308, 652, 1344, 676] [photo] -> NO \n[1096, 680, 1136, 708] [photo] -> NO \n[1120, 156, 1156, 192] [photo] -> NO \n[1080, 116, 1108, 144] [photo] -> NO \n[508, 716, 536, 736] [photo] -> NO \n[1584, 644, 1608, 668] [photo] -> NO \n[1224, 0, 1292, 12] [photo] -> NO \n[1028, 396, 1224, 484] [photo_lo] -> NO \n[1156, 1012, 1380, 1080] [photo_lo] -> NO \n[1440, 236, 1528, 588] [photo_lo] -> NO \n[676, 812, 708, 920] [photo_lo] -> NO \n[1244, 468, 1312, 500] [photo_lo] -> NO \n[1364, 696, 1412, 756] [photo_lo] -> NO \n[1272, 856, 1340, 888] [photo_lo] -> NO \n[1388, 912, 1436, 948] [photo_lo] -> NO \n[260, 1036, 320, 1080] [edge] -> NO \n[664, 544, 736, 628] [edge] -> NO \n[1872, 1044, 1920, 1080] [edge] -> NO \n[860, 444, 900, 512] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3830",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3830.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 13.08,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 10, 'second': 8, 'edge': 4, 'total': 22, 'capped': False}\n[1696, 964, 1756, 1080] [photo] -> NO \n[1780, 1052, 1844, 1080] [photo] -> NO \n[608, 12, 644, 48] [photo] -> NO \n[120, 916, 156, 956] [photo] -> NO \n[1868, 1044, 1920, 1080] [photo] -> NO \n[284, 708, 312, 736] [photo] -> NO \n[1096, 680, 1136, 712] [photo] -> NO \n[128, 884, 156, 904] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1588, 740, 1612, 764] [photo] -> NO \n[1108, 404, 1156, 432] [photo_lo] -> NO \n[904, 444, 936, 504] [photo_lo] -> NO \n[332, 500, 360, 532] [photo_lo] -> NO \n[1292, 648, 1348, 676] [photo_lo] -> NO \n[1096, 484, 1124, 512] [photo_lo] -> NO \n[1304, 856, 1340, 880] [photo_lo] -> NO \n[784, 80, 816, 112] [photo_lo] -> NO \n[816, 0, 844, 28] [photo_lo] -> NO \n[860, 440, 900, 512] [edge] -> NO \n[424, 1012, 488, 1080] [edge] -> NO \n[1016, 940, 1080, 1016] [edge] -> NO \n[660, 524, 720, 632] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3880",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3880.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 13.03,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 10, 'second': 8, 'edge': 4, 'total': 22, 'capped': False}\n[1696, 968, 1744, 1080] [photo] -> NO \n[1744, 1056, 1840, 1080] [photo] -> NO \n[128, 884, 176, 908] [photo] -> NO \n[612, 12, 640, 48] [photo] -> NO \n[1900, 1012, 1920, 1044] [photo] -> NO \n[284, 712, 316, 736] [photo] -> NO \n[296, 920, 340, 952] [photo] -> NO \n[1100, 684, 1128, 712] [photo] -> NO \n[1620, 636, 1644, 660] [photo] -> NO \n[532, 84, 556, 108] [photo] -> NO \n[904, 444, 936, 508] [photo_lo] -> NO \n[1548, 644, 1612, 672] [photo_lo] -> NO \n[784, 84, 812, 112] [photo_lo] -> NO \n[336, 504, 360, 532] [photo_lo] -> NO \n[820, 0, 844, 28] [photo_lo] -> NO \n[636, 136, 660, 160] [photo_lo] -> NO \n[76, 980, 104, 1008] [photo_lo] -> NO \n[1312, 652, 1344, 676] [photo_lo] -> NO \n[860, 440, 904, 512] [edge] -> NO \n[1016, 956, 1064, 1016] [edge] -> NO \n[420, 1012, 488, 1068] [edge] -> NO \n[1480, 224, 1520, 340] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3930",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3930.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.42,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 9, 'second': 8, 'edge': 4, 'total': 21, 'capped': False}\n[1680, 948, 1772, 1080] [photo] -> NO \n[80, 884, 168, 960] [photo] -> NO \n[1776, 1056, 1840, 1080] [photo] -> NO \n[272, 708, 328, 740] [photo] -> NO \n[612, 20, 644, 48] [photo] -> NO \n[304, 912, 352, 944] [photo] -> NO \n[332, 704, 372, 728] [photo] -> NO \n[1616, 636, 1644, 664] [photo] -> NO \n[532, 84, 560, 108] [photo] -> NO \n[288, 740, 368, 768] [photo_lo] -> NO \n[324, 500, 360, 536] [photo_lo] -> NO \n[1100, 900, 1144, 944] [photo_lo] -> NO \n[984, 816, 1012, 860] [photo_lo] -> NO \n[364, 916, 432, 940] [photo_lo] -> NO \n[812, 0, 844, 28] [photo_lo] -> NO \n[904, 456, 940, 524] [photo_lo] -> NO \n[412, 704, 460, 724] [photo_lo] -> NO \n[1020, 956, 1064, 1016] [edge] -> NO \n[656, 540, 716, 624] [edge] -> NO \n[420, 1012, 484, 1068] [edge] -> NO \n[860, 448, 900, 508] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f3980",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f3980.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.45,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 9, 'second': 8, 'edge': 4, 'total': 21, 'capped': False}\n[120, 912, 176, 960] [photo] -> NO \n[1776, 1052, 1840, 1080] [photo] -> NO \n[272, 704, 372, 736] [photo] -> NO \n[624, 8, 648, 64] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[312, 912, 348, 940] [photo] -> NO \n[532, 80, 560, 108] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1908, 880, 1920, 932] [photo] -> NO \n[320, 496, 372, 544] [photo_lo] -> NO \n[984, 816, 1012, 860] [photo_lo] -> NO \n[412, 700, 464, 728] [photo_lo] -> NO \n[288, 744, 328, 768] [photo_lo] -> NO \n[400, 220, 440, 244] [photo_lo] -> NO \n[908, 468, 932, 496] [photo_lo] -> NO \n[76, 980, 104, 1016] [photo_lo] -> NO \n[1108, 908, 1136, 936] [photo_lo] -> NO \n[416, 1012, 492, 1072] [edge] -> NO \n[856, 444, 904, 516] [edge] -> NO \n[1020, 940, 1076, 1016] [edge] -> NO \n[1480, 228, 1520, 336] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4030",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4030.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 13.07,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 10, 'second': 8, 'edge': 4, 'total': 22, 'capped': False}\n[1696, 968, 1768, 1080] [photo] -> NO \n[1636, 896, 1700, 1080] [photo] -> NO \n[1780, 1000, 1920, 1080] [photo] -> NO \n[128, 880, 200, 912] [photo] -> NO \n[276, 708, 312, 732] [photo] -> NO \n[1620, 636, 1648, 664] [photo] -> NO \n[1096, 680, 1132, 712] [photo] -> NO \n[528, 80, 560, 112] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1896, 72, 1920, 104] [photo] -> NO \n[608, 8, 644, 48] [photo_lo] -> NO \n[324, 508, 356, 536] [photo_lo] -> NO \n[984, 816, 1012, 856] [photo_lo] -> NO \n[976, 760, 1000, 804] [photo_lo] -> NO \n[328, 704, 372, 724] [photo_lo] -> NO \n[996, 940, 1024, 1000] [photo_lo] -> NO \n[1044, 972, 1072, 1004] [photo_lo] -> NO \n[80, 980, 104, 1008] [photo_lo] -> NO \n[412, 1012, 488, 1080] [edge] -> NO \n[1436, 480, 1476, 556] [edge] -> NO \n[1480, 228, 1520, 340] [edge] -> NO \n[864, 448, 896, 500] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4080",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4080.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.88,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 8, 'base': 8, 'second': 8, 'edge': 4, 'total': 20, 'capped': False}\n[1668, 940, 1744, 1080] [photo] -> NO \n[752, 72, 832, 160] [photo] -> NO \n[120, 916, 152, 956] [photo] -> NO \n[1780, 1052, 1840, 1080] [photo] -> NO \n[548, 0, 572, 44] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[528, 80, 560, 108] [photo] -> NO \n[1204, 224, 1268, 580] [photo_lo] -> NO \n[576, 0, 608, 60] [photo_lo] -> NO \n[808, 0, 840, 36] [photo_lo] -> NO \n[320, 496, 360, 540] [photo_lo] -> NO \n[272, 708, 324, 740] [photo_lo] -> NO \n[328, 704, 372, 728] [photo_lo] -> NO \n[740, 0, 768, 28] [photo_lo] -> NO \n[632, 128, 660, 164] [photo_lo] -> NO \n[688, 440, 900, 536] [edge] -> NO \n[1104, 972, 1232, 1068] [edge] -> NO \n[352, 756, 424, 912] [edge] -> NO \n[308, 940, 404, 1032] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4130",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4130.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.58,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 29, 'base': 7, 'second': 8, 'edge': 4, 'total': 19, 'capped': False}\n[1196, 224, 1256, 572] [photo] -> NO \n[1696, 976, 1744, 1056] [photo] -> NO \n[1776, 1056, 1840, 1080] [photo] -> NO \n[180, 888, 208, 912] [photo] -> NO \n[1616, 636, 1644, 664] [photo] -> NO \n[76, 60, 104, 164] [photo_lo] -> NO \n[272, 712, 320, 740] [photo_lo] -> NO \n[576, 28, 604, 60] [photo_lo] -> NO \n[812, 4, 836, 36] [photo_lo] -> NO \n[1448, 856, 1476, 888] [photo_lo] -> NO \n[544, 0, 572, 28] [photo_lo] -> NO \n[1852, 1004, 1896, 1060] [photo_lo] -> NO \n[192, 732, 224, 760] [photo_lo] -> NO \n[920, 24, 972, 136] [edge] -> NO \n[1480, 224, 1520, 336] [edge] -> NO \n[156, 520, 212, 676] [edge] -> NO \n[1436, 484, 1476, 552] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4180",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4180.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 13.06,
+   "anomaly": false,
+   "detections": [],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 14, 'base': 10, 'second': 8, 'edge': 4, 'total': 22, 'capped': False}\n[1688, 968, 1744, 1080] [photo] -> NO \n[1192, 420, 1232, 612] [photo] -> NO \n[140, 884, 212, 916] [photo] -> NO \n[1092, 888, 1156, 956] [photo] -> NO \n[1776, 1052, 1840, 1080] [photo] -> NO \n[1212, 1056, 1272, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[0, 348, 12, 440] [photo] -> NO \n[1908, 872, 1920, 916] [photo] -> NO \n[0, 456, 12, 504] [photo] -> NO \n[76, 956, 128, 1016] [photo_lo] -> NO \n[168, 620, 204, 676] [photo_lo] -> NO \n[80, 64, 104, 172] [photo_lo] -> NO \n[160, 564, 192, 616] [photo_lo] -> NO \n[724, 0, 768, 28] [photo_lo] -> NO \n[1316, 644, 1348, 676] [photo_lo] -> NO \n[1404, 848, 1436, 876] [photo_lo] -> NO \n[736, 76, 760, 100] [photo_lo] -> NO \n[384, 96, 424, 232] [edge] -> NO \n[1436, 456, 1476, 552] [edge] -> NO \n[76, 1028, 116, 1080] [edge] -> NO \n[1480, 228, 1520, 340] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4230",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4230.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.99,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1084,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 22, 'base': 6, 'second': 8, 'edge': 4, 'total': 18, 'capped': False}\n[1084, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1780, 1052, 1836, 1080] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[0, 456, 12, 504] [photo] -> NO \n[772, 88, 820, 136] [photo_lo] -> NO \n[172, 884, 212, 916] [photo_lo] -> NO \n[1312, 644, 1352, 668] [photo_lo] -> NO \n[1248, 1060, 1288, 1080] [photo_lo] -> NO \n[172, 628, 204, 664] [photo_lo] -> NO \n[76, 976, 104, 1012] [photo_lo] -> NO \n[740, 0, 768, 28] [photo_lo] -> NO \n[228, 940, 252, 968] [photo_lo] -> NO \n[60, 56, 116, 180] [edge] -> NO \n[384, 96, 420, 232] [edge] -> NO \n[80, 1016, 108, 1076] [edge] -> NO \n[1140, 624, 1196, 656] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4280",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4280.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 13.09,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1084,
+      172,
+      1244,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 9, 'second': 8, 'edge': 4, 'total': 21, 'capped': False}\n[1084, 172, 1244, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1660, 980, 1764, 1080] [photo] -> NO \n[1084, 260, 1116, 360] [photo] -> NO \n[144, 884, 212, 916] [photo] -> NO \n[1780, 1056, 1844, 1080] [photo] -> NO \n[76, 976, 104, 1016] [photo] -> NO \n[1908, 820, 1920, 912] [photo] -> NO \n[1616, 636, 1648, 660] [photo] -> NO \n[752, 88, 820, 148] [photo_lo] -> NO \n[76, 52, 108, 224] [photo_lo] -> NO \n[172, 616, 200, 664] [photo_lo] -> NO \n[400, 1032, 472, 1064] [photo_lo] -> NO \n[808, 4, 836, 40] [photo_lo] -> NO \n[512, 712, 552, 744] [photo_lo] -> NO \n[364, 244, 392, 272] [photo_lo] -> NO \n[924, 192, 960, 224] [photo_lo] -> NO \n[384, 116, 424, 232] [edge] -> NO \n[80, 1024, 108, 1080] [edge] -> NO \n[464, 632, 504, 664] [edge] -> NO \n[1488, 248, 1516, 308] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4330",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4330.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 13.08,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "pants on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 9, 'second': 8, 'edge': 4, 'total': 21, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES pants on seat\n[1692, 968, 1744, 1080] [photo] -> NO \n[1084, 260, 1116, 348] [photo] -> NO \n[140, 884, 212, 916] [photo] -> NO \n[1780, 1052, 1868, 1080] [photo] -> NO \n[76, 976, 108, 1016] [photo] -> NO \n[1620, 636, 1648, 664] [photo] -> NO \n[1908, 336, 1920, 404] [photo] -> NO \n[400, 1032, 472, 1064] [photo_lo] -> NO \n[172, 628, 200, 652] [photo_lo] -> NO \n[812, 4, 836, 36] [photo_lo] -> NO \n[740, 0, 764, 28] [photo_lo] -> NO \n[924, 192, 956, 224] [photo_lo] -> NO \n[892, 352, 916, 384] [photo_lo] -> NO \n[1364, 0, 1424, 16] [photo_lo] -> NO \n[276, 720, 300, 744] [photo_lo] -> NO \n[64, 48, 120, 264] [edge] -> NO \n[1580, 956, 1660, 1080] [edge] -> NO \n[384, 100, 424, 232] [edge] -> NO \n[76, 1020, 112, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4380",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4380.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.62,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 8, 'edge': 4, 'total': 20, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1692, 968, 1744, 1080] [photo] -> NO \n[1776, 1056, 1844, 1080] [photo] -> NO \n[76, 976, 104, 1016] [photo] -> NO \n[1612, 636, 1648, 664] [photo] -> NO \n[432, 1032, 456, 1056] [photo] -> NO \n[1404, 164, 1428, 188] [photo] -> NO \n[736, 0, 764, 32] [photo_lo] -> NO \n[508, 28, 536, 60] [photo_lo] -> NO \n[812, 8, 836, 36] [photo_lo] -> NO \n[924, 192, 960, 224] [photo_lo] -> NO \n[348, 552, 388, 572] [photo_lo] -> NO \n[892, 348, 916, 384] [photo_lo] -> NO \n[832, 84, 856, 108] [photo_lo] -> NO \n[1388, 280, 1412, 312] [photo_lo] -> NO \n[1576, 956, 1656, 1080] [edge] -> NO \n[64, 72, 116, 212] [edge] -> NO \n[384, 96, 420, 232] [edge] -> NO \n[76, 1020, 112, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4430",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4430.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.39,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 8, 'edge': 4, 'total': 18, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1692, 968, 1744, 1080] [photo] -> NO \n[76, 980, 104, 1012] [photo] -> NO \n[1776, 1000, 1900, 1080] [photo] -> NO \n[1620, 636, 1648, 660] [photo] -> NO \n[400, 1032, 472, 1064] [photo_lo] -> NO \n[924, 192, 960, 224] [photo_lo] -> NO \n[740, 4, 764, 28] [photo_lo] -> NO \n[892, 352, 916, 380] [photo_lo] -> NO \n[188, 0, 224, 16] [photo_lo] -> NO \n[1588, 720, 1624, 764] [photo_lo] -> NO \n[1908, 232, 1920, 292] [photo_lo] -> NO \n[32, 24, 56, 48] [photo_lo] -> NO \n[1580, 956, 1660, 1080] [edge] -> NO \n[60, 72, 112, 160] [edge] -> NO \n[388, 148, 420, 228] [edge] -> NO \n[76, 1028, 112, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4480",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4480.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 7, 'second': 8, 'edge': 4, 'total': 19, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1692, 972, 1744, 1080] [photo] -> NO \n[1780, 1056, 1852, 1080] [photo] -> NO \n[1600, 636, 1648, 664] [photo] -> NO \n[76, 980, 104, 1016] [photo] -> NO \n[1908, 320, 1920, 384] [photo] -> NO \n[400, 1032, 472, 1064] [photo_lo] -> NO \n[624, 128, 660, 156] [photo_lo] -> NO \n[924, 192, 960, 224] [photo_lo] -> NO \n[736, 4, 764, 32] [photo_lo] -> NO \n[1360, 868, 1392, 900] [photo_lo] -> NO \n[776, 92, 804, 112] [photo_lo] -> NO \n[724, 84, 748, 108] [photo_lo] -> NO \n[1340, 656, 1364, 680] [photo_lo] -> NO \n[1576, 960, 1656, 1080] [edge] -> NO \n[84, 128, 112, 164] [edge] -> NO \n[80, 1032, 108, 1068] [edge] -> NO \n[336, 1060, 376, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4530",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4530.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 8, 'second': 8, 'edge': 4, 'total': 20, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1696, 968, 1744, 1080] [photo] -> NO \n[604, 4, 652, 72] [photo] -> NO \n[1788, 1056, 1836, 1080] [photo] -> NO \n[124, 880, 192, 912] [photo] -> NO \n[80, 980, 104, 1004] [photo] -> NO \n[1616, 636, 1644, 660] [photo] -> NO \n[1284, 652, 1380, 684] [photo_lo] -> NO \n[1516, 800, 1632, 844] [photo_lo] -> NO \n[1016, 184, 1060, 208] [photo_lo] -> NO \n[1364, 872, 1396, 900] [photo_lo] -> NO \n[892, 352, 916, 384] [photo_lo] -> NO \n[924, 192, 960, 224] [photo_lo] -> NO \n[516, 724, 544, 748] [photo_lo] -> NO \n[1588, 720, 1620, 764] [photo_lo] -> NO \n[384, 1008, 492, 1080] [edge] -> NO \n[1380, 0, 1424, 20] [edge] -> NO \n[672, 600, 696, 624] [edge] -> NO \n[336, 1060, 372, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4580",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4580.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 16.59,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 8, 'edge': 4, 'total': 27, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1696, 968, 1744, 1080] [photo] -> NO \n[604, 4, 652, 72] [photo] -> NO \n[1780, 1056, 1856, 1080] [photo] -> NO \n[284, 604, 316, 664] [photo] -> NO \n[172, 888, 208, 912] [photo] -> NO \n[1612, 632, 1652, 668] [photo] -> NO \n[288, 712, 320, 740] [photo] -> NO \n[1336, 656, 1372, 680] [photo] -> NO \n[100, 896, 128, 920] [photo] -> NO \n[304, 924, 328, 948] [photo] -> NO \n[80, 980, 104, 1004] [photo] -> NO \n[1908, 320, 1920, 380] [photo] -> NO \n[1908, 728, 1920, 776] [photo] -> NO \n[404, 836, 452, 872] [photo_lo] -> NO \n[1508, 800, 1632, 844] [photo_lo] -> NO \n[624, 128, 660, 160] [photo_lo] -> NO \n[332, 552, 388, 576] [photo_lo] -> NO \n[400, 1040, 448, 1064] [photo_lo] -> NO \n[652, 260, 680, 308] [photo_lo] -> NO \n[764, 88, 788, 112] [photo_lo] -> NO \n[452, 1020, 484, 1044] [photo_lo] -> NO \n[64, 48, 124, 272] [edge] -> NO \n[1580, 1004, 1632, 1076] [edge] -> NO \n[668, 564, 708, 624] [edge] -> NO \n[692, 472, 724, 512] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4630",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4630.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 19.05,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 19, 'second': 8, 'edge': 4, 'total': 31, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1372, 1024, 1496, 1080] [photo] -> NO \n[1700, 968, 1744, 1080] [photo] -> NO \n[608, 4, 652, 72] [photo] -> NO \n[1760, 1052, 1828, 1080] [photo] -> NO \n[1320, 1056, 1356, 1080] [photo] -> NO \n[1880, 1040, 1920, 1080] [photo] -> NO \n[280, 712, 312, 736] [photo] -> NO \n[304, 916, 340, 944] [photo] -> NO \n[76, 980, 104, 1016] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1588, 732, 1616, 764] [photo] -> NO \n[1104, 688, 1128, 712] [photo] -> NO \n[1092, 128, 1116, 152] [photo] -> NO \n[1284, 0, 1336, 12] [photo] -> NO \n[0, 100, 12, 152] [photo] -> NO \n[1908, 868, 1920, 916] [photo] -> NO \n[1908, 224, 1920, 268] [photo] -> NO \n[280, 600, 316, 684] [photo_lo] -> NO \n[76, 68, 108, 220] [photo_lo] -> NO \n[752, 92, 776, 136] [photo_lo] -> NO \n[1324, 652, 1388, 680] [photo_lo] -> NO \n[1424, 840, 1476, 868] [photo_lo] -> NO \n[224, 940, 252, 972] [photo_lo] -> NO \n[1528, 812, 1596, 840] [photo_lo] -> NO \n[916, 192, 960, 232] [photo_lo] -> NO \n[384, 36, 424, 232] [edge] -> NO \n[412, 1008, 492, 1064] [edge] -> NO \n[108, 300, 212, 672] [edge] -> NO \n[192, 948, 232, 984] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4680",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4680.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 16.69,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 8, 'edge': 4, 'total': 27, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1696, 968, 1744, 1080] [photo] -> NO \n[1776, 980, 1920, 1080] [photo] -> NO \n[608, 4, 652, 72] [photo] -> NO \n[1412, 836, 1480, 896] [photo] -> NO \n[124, 920, 152, 956] [photo] -> NO \n[76, 976, 104, 1016] [photo] -> NO \n[1552, 812, 1596, 836] [photo] -> NO \n[1100, 684, 1128, 708] [photo] -> NO \n[1616, 636, 1644, 660] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[444, 1040, 468, 1064] [photo] -> NO \n[0, 100, 12, 156] [photo] -> NO \n[1908, 880, 1920, 924] [photo] -> NO \n[752, 92, 804, 156] [photo_lo] -> NO \n[76, 68, 112, 248] [photo_lo] -> NO \n[168, 624, 204, 668] [photo_lo] -> NO \n[284, 704, 336, 732] [photo_lo] -> NO \n[1328, 652, 1384, 680] [photo_lo] -> NO \n[544, 948, 572, 976] [photo_lo] -> NO \n[920, 192, 956, 228] [photo_lo] -> NO \n[516, 724, 544, 748] [photo_lo] -> NO \n[384, 36, 468, 284] [edge] -> NO \n[884, 748, 956, 864] [edge] -> NO \n[1580, 948, 1660, 1080] [edge] -> NO \n[104, 972, 204, 1060] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4730",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4730.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 15.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "a jacket on the right seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 13, 'second': 8, 'edge': 4, 'total': 25, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES a jacket on the right seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1696, 968, 1744, 1080] [photo] -> NO \n[604, 4, 652, 72] [photo] -> NO \n[1416, 840, 1476, 892] [photo] -> NO \n[1780, 1052, 1836, 1080] [photo] -> NO \n[1520, 800, 1628, 844] [photo] -> NO \n[76, 976, 108, 1016] [photo] -> NO \n[1332, 652, 1380, 680] [photo] -> NO \n[632, 128, 660, 152] [photo] -> NO \n[1616, 636, 1644, 660] [photo] -> NO \n[520, 724, 544, 748] [photo] -> NO \n[972, 0, 1000, 20] [photo] -> NO \n[752, 76, 812, 140] [photo_lo] -> NO \n[76, 60, 112, 252] [photo_lo] -> NO \n[168, 624, 204, 688] [photo_lo] -> NO \n[404, 1032, 472, 1064] [photo_lo] -> NO \n[332, 552, 404, 576] [photo_lo] -> NO \n[664, 4, 688, 56] [photo_lo] -> NO \n[484, 268, 512, 308] [photo_lo] -> NO \n[728, 4, 760, 44] [photo_lo] -> NO \n[384, 36, 468, 280] [edge] -> NO \n[1580, 956, 1660, 1080] [edge] -> NO \n[108, 972, 196, 1040] [edge] -> NO \n[76, 1020, 112, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4780",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4780.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 16.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1248,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 8, 'edge': 4, 'total': 27, 'capped': False}\n[1080, 172, 1248, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1696, 968, 1744, 1080] [photo] -> NO \n[1408, 840, 1480, 900] [photo] -> NO \n[604, 4, 652, 72] [photo] -> NO \n[1516, 800, 1632, 844] [photo] -> NO \n[1776, 1052, 1836, 1080] [photo] -> NO \n[76, 976, 108, 1016] [photo] -> NO \n[1332, 652, 1376, 676] [photo] -> NO \n[516, 720, 548, 748] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1096, 684, 1128, 712] [photo] -> NO \n[488, 268, 512, 292] [photo] -> NO \n[1744, 4, 1780, 32] [photo] -> NO \n[76, 52, 112, 260] [photo_lo] -> NO \n[752, 80, 808, 136] [photo_lo] -> NO \n[640, 816, 668, 932] [photo_lo] -> NO \n[168, 624, 204, 692] [photo_lo] -> NO \n[1556, 960, 1592, 992] [photo_lo] -> NO \n[648, 516, 684, 572] [photo_lo] -> NO \n[400, 1032, 472, 1064] [photo_lo] -> NO \n[1352, 864, 1396, 900] [photo_lo] -> NO \n[384, 92, 424, 236] [edge] -> NO \n[908, 556, 956, 616] [edge] -> NO \n[76, 1016, 112, 1080] [edge] -> NO \n[1880, 1044, 1920, 1080] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4830",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4830.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 20.26,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "a jacket on the seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1252,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 21, 'second': 8, 'edge': 4, 'total': 33, 'capped': False}\n[1080, 172, 1252, 484] [photo] -> YES a jacket on the seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1692, 976, 1744, 1080] [photo] -> NO \n[1412, 836, 1484, 900] [photo] -> NO \n[604, 4, 652, 72] [photo] -> NO \n[128, 880, 216, 916] [photo] -> NO \n[1508, 796, 1632, 844] [photo] -> NO \n[1324, 648, 1388, 680] [photo] -> NO \n[1756, 1052, 1836, 1080] [photo] -> NO \n[80, 64, 100, 124] [photo] -> NO \n[1872, 1036, 1920, 1080] [photo] -> NO \n[76, 976, 104, 1016] [photo] -> NO \n[80, 136, 104, 168] [photo] -> NO \n[516, 720, 548, 748] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[1328, 856, 1352, 880] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1096, 684, 1128, 712] [photo] -> NO \n[892, 352, 916, 380] [photo] -> NO \n[1048, 188, 1080, 220] [photo] -> NO \n[1908, 860, 1920, 916] [photo] -> NO \n[1224, 740, 1348, 848] [photo_lo] -> NO \n[224, 576, 308, 756] [photo_lo] -> NO \n[1528, 936, 1600, 1004] [photo_lo] -> NO \n[748, 76, 808, 160] [photo_lo] -> NO \n[1260, 688, 1360, 716] [photo_lo] -> NO \n[168, 604, 204, 692] [photo_lo] -> NO \n[400, 1032, 472, 1064] [photo_lo] -> NO \n[652, 516, 684, 572] [photo_lo] -> NO \n[384, 36, 424, 236] [edge] -> NO \n[904, 540, 960, 620] [edge] -> NO \n[1576, 948, 1660, 1080] [edge] -> NO \n[688, 456, 736, 520] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4880",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4880.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 20.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1252,
+      484
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 22, 'second': 8, 'edge': 4, 'total': 34, 'capped': False}\n[1080, 172, 1252, 484] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES clothes on seat\n[1320, 836, 1484, 900] [photo] -> NO \n[1696, 944, 1920, 1080] [photo] -> NO \n[608, 4, 652, 72] [photo] -> NO \n[1508, 792, 1632, 844] [photo] -> NO \n[120, 880, 216, 916] [photo] -> NO \n[168, 612, 200, 664] [photo] -> NO \n[76, 976, 108, 1016] [photo] -> NO \n[1320, 644, 1368, 676] [photo] -> NO \n[1572, 636, 1648, 668] [photo] -> NO \n[76, 76, 104, 136] [photo] -> NO \n[1104, 480, 1124, 508] [photo] -> NO \n[924, 196, 960, 224] [photo] -> NO \n[512, 716, 548, 748] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[892, 352, 916, 380] [photo] -> NO \n[1056, 192, 1080, 220] [photo] -> NO \n[1908, 824, 1920, 928] [photo] -> NO \n[0, 380, 12, 440] [photo] -> NO \n[1876, 64, 1900, 88] [photo] -> NO \n[0, 456, 12, 500] [photo] -> NO \n[452, 240, 516, 376] [photo_lo] -> NO \n[384, 116, 432, 272] [photo_lo] -> NO \n[636, 216, 688, 368] [photo_lo] -> NO \n[504, 0, 580, 40] [photo_lo] -> NO \n[400, 1028, 468, 1064] [photo_lo] -> NO \n[568, 160, 620, 228] [photo_lo] -> NO \n[264, 712, 308, 748] [photo_lo] -> NO \n[1376, 984, 1416, 1064] [photo_lo] -> NO \n[904, 548, 972, 620] [edge] -> NO \n[692, 452, 736, 520] [edge] -> NO \n[516, 116, 568, 192] [edge] -> NO \n[456, 584, 540, 664] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4930",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4930.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 22.87,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1252,
+      488
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "pants on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1376,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 35, 'second': 8, 'edge': 4, 'total': 47, 'capped': True}\n[1080, 172, 1252, 488] [photo] -> YES jacket on seat\n[1232, 256, 1376, 520] [photo] -> YES pants on seat\n[1256, 832, 1492, 964] [photo] -> NO \n[1680, 936, 1768, 1080] [photo] -> NO \n[1504, 792, 1644, 860] [photo] -> NO \n[608, 4, 688, 72] [photo] -> NO \n[140, 880, 216, 916] [photo] -> NO \n[1392, 1052, 1460, 1080] [photo] -> NO \n[1772, 1056, 1836, 1080] [photo] -> NO \n[76, 968, 120, 1020] [photo] -> NO \n[172, 608, 204, 668] [photo] -> NO \n[1648, 888, 1688, 936] [photo] -> NO \n[1316, 644, 1372, 680] [photo] -> NO \n[408, 1032, 468, 1060] [photo] -> NO \n[644, 228, 676, 296] [photo] -> NO \n[728, 0, 752, 40] [photo] -> NO \n[264, 720, 300, 748] [photo] -> NO \n[456, 248, 480, 288] [photo] -> NO \n[488, 288, 512, 316] [photo] -> NO \n[1100, 480, 1124, 504] [photo] -> NO \n[516, 716, 548, 748] [photo] -> NO \n[1864, 56, 1920, 96] [photo] -> NO \n[1616, 636, 1644, 664] [photo] -> NO \n[892, 348, 916, 380] [photo] -> NO \n[1056, 192, 1080, 216] [photo] -> NO \n[1224, 716, 1352, 844] [photo_lo] -> NO \n[744, 72, 828, 152] [photo_lo] -> NO \n[512, 148, 556, 260] [photo_lo] -> NO \n[1608, 984, 1660, 1076] [photo_lo] -> NO \n[504, 0, 600, 80] [photo_lo] -> NO \n[76, 52, 112, 252] [photo_lo] -> NO \n[640, 780, 668, 928] [photo_lo] -> NO \n[384, 76, 432, 272] [photo_lo] -> NO \n[692, 456, 736, 512] [edge] -> NO \n[464, 580, 572, 688] [edge] -> NO \n[1020, 952, 1060, 1008] [edge] -> NO \n[1280, 612, 1344, 648] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f4980",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f4980.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 24.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1216,
+      560,
+      1652,
+      1080
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1012,
+      172,
+      1252,
+      488
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1380,
+      524
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      1096,
+      480,
+      1132,
+      532
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 34, 'second': 8, 'edge': 4, 'total': 46, 'capped': True}\n[1216, 560, 1652, 1080] [photo] -> YES jacket on seat\n[1012, 172, 1252, 488] [photo] -> YES jacket on seat\n[1232, 256, 1380, 524] [photo] -> YES clothes on seat\n[608, 4, 688, 72] [photo] -> NO \n[1644, 876, 1828, 1080] [photo] -> NO \n[116, 876, 224, 916] [photo] -> NO \n[168, 584, 204, 668] [photo] -> NO \n[76, 972, 120, 1020] [photo] -> NO \n[640, 852, 668, 928] [photo] -> NO \n[1024, 824, 1060, 916] [photo] -> NO \n[1096, 480, 1132, 532] [photo] -> YES backpack\n[456, 248, 512, 316] [photo] -> NO \n[1060, 744, 1100, 800] [photo] -> NO \n[1544, 636, 1644, 672] [photo] -> NO \n[724, 0, 764, 44] [photo] -> NO \n[484, 424, 520, 460] [photo] -> NO \n[412, 1032, 468, 1060] [photo] -> NO \n[264, 720, 300, 748] [photo] -> NO \n[960, 140, 996, 176] [photo] -> NO \n[1088, 684, 1132, 720] [photo] -> NO \n[644, 224, 676, 296] [photo] -> NO \n[512, 716, 552, 752] [photo] -> NO \n[648, 1020, 676, 1048] [photo] -> NO \n[816, 0, 844, 36] [photo] -> NO \n[892, 348, 916, 384] [photo] -> NO \n[280, 568, 320, 684] [photo_lo] -> NO \n[72, 48, 116, 260] [photo_lo] -> NO \n[376, 76, 436, 280] [photo_lo] -> NO \n[504, 0, 556, 68] [photo_lo] -> NO \n[344, 844, 392, 880] [photo_lo] -> NO \n[564, 172, 612, 228] [photo_lo] -> NO \n[880, 0, 932, 84] [photo_lo] -> NO \n[648, 516, 684, 568] [photo_lo] -> NO \n[876, 548, 980, 700] [edge] -> NO \n[516, 112, 560, 192] [edge] -> NO \n[540, 656, 632, 692] [edge] -> NO \n[1020, 952, 1064, 1012] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5030",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5030.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 24.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1008,
+      172,
+      1392,
+      528
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 48, 'second': 8, 'edge': 4, 'total': 60, 'capped': True}\n[1008, 172, 1392, 528] [photo] -> YES jacket on seat\n[1556, 872, 1920, 1080] [photo] -> NO \n[1236, 580, 1532, 952] [photo] -> NO \n[112, 840, 336, 920] [photo] -> NO \n[180, 916, 352, 1040] [photo] -> NO \n[604, 0, 688, 100] [photo] -> NO \n[1496, 756, 1656, 864] [photo] -> NO \n[48, 952, 188, 1028] [photo] -> NO \n[384, 84, 420, 272] [photo] -> NO \n[132, 456, 204, 680] [photo] -> NO \n[1264, 884, 1312, 932] [photo] -> NO \n[76, 52, 108, 216] [photo] -> NO \n[388, 1024, 468, 1064] [photo] -> NO \n[984, 768, 1024, 892] [photo] -> NO \n[1096, 476, 1160, 532] [photo] -> NO person's legs/foot on seat\n[508, 0, 556, 48] [photo] -> NO \n[508, 72, 540, 124] [photo] -> NO \n[724, 0, 772, 44] [photo] -> NO \n[644, 860, 668, 928] [photo] -> NO \n[560, 0, 584, 76] [photo] -> NO \n[264, 716, 300, 748] [photo] -> NO \n[1380, 992, 1412, 1032] [photo] -> NO \n[484, 428, 524, 460] [photo] -> NO \n[456, 248, 484, 296] [photo] -> NO \n[564, 176, 608, 220] [photo] -> NO \n[904, 480, 964, 664] [photo_lo] -> NO \n[328, 284, 360, 392] [photo_lo] -> NO \n[476, 500, 548, 576] [photo_lo] -> NO \n[1268, 1040, 1360, 1080] [photo_lo] -> NO \n[36, 736, 120, 788] [photo_lo] -> NO \n[1164, 1060, 1260, 1080] [photo_lo] -> NO \n[328, 440, 384, 476] [photo_lo] -> NO \n[184, 728, 228, 756] [photo_lo] -> NO \n[544, 652, 680, 732] [edge] -> NO \n[452, 580, 540, 692] [edge] -> NO \n[728, 712, 788, 808] [edge] -> NO \n[692, 456, 744, 524] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5080",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5080.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 23.92,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1012,
+      172,
+      1396,
+      524
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 60, 'second': 8, 'edge': 4, 'total': 72, 'capped': True}\n[1012, 172, 1396, 524] [photo] -> YES jacket on seat\n[36, 836, 364, 1080] [photo] -> NO \n[1276, 640, 1396, 708] [photo] -> NO \n[1644, 872, 1828, 1080] [photo] -> NO \n[608, 4, 688, 92] [photo] -> NO \n[1500, 756, 1652, 864] [photo] -> NO \n[388, 1020, 468, 1064] [photo] -> NO \n[984, 764, 1028, 896] [photo] -> NO \n[384, 84, 420, 272] [photo] -> NO \n[124, 424, 204, 684] [photo] -> NO \n[1100, 472, 1164, 532] [photo] -> NO person's legs on seat\n[1464, 596, 1532, 684] [photo] -> NO \n[76, 68, 108, 200] [photo] -> NO \n[508, 72, 544, 132] [photo] -> NO \n[960, 116, 996, 176] [photo] -> NO \n[400, 440, 444, 472] [photo] -> NO \n[724, 0, 772, 44] [photo] -> NO \n[504, 0, 556, 44] [photo] -> NO \n[1324, 720, 1356, 764] [photo] -> NO \n[1416, 848, 1448, 896] [photo] -> NO \n[1212, 640, 1252, 688] [photo] -> NO \n[560, 0, 584, 76] [photo] -> NO \n[1192, 556, 1216, 636] [photo] -> NO \n[264, 716, 300, 752] [photo] -> NO \n[1168, 504, 1224, 552] [photo] -> NO \n[908, 488, 968, 700] [photo_lo] -> NO \n[320, 240, 380, 436] [photo_lo] -> NO \n[1844, 988, 1920, 1080] [photo_lo] -> NO \n[332, 440, 396, 532] [photo_lo] -> NO \n[1160, 1048, 1324, 1080] [photo_lo] -> NO \n[624, 212, 692, 368] [photo_lo] -> NO \n[1428, 244, 1488, 332] [photo_lo] -> NO \n[664, 408, 692, 528] [photo_lo] -> NO \n[1572, 928, 1672, 1080] [edge] -> NO \n[724, 684, 824, 812] [edge] -> NO \n[1772, 0, 1920, 68] [edge] -> NO \n[692, 452, 740, 524] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5130",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5130.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 24.1,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1008,
+      172,
+      1392,
+      524
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "bag on seat",
+     "type": "object",
+     "bbox": [
+      1052,
+      100,
+      1128,
+      176
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 54, 'second': 8, 'edge': 4, 'total': 66, 'capped': True}\n[1476, 608, 1896, 1080] [photo] -> NO \n[1008, 172, 1392, 524] [photo] -> YES jacket on seat\n[116, 844, 348, 1032] [photo] -> NO \n[608, 0, 688, 92] [photo] -> NO \n[36, 960, 188, 1080] [photo] -> NO \n[1284, 644, 1392, 680] [photo] -> NO \n[144, 520, 204, 704] [photo] -> NO \n[1408, 840, 1480, 896] [photo] -> NO \n[76, 52, 112, 240] [photo] -> NO \n[984, 768, 1028, 896] [photo] -> NO \n[388, 1024, 472, 1064] [photo] -> NO \n[396, 440, 448, 476] [photo] -> NO \n[1100, 472, 1160, 532] [photo] -> NO \n[360, 104, 416, 280] [photo] -> NO \n[724, 0, 764, 44] [photo] -> NO \n[508, 0, 536, 48] [photo] -> NO \n[508, 80, 540, 124] [photo] -> NO \n[644, 856, 668, 920] [photo] -> NO \n[72, 912, 100, 952] [photo] -> NO \n[1908, 684, 1920, 860] [photo] -> NO \n[488, 268, 512, 316] [photo] -> NO \n[924, 192, 968, 224] [photo] -> NO \n[1052, 100, 1128, 176] [photo] -> YES bag on seat\n[356, 444, 384, 476] [photo] -> NO \n[816, 0, 844, 36] [photo] -> NO \n[912, 500, 964, 696] [photo_lo] -> NO \n[320, 252, 376, 436] [photo_lo] -> NO \n[1156, 1044, 1324, 1080] [photo_lo] -> NO \n[924, 784, 972, 844] [photo_lo] -> NO \n[620, 208, 692, 368] [photo_lo] -> NO \n[128, 776, 168, 816] [photo_lo] -> NO \n[668, 408, 700, 492] [photo_lo] -> NO \n[36, 736, 112, 760] [photo_lo] -> NO \n[688, 452, 740, 528] [edge] -> NO \n[1020, 952, 1064, 1016] [edge] -> NO \n[736, 844, 796, 904] [edge] -> NO \n[512, 112, 560, 192] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5180",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5180.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 23.04,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1124,
+      212,
+      1244,
+      488
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "edge"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 26, 'base': 48, 'second': 8, 'edge': 4, 'total': 60, 'capped': True}\n[112, 832, 372, 1032] [photo] -> NO \n[1232, 256, 1376, 520] [photo] -> NO person sitting on seat\n[1692, 956, 1920, 1080] [photo] -> NO \n[36, 952, 200, 1080] [photo] -> NO \n[1408, 840, 1476, 900] [photo] -> NO \n[484, 428, 588, 468] [photo] -> NO \n[396, 440, 464, 480] [photo] -> NO \n[76, 52, 108, 228] [photo] -> NO \n[388, 1024, 468, 1064] [photo] -> NO \n[124, 432, 204, 680] [photo] -> NO \n[384, 92, 416, 272] [photo] -> NO \n[1076, 672, 1156, 728] [photo] -> NO \n[500, 712, 568, 756] [photo] -> NO \n[508, 76, 540, 120] [photo] -> NO \n[1324, 644, 1368, 676] [photo] -> NO \n[1536, 808, 1592, 836] [photo] -> NO \n[520, 928, 564, 964] [photo] -> NO \n[488, 268, 516, 320] [photo] -> NO \n[504, 0, 536, 40] [photo] -> NO \n[356, 448, 384, 476] [photo] -> NO \n[72, 920, 96, 952] [photo] -> NO \n[268, 720, 300, 748] [photo] -> NO \n[1376, 868, 1400, 896] [photo] -> NO \n[392, 668, 420, 708] [photo] -> NO \n[1196, 512, 1224, 548] [photo] -> NO \n[1596, 968, 1672, 1080] [photo_lo] -> NO \n[1100, 472, 1160, 532] [photo_lo] -> NO \n[1092, 896, 1156, 960] [photo_lo] -> NO \n[604, 940, 628, 992] [photo_lo] -> NO \n[696, 1056, 724, 1080] [photo_lo] -> NO \n[380, 0, 404, 44] [photo_lo] -> NO \n[1612, 840, 1648, 864] [photo_lo] -> NO \n[0, 232, 12, 332] [photo_lo] -> NO \n[1124, 212, 1244, 488] [edge] -> YES jacket on seat\n[512, 104, 568, 192] [edge] -> NO \n[460, 584, 540, 664] [edge] -> NO \n[436, 476, 484, 532] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5230",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5230.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 23.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1076,
+      172,
+      1392,
+      524
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1072,
+      216,
+      1128,
+      360
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 5, 'base': 55, 'second': 8, 'edge': 4, 'total': 67, 'capped': True}\n[1076, 172, 1392, 524] [photo] -> YES jacket on seat\n[36, 836, 368, 1080] [photo] -> NO \n[1688, 976, 1744, 1080] [photo] -> NO \n[372, 992, 472, 1064] [photo] -> NO \n[1280, 640, 1372, 696] [photo] -> NO \n[1072, 216, 1128, 360] [photo] -> YES jacket on seat\n[1412, 840, 1476, 896] [photo] -> NO \n[1600, 992, 1648, 1080] [photo] -> NO \n[1192, 500, 1240, 680] [photo] -> NO \n[524, 752, 592, 828] [photo] -> NO \n[76, 52, 108, 220] [photo] -> NO \n[400, 440, 464, 476] [photo] -> NO \n[624, 8, 688, 72] [photo] -> NO \n[664, 452, 696, 528] [photo] -> NO \n[120, 412, 204, 680] [photo] -> NO \n[336, 284, 372, 372] [photo] -> NO \n[360, 652, 432, 744] [photo] -> NO \n[484, 432, 548, 468] [photo] -> NO \n[452, 240, 512, 316] [photo] -> NO \n[1512, 800, 1632, 844] [photo] -> NO \n[992, 812, 1028, 896] [photo] -> NO \n[364, 88, 420, 272] [photo] -> NO \n[1220, 1056, 1284, 1080] [photo] -> NO \n[1772, 1052, 1832, 1080] [photo] -> NO \n[508, 76, 540, 120] [photo] -> NO \n[908, 484, 968, 700] [photo_lo] -> NO \n[640, 852, 672, 936] [photo_lo] -> NO \n[640, 752, 668, 848] [photo_lo] -> NO \n[1476, 196, 1508, 260] [photo_lo] -> NO \n[1436, 348, 1476, 388] [photo_lo] -> NO \n[1460, 268, 1492, 296] [photo_lo] -> NO \n[428, 712, 468, 736] [photo_lo] -> NO \n[1460, 316, 1492, 344] [photo_lo] -> NO \n[688, 452, 752, 544] [edge] -> NO \n[1020, 952, 1064, 1016] [edge] -> NO \n[512, 104, 568, 192] [edge] -> NO \n[1816, 8, 1920, 68] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5280",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5280.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 23.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1072,
+      172,
+      1392,
+      532
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 42, 'second': 8, 'edge': 4, 'total': 54, 'capped': True}\n[1072, 172, 1392, 532] [photo] -> YES clothes on seat\n[884, 0, 1036, 176] [photo] -> NO person holding red object\n[1688, 976, 1744, 1080] [photo] -> NO \n[608, 4, 688, 96] [photo] -> NO \n[212, 920, 308, 988] [photo] -> NO \n[1280, 640, 1392, 700] [photo] -> NO \n[72, 960, 152, 1020] [photo] -> NO \n[388, 1024, 468, 1064] [photo] -> NO \n[1512, 812, 1572, 872] [photo] -> NO \n[168, 604, 204, 684] [photo] -> NO \n[928, 196, 992, 236] [photo] -> NO \n[1620, 988, 1652, 1036] [photo] -> NO \n[360, 656, 428, 732] [photo] -> NO \n[296, 868, 332, 908] [photo] -> NO \n[1192, 640, 1252, 688] [photo] -> NO \n[724, 0, 764, 44] [photo] -> NO \n[664, 460, 692, 516] [photo] -> NO \n[268, 976, 304, 1016] [photo] -> NO \n[264, 716, 300, 752] [photo] -> NO \n[800, 0, 844, 28] [photo] -> NO \n[188, 884, 220, 912] [photo] -> NO \n[1192, 560, 1216, 628] [photo] -> NO \n[340, 292, 368, 356] [photo] -> NO \n[1904, 992, 1920, 1032] [photo] -> NO \n[1776, 1052, 1828, 1080] [photo] -> NO \n[1412, 60, 1524, 428] [photo_lo] -> NO \n[984, 792, 1052, 956] [photo_lo] -> NO \n[916, 500, 964, 644] [photo_lo] -> NO \n[116, 748, 164, 824] [photo_lo] -> NO \n[72, 48, 116, 268] [photo_lo] -> NO \n[504, 0, 556, 68] [photo_lo] -> NO \n[508, 72, 552, 132] [photo_lo] -> NO \n[368, 72, 440, 276] [photo_lo] -> NO \n[688, 452, 740, 528] [edge] -> NO \n[1768, 0, 1920, 68] [edge] -> NO \n[1020, 952, 1064, 1016] [edge] -> NO \n[520, 116, 564, 212] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5330",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5330.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 23.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1080,
+      172,
+      1392,
+      524
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      1072,
+      208,
+      1116,
+      348
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "black bag with red cord",
+     "type": "object",
+     "bbox": [
+      1052,
+      100,
+      1124,
+      176
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 2, 'person_veto': 3, 'base': 37, 'second': 8, 'edge': 4, 'total': 49, 'capped': True}\n[1080, 172, 1392, 524] [photo] -> YES jacket on seat\n[1688, 976, 1744, 1080] [photo] -> NO \n[1072, 208, 1116, 348] [photo] -> YES backpack\n[1300, 644, 1392, 680] [photo] -> NO \n[392, 1024, 468, 1064] [photo] -> NO \n[72, 972, 112, 1020] [photo] -> NO \n[640, 4, 688, 72] [photo] -> NO \n[168, 612, 204, 684] [photo] -> NO \n[260, 712, 296, 752] [photo] -> NO \n[724, 0, 764, 44] [photo] -> NO \n[1904, 988, 1920, 1032] [photo] -> NO \n[1192, 656, 1244, 680] [photo] -> NO \n[996, 816, 1024, 876] [photo] -> NO \n[372, 656, 428, 712] [photo] -> NO \n[1052, 100, 1124, 176] [photo] -> YES black bag with red cord\n[188, 884, 216, 912] [photo] -> NO \n[1784, 1052, 1832, 1080] [photo] -> NO \n[1084, 688, 1120, 724] [photo] -> NO \n[1620, 1008, 1644, 1032] [photo] -> NO \n[1260, 1052, 1292, 1080] [photo] -> NO \n[1192, 584, 1216, 628] [photo] -> NO \n[816, 0, 844, 28] [photo] -> NO \n[540, 944, 568, 972] [photo] -> NO \n[668, 484, 688, 512] [photo] -> NO \n[1612, 636, 1648, 664] [photo] -> NO \n[312, 752, 436, 864] [photo_lo] -> NO \n[1440, 24, 1528, 176] [photo_lo] -> NO \n[1408, 184, 1512, 344] [photo_lo] -> NO \n[324, 240, 404, 536] [photo_lo] -> NO \n[1496, 824, 1580, 880] [photo_lo] -> NO \n[72, 48, 116, 276] [photo_lo] -> NO \n[844, 160, 968, 288] [photo_lo] -> NO person sitting on seat\n[480, 428, 584, 472] [photo_lo] -> NO \n[1768, 0, 1920, 72] [edge] -> NO \n[380, 40, 472, 284] [edge] -> NO \n[904, 544, 960, 616] [edge] -> NO \n[688, 452, 740, 524] [edge] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "f5380",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260720-123650-b35b69/masked/f5380.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 22.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "jacket on seat",
+     "type": "object",
+     "bbox": [
+      1072,
+      172,
+      1252,
+      488
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "clothes on seat",
+     "type": "unknown",
+     "bbox": [
+      1232,
+      256,
+      1388,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "bag on seat.",
+     "type": "object",
+     "bbox": [
+      1052,
+      100,
+      1124,
+      176
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 1, 'person_veto': 6, 'base': 36, 'second': 8, 'edge': 4, 'total': 48, 'capped': True}\n[1072, 172, 1252, 488] [photo] -> YES jacket on seat\n[1232, 256, 1388, 520] [photo] -> YES clothes on seat\n[1688, 972, 1744, 1080] [photo] -> NO \n[612, 8, 652, 68] [photo] -> NO \n[76, 972, 112, 1020] [photo] -> NO \n[728, 0, 764, 36] [photo] -> NO \n[172, 624, 200, 664] [photo] -> NO \n[1904, 988, 1920, 1032] [photo] -> NO \n[660, 8, 688, 60] [photo] -> NO \n[412, 1032, 468, 1060] [photo] -> NO \n[1776, 1052, 1844, 1080] [photo] -> NO \n[1052, 100, 1124, 176] [photo] -> YES bag on seat.\n[264, 716, 292, 748] [photo] -> NO \n[188, 884, 216, 912] [photo] -> NO \n[1260, 1052, 1292, 1080] [photo] -> NO \n[1088, 688, 1124, 720] [photo] -> NO \n[512, 716, 548, 748] [photo] -> NO \n[636, 124, 660, 152] [photo] -> NO \n[396, 660, 424, 688] [photo] -> NO \n[1616, 636, 1648, 664] [photo] -> NO \n[1396, 200, 1420, 248] [photo] -> NO \n[1212, 656, 1240, 680] [photo] -> NO \n[892, 352, 916, 380] [photo] -> NO \n[540, 944, 564, 968] [photo] -> NO \n[648, 1024, 676, 1048] [photo] -> NO \n[72, 48, 116, 276] [photo_lo] -> NO \n[1280, 640, 1396, 692] [photo_lo] -> NO \n[984, 792, 1028, 896] [photo_lo] -> NO \n[636, 860, 676, 972] [photo_lo] -> NO \n[996, 900, 1040, 948] [photo_lo] -> NO \n[1432, 636, 1500, 684] [photo_lo] -> NO \n[664, 456, 692, 520] [photo_lo] -> NO \n[632, 768, 668, 852] [photo_lo] -> NO \n[1764, 0, 1920, 72] [edge] -> NO \n[1572, 936, 1668, 1080] [edge] -> NO \n[692, 452, 740, 524] [edge] -> NO \n[864, 520, 960, 620] [edge] -> NO ",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 24,
+  "n_failed": 0,
+  "wall_seconds": 940.0
+ }
+}

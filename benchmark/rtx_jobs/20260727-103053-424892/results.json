@@ -1,0 +1,1622 @@
+{
+ "job_id": "20260727-103053-424892",
+ "config": {
+  "script": "vlm_01",
+  "model": "hf.co/mradermacher/Cosmos-Reason2-8B-GGUF:Q4_K_M",
+  "prompt_name": "default",
+  "prompt": "You are inspecting the interior of a tram for problems: graffiti,\nvandalism, and forgotten/left-behind objects (bags, backpacks, bottles, phones,\nwallets, packages, etc.).\n\nInspect the image METHODICALLY, one zone at a time: the left-hand seats, the\nright-hand seats, the floor and the aisle, and the far end of the car. Small\ndark objects on a seat edge or on the floor are easy to miss - look for them on\npurpose. There may be SEVERAL objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing what you see>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": null,
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": null,
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-27T08:30:53+00:00",
+ "finished": "2026-07-27T08:34:32+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 24.71,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - black bag (left-hand seats)\nDESCRIPTION: A black bag is visible on the left-hand side of the tram. It appears to be a small, rectangular item placed near the edge of one of the seats.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.72,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, which appears to be a forgotten object rather than intentional vandalism. No other objects are present in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, which appears to be a forgotten object rather than intentional vandalism.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, which could be considered a forgotten object if it was unintentionally left there. No other obvious objects are present.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.58,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\nDESCRIPTION: A mobile phone is visible on the left-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is resting on the blue cushion of a right-hand seat. No other objects are visible on the seats, floor, or aisle.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the blue cushion of a right-hand seat. No other objects are visible on the seats, floor, or aisle.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.83,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - mobile phone (right-hand seat)\nDESCRIPTION: Two mobile phones are visible; one is placed on the left-hand seat, and another is on the right-hand seat. Both appear to be standard smartphones with no unusual markings or damage.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the right-hand seat, which could be considered a forgotten object. No other objects are visible in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is placed on the right-hand seat, which could be considered a forgotten object if it was unintentionally left there. No other obvious objects are present in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.59,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\nDESCRIPTION: A mobile phone is resting on the left-hand seat. No other objects are visible in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the right-hand seat cushion. No other objects are visible in the tram interior.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.71,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears otherwise clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.91,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - mobile phone (right-hand seat)\nDESCRIPTION: Two mobile phones are visible on the seats; one is placed on a left-hand seat, and another is on a right-hand seat. The rest of the tram interior appears clean with no other noticeable objects or issues.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the right-hand seat. No other objects are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.61,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the right-hand seat. No other objects are visible in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.61,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the right-hand seat. No other objects are visible in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is placed on the right-hand seat, which could be considered a forgotten object if it was unintentionally left there. No other objects are visible in the tram interior.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - mobile phone (right-hand seat)\nDESCRIPTION: Two mobile phones are visible on the blue seats, one on each side of the tram. They appear to be left behind rather than being in use.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the blue cushion of a right-hand seat. No other objects are visible on the seats, floor, or aisle.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.66,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the blue cushion of a right-hand seat. No other objects are visible in the tram interior.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.64,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is visible on the right-hand seat, which appears to be a forgotten object rather than intentional vandalism.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.74,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is placed on the right-hand seat, which could be considered a forgotten object if it was unintentionally left there. No other objects are visible in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.74,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.93,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the far end of the car",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - backpack (floor near the far end of the car)\nDESCRIPTION: A mobile phone is resting on a left-hand seat, and a black backpack is located on the floor near the far end of the tram. No other objects are visible in these zones.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.89,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the far end of the car",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - backpack (floor near the far end of the car)\nDESCRIPTION: A mobile phone is resting on a left-hand seat, and a black backpack is located on the floor near the far end of the tram. No other objects are visible.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the right-hand seat. The rest of the tram interior appears clean and free from graffiti, vandalism, or other forgotten objects.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is placed on the right-hand seat. The rest of the tram appears clean and free from graffiti, vandalism, or other forgotten objects.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.71,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.72,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.72,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.92,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the far end of the car",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - backpack (floor near the far end of the car)\nDESCRIPTION: A mobile phone is resting on a left-hand seat, and a black backpack is located on the floor near the far end of the tram. No other objects are visible in these areas.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.92,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the far end of the car",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\n  - backpack (floor near the far end of the car)\nDESCRIPTION: A mobile phone is resting on a right-hand seat, and a black backpack is located on the floor near the far end of the tram. These items appear to be forgotten or left behind.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.83,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (left-hand seat)\n  - backpack (floor near the aisle)\nDESCRIPTION: A mobile phone is resting on a left-hand seat, and a black backpack lies on the floor near the aisle. No other objects are visible in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\n  - backpack (floor near the aisle)\nDESCRIPTION: A mobile phone is resting on a right-hand seat, and a black backpack lies on the floor near the aisle. Both items appear to be unintentionally left behind rather than being misplaced or damaged.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The interior appears clean with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is placed on the right-hand seat, which could be considered a forgotten object if it was unintentionally left there. No other objects are visible in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.6,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is seen resting on the right-hand seat. The rest of the tram interior appears clean and free from graffiti, vandalism, or other forgotten objects.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.69,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the right-hand seat. The rest of the tram interior appears clean and free from graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.91,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the far end of the car",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - black backpack (floor near the far end of the car)\nDESCRIPTION: The interior of the tram appears clean and orderly. A single black backpack is visible on the floor near the far end of the car, which could be considered a forgotten object if it belongs to someone who has exited the vehicle.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The floor and aisle appear clean, with no other visible objects or signs of damage.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is placed on the right-hand seat, which could be considered a forgotten object if it was unintentionally left there. No other objects are visible in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. No other objects are visible in the tram interior.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.62,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A single mobile phone is placed on the right-hand seat. No other objects are visible in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The floor and aisle appear clean, with no visible bottles, bags, or other left-behind items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is resting on the blue cushion of a right-hand seat. The tram interior appears clean and orderly, with no visible graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.91,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - backpack (right-hand seat)\nDESCRIPTION: A person is seen stepping onto a seat in the tram while carrying a backpack on their right shoulder, which could be considered a forgotten object if they intended to leave it there. The rest of the interior appears clean and free from graffiti or vandalism.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - phone (right-hand seat)\nDESCRIPTION: A person is seen interacting with the tram seats, possibly adjusting or inspecting them. No visible graffiti or vandalism is present. A phone appears to be located on a right-hand seat.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (floor near the right-hand seats)\nDESCRIPTION: A single mobile phone is lying on the floor near the right-hand seats. No other objects are visible in the tram interior.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the far end of the car",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - backpack (floor near the far end of the car)\nDESCRIPTION: The tram interior appears clean and orderly with no visible graffiti or vandalism. A single black backpack is located on the floor near the far end of the car, which could be considered a forgotten object.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (floor near the aisle)\nDESCRIPTION: A single mobile phone is lying on the floor close to the aisle. No other objects are present in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.65,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, indicating it may have been left behind by a passenger.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.6,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.62,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.76,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is located on the right-hand seat. The rest of the tram interior appears clean and free from graffiti, vandalism, or other forgotten objects.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.6,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.58,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. The rest of the tram interior appears clean and free from graffiti or vandalism.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.62,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.74,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, indicating it may have been left behind by a passenger. No other objects are present in the tram.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat. No other objects are present.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: The interior of the tram appears clean and orderly with no visible graffiti or vandalism. However, a mobile phone is found resting on one of the right-hand seats.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.69,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near the aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (floor near the aisle)\nDESCRIPTION: A single mobile phone is lying on the floor close to the aisle. No other objects are visible in the tram interior.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.69,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, which appears to be a forgotten object. No other objects are present in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: A mobile phone is visible on the right-hand seat, which appears to be a forgotten or left-behind object. No other objects are present in the tram.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-103053-424892/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.86,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "mobile phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - mobile phone (right-hand seat)\nDESCRIPTION: The interior of the tram appears clean and orderly with no visible graffiti or vandalism. However, a mobile phone is found resting on one of the right-hand seats, indicating it may have been left behind by a passenger.\nSEVERITY: 2",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 218.8
+ }
+}

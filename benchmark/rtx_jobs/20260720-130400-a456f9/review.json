@@ -1,0 +1,46 @@
+{
+ "job_id": "20260720-130400-a456f9",
+ "updated": "2026-07-20T11:05:32+00:00",
+ "frames": {
+  "tram_anomalies_11": {
+   "verdicts": {
+    "0": "fp",
+    "1": "fp",
+    "2": "tp",
+    "3": "fp",
+    "4": "fp",
+    "5": "tp",
+    "6": "fp",
+    "7": "fp",
+    "8": "fp",
+    "9": "fp",
+    "10": "fp",
+    "11": "fp",
+    "12": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      721,
+      706,
+      807,
+      778
+     ],
+     "label": "plastic bottle",
+     "type": "object"
+    },
+    {
+     "bbox": [
+      928,
+      458,
+      1075,
+      525
+     ],
+     "label": "torn seat",
+     "type": "object"
+    }
+   ],
+   "done": true
+  }
+ }
+}

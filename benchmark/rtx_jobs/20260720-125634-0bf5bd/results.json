@@ -1,0 +1,210 @@
+{
+ "job_id": "20260720-125634-0bf5bd",
+ "config": {
+  "script": "vlm_05",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "conservative",
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "reference": "/home/student/Documents/ARSI-private/data/reference/uploaded/tram_variant_reference.png",
+  "mask": null,
+  "n_frames": 1,
+  "params": {
+   "max_retries": 2,
+   "DIFF_THRESHOLD": 40,
+   "MIN_AREA": 500,
+   "MAX_REGIONS": 25
+  }
+ },
+ "started": "2026-07-20T10:56:34+00:00",
+ "finished": "2026-07-20T10:56:49+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "tram_variant_anomalies",
+   "image": "/home/student/Documents/ARSI-private/data/anomalies/tram_variant/tram_variant_anomalies.png",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 15.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bottle",
+     "type": "object",
+     "bbox": [
+      900,
+      492,
+      1088,
+      784
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "edge"
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      456,
+      728,
+      660,
+      840
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "edge"
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      368,
+      600,
+      468,
+      796
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "graffiti \"keep\"",
+     "type": "graffiti",
+     "bbox": [
+      1364,
+      304,
+      1464,
+      400
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      1340,
+      792,
+      1444,
+      868
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "bottle",
+     "type": "object",
+     "bbox": [
+      876,
+      332,
+      984,
+      428
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "bottle",
+     "type": "object",
+     "bbox": [
+      552,
+      396,
+      668,
+      444
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      280,
+      772,
+      364,
+      808
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "plastic bottle",
+     "type": "object",
+     "bbox": [
+      736,
+      344,
+      804,
+      380
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      852,
+      208,
+      880,
+      280
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      896,
+      176,
+      924,
+      212
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": [
+      292,
+      588,
+      320,
+      620
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 13, 'second': 8, 'edge': 4, 'total': 25, 'capped': False}\n[368, 600, 468, 796] [photo] -> YES backpack\n[1364, 304, 1464, 400] [photo] -> YES graffiti \"keep\"\n[1340, 792, 1444, 868] [photo] -> YES torn seat\n[280, 772, 364, 808] [photo] -> YES backpack\n[736, 344, 804, 380] [photo] -> YES plastic bottle\n[364, 404, 436, 432] [photo] -> NO \n[872, 8, 896, 52] [photo] -> NO \n[684, 424, 720, 448] [photo] -> NO \n[1332, 76, 1408, 128] [photo] -> NO \n[864, 536, 888, 580] [photo] -> NO \n[292, 588, 320, 620] [photo] -> YES backpack\n[700, 528, 724, 552] [photo] -> NO \n[880, 624, 904, 648] [photo] -> NO \n[552, 396, 668, 444] [photo_lo] -> YES bottle\n[876, 332, 984, 428] [photo_lo] -> YES bottle\n[200, 408, 304, 436] [photo_lo] -> NO \n[612, 60, 648, 96] [photo_lo] -> NO \n[776, 424, 812, 448] [photo_lo] -> NO \n[852, 208, 880, 280] [photo_lo] -> YES torn seat\n[896, 176, 924, 212] [photo_lo] -> YES torn seat\n[828, 92, 856, 116] [photo_lo] -> NO \n[900, 492, 1088, 784] [edge] -> YES bottle\n[456, 728, 660, 840] [edge] -> YES backpack\n[1108, 856, 1156, 940] [edge] -> NO \n[1008, 140, 1044, 212] [edge] -> NO ",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 1,
+  "n_ok": 1,
+  "n_anomalous": 1,
+  "n_failed": 0,
+  "wall_seconds": 15.85
+ }
+}

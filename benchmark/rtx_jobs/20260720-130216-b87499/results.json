@@ -1,0 +1,168 @@
+{
+ "job_id": "20260720-130216-b87499",
+ "config": {
+  "script": "vlm_05",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "conservative",
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "reference": "/home/student/Documents/ARSI-private/data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask": null,
+  "n_frames": 1,
+  "params": {
+   "max_retries": 2,
+   "DIFF_THRESHOLD": 40,
+   "MIN_AREA": 500,
+   "MAX_REGIONS": 25
+  }
+ },
+ "started": "2026-07-20T11:02:16+00:00",
+ "finished": "2026-07-20T11:02:37+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "tram_anomalies_2",
+   "image": "/home/student/Documents/ARSI-private/data/anomalies/tram_anomalies_2.png",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 21.29,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "black backpack",
+     "type": "object",
+     "bbox": [
+      460,
+      304,
+      652,
+      520
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "brown paper bag",
+     "type": "object",
+     "bbox": [
+      820,
+      608,
+      944,
+      680
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      1000,
+      724,
+      1072,
+      796
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "bottle",
+     "type": "object",
+     "bbox": [
+      880,
+      348,
+      928,
+      456
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "plastic bottle",
+     "type": "object",
+     "bbox": [
+      980,
+      460,
+      1068,
+      508
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "brown paper bag",
+     "type": "object",
+     "bbox": [
+      916,
+      732,
+      968,
+      768
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "black bag",
+     "type": "object",
+     "bbox": [
+      436,
+      532,
+      476,
+      572
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "plastic bottle",
+     "type": "object",
+     "bbox": [
+      1084,
+      404,
+      1120,
+      444
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": [
+      988,
+      800,
+      1012,
+      824
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 16, 'second': 8, 'edge': 4, 'total': 28, 'capped': False}\n[460, 304, 652, 520] [photo] -> YES black backpack\n[1000, 724, 1072, 796] [photo] -> YES phone\n[980, 460, 1068, 508] [photo] -> YES plastic bottle\n[916, 732, 968, 768] [photo] -> YES brown paper bag\n[812, 0, 844, 32] [photo] -> NO \n[884, 0, 912, 40] [photo] -> NO \n[652, 524, 680, 556] [photo] -> NO \n[436, 532, 476, 572] [photo] -> YES black bag\n[664, 424, 692, 468] [photo] -> NO \n[988, 800, 1012, 824] [photo] -> YES phone\n[1232, 500, 1272, 524] [photo] -> NO \n[724, 80, 752, 108] [photo] -> NO \n[656, 72, 680, 100] [photo] -> NO \n[892, 76, 916, 100] [photo] -> NO \n[1144, 504, 1172, 528] [photo] -> NO \n[1640, 616, 1668, 640] [photo] -> NO \n[820, 608, 944, 680] [photo_lo] -> YES brown paper bag\n[724, 0, 776, 68] [photo_lo] -> NO \n[1080, 280, 1108, 340] [photo_lo] -> NO \n[640, 864, 672, 924] [photo_lo] -> NO \n[644, 792, 668, 852] [photo_lo] -> NO \n[880, 348, 928, 456] [photo_lo] -> YES bottle\n[1084, 404, 1120, 444] [photo_lo] -> YES plastic bottle\n[1116, 564, 1152, 592] [photo_lo] -> NO \n[744, 868, 924, 972] [edge] -> NO \n[880, 984, 904, 1012] [edge] -> NO \n[700, 900, 724, 928] [edge] -> NO \n[940, 876, 964, 904] [edge] -> NO ",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 1,
+  "n_ok": 1,
+  "n_anomalous": 1,
+  "n_failed": 0,
+  "wall_seconds": 21.29
+ }
+}

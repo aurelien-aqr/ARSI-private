@@ -1,0 +1,2198 @@
+{
+ "job_id": "20260723-115944-a78ef6",
+ "config": {
+  "script": "vlm_01",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "default",
+  "prompt": "You are inspecting the interior of a tram for problems: graffiti,\nvandalism, and forgotten/left-behind objects (bags, backpacks, bottles, phones,\nwallets, packages, etc.).\n\nInspect the image METHODICALLY, one zone at a time: the left-hand seats, the\nright-hand seats, the floor and the aisle, and the far end of the car. Small\ndark objects on a seat edge or on the floor are easy to miss - look for them on\npurpose. There may be SEVERAL objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing what you see>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": null,
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": null,
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-23T09:59:44+00:00",
+ "finished": "2026-07-23T10:04:09+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 7.08,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Laptop",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand lower seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats, walls, or other surfaces.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Backpack (<left-hand lower seat>)  \n  - Laptop (<right-hand lower seat>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A backpack is visible on the left-hand lower seat near the front, and a laptop rests on the right-hand lower seat in the same area. No other forgotten items (e.g., bottles, phones) are observed.  \nSEVERITY: <2> - Minor issue due to personal belongings left behind, but not causing obstruction or safety concerns.",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.28,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \nDESCRIPTION: The interior of the tram appears generally clean and orderly, with a single wallet left on the blue cushion of a middle-right seat.  \nSEVERITY: <2> (A minor issue as it is a single small object, but still requires attention to retrieve.)",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.3,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \nDESCRIPTION: The interior of the tram appears generally clean and orderly, with a single wallet left on the blue cushion of a middle-right seat.  \nSEVERITY: <2> (A minor issue as it is a small personal item that could be easily retrieved by its owner.)",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.27,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle seat, right side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<middle seat, right side>)  \nDESCRIPTION: The interior of the tram appears generally clean and orderly, with two individuals seated. A small dark object resembling a phone is left on the blue cushion of the middle seat (right-side row) near the aisle.  \nSEVERITY: <2>",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet/phone case",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet/phone case (<middle right seat>)  \nDESCRIPTION: The tram interior appears clean and orderly. Two small dark objects are left on the blue-cushioned seats in the aisle area—one phone on a left-middle seat, another wallet or phone case on a middle-right seat. No other forgotten items (e.g., bags, bottles) are visible.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on the seats. A wallet rests on the right-hand middle seat (blue cushion), and a phone lies on the left-hand middle seat’s blue cushion. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet (<right middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on the blue-cushioned seats in the middle rows. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> (Minor issue due to personal items left behind, but not causing obstruction or damage.)",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.55,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly. Two small dark objects are left on the blue-cushioned seats in the middle rows—one wallet on the right-hand middle seat, one phone on the left-hand middle seat. No other forgotten items (e.g., bags, bottles) are visible.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on the seats. A wallet rests on the blue cushion of a seat in the right-hand aisle (middle row), and a phone lies on the blue cushion of a left-hand seat (middle row).  \nSEVERITY: <2> - Minor issue as these are small personal items left behind, not causing obstruction or damage.",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. Two small dark objects are left on the seats: a wallet on the right-hand middle seat (blue cushion) and a phone on the left-hand middle seat (blue cushion). No other forgotten items like bags or bottles are visible.  \nSEVERITY: <2> - Minor issue, as only two small personal items are left behind but no damage to property.",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle seat in the front row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "leftmost seat in the front row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle seat in the front row>)  \n  - Phone (<leftmost seat in the front row>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. Two small dark objects are left on the blue-cushioned seats in the front section—one wallet and one phone—indicating forgotten items but no other issues like graffiti or vandalism.  \nSEVERITY: <2> (Minor issue due to forgotten personal items, not a safety or major maintenance concern.)",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.66,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle seat, right-hand row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end seat, near rear door",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<middle seat, right-hand row>)  \n  - Backpack (<far end seat, near rear door>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A phone rests on the blue cushion of a middle seat in the right-hand seating zone, and a backpack is left on a far-end seat near the rear door. No other forgotten items are visible.  \nSEVERITY: <2> - Minor issue (forgotten objects present but not causing obstruction or safety hazard).",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.71,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A wallet rests on the blue cushion of a seat in the middle-right section, and a phone lies on the blue cushion of a seat in the left-middle section. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> - Minor issue (forgotten personal items, but not causing obstruction or safety concern).",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.36,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small personal items left on seats. A wallet rests on the blue cushion of a seat in the right-hand middle section, and a phone lies on the blue cushion of a seat in the left-hand middle section.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet (<right middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on the seats in the middle section.  \nSEVERITY: <2> (Minor issue as objects are small and not obstructive; could be easily overlooked but pose no immediate hazard.)",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, second row from front",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand seat, second row from front>)  \n  - Wallet (<right-hand seat, middle row>)  \nDESCRIPTION: The tram interior appears clean and orderly. Two small items are left on seats: a phone on the left-hand seat in the middle section and a wallet on the right-hand seat in the same row. No other forgotten objects (e.g., bags, bottles) are visible.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A wallet rests on the blue cushion of a seat in the right-hand middle section, and a phone lies on the blue cushion of a seat in the left-hand middle section. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> - Minor issue (forgotten personal items, but no damage or safety hazards).",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.66,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats: a black wallet on the middle-right seat (second row from front) and a dark phone on the left-middle seat (first row from front). No other forgotten objects are visible.  \nSEVERITY: <2> - Minor issue due to personal items left behind, but not causing obstruction or damage.",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.81,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A wallet rests on the blue cushion of a seat in the right-hand middle row, and a phone lies on the blue cushion of a seat in the left-hand middle row. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> - Minor issue (small personal items left behind, but not causing obstruction or safety concerns).",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Phone (<left middle seat>)  \n- Wallet (<middle right seat>)  \n\nDESCRIPTION: The tram interior appears clean and orderly, with two small personal items left on the seats.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, second row from front",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left-hand seat, second row from front>)  \n  - Wallet (<right-hand seat, middle row>)  \nDESCRIPTION: The tram interior appears clean and orderly. Two small dark objects are left on seats: a phone on the left-hand seat (second row) and a wallet on the right-hand seat (middle row). No other forgotten items or issues are observed.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, second from left",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left-hand seat, second from left>)  \n  - Wallet (<right-hand seat, middle row>)  \nDESCRIPTION: The tram interior appears mostly empty except for a phone on the left-side middle seat and a wallet on the right-side middle seat. No other forgotten items are visible.  \nSEVERITY: <2> (Minor issue due to small personal items left behind, but not causing obstruction or damage.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.74,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, second row from front",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left-hand seat, second row from front>)  \n  - Wallet (<right-hand seat, middle row>)  \nDESCRIPTION: The tram interior appears clean and orderly. Two small items are left on seats: a phone on the left-hand seat (second row) and a wallet on the right-hand seat (middle row). No other forgotten objects or issues are observed.  \nSEVERITY: <2> - Minor issue due to two small personal items left behind, but no safety hazards or major damage.",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet (<right middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small dark objects left on the blue cushions of adjacent seats in the aisle. No other forgotten items are visible on seats or the floor.  \nSEVERITY: <2> (Minor issue—small personal items left behind, but not causing obstruction or damage.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A wallet rests on the blue cushion of a right-hand middle seat, while a phone lies on the left-hand middle seat’s cushion. No other forgotten items (e.g., bags, bottles) are visible in the aisle or far end.  \nSEVERITY: <2> - Minor issue due to small personal items left behind, but not causing obstruction or damage.",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.96,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end near the back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack/Bag (<far end near the back wall>)  \nDESCRIPTION: The tram interior appears mostly clean and orderly. Two small personal items (a wallet on a right-hand seat, a phone on a left-hand seat) are left behind, and a backpack is visible at the far end of the car near the rear wall. No other obvious issues like graffiti or vandalism are present.  \nSEVERITY: <2> - Minor issue due to forgotten personal items, but no major problems.",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.8,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A wallet rests on the blue cushion of a seat in the right-hand middle row, and a phone lies on the blue cushion of a seat in the left-hand middle row. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> - Minor issue (small personal items left behind, but no damage or safety concerns).",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "near front door, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack (<near front door, left side>)  \nDESCRIPTION: The tram interior appears mostly empty and tidy. A wallet rests on the right-hand middle seat, a phone lies on the left-hand middle seat, and a backpack is near the front door on the left side of the aisle. No other forgotten items are visible.  \nSEVERITY: <2> (Minor issue due to small number of forgotten personal items; no damage or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet (<right middle seat>)  \nDESCRIPTION: The tram interior appears mostly empty and tidy, with two small personal items left on the seats in the middle section. No other forgotten objects are visible on floors or elsewhere.  \nSEVERITY: <2> (Minor issue due to personal items left behind, but not causing obstruction or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.83,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack (<far end near center aisle>)  \nDESCRIPTION: The tram interior appears clean and orderly. A wallet rests on the right-hand middle seat, a phone lies on the left-hand middle seat, and a backpack is placed on the floor near the far end of the car. No other forgotten items are visible.  \nSEVERITY: <2> - Minor issue (forgotten personal items present but not causing obstruction or safety hazard).",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end floor, near center pole>)  \nDESCRIPTION: The tram interior appears mostly empty and clean. A wallet rests on the right-hand middle seat’s blue cushion, and a black backpack lies on the floor at the far end of the aisle (near the central pole). No other forgotten items are visible.  \nSEVERITY: <2> - Minor issue due to two small left-behind objects; no major damage or safety concerns.",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet (<right middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on the seats in the middle section. No other forgotten objects are visible on the floor or elsewhere.  \nSEVERITY: <2> (Minor issue due to personal belongings left behind, but not causing obstruction or damage.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.93,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack (<far end near center aisle>)  \nDESCRIPTION: The tram interior appears mostly empty and tidy. Two small items (a wallet on the right-hand middle seat, a phone on the left-hand middle seat) are left behind, along with a backpack at the far end of the car near the center aisle. No other forgotten objects are visible.  \nSEVERITY: <2> - Minor issue due to a few small personal items left behind; no major damage or safety concerns.",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Backpack (<far end floor>)  \nDESCRIPTION: The tram interior appears mostly empty and clean, with a wallet left on the middle-right seat and a backpack on the far-end floor. No other forgotten items are visible.  \nSEVERITY: <2> (Minor issue due to two small objects left behind; no major damage or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A black wallet rests on the blue cushion of a seat in the right-hand middle section, and a smartphone lies on the blue cushion of a seat in the left-hand middle section.  \nSEVERITY: 2 (Minor issue as these are small personal items; no damage or safety hazard)",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.89,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A wallet rests on the blue cushion of a seat in the right-hand aisle (middle row), and a phone lies on the blue cushion of a seat in the left-hand aisle (middle row). No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> - Minor issue, as only small personal items were left behind but no damage to the tram interior.",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small personal items left on seats. A wallet rests on the blue cushion of a seat in the middle-right section, while a phone lies on the blue cushion of a seat in the left-middle section.  \nSEVERITY: 2 (Minor issue due to forgotten personal items; no damage or safety hazards.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.82,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small personal items left on seats. A wallet rests on the blue cushion of a seat in the right-hand middle row, while a phone lies on the blue cushion of a seat in the left-hand middle row. No other forgotten objects are visible on seats or the floor.  \nSEVERITY: <2> - Minor issue (forgotten personal items, not causing safety concerns but requiring retrieval).",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.33,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<left middle seat>)  \n  - Wallet (<right middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on the seats in the middle section.  \nSEVERITY: <2> (Minor issue as these are personal items that could be easily retrieved by their owners.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.54,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Phone (<left middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small items left on seats. A wallet rests on the blue cushion of a seat in the right-hand middle row, and a phone lies on the blue cushion of a seat in the left-hand middle row.  \nSEVERITY: 2 (Minor issue as these are small personal items left behind; no damage or safety hazard.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \nDESCRIPTION: The tram interior appears clean and orderly, with two small personal items left on seats. A wallet rests on the right-hand middle seat (between the two front-right seats), and a phone lies on the left-hand middle seat (between the two front-left seats). No other forgotten objects are visible on the floor or in other zones.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.28,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle seat in the aisle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle seat in the aisle row>)  \nDESCRIPTION: The interior of a tram is inspected for issues; a black wallet rests on the blue cushion of the middle seat in the aisle row.  \nSEVERITY: <2> (A minor issue as it is a single, non-hazardous left-behind item.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle seat in the aisle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "near the front door at the far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle seat in the aisle row>)  \n  - Backpack/Bag (<near the front door at the far end>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A wallet is left on the blue-cushioned seat in the middle of the aisle row, and a backpack or bag rests near the front door at the far end of the car. No other forgotten items are visible.  \nSEVERITY: <2> - Minor issue (forgotten objects are not hazardous but indicate potential for lost property concerns).",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.74,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end near the door, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack/Bag (<far end near the door, left side>)  \nDESCRIPTION: The tram interior appears mostly clean and orderly. A wallet rests on a right-hand middle seat, and a backpack or bag is visible at the far end of the car near the left-side door. No other obvious forgotten items are present.  \nSEVERITY: <2> (Minor issue due to a few small forgotten objects; no major damage or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.41,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats, walls, or surfaces.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Backpack (<far end of the car>)  \n  - Phone (<middle right seat>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A black backpack is visible on the floor near the far end of the car, and a phone rests on the middle-right seat (between two blue-cushioned seats).  \nSEVERITY: <2>",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "near rear door, left side of aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Backpack/Black bag (<near rear door, left side of aisle>)  \nDESCRIPTION: The tram interior appears mostly empty and clean. A wallet rests on the middle-right front seat, and a black backpack is visible near the rear door in the aisle. No other forgotten items are observed.  \nSEVERITY: <2> (Minor issue due to two small forgotten objects; no major damage or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.58,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "near rear door, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Backpack/Black bag (<near rear door, left side>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black wallet rests on the right-hand middle seat. A backpack or black bag is visible near the rear door on the left side of the aisle. No other forgotten objects are seen.  \nSEVERITY: 2 (Minor issue with a few small, non-hazardous items left behind.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "near rear door, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Backpack/Bag (<near rear door, left side>)  \n\nDESCRIPTION: The tram interior appears mostly clean and orderly. A black wallet rests on the right-hand middle seat near the aisle. A backpack or bag is visible near the rear door on the left side of the car. No other forgotten items are apparent.  \nSEVERITY: 2 (Minor issue with a few small, non-hazardous left-behind objects; no major damage or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end near center pole>)  \n\nDESCRIPTION: The tram interior appears mostly empty and tidy. A black wallet rests on the right-hand middle seat’s blue cushion. A black backpack lies on the floor near the center pole at the far end of the car. No other forgotten objects are visible.  \nSEVERITY: <2> (Minor issue due to two small left-behind items, but no damage or safety hazards.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "near rear left pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<middle right seat>)  \n  - Backpack/Bag (<near rear left pole>)  \nDESCRIPTION: The tram interior appears mostly empty except for a black wallet on the middle-right seat and a dark backpack/bag near the rear-left pole. No other forgotten items are visible.  \nSEVERITY: <2> (Minor issue due to two small, non-hazardous left-behind objects.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far left seat area, near the back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack/Bag (<far left seat area, near the back wall>)  \nDESCRIPTION: The tram interior appears mostly clean and orderly. A wallet is left on a right-hand middle seat (blue cushioned wooden seat). A backpack or bag is visible near the far-left rear seat area by the wall. No other obvious forgotten items are seen.  \nSEVERITY: <2> - Minor issue with two small personal items left behind, but no major damage or safety concerns.",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near orange bag",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, edge of blue cushion",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats, walls, or other surfaces.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Backpack (<far end, near orange bag>)  \n  - Small dark object (<left-hand seat, edge of blue cushion>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A backpack is visible near the far end by an orange bag, and a small dark item rests on the edge of a left-hand seat’s blue cushion. No other forgotten objects are apparent in the aisle or right-hand seats.  \nSEVERITY: <2> (Minor issue due to one forgotten object; no major damage or safety concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far left seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Orange item",
+     "type": "object",
+     "bbox": null,
+     "zone": "near rear door, behind the person",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on any surfaces.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n- Backpack (<far left seat area>)  \n- Orange item (<near rear door, behind the person>)  \nDESCRIPTION: The interior appears generally clean and orderly. A backpack is visible on the far-left seat row near the window, and an orange object (possibly a bag or equipment) sits near the rear door by the standing pole. No other forgotten items are apparent.  \nSEVERITY: <2> - Minor issue due to two small left-behind objects, but no major damage or safety concerns.",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.55,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack/Bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Phone (<aisle floor>)  \n  - Backpack/Bag (<far end seat area>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A phone lies on the aisle floor near the center of the image, and a backpack or bag is visible in the far end seating area (near the back door).  \nSEVERITY: <2> - Minor issue with forgotten items but no major damage or safety concerns.",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.64,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle, near rear doors",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on seats, walls, or other surfaces.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Backpack (<aisle, near rear doors>)  \nDESCRIPTION: The interior of the tram appears generally clean and orderly, with a single black backpack left on the floor in the aisle near the rear doors. Seats are empty except for the foreground individual, and no other forgotten items (e.g., bottles, phones) are visible.  \nSEVERITY: <2> - A minor issue due to one forgotten object, but not a major problem.",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.76,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat, floor edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end, near center pole>)  \n  - Small black object (<right-hand middle seat, floor edge>)  \nDESCRIPTION: The tram interior appears generally clean and orderly. A black backpack is left on the floor near the center pole at the far end of the car. Additionally, a small dark item (likely a phone or similar) rests on the floor edge next to the right-hand middle seat.  \nSEVERITY: <2> - Minor issue with forgotten items but no major damage or safety hazards.",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, between two right-side seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end, near center aisle>)  \n  - Black phone (<right-hand seat area, between two right-side seats>)  \nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the far end of the car, and a black smartphone rests on the edge of a right-hand seat in the middle section. No other forgotten items are visible.  \nSEVERITY: <2> (Minor issue due to two small objects left behind; no damage or safety hazards.)",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end aisle>)  \n  - Black phone (<right-hand middle seat edge>)  \nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the far end of the aisle, and a black smartphone rests on the right-hand middle seat (second row from front). No other forgotten items are visible.  \nSEVERITY: <2> - Minor issue due to two small objects left behind, but no damage or safety hazards.",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Black backpack (<far end, near center pole>)  \n  - Small black object (<right-hand middle seat edge>)  \nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center pole at the far end of the car, and a small black item (likely a phone or wallet) rests on the right-hand middle seat’s edge.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.0,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Orange item",
+     "type": "object",
+     "bbox": null,
+     "zone": "left side, near front window",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor next to middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end, near center pole>)  \n  - Orange item (<left side, near front window>)  \n  - Black phone (<right-hand seat area, floor next to middle row>)  \nDESCRIPTION: The tram interior appears mostly clean and orderly. A black backpack is left on the floor near the center pole at the far end; an orange item (possibly a bag or jacket) sits by the left-side front window; and a black phone rests on the floor beside the right-hand middle seats.  \nSEVERITY: <2> - Minor issues with forgotten items, no major damage or safety hazards.",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat row, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, near middle pole>)  \n- Small black object (<right-hand seat row, floor>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center aisle at the far end of the car. A small black item (likely a phone or wallet) rests on the floor between two right - hand seats in the middle section.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat row, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, near middle pole>)  \n- Small black object (<right-hand seat row, floor>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center aisle at the far end, and a small black item (likely a phone or wallet) rests on the floor between two right-side seats. No other forgotten objects are visible.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.61,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, between middle and lower right seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, near center pole>)  \n- Black phone (<right-hand seat area, between middle and lower right seats>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center pole at the far end of the car, and a black smartphone rests on the edge of a right-hand seat in the middle section.  \nSEVERITY: 2 (Minor issue due to forgotten personal items; no damage or safety hazard)",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.81,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat, between two right-side front seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end, near center pole>)  \n  - Small black object (<right-hand middle seat, between two right-side front seats>)  \nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center pole at the far end of the car. Additionally, a small black item (likely a phone or similar device) rests on the edge of a right-hand middle seat.  \nSEVERITY: <2> - Minor issue due to forgotten items but no damage or safety hazard.",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.99,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near center pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Orange bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "left side, near front door",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat, floor edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end, near center pole>)  \n  - Orange bag (<left side, near front door>)  \n  - Small black object (<right-hand middle seat, floor edge>)  \nDESCRIPTION: The tram interior appears mostly clean and orderly. A black backpack is left on the floor near the center pole at the far end; an orange bag sits by the left-side front door; a small black item (likely a phone or wallet) rests on the floor edge of the right-hand middle seat.  \nSEVERITY: <2> - Minor issues with forgotten items, no major damage or safety hazards.",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat row, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, near middle pole>)  \n- Small black object (<right-hand seat row, floor>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center aisle at the far end of the car. A small black item (likely a phone or wallet) rests on the floor beneath the right-hand middle seats.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n  - Black bag (<far end aisle>)  \n  - Small black object (<right middle seat floor>)  \n\nDESCRIPTION: The tram interior appears clean and orderly overall. A black bag is left on the floor near the far end of the car, and a small black item (likely a phone or similar) rests on the floor under the right-hand middle seats. No other forgotten objects are visible.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.64,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end aisle>)  \n  - Small black object (<right-hand middle seat edge>)  \nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the far end of the car, and a small black item (likely a phone or wallet) rests on the right-hand middle seat’s front edge.  \nSEVERITY: <2> - Minor issue due to forgotten items but no damage or safety hazard.",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.55,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat row, between two front seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, near middle pole>)  \n- Small black object (<right-hand seat row, between two front seats>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center aisle at the far end of the car. Additionally, a small black item (likely a phone or wallet) rests on the edge of a right - hand seat in the middle section.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat row, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No visible graffiti on walls or seats.  \nVANDALISM: no - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, near middle pole>)  \n- Small black object (<right-hand seat row, floor>)  \n\nDESCRIPTION: The tram interior appears clean and orderly. A black backpack is left on the floor near the center aisle at the far end of the car. A small black item (likely a phone or wallet) rests on the floor beneath the right-hand middle seats.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.64,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end aisle>)  \n  - Small black object (<right-hand middle seat edge>)  \nDESCRIPTION: The tram interior appears mostly empty and clean. A black backpack is left on the floor near the far end of the aisle, and a small black item (likely a phone or wallet) rests on the edge of a right-hand middle seat.  \nSEVERITY: <2> - Minor issue with forgotten items but no major damage or safety hazards.",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-115944-a78ef6/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.87,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag/purse",
+     "type": "object",
+     "bbox": null,
+     "zone": "left side, near front door",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: <no> - No visible graffiti on walls or seats.  \nVANDALISM: <no> - No signs of vandalism (e.g., damaged seats, broken fixtures).  \nFORGOTTEN OBJECT: <yes>  \n  - Black backpack (<far end, near middle pole>)  \n  - Black bag/purse (<left side, near front door>)  \nDESCRIPTION: The tram interior appears mostly empty and clean. Two forgotten items are visible: a black backpack on the floor near the center aisle at the far end, and another black bag (possibly a purse) left on the left-hand seat area near the front door. No other small objects like phones or bottles are seen.  \nSEVERITY: <2> - Minor issue due to forgotten personal items but no immediate safety hazard.",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 265.01
+ }
+}

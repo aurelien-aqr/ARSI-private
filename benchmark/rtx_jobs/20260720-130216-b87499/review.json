@@ -1,0 +1,32 @@
+{
+ "job_id": "20260720-130216-b87499",
+ "updated": "2026-07-20T11:03:23+00:00",
+ "frames": {
+  "tram_anomalies_2": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp",
+    "2": "tp",
+    "3": "fp",
+    "4": "tp",
+    "5": "fp",
+    "6": "fp",
+    "7": "fp",
+    "8": "fp"
+   },
+   "missed": [
+    {
+     "bbox": [
+      805,
+      582,
+      946,
+      792
+     ],
+     "label": "paper bag",
+     "type": "object"
+    }
+   ],
+   "done": true
+  }
+ }
+}

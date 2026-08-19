@@ -1,0 +1,3413 @@
+{
+ "job_id": "20260727-123655-db7c98",
+ "config": {
+  "script": "vlm_01",
+  "model": "openbmb/minicpm-v4.6:latest",
+  "prompt_name": "default",
+  "prompt": "You are inspecting the interior of a tram for problems: graffiti,\nvandalism, and forgotten/left-behind objects (bags, backpacks, bottles, phones,\nwallets, packages, etc.).\n\nInspect the image METHODICALLY, one zone at a time: the left-hand seats, the\nright-hand seats, the floor and the aisle, and the far end of the car. Small\ndark objects on a seat edge or on the floor are easy to miss - look for them on\npurpose. There may be SEVERAL objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY object found, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing what you see>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": null,
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": null,
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-27T10:36:55+00:00",
+ "finished": "2026-07-27T10:38:55+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 14.09,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows a tram interior with seats, aisles, and floor areas. There are small dark objects on seat edges or the floor that may be overlooked.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, near right-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, near right-hand seats)  \nDESCRIPTION: The image shows a tram interior with seating and floor areas. Small dark objects are visible on a seat edge and on the floor.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center area",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center area)  \nDESCRIPTION: The image shows a tram interior with seats and floor visible. A person in a hoodie is seated, and there are small dark objects on the floor near a seat.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.38,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - wallet (left-hand seats)  \nDESCRIPTION: Small dark objects are visible on a seat edge, suggesting potential forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.4,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "on a seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "on the floor",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (on a seat edge)  \n  - wallet (on the floor)  \nDESCRIPTION: There are small dark objects on seats and the floor, which appear to be personal items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a tram interior with seats, aisles, and some objects. I looked for small dark items that might be overlooked.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a tram interior with seats, floors, and aisles. Small dark objects are visible on a seat edge and on the floor near the center aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a tram interior with seats and floor visible. Small dark objects are present on a seat edge and on the floor near the center aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "on a seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "on the floor",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": "near the aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (on a seat edge)  \n  - wallet (on the floor)  \n  - packages (near the aisle)  \nSEVERITY: 3  \n\nDESCRIPTION: There are small dark objects on seats and the floor, which appear to be personal items like phones and possibly wallets or packages. No obvious graffiti or major vandalism is visible.",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows a tram interior with seats, aisles, and floor areas. Small dark objects are visible on seat edges or the floor, which may include forgotten items like phones or bags.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.38,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "on a seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "on the floor",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (on a seat edge)  \n  - wallet (on the floor)  \nDESCRIPTION: There are small dark objects on seats and the floor that appear to be personal items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, aisles, and floor areas. Small dark objects are visible on seat edges or the floor, suggesting potential forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.38,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - bag (far end of the car)  \nDESCRIPTION: There are small dark objects on seats and floor that appear to be personal items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - wallet (left-hand seats)  \n  - bags (far end of the car)  \nDESCRIPTION: Several small objects are visible, including a phone on a seat edge and what appear to be bags or packages in the far end.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.57,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, right",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-side seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \n  - backpack (far end, right)  \n  - bags (left-side seats)  \nDESCRIPTION: The image shows a tram interior with seats, floors, and aisles. Small objects are visible on seats and the floor, including what appears to be a phone and other items that may be forgotten.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-side seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \n  - bag (left-side seats)  \nDESCRIPTION: The image shows a clean tram interior with seats, floors, and aisles. Small dark objects are visible on a seat edge and on the floor near the center aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a tram interior with seats and floors. Small dark objects are visible on a seat edge and on the floor near the center aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a clean tram interior with seats and floors visible. Small dark objects are present on a seat edge and on the floor in the central aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.38,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - wallet (left-hand seats)  \nDESCRIPTION: Small dark objects are visible on a seat edge, suggesting potential forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "on a seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "on the floor",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": "near the aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (on a seat edge)  \n  - wallet (on the floor)  \n  - packages (near the aisle)  \nSEVERITY: 3  \n\nDESCRIPTION: The image shows an interior with seats, aisles, and floor areas. Small dark objects are visible on seat edges and the floor, suggesting forgotten items like phones or wallets.  \n\nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.55,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, near right-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": "seats, left side",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \n  - bags (floor, near right-hand seats)  \n  - backpacks (seats, left side)  \nDESCRIPTION: The image shows a tram interior with rows of seats and a floor. Small dark objects are visible on seat edges and the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a clean interior with seats, aisles, and some objects. I look for small dark items that might be overlooked.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, center aisle)  \nDESCRIPTION: The image shows a tram interior with seats and aisles. Small dark objects are visible on a seat edge and the floor near the center aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.61,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "on a seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "on the floor",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": "near the aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (on a seat edge)  \n  - wallet (on the floor)  \n  - packages (near the aisle)  \nSEVERITY: 3  \n\nDESCRIPTION: The image shows an interior of a tram with seats, aisles, and various objects. I noticed small dark items on a seat edge that appear to be a phone, and also something that looks like a wallet or packages near the floor. No obvious graffiti or clear vandalism was found.",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, floors, and aisles. There are small dark objects on seat edges and floor areas that may be overlooked.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, center)  \n  - small dark object (seat edge)  \nDESCRIPTION: The image shows a tram interior with seats, floors, and aisles. Small dark objects are visible on seat edges or on the floor, suggesting potential forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - bag (floor, center aisle)  \nDESCRIPTION: There is a small dark object on a seat edge that appears to be a phone, and another item lying on the floor in the middle of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.4,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end of the car)  \nDESCRIPTION: There is a small dark object on a seat edge, and a bag is visible near the far end.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.39,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - bag (far end of the car)  \nDESCRIPTION: There are small dark objects on seats and floor that appear to be personal items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end of aisle)  \n  - small dark object (seat edge)  \nDESCRIPTION: The right-hand seats show a small dark object resting on the seat, and a backpack is visible near the far end of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, center)  \n  - small dark object (left-hand seats)  \nDESCRIPTION: Several small objects are visible, including a phone on a seat and a backpack near the far end.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, center)  \n  - small dark object (seat edge)  \nDESCRIPTION: The right-hand seats show a small dark object placed on the seat. A backpack is visible near the far end aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.34,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end of aisle)  \n  - small dark object (seat edge)  \n\nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end aisle)  \nDESCRIPTION: The right-hand seats show a small dark object, likely a phone, placed on the seat edge. A black bag is visible near the far end of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, aisle)  \nDESCRIPTION: The right-hand seats show a small dark object on the seat edge, which appears to be a phone. There is also a black bag placed near the far end of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, near aisle)  \nDESCRIPTION: There is a small dark object on a seat edge that appears to be a phone. Additionally, a black bag is visible on the floor in the background area.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.34,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end of aisle)  \n  - small dark object (seat edge)  \n\nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - bag (far end, near aisle)  \nDESCRIPTION: The right-hand seats show a small dark object, likely a phone, placed on the seat edge. There’s also a black bag visible on the floor in the far end of the car.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, center)  \nDESCRIPTION: The right-hand seats show a small dark object, likely a phone, resting on the seat edge. There is also a black bag placed near the far end of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end aisle)  \nDESCRIPTION: The right-hand seats show a small dark object, likely a phone, placed on the seat edge. There is also a black bag near the far end of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, near aisle)  \nDESCRIPTION: The right-hand seats show a small dark object, likely a phone, placed on the seat. A black bag is visible on the floor in the far back area.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, near right-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - small dark object (floor, near right-hand seats)  \nDESCRIPTION: The image shows a tram interior with seats and floor visible. A person is holding a handle; on the right-hand seat, there’s a small black object resting on the floor.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - bag (far end of the car)  \nDESCRIPTION: The image shows a tram interior with seats, floors, and aisles. Small dark objects are visible on a seat edge and on the floor.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.54,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-side seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, near aisle)  \n  - small dark object on floor (left-side seats)  \nDESCRIPTION: The image shows a tram interior with seating and aisles. I observed a small black object resting on a right-hand seat edge. There is also a backpack placed near the far end of the car.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \n\nDESCRIPTION: The image shows a tram interior with seats, aisles, and floor areas. Small dark objects are visible on seat edges and the floor, suggesting potential forgotten or misplaced items.  \n\nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - black bag (far end, near aisle)  \nDESCRIPTION: The right-hand seats show a small dark object on the seat edge, which appears to be a phone. There is also a visible black bag placed on the floor near the far end of the car.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.46,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - bag (floor, center)  \nDESCRIPTION: There is a small dark object on the right-hand seat edge that appears to be a phone. Additionally, there is a black bag placed on the floor in the center aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near aisle",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, near aisle)  \nDESCRIPTION: There is a small dark object on the right-hand seat edge that appears to be a phone. Additionally, a black bag is visible on the floor in the far back area.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.39,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "wallet <left-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phone <right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - wallet <left-hand seats>  \n  - phone <right-hand seats>  \nDESCRIPTION: There are small dark objects on the floor and seat edges that appear to be personal items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (far end, center)  \nDESCRIPTION: There is a small dark object on the right-hand seat edge that appears to be a phone. Additionally, a black bag is visible near the far end of the aisle.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor, center",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "seat edge",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - phone (right-hand seat)  \n  - backpack (floor, center)  \n  - black object (seat edge)  \nDESCRIPTION: The image shows a tram interior with seats and floor visible. Small dark objects are present on seats or the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows a tram interior with seats, aisles, and floor areas. There are small dark objects on seat edges or the floor that may be overlooked.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.38,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - <seat edge>  \n  - <floor>  \n\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, aisles, and floor areas. There are small dark objects on seat edges or floors that may be overlooked.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.48,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, aisles, and floor areas. Small dark objects are visible on seat edges or floors, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. There are small dark objects on seat edges and floors, which appear to be miscellaneous items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows a tram interior with seats, floor, and aisles. There are small dark objects on seat edges and the floor, which appear to be miscellaneous items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, floors, and aisles. There are small dark objects on the floor near the center aisle, which appear to be miscellaneous items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. Small dark objects are visible on seat edges and the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.54,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows a clean tram interior with seats, aisles, and floor space. There are some dark objects on a seat edge and near the floor, which appear to be small items that may need inspection.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. There are small dark objects on the floor near the center, which appear to be forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. Small dark objects are visible on seat edges and the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, aisles, and floor areas. There are small dark objects on seat edges or floors, which appear to be miscellaneous items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows a tram interior with seats, floor, and aisles. There are small dark objects on seat edges and the floor, which may be overlooked.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. Small dark objects are visible on seat edges and the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. There are small dark objects on the floor near the center, which appear to be forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. Small dark objects are visible on seat edges and the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows a clean tram interior with seats, floor, and aisles. There are small dark objects on the floor near the center, which appear to be forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. There are small dark objects on seat edges and floors, which appear to be miscellaneous items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. There are small dark objects on seat edges and the floor, which appear to be miscellaneous items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.51,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. Small dark objects are visible on seat edges and the floor, suggesting forgotten items.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-123655-db7c98/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bags",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "backpacks",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bottles",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phones",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "wallets",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "packages",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "seat edges",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - bags  \n  - backpacks  \n  - bottles  \n  - phones  \n  - wallets  \n  - packages  \n  - seat edges  \nDESCRIPTION: The image shows the interior of a tram with seats, floor, and aisles. There are small dark objects on seat edges and floors, which may be overlooked.  \nSEVERITY: 3",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 119.78
+ }
+}

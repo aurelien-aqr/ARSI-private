@@ -1,0 +1,2711 @@
+{
+ "job_id": "20260723-124037-9ec243",
+ "config": {
+  "script": "vlm_02",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "default",
+  "prompt": "You are given two images of the SAME tram interior.\n\n- The FIRST image is the CLEAN reference (empty, undamaged).\n- The SECOND image is the CURRENT inspection image. Its windows are masked\n  black on purpose - ignore the black areas completely.\n\nCompare them ZONE BY ZONE (left-hand seats, right-hand seats, floor and aisle,\nfar end of the car) and report EVERYTHING that is NEW or DIFFERENT in the second\nimage: graffiti, vandalism, or forgotten/left-behind objects. A small dark\nobject appearing on a seat edge or on the floor counts - look for these on\npurpose. There may be SEVERAL new objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY new object, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing the differences>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": "/home/student/Documents/ARSI-private/data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-23T10:40:37+00:00",
+ "finished": "2026-07-23T10:45:06+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 8.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Laptop",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand lower seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person walking down the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Laptop (<right-hand lower seat>)  \n- Person walking down the aisle  \n\nDESCRIPTION: A person wearing a \"GAP\" sweatshirt and dark pants is now present in the aisle, holding an object. Additionally, a laptop has appeared on the right - hand lower seat that was empty in the first image.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.61,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person wearing blue hoodie with yellow reflective stripes",
+     "type": "object",
+     "bbox": null,
+     "zone": "foreground, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person standing at far end in gray clothing",
+     "type": "object",
+     "bbox": null,
+     "zone": "background, near front doors",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structure).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Person wearing blue hoodie with yellow reflective stripes (<foreground, left side>)  \n- Person standing at far end in gray clothing (<background, near front doors>)  \n\nDESCRIPTION: The second image introduces a wallet on the middle-right seat, two people (one seated in foreground, one standing at the far end), and no other changes.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.88,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person wearing a dark hoodie with yellow reflective stripes",
+     "type": "object",
+     "bbox": null,
+     "zone": "foreground, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person walking at the far end of the tram",
+     "type": "object",
+     "bbox": null,
+     "zone": "background, center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Person wearing a dark hoodie with yellow reflective stripes (<foreground, left side>)  \n- Person walking at the far end of the tram (<background, center aisle>)  \n\nDESCRIPTION: The second image introduces several new elements compared to the first. A wallet is now on the middle-right seat (previously empty). Two people are present—one seated in the foreground wearing a dark hoodie with yellow reflective stripes, and another standing near the far end of the tram.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "bottom left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<middle right seat>)  \n- Backpack (<bottom left seat>)  \n\nDESCRIPTION: Two people are present in the second image, with a smartphone on the middle-right seat and a backpack on the bottom-left seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand seat, middle row>)  \n- Smartphone (<right-hand seat, middle row>)  \nDESCRIPTION: A person wearing a high-visibility vest is present in the aisle. Two smartphones are now on the blue-cushioned seats in the middle rows (one on each side of the aisle).  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.45,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats, floor, or fixtures.  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Phone (<left-hand middle seat>)  \n\nDESCRIPTION: Two people are present in the aisle area (not visible as objects on seats). On the right-hand side middle row seat there is a black wallet, and on the left-hand side middle row seat there is a dark phone.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Phone (<left-hand middle seat>)  \n\nDESCRIPTION: In the current image, there is a black wallet on the right-hand middle seat and a smartphone on the left-hand middle seat. Additionally, two people are visible in the far end of the car (one in an orange vest, one in blue).  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.28,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \nDESCRIPTION: In the current image, there is a wallet on the right-hand middle seat and a phone on the left-hand middle seat, which were not present in the reference image.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.44,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Phone (<left-hand middle seat>)  \nDESCRIPTION: A person wearing a high-visibility vest is present in the aisle, and two small objects—a wallet on the right-hand middle seat and a phone on the left-hand middle seat—are now visible.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.37,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Phone (<left-hand middle seat>)  \n\nDESCRIPTION: The second image shows a man with a wallet on the right-hand middle seat and a phone on the left-hand middle seat, compared to empty seats in the first image.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.8,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "foreground, near bottom center",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structure).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Phone (<left middle seat>)  \n- Backpack (<foreground, near bottom center>)  \n\nDESCRIPTION: The second image shows three new objects: a wallet on the middle-right seat, a phone on the left-middle seat, and a backpack in the foreground. Additionally, a person wearing a \"GAP\" sweatshirt is present in the far end of the car (noting this as a human presence change).  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car, near the back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat, on the seat cushion",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or text\nVANDALISM: no - no damage to seats, floor, or fixtures\nFORGOTTEN OBJECT: yes\n  - backpack (<left-hand lower seat area>)\n  - black bag (<far end of the car, near the back wall>)\n  - phone (<right-hand middle seat, on the seat cushion>)\nDESCRIPTION: A person is present in the aisle. There are three new objects: a backpack on the left-hand lower seat, a black bag at the far end near the back wall, and a phone resting on the right-hand middle seat.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.67,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person’s head and clothing",
+     "type": "object",
+     "bbox": null,
+     "zone": "bottom-left foreground",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats or structure.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack (<far end left seat>)  \n  - Person’s head and clothing (<bottom-left foreground>)  \n\nDESCRIPTION: The second image shows several forgotten items on seats (wallet, phone) and a backpack at the far end. Additionally, there is a person partially visible in the bottom-left corner of the frame.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Phone (<left-hand middle seat>)  \n- Backpack (<far end left seat>)  \n\nDESCRIPTION: In the current image, there is a wallet on the right - hand middle seat, a phone on the left - hand middle seat, and a backpack on the far - end left seat. These are not present in the reference image.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end left seat>)  \n\nDESCRIPTION: In the current image, there is a smartphone on the left - hand middle seat and a wallet on the right - hand middle seat. Additionally, a backpack has appeared on the far - end left seat compared to the clean reference image.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.66,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end left seat>)  \n\nDESCRIPTION: In the current image, there is a smartphone on the left - hand middle seat and a wallet on the right - hand middle seat. Additionally, a backpack appears on the far - end left seat compared to the clean reference image where these seats were empty.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.6,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end right seat>)  \n\nDESCRIPTION: In the current image, there are three forgotten objects compared to the clean reference: a smartphone on the left-hand middle seat, a wallet on the right-hand middle seat, and a backpack on the far-end right seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.32,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Black bag (<far end left seat>)  \nDESCRIPTION: In the current inspection image, there is a black wallet on the right-hand middle seat and a black bag on the far-end left seat that were not present in the reference image.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.66,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end left seat>)  \n\nDESCRIPTION: In the second image, there is a smartphone on the left - hand middle seat and a wallet on the right - hand middle seat. Additionally, a backpack appears on the far - end left seat compared to the first image where those seats were empty.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.36,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person",
+     "type": "object",
+     "bbox": null,
+     "zone": "standing in aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats, floor, or fixtures.  \nFORGOTTEN OBJECT: yes  \n- Phone (<left middle seat>)  \n- Wallet (<right middle seat>)  \n- Person (standing in aisle)  \n\nDESCRIPTION: A person wearing a reflective vest is walking down the aisle; there are now two small dark objects on the middle row seats (phone and wallet).  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.83,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet/phone case",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person wearing a high-visibility vest and jeans walking in the aisle at the far end",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand seat, middle row>)  \n- Wallet/phone case (<right-hand seat, middle row>)  \n- Person wearing a high-visibility vest and jeans walking in the aisle at the far end  \n\nDESCRIPTION: In the second image, there are two small dark objects on seats (a smartphone on the left-hand middle seat and a wallet/phone case on the right-hand middle seat), and a person is present in the far end of the tram.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person with luggage",
+     "type": "object",
+     "bbox": null,
+     "zone": "standing in the far end aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats or structure.  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand middle seat>)  \n  - Wallet (<right-hand middle seat>)  \n  - Person with luggage (standing in the far end aisle)  \n\nDESCRIPTION: The second image shows a phone on the left-hand middle seat, a wallet on the right-hand middle seat, and a person standing near the far end of the tram holding luggage.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.49,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person standing at far end",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Phone (<left-hand middle seat>)  \n- Person standing at far end  \n\nDESCRIPTION: In the second image, there is a wallet on the right-hand middle seat, a phone on the left-hand middle seat, and a person standing in the aisle near the far end.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, second row from front",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structure).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand seat, second row from front>)  \n- Wallet (<right-hand seat, middle row>)  \nDESCRIPTION: A man is present in the aisle; two small objects are left on seats.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.98,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Hand holding a phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "foreground left, not on seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional destruction or damage.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack (<far end floor>)  \n  - Hand holding a phone (<foreground left, not on seat>)  \n\nDESCRIPTION: The second image shows several forgotten items compared to the first (empty) reference. A wallet rests on the right-hand middle seat, a phone is on the left-hand middle seat, a backpack lies on the far-end floor near the back wall, and a hand holding a phone appears in the foreground on the left side of the aisle.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black wallet (<right-hand middle seat>)  \n- Black phone (<left-hand middle seat>)  \n- Black bag (<far end floor>)  \n\nDESCRIPTION: The second image has three new objects compared to the first: a black wallet on the right - hand middle seat, a black phone on the left - hand middle seat, and a black bag on the far end of the car’s floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of car, near back wall",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to the tram interior.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Black bag (<far end of car, near back wall>)  \n  - Phone (<left-hand middle seat>)  \n\nDESCRIPTION: In the current image, there are three new objects compared to the reference: a wallet on the right-hand middle seat, a black bag at the far end of the tram near the back wall, and a phone on the left-hand middle seat.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage or defacement.  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand middle seat>)  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end floor>)  \n\nDESCRIPTION: In the second image, there is a phone on the left-hand middle seat and a wallet on the right-hand middle seat. Additionally, a backpack has been left on the far end of the tram floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.71,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near the back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end floor, near the back wall>)  \n\nDESCRIPTION: The second image shows a smartphone on the left-hand middle seat, a wallet on the right-hand middle seat, and a backpack on the far-end floor (near the back wall), which are not present in the first (clean) reference image.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.68,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near center",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end floor, near center>)  \n\nDESCRIPTION: In the current image, there is a smartphone on the left - hand middle seat and a wallet on the right - hand middle seat. Additionally, a backpack has been left on the far end of the tram’s floor near the center aisle.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.64,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end floor, near back wall>)  \n\nDESCRIPTION: In the current image, there is a smartphone on the left-hand middle seat and a wallet on the right-hand middle seat. Additionally, a backpack has been left on the floor at the far end of the tram car.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.4,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism.  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand seat, middle row>)  \n  - Wallet (<right-hand seat, middle row>)  \n  - Backpack (<far end floor>)  \nDESCRIPTION: The second image shows a phone on the left-middle seat, a wallet on the right-middle seat, and a backpack on the far-end floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.56,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats or structure.  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand middle seat>)  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end floor>)  \n\nDESCRIPTION: In the second image, there is a phone on the left-hand middle seat and a wallet on the right-hand middle seat. Additionally, a backpack has been left on the floor near the far end of the tram.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.71,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near the back wall",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black wallet (<right-hand middle seat>)  \n- Black bag (<far end floor, near the back wall>)  \n- Phone (<left-hand middle seat>)  \n\nDESCRIPTION: The second image has three new objects compared to the first: a black wallet on the right-hand middle seat, a black bag on the far-end floor (near the back), and a phone on the left-hand middle seat.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.62,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand seat, middle row>)  \n- Wallet (<right-hand seat, middle row>)  \n- Backpack (<far end floor>)  \n\nDESCRIPTION: In the second image, there are three new objects left behind: a smartphone on the left-hand middle seat, a wallet on the right-hand middle seat, and a backpack near the far end of the tram.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.62,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Black bag (<far end aisle floor>)  \n- Phone (<left-hand middle seat>)  \n\nDESCRIPTION: The second image has three new objects compared to the first: a wallet on the right - hand middle seat, a black bag on the far - end aisle floor, and a phone on the left - hand middle seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.54,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand middle seat>)  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end floor>)  \n\nDESCRIPTION: In the second image, there is a smartphone on the left-hand middle seat and a wallet on the right-hand middle seat. Additionally, a backpack appears on the far end of the tram’s floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.47,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional destruction or damage.  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand middle seat>)  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end floor, near back wall>)  \nDESCRIPTION: In the second image, there is a phone on the left-hand middle seat, a wallet on the right-hand middle seat, and a backpack on the far end floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats or structure.  \nFORGOTTEN OBJECT: yes  \n  - Phone (<left-hand seat, middle row>)  \n  - Wallet (<right-hand seat, middle row>)  \n  - Backpack (<far end of the car, floor>)  \n\nDESCRIPTION: In the current image, there is a phone on the left-hand middle seat and a wallet on the right-hand middle seat. Additionally, a backpack has been left on the floor near the far end of the tram.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.55,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats or structure.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Phone (<left-hand middle seat>)  \n  - Backpack (<far end floor>)  \n\nDESCRIPTION: In the current image, there are three new objects left behind: a wallet on the right-hand middle seat, a phone on the left-hand middle seat, and a backpack on the far end of the tram floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.6,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Smartphone (<left-hand seat, middle row>)  \n- Wallet (<right-hand seat, middle row>)  \n- Backpack (<far end floor>)  \n\nDESCRIPTION: The second image shows three new objects left behind: a smartphone on the left - hand middle seat, a wallet on the right - hand middle seat, and a backpack on the far end of the tram floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Person (<aisle, left side>)  \n\nDESCRIPTION: The second image introduces a person standing in the aisle and a wallet on the middle-right seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.63,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle near far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats, floor, or fixtures.  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Backpack (<far left seat>)  \n- Black bag (<aisle near far end>)  \n\nDESCRIPTION: A man is present in the aisle; a wallet rests on the middle-right seat, a backpack sits on the far-left seat, and a black bag lies on the floor near the far end.  \nSEVERITY: 2 (unattended personal items but no damage)",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.42,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person",
+     "type": "object",
+     "bbox": null,
+     "zone": "standing in aisle, bending over",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional destruction or damage.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end left seat>)  \n  - Person (standing in aisle, bending over)  \n\nDESCRIPTION: The second image introduces a person standing in the aisle, a wallet on the right-hand middle seat, and a backpack on the far-left rear seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.41,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car, near the back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black smartphone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats, floor, or fixtures.  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<left-hand lower seat area>)  \n- Black bag (<far end of the car, near the back wall>)  \n- Black smartphone (<right-hand middle seat>)  \n\nDESCRIPTION: A person is present in the aisle holding a pole; there are three new objects left behind.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.69,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle right seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "back left corner",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<middle right seat>)  \n- Backpack (<back left corner>)  \n- Black bag (<far end aisle>)  \n\nDESCRIPTION: In the current inspection image, there is a black wallet on the middle-right seat, a backpack in the back-left corner of the seating area, and a black bag near the far end of the aisle. These are not present in the reference (clean) image.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.58,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "back left corner, near floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle, near back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<back left corner, near floor>)  \n  - Black bag (<far end aisle, near back wall>)  \nDESCRIPTION: The second image has three new objects: a wallet on the right-hand middle seat, a backpack in the bottom-left corner (near the front), and a black bag at the far end of the aisle.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.31,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end floor>)  \nDESCRIPTION: In the current inspection image, there is a black wallet on the right-hand middle seat and a black backpack on the far end floor that were not present in the reference image.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.36,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or property).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end floor>)  \n\nDESCRIPTION: In the current inspection image, a black wallet is left on the right-hand middle seat, and a black backpack appears on the far end of the tram floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.39,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor, near left wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Wallet (<right-hand middle seat>)  \n- Backpack (<far end floor, near left wall>)  \n\nDESCRIPTION: In the second image, a black wallet is on the right-hand middle seat, and a backpack is on the far-end floor near the left wall.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.5,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Wallet",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person with arm extended",
+     "type": "object",
+     "bbox": null,
+     "zone": "visible in the foreground",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage or defacement.  \nFORGOTTEN OBJECT: yes  \n  - Wallet (<right-hand middle seat>)  \n  - Backpack (<far end floor>)  \n  - Person with arm extended (visible in the foreground)  \n\nDESCRIPTION: The second image introduces a wallet on the right-hand middle seat, a backpack on the far end of the tram floor, and a person’s head/extended arm in the foreground.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.26,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Person",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle, moving through seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structure).  \nFORGOTTEN OBJECT: yes  \n- Backpack (<left-hand lower seat>)  \n- Person (<aisle, moving through seats>)  \n\nDESCRIPTION: The second image introduces a person walking down the aisle and a backpack left on a left-hand lower seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.52,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Bag/satchel",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat, near orange item",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structure).  \nFORGOTTEN OBJECT: yes  \n- Backpack (<left-hand lower seat>)  \n- Bag/satchel (<far end left seat, near orange item>)  \n\nDESCRIPTION: A person is present in the aisle. New objects include a backpack on the left - hand lower seat and a bag/satchel near the far - end left seat (by the orange item).  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Phone",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle aisle floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats/structure).  \nFORGOTTEN OBJECT: yes  \n- Backpack (<left-hand lower seat area>)  \n- Phone (<right-hand middle aisle floor>)  \n\nDESCRIPTION: A person is present, and two new objects are visible: a backpack on the left-hand lower seat row and a phone on the right-hand middle aisle floor.  \nSEVERITY: 2 (unattended personal items but no damage or safety hazard)",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle, near back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no visible graffiti in either image  \nVANDALISM: no - no signs of vandalism (e.g., damage to seats/structures)  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<left-hand lower seat area>)  \n- Black bag (<far end aisle, near back wall>)  \n\nDESCRIPTION: A person is present in the second image, and two new objects—a black backpack on a left - hand lower seat and another black bag at the far end of the tram’s aisle—have appeared compared to the empty reference image.  \nSEVERITY: 2 (unattended personal items are noted but not causing immediate safety or operational issues)",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side near the door",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, near the back wall",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor level",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side near the door>)  \n- Black bag (<middle aisle, near the back wall>)  \n- Small black object (<right-hand seat area, floor level>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) image. A black backpack is visible near the left rear door, a black bag lies in the middle aisle toward the back, and a small dark item rests on the floor near the right-side seats.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.91,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, near far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor/seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side>)  \n- Black bag (<middle aisle, near far end>)  \n- Small black object (<right-hand seat area, floor/seat edge>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is on a seat at the far end left; another black bag appears in the middle aisle near the far end; and a small dark item rests on or near a right-hand seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.93,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, near far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor/seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side>)  \n- Black bag (<middle aisle, near far end>)  \n- Small black object (<right-hand seat area, floor/seat edge>)  \n\nDESCRIPTION: The second image has three new forgotten objects compared to the first (empty) reference. A black backpack is on a seat at the far end left; another black bag appears in the middle aisle near the far end; and a small dark item rests on or near a right-hand seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.1,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side near the door",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag/satchel",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, near the front pole",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor/seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side near the door>)  \n- Black bag/satchel (<middle aisle, near the front pole>)  \n- Small black object (<right-hand seat area, floor/seat edge>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is visible at the far end left side; a black bag/satchel appears in the middle aisle near the front pole; and a small black item rests on or near the right-hand seat area floor/seat edge.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand side, near front window",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle, near middle section",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor level",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<left-hand side, near front window>)  \n- Black bag (<far end aisle, near middle section>)  \n- Small black object (<right-hand seat area, floor level>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is on a left - hand seat near the front window; a black bag appears in the far - end aisle; and a small black item rests on the right - hand seat area’s floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.96,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag on floor near far end center",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side>)  \n- Black bag on floor near far end center  \n- Small dark object (<right-hand seat area, floor>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is now visible on a left-side seat at the far end; a black bag appears on the floor near the center of the far end; and a small dark item rests on the floor in the right-hand seating zone.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, near middle seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "front left corner seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand aisle floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black bag (<far end, near middle seat>)  \n- Black backpack (<front left corner seat>)  \n- Black object (<right-hand aisle floor>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black bag is on the far end of the car near a middle seat; a black backpack appears in the front-left corner seat; and a small black object rests on the right-hand aisle floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.96,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag on floor near far end pole",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or fixtures).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side>)  \n- Black bag on floor near far end pole  \n- Small black object (<right-hand seat area, floor>)  \n\nDESCRIPTION: The second image shows several forgotten objects compared to the first (empty) reference. A black backpack is visible at the far end of the car on the left side; a black bag rests on the floor near the center pole at the far end; and a small black object appears on the floor in front of the right-hand seats.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.99,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag on floor near far end pole",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side>)  \n- Black bag on floor near far end pole  \n- Small black object (<right-hand middle seat edge>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is now visible at the far end of the car on the left side; a black bag has appeared on the floor near the center pole at the far end; and a small black object rests on the edge of the right-hand middle seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.01,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side near the orange bag",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag/parcel",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, near the front poles",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, floor level",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side near the orange bag>)  \n- Black bag/parcel (<middle aisle, near the front poles>)  \n- Small black object (<right-hand seat area, floor level>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is visible near the left-side seats at the far end; a black bag or parcel appears on the middle aisle floor; and a small black item rests on the right-hand seat area’s floor.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.02,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side near the orange bag",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side near the orange bag>)  \n- Black bag on floor (<middle aisle, far end>)  \n- Small black object (<right-hand seat area, middle row>)  \n\nDESCRIPTION: The second image has three new forgotten objects compared to the first (empty) reference. A black backpack is near the orange bag at the far left; a black bag lies on the floor in the middle aisle at the far end; and a small black item rests on the right-hand seat area in the middle row.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.33,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "front left zone",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black item on floor near far end",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor/aisle, far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object on right-hand middle seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism.  \nFORGOTTEN OBJECT: yes  \n  - Black bag (<far end left seat>)  \n  - Black backpack (<front left zone>)  \n  - Black item on floor near far end (<floor/aisle, far end>)  \n  - Small black object on right-hand middle seat edge (<right-hand seats, middle row>)  \n\nDESCRIPTION: The second image shows several forgotten objects compared to the first (clean) reference. A black bag is now visible on a seat at the far end left, and a black backpack appears in the front left zone. On the floor near the far end, there’s a black item that wasn’t present before. Additionally, a small black object has appeared on the edge of the right-hand middle row seat.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.85,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side near the orange bag",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat area, middle row",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side near the orange bag>)  \n- Black bag on floor (<middle aisle, far end>)  \n- Small black object (<right-hand seat area, middle row>)  \n\nDESCRIPTION: The second image has three new forgotten objects compared to the first (a black backpack at the far-left rear, a black bag on the floor in the middle aisle near the back, and a small black item on the right-side middle seat).  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.98,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, left side",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "middle aisle, near far end",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seat row, middle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<far end, left side>)  \n- Black bag (<middle aisle, near far end>)  \n- Small black object (<right-hand seat row, middle>)  \n\nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is on a seat at the far end of the left side; another black bag appears in the middle aisle near the far end; and a small black item rests on the edge of a right-hand seat in the middle row.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.9,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand side, near the front left seat",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end aisle, near the middle section",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand side, on a seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black backpack (<left-hand side, near the front left seat>)  \n- Black bag (<far end aisle, near the middle section>)  \n- Small black object (<right-hand side, on a seat edge>)  \nDESCRIPTION: The second image shows three new forgotten objects compared to the first (empty) reference. A black backpack is near the front left seat, a black bag is in the far end aisle, and a small black item rests on a right-side seat edge.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end, floor",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand lower seat area",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small black object",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand middle seat edge",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - No new graffiti in either image.  \nVANDALISM: no - No signs of vandalism (e.g., damage to seats or surfaces).  \nFORGOTTEN OBJECT: yes  \n- Black bag (<far end, floor>)  \n- Black backpack (<left-hand lower seat area>)  \n- Small black object (<right-hand middle seat edge>)  \n\nDESCRIPTION: In the current image compared to the reference, there is a black bag on the far end of the tram floor, a black backpack on one of the left - hand lower seats, and a small black object on the right - hand middle seat’s edge.  \nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124037-9ec243/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.98,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "Black bag",
+     "type": "object",
+     "bbox": null,
+     "zone": "far end of the car",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seat area",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Black item on floor near far end seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "Small dark object on right-hand middle seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no - no new markings or damage to surfaces.  \nVANDALISM: no - no intentional damage to seats, walls, or fixtures.  \nFORGOTTEN OBJECT: yes  \n- Black bag (<far end of the car>)  \n- Black backpack (<left-hand seat area>)  \n- Black item on floor near far end seats  \n- Small dark object on right-hand middle seat edge  \n\nDESCRIPTION: The second image shows several forgotten items compared to the clean reference. A black bag is now visible at the far end of the tram, a black backpack appears in the left-hand seating zone (near the front), there are black items on the floor near the rear seats and on the right-hand middle seat edge.  \nSEVERITY: 3",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 268.21
+ }
+}

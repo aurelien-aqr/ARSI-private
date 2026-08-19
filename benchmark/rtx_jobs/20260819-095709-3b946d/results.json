@@ -1,0 +1,2887 @@
+{
+ "job_id": "20260819-095709-3b946d",
+ "config": {
+  "script": "vlm_05",
+  "model": "haervwe/GLM-4.6V-Flash-9B:latest",
+  "prompt_name": "conservative",
+  "prompt": null,
+  "reference": null,
+  "mask": null,
+  "localizer": "photo",
+  "n_frames": 18,
+  "params": {},
+  "n_references": 3,
+  "bench": {
+   "run_id": "20260819-095709-ful-edb6",
+   "dataset": "1760_negatives"
+  }
+ },
+ "started": "2026-08-19T07:57:09+00:00",
+ "finished": "2026-08-19T07:59:25+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "1760-cam04_t120",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam04_t120.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 16.16,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      156,
+      28,
+      460,
+      528
+     ],
+     "area": 78320,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      248,
+      160,
+      720
+     ],
+     "area": 47936,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      952,
+      0,
+      1280,
+      720
+     ],
+     "area": 123456,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      388,
+      0,
+      948,
+      332
+     ],
+     "area": 97808,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      436,
+      360,
+      496,
+      464
+     ],
+     "area": 3904,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      100,
+      36
+     ],
+     "area": 2544,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      696,
+      308,
+      732,
+      356
+     ],
+     "area": 1520,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      328,
+      584,
+      372,
+      628
+     ],
+     "area": 1824,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      88,
+      20,
+      184,
+      60
+     ],
+     "area": 2336,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      892,
+      388,
+      940,
+      420
+     ],
+     "area": 1408,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      48,
+      44,
+      80,
+      68
+     ],
+     "area": 752,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      184,
+      696,
+      228,
+      720
+     ],
+     "area": 992,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      584,
+      400,
+      608,
+      428
+     ],
+     "area": 672,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      16,
+      96,
+      44,
+      124
+     ],
+     "area": 736,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 14,
+    "kept": 0,
+    "rejected": 14,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 20,
+    "second": 6,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 16
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 20, 'second': 6, 'edge': 4, 'total': 30, 'capped': False, 'before_merge': 30, 'merged_away': 16, 'localizer': 'photo'}\n[156, 28, 460, 528] [photo] -> NO \n[0, 248, 160, 720] [photo] -> NO \n[952, 0, 1280, 720] [photo] -> NO \n[388, 0, 948, 332] [photo] -> NO \n[436, 360, 496, 464] [photo] -> NO \n[0, 0, 100, 36] [edge] -> NO \n[696, 308, 732, 356] [edge] -> NO \n[328, 584, 372, 628] [photo] -> NO \n[88, 20, 184, 60] [photo_lo] -> NO \n[892, 388, 940, 420] [photo] -> NO \n[48, 44, 80, 68] [photo_lo] -> NO \n[184, 696, 228, 720] [photo_lo] -> NO \n[584, 400, 608, 428] [photo] -> NO \n[16, 96, 44, 124] [photo_lo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam04_t220",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam04_t220.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      1280,
+      720
+     ],
+     "area": 501104,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 1,
+    "kept": 0,
+    "rejected": 1,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 14,
+    "second": 5,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 22
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 14, 'second': 5, 'edge': 4, 'total': 23, 'capped': False, 'before_merge': 23, 'merged_away': 22, 'localizer': 'photo'}\n[0, 0, 1280, 720] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam04_t320",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam04_t320.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      1280,
+      720
+     ],
+     "area": 532544,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 1,
+    "kept": 0,
+    "rejected": 1,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 12,
+    "second": 1,
+    "edge": 1,
+    "capped": false,
+    "merged_away": 13
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 12, 'second': 1, 'edge': 1, 'total': 14, 'capped': False, 'before_merge': 14, 'merged_away': 13, 'localizer': 'photo'}\n[0, 0, 1280, 720] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam04_t420",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam04_t420.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      1280,
+      720
+     ],
+     "area": 536656,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 1,
+    "kept": 0,
+    "rejected": 1,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 17,
+    "second": 0,
+    "edge": 3,
+    "capped": false,
+    "merged_away": 19
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 17, 'second': 0, 'edge': 3, 'total': 20, 'capped': False, 'before_merge': 20, 'merged_away': 19, 'localizer': 'photo'}\n[0, 0, 1280, 720] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam04_t520",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam04_t520.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.11,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      960,
+      88,
+      1280,
+      720
+     ],
+     "area": 57440,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      976,
+      92,
+      1232,
+      316
+     ],
+     "area": 34864,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      236,
+      260,
+      384,
+      532
+     ],
+     "area": 21136,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      904,
+      332,
+      1076,
+      604
+     ],
+     "area": 24560,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      560,
+      376,
+      612,
+      480
+     ],
+     "area": 3328,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      676,
+      160,
+      740,
+      324
+     ],
+     "area": 5840,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      756,
+      424,
+      796,
+      456
+     ],
+     "area": 992,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      568,
+      296,
+      600,
+      328
+     ],
+     "area": 960,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      736,
+      364,
+      812,
+      412
+     ],
+     "area": 1840,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      996,
+      0,
+      1048,
+      28
+     ],
+     "area": 1344,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      792,
+      624,
+      832,
+      652
+     ],
+     "area": 1024,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      568,
+      628,
+      612,
+      660
+     ],
+     "area": 1088,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      760,
+      524,
+      784,
+      552
+     ],
+     "area": 672,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      592,
+      524,
+      620,
+      560
+     ],
+     "area": 928,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 14,
+    "kept": 0,
+    "rejected": 14,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 9,
+    "second": 2,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 1
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 9, 'second': 2, 'edge': 4, 'total': 15, 'capped': False, 'before_merge': 15, 'merged_away': 1, 'localizer': 'photo'}\n[960, 88, 1280, 720] [edge] -> NO \n[976, 92, 1232, 316] [edge] -> NO \n[236, 260, 384, 532] [edge] -> NO \n[904, 332, 1076, 604] [edge] -> NO \n[560, 376, 612, 480] [photo] -> NO \n[676, 160, 740, 324] [photo] -> NO \n[756, 424, 796, 456] [photo] -> NO \n[568, 296, 600, 328] [photo] -> NO \n[736, 364, 812, 412] [photo] -> NO \n[996, 0, 1048, 28] [photo_lo] -> NO \n[792, 624, 832, 652] [photo] -> NO \n[568, 628, 612, 660] [photo] -> NO \n[760, 524, 784, 552] [photo] -> NO \n[592, 524, 620, 560] [photo_lo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam04_t570",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam04_t570.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 10.21,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      900,
+      56,
+      1280,
+      720
+     ],
+     "area": 129472,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      196,
+      196,
+      720
+     ],
+     "area": 55184,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      196,
+      168,
+      252,
+      248
+     ],
+     "area": 3920,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      328,
+      504,
+      432,
+      580
+     ],
+     "area": 6624,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      692,
+      160,
+      740,
+      324
+     ],
+     "area": 4080,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      732,
+      360,
+      844,
+      468
+     ],
+     "area": 6448,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      584,
+      396,
+      608,
+      468
+     ],
+     "area": 1552,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      472,
+      628,
+      612,
+      660
+     ],
+     "area": 2880,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      88,
+      8,
+      172,
+      44
+     ],
+     "area": 2064,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      460,
+      600,
+      484,
+      628
+     ],
+     "area": 672,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      568,
+      296,
+      600,
+      324
+     ],
+     "area": 880,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1008,
+      0,
+      1048,
+      28
+     ],
+     "area": 1040,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      796,
+      628,
+      828,
+      652
+     ],
+     "area": 736,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      780,
+      296,
+      804,
+      324
+     ],
+     "area": 672,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      676,
+      184,
+      700,
+      208
+     ],
+     "area": 576,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 15,
+    "kept": 0,
+    "rejected": 15,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 15,
+    "second": 3,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 7
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 3, 'edge': 4, 'total': 22, 'capped': False, 'before_merge': 22, 'merged_away': 7, 'localizer': 'photo'}\n[900, 56, 1280, 720] [edge] -> NO \n[0, 196, 196, 720] [photo] -> NO \n[196, 168, 252, 248] [edge] -> NO \n[328, 504, 432, 580] [edge] -> NO \n[692, 160, 740, 324] [photo] -> NO \n[732, 360, 844, 468] [photo_lo] -> NO \n[584, 396, 608, 468] [photo] -> NO \n[472, 628, 612, 660] [photo] -> NO \n[88, 8, 172, 44] [photo_lo] -> NO \n[460, 600, 484, 628] [photo] -> NO \n[568, 296, 600, 324] [photo] -> NO \n[1008, 0, 1048, 28] [photo_lo] -> NO \n[796, 628, 828, 652] [photo] -> NO \n[780, 296, 804, 324] [photo] -> NO \n[676, 184, 700, 208] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam13_t120",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam13_t120.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.09,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      576,
+      720
+     ],
+     "area": 212544,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1132,
+      28,
+      1280,
+      720
+     ],
+     "area": 61344,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      972,
+      0,
+      1144,
+      412
+     ],
+     "area": 41456,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      828,
+      0,
+      964,
+      136
+     ],
+     "area": 12528,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      628,
+      116,
+      756,
+      248
+     ],
+     "area": 8448,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      492,
+      476,
+      604,
+      552
+     ],
+     "area": 4000,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      668,
+      272,
+      760,
+      320
+     ],
+     "area": 2544,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      604,
+      636,
+      640,
+      676
+     ],
+     "area": 1344,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      884,
+      360,
+      928,
+      392
+     ],
+     "area": 1312,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      844,
+      540,
+      880,
+      576
+     ],
+     "area": 1264,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1068,
+      592,
+      1124,
+      656
+     ],
+     "area": 2496,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      704,
+      72,
+      744,
+      108
+     ],
+     "area": 1008,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      876,
+      496,
+      912,
+      528
+     ],
+     "area": 1056,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1032,
+      488,
+      1068,
+      516
+     ],
+     "area": 960,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      912,
+      148,
+      952,
+      208
+     ],
+     "area": 1504,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      696,
+      0,
+      740,
+      32
+     ],
+     "area": 688,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      596,
+      0,
+      620,
+      28
+     ],
+     "area": 608,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 17,
+    "kept": 0,
+    "rejected": 17,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 28,
+    "second": 8,
+    "edge": 4,
+    "capped": true,
+    "merged_away": 20
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 28, 'second': 8, 'edge': 4, 'total': 40, 'capped': True, 'before_merge': 37, 'merged_away': 20, 'localizer': 'photo'}\n[0, 0, 576, 720] [photo] -> NO \n[1132, 28, 1280, 720] [photo] -> NO \n[972, 0, 1144, 412] [photo] -> NO \n[828, 0, 964, 136] [photo] -> NO \n[628, 116, 756, 248] [photo] -> NO \n[492, 476, 604, 552] [photo_lo] -> NO \n[668, 272, 760, 320] [photo] -> NO \n[604, 636, 640, 676] [edge] -> NO \n[884, 360, 928, 392] [edge] -> NO \n[844, 540, 880, 576] [edge] -> NO \n[1068, 592, 1124, 656] [photo_lo] -> NO \n[704, 72, 744, 108] [photo] -> NO \n[876, 496, 912, 528] [photo] -> NO \n[1032, 488, 1068, 516] [photo_lo] -> NO \n[912, 148, 952, 208] [photo_lo] -> NO \n[696, 0, 740, 32] [photo] -> NO \n[596, 0, 620, 28] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam13_t220",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam13_t220.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 8.29,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      940,
+      720
+     ],
+     "area": 341856,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1108,
+      144,
+      1280,
+      720
+     ],
+     "area": 50976,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      984,
+      0,
+      1140,
+      204
+     ],
+     "area": 19024,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      964,
+      176,
+      1100,
+      484
+     ],
+     "area": 15840,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      808,
+      0,
+      996,
+      168
+     ],
+     "area": 13392,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1212,
+      24,
+      1280,
+      124
+     ],
+     "area": 5584,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      884,
+      636,
+      1040,
+      688
+     ],
+     "area": 5392,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1068,
+      592,
+      1116,
+      632
+     ],
+     "area": 1792,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      920,
+      276,
+      952,
+      300
+     ],
+     "area": 768,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1092,
+      496,
+      1120,
+      524
+     ],
+     "area": 768,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 10,
+    "kept": 0,
+    "rejected": 10,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 21,
+    "second": 3,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 18
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 21, 'second': 3, 'edge': 4, 'total': 28, 'capped': False, 'before_merge': 28, 'merged_away': 18, 'localizer': 'photo'}\n[0, 0, 940, 720] [photo] -> NO \n[1108, 144, 1280, 720] [photo] -> NO \n[984, 0, 1140, 204] [photo] -> NO \n[964, 176, 1100, 484] [photo] -> NO \n[808, 0, 996, 168] [photo] -> NO \n[1212, 24, 1280, 124] [photo] -> NO \n[884, 636, 1040, 688] [edge] -> NO \n[1068, 592, 1116, 632] [photo] -> NO \n[920, 276, 952, 300] [photo] -> NO \n[1092, 496, 1120, 524] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam13_t320",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam13_t320.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 9.27,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      260,
+      268
+     ],
+     "area": 37984,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      312,
+      0,
+      552,
+      340
+     ],
+     "area": 33632,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      272,
+      104,
+      588
+     ],
+     "area": 16896,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      180,
+      252,
+      344,
+      484
+     ],
+     "area": 22336,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1180,
+      20,
+      1280,
+      200
+     ],
+     "area": 9520,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      996,
+      0,
+      1168,
+      28
+     ],
+     "area": 3760,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      640,
+      56,
+      720
+     ],
+     "area": 2640,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      740,
+      92,
+      780,
+      128
+     ],
+     "area": 1312,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      664,
+      268,
+      696,
+      324
+     ],
+     "area": 1632,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      376,
+      348,
+      404,
+      424
+     ],
+     "area": 1536,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      760,
+      144,
+      828,
+      184
+     ],
+     "area": 1664,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      860,
+      140,
+      900,
+      164
+     ],
+     "area": 960,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1096,
+      32,
+      1124,
+      56
+     ],
+     "area": 640,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 13,
+    "kept": 0,
+    "rejected": 13,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 11,
+    "second": 1,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 3
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 11, 'second': 1, 'edge': 4, 'total': 16, 'capped': False, 'before_merge': 16, 'merged_away': 3, 'localizer': 'photo'}\n[0, 0, 260, 268] [edge] -> NO \n[312, 0, 552, 340] [edge] -> NO \n[0, 272, 104, 588] [edge] -> NO \n[180, 252, 344, 484] [edge] -> NO \n[1180, 20, 1280, 200] [photo] -> NO \n[996, 0, 1168, 28] [photo] -> NO \n[0, 640, 56, 720] [photo] -> NO \n[740, 92, 780, 128] [photo] -> NO \n[664, 268, 696, 324] [photo] -> NO \n[376, 348, 404, 424] [photo] -> NO \n[760, 144, 828, 184] [photo] -> NO \n[860, 140, 900, 164] [photo] -> NO \n[1096, 32, 1124, 56] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam13_t420",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam13_t420.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.23,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      1280,
+      720
+     ],
+     "area": 654784,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 1,
+    "kept": 0,
+    "rejected": 1,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 6,
+    "second": 0,
+    "edge": 0,
+    "capped": false,
+    "merged_away": 5
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 0, 'edge': 0, 'total': 6, 'capped': False, 'before_merge': 6, 'merged_away': 5, 'localizer': 'photo'}\n[0, 0, 1280, 720] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam13_t520",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam13_t520.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.19,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      1280,
+      720
+     ],
+     "area": 527232,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 1,
+    "kept": 0,
+    "rejected": 1,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 17,
+    "second": 0,
+    "edge": 1,
+    "capped": false,
+    "merged_away": 17
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 17, 'second': 0, 'edge': 1, 'total': 18, 'capped': False, 'before_merge': 18, 'merged_away': 17, 'localizer': 'photo'}\n[0, 0, 1280, 720] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam13_t570",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam13_t570.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 4.39,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      924,
+      720
+     ],
+     "area": 336384,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      984,
+      24,
+      1280,
+      720
+     ],
+     "area": 102608,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      788,
+      0,
+      1140,
+      484
+     ],
+     "area": 73744,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 3,
+    "kept": 0,
+    "rejected": 3,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 15,
+    "second": 0,
+    "edge": 2,
+    "capped": false,
+    "merged_away": 14
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 0, 'edge': 2, 'total': 17, 'capped': False, 'before_merge': 17, 'merged_away': 14, 'localizer': 'photo'}\n[0, 0, 924, 720] [photo] -> NO \n[984, 24, 1280, 720] [photo] -> NO \n[788, 0, 1140, 484] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam06_t120",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam06_t120.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 6.75,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      420,
+      0,
+      1280,
+      508
+     ],
+     "area": 220144,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      380,
+      324
+     ],
+     "area": 65904,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      596,
+      88,
+      700
+     ],
+     "area": 5584,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      96,
+      684,
+      336,
+      720
+     ],
+     "area": 5136,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1184,
+      692,
+      1280,
+      720
+     ],
+     "area": 1824,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      828,
+      636,
+      860,
+      664
+     ],
+     "area": 880,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      236,
+      344,
+      264,
+      380
+     ],
+     "area": 880,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      844,
+      556,
+      868,
+      584
+     ],
+     "area": 672,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 8,
+    "kept": 0,
+    "rejected": 8,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 15,
+    "second": 6,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 17
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 6, 'edge': 4, 'total': 25, 'capped': False, 'before_merge': 25, 'merged_away': 17, 'localizer': 'photo'}\n[420, 0, 1280, 508] [photo] -> NO \n[0, 0, 380, 324] [photo] -> NO \n[0, 596, 88, 700] [photo] -> NO \n[96, 684, 336, 720] [photo] -> NO \n[1184, 692, 1280, 720] [edge] -> NO \n[828, 636, 860, 664] [photo_lo] -> NO \n[236, 344, 264, 380] [photo_lo] -> NO \n[844, 556, 868, 584] [photo_lo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam06_t220",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam06_t220.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 14.38,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      392,
+      0,
+      1280,
+      392
+     ],
+     "area": 133920,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      180,
+      356
+     ],
+     "area": 38496,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      416,
+      0,
+      900,
+      76
+     ],
+     "area": 26272,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      168,
+      0,
+      344,
+      108
+     ],
+     "area": 11408,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1164,
+      496,
+      1280,
+      624
+     ],
+     "area": 9744,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      548,
+      180,
+      720
+     ],
+     "area": 16272,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      600,
+      268,
+      844,
+      344
+     ],
+     "area": 11712,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      168,
+      620,
+      412,
+      720
+     ],
+     "area": 11536,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      196,
+      84,
+      388,
+      252
+     ],
+     "area": 14688,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      476,
+      692,
+      524,
+      720
+     ],
+     "area": 1120,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1060,
+      600,
+      1116,
+      632
+     ],
+     "area": 1712,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      892,
+      456,
+      948,
+      488
+     ],
+     "area": 1696,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      356,
+      160,
+      380,
+      196
+     ],
+     "area": 848,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1244,
+      424,
+      1280,
+      488
+     ],
+     "area": 1712,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      528,
+      264,
+      548,
+      296
+     ],
+     "area": 640,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      352,
+      272,
+      376,
+      300
+     ],
+     "area": 640,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1184,
+      692,
+      1224,
+      720
+     ],
+     "area": 1024,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      320,
+      540,
+      344,
+      564
+     ],
+     "area": 560,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1108,
+      468,
+      1136,
+      496
+     ],
+     "area": 768,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1020,
+      576,
+      1048,
+      600
+     ],
+     "area": 640,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 20,
+    "kept": 0,
+    "rejected": 20,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 20,
+    "second": 2,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 6
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 20, 'second': 2, 'edge': 4, 'total': 26, 'capped': False, 'before_merge': 26, 'merged_away': 6, 'localizer': 'photo'}\n[392, 0, 1280, 392] [photo] -> NO \n[0, 0, 180, 356] [photo] -> NO \n[416, 0, 900, 76] [photo] -> NO \n[168, 0, 344, 108] [photo] -> NO \n[1164, 496, 1280, 624] [edge] -> NO \n[0, 548, 180, 720] [photo] -> NO \n[600, 268, 844, 344] [photo] -> NO \n[168, 620, 412, 720] [photo] -> NO \n[196, 84, 388, 252] [photo] -> NO \n[476, 692, 524, 720] [edge] -> NO \n[1060, 600, 1116, 632] [edge] -> NO \n[892, 456, 948, 488] [edge] -> NO \n[356, 160, 380, 196] [photo] -> NO \n[1244, 424, 1280, 488] [photo] -> NO \n[528, 264, 548, 296] [photo] -> NO \n[352, 272, 376, 300] [photo] -> NO \n[1184, 692, 1224, 720] [photo] -> NO \n[320, 540, 344, 564] [photo] -> NO \n[1108, 468, 1136, 496] [photo_lo] -> NO \n[1020, 576, 1048, 600] [photo_lo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam06_t320",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam06_t320.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.18,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      0,
+      0,
+      1280,
+      720
+     ],
+     "area": 590480,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 1,
+    "kept": 0,
+    "rejected": 1,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 15,
+    "second": 1,
+    "edge": 0,
+    "capped": false,
+    "merged_away": 15
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 1, 'edge': 0, 'total': 16, 'capped': False, 'before_merge': 16, 'merged_away': 15, 'localizer': 'photo'}\n[0, 0, 1280, 720] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam06_t420",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam06_t420.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 8.78,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      420,
+      44,
+      900,
+      276
+     ],
+     "area": 91392,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      852,
+      0,
+      1280,
+      720
+     ],
+     "area": 187264,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      608,
+      352,
+      772,
+      584
+     ],
+     "area": 31200,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      56,
+      392,
+      488
+     ],
+     "area": 91856,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      400,
+      348,
+      560,
+      544
+     ],
+     "area": 24720,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      532,
+      184,
+      720
+     ],
+     "area": 10608,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      200,
+      696,
+      340,
+      720
+     ],
+     "area": 2832,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      212,
+      536,
+      300,
+      580
+     ],
+     "area": 2864,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      188,
+      500,
+      224,
+      540
+     ],
+     "area": 1376,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      524,
+      0,
+      560,
+      16
+     ],
+     "area": 576,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 10,
+    "kept": 0,
+    "rejected": 10,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 6,
+    "second": 2,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 2
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 6, 'second': 2, 'edge': 4, 'total': 12, 'capped': False, 'before_merge': 12, 'merged_away': 2, 'localizer': 'photo'}\n[420, 44, 900, 276] [edge] -> NO \n[852, 0, 1280, 720] [edge] -> NO \n[608, 352, 772, 584] [photo] -> NO \n[0, 56, 392, 488] [edge] -> NO \n[400, 348, 560, 544] [photo] -> NO \n[0, 532, 184, 720] [photo] -> NO \n[200, 696, 340, 720] [photo] -> NO \n[212, 536, 300, 580] [photo_lo] -> NO \n[188, 500, 224, 540] [photo_lo] -> NO \n[524, 0, 560, 16] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam06_t520",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam06_t520.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.88,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      940,
+      0,
+      1280,
+      496
+     ],
+     "area": 93296,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      392,
+      0,
+      944,
+      468
+     ],
+     "area": 105392,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      412,
+      444
+     ],
+     "area": 96864,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      300,
+      416,
+      780,
+      528
+     ],
+     "area": 20384,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      412,
+      628,
+      500,
+      720
+     ],
+     "area": 4384,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      204,
+      700,
+      336,
+      720
+     ],
+     "area": 2432,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      476,
+      692,
+      568,
+      720
+     ],
+     "area": 2176,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      540,
+      636,
+      600,
+      676
+     ],
+     "area": 1792,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      588,
+      180,
+      720
+     ],
+     "area": 7312,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1172,
+      684,
+      1252,
+      720
+     ],
+     "area": 2208,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1004,
+      544,
+      1104,
+      600
+     ],
+     "area": 2816,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      868,
+      40,
+      900,
+      76
+     ],
+     "area": 1056,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1140,
+      572,
+      1168,
+      596
+     ],
+     "area": 656,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      712,
+      184,
+      796,
+      212
+     ],
+     "area": 1504,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      500,
+      172,
+      528,
+      200
+     ],
+     "area": 768,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 15,
+    "kept": 0,
+    "rejected": 15,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 18,
+    "second": 5,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 12
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 18, 'second': 5, 'edge': 4, 'total': 27, 'capped': False, 'before_merge': 27, 'merged_away': 12, 'localizer': 'photo'}\n[940, 0, 1280, 496] [photo] -> NO \n[392, 0, 944, 468] [photo] -> NO \n[0, 0, 412, 444] [photo] -> NO \n[300, 416, 780, 528] [photo] -> NO \n[412, 628, 500, 720] [edge] -> NO \n[204, 700, 336, 720] [photo] -> NO \n[476, 692, 568, 720] [edge] -> NO \n[540, 636, 600, 676] [edge] -> NO \n[0, 588, 180, 720] [photo] -> NO \n[1172, 684, 1252, 720] [photo] -> NO \n[1004, 544, 1104, 600] [photo_lo] -> NO \n[868, 40, 900, 76] [photo] -> NO \n[1140, 572, 1168, 596] [photo_lo] -> NO \n[712, 184, 796, 212] [photo] -> NO \n[500, 172, 528, 200] [photo] -> NO ",
+   "error": null
+  },
+  {
+   "frame_id": "1760-cam06_t570",
+   "image": "/home/student/Documents/ARSI-private/data/benchmark_1760/1760-cam06_t570.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 11.12,
+   "anomaly": false,
+   "detections": [],
+   "candidates": [
+    {
+     "bbox": [
+      968,
+      0,
+      1280,
+      464
+     ],
+     "area": 82800,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      204,
+      560,
+      652,
+      720
+     ],
+     "area": 39696,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      0,
+      408,
+      448
+     ],
+     "area": 93152,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      396,
+      0,
+      900,
+      76
+     ],
+     "area": 31440,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      412,
+      24,
+      948,
+      468
+     ],
+     "area": 77936,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      300,
+      412,
+      780,
+      528
+     ],
+     "area": 19248,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      648,
+      604,
+      740,
+      636
+     ],
+     "area": 2496,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      932,
+      484,
+      984,
+      528
+     ],
+     "area": 2032,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      532,
+      48,
+      596
+     ],
+     "area": 2368,
+     "channel": "edge",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      0,
+      588,
+      180,
+      720
+     ],
+     "area": 7472,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1176,
+      688,
+      1236,
+      720
+     ],
+     "area": 1728,
+     "channel": "photo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      1004,
+      552,
+      1080,
+      596
+     ],
+     "area": 1888,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    },
+    {
+     "bbox": [
+      320,
+      536,
+      352,
+      568
+     ],
+     "area": 976,
+     "channel": "photo_lo",
+     "label": "",
+     "verdict": "no",
+     "outcome": "rejected",
+     "dropped_by": "",
+     "cached": false
+    }
+   ],
+   "localization": {
+    "name": "photo",
+    "proposed": 13,
+    "kept": 0,
+    "rejected": 13,
+    "filtered": 0,
+    "persons": 0,
+    "person_veto": 0,
+    "base": 15,
+    "second": 3,
+    "edge": 4,
+    "capped": false,
+    "merged_away": 9
+   },
+   "raw_response": "localizer: {'persons': 0, 'person_veto': 0, 'base': 15, 'second': 3, 'edge': 4, 'total': 22, 'capped': False, 'before_merge': 22, 'merged_away': 9, 'localizer': 'photo'}\n[968, 0, 1280, 464] [photo] -> NO \n[204, 560, 652, 720] [edge] -> NO \n[0, 0, 408, 448] [photo] -> NO \n[396, 0, 900, 76] [photo] -> NO \n[412, 24, 948, 468] [photo] -> NO \n[300, 412, 780, 528] [photo] -> NO \n[648, 604, 740, 636] [edge] -> NO \n[932, 484, 984, 528] [edge] -> NO \n[0, 532, 48, 596] [edge] -> NO \n[0, 588, 180, 720] [photo] -> NO \n[1176, 688, 1236, 720] [photo] -> NO \n[1004, 552, 1080, 596] [photo_lo] -> NO \n[320, 536, 352, 568] [photo_lo] -> NO ",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 18,
+  "n_ok": 18,
+  "n_anomalous": 0,
+  "n_failed": 0,
+  "wall_seconds": 136.53
+ }
+}

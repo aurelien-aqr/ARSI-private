@@ -1,0 +1,2234 @@
+{
+ "job_id": "20260727-130034-1ba9b6",
+ "config": {
+  "script": "vlm_02",
+  "model": "openbmb/minicpm-v4.6:latest",
+  "prompt_name": "default",
+  "prompt": "You are given two images of the SAME tram interior.\n\n- The FIRST image is the CLEAN reference (empty, undamaged).\n- The SECOND image is the CURRENT inspection image. Its windows are masked\n  black on purpose - ignore the black areas completely.\n\nCompare them ZONE BY ZONE (left-hand seats, right-hand seats, floor and aisle,\nfar end of the car) and report EVERYTHING that is NEW or DIFFERENT in the second\nimage: graffiti, vandalism, or forgotten/left-behind objects. A small dark\nobject appearing on a seat edge or on the floor counts - look for these on\npurpose. There may be SEVERAL new objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY new object, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing the differences>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": "/home/student/Documents/ARSI-private/data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-27T11:00:34+00:00",
+ "finished": "2026-07-27T11:03:13+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 5.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor in the aisle zone  \nDESCRIPTION: The second image shows a person entering, which introduces new elements not present in the clean reference. There are also subtle objects that appear to be left behind or obscured, suggesting forgotten items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - forgotten object near the floor (center aisle)  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on a right-hand seat and a possibly forgotten item near the center aisle.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - forgotten object near floor (center aisle)  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a person with a reflective vest and a small object placed on a seat. These suggest vandalism or forgotten belongings.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.09,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object on the floor near the right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object on the floor near the right-hand seats  \nDESCRIPTION: The current image shows people present, which suggests prior use and some objects are left behind. However, there is no visible graffiti or vandalism.  \n\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.19,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object on the floor near the right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object on the floor near the right-hand seats  \nDESCRIPTION: The current image shows a person with a vest and a device on a seat, while the reference is clean. In the second image, there are subtle differences such as a small dark object appearing on the edge of a seat, which suggests something was left behind or forgotten.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on a seat and possibly a forgotten item on the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.25,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "forged/obscured",
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor in the aisle (forged/obscured)  \nDESCRIPTION: In the CURRENT image, there are new items such as a small dark object placed on a seat and possibly a forgotten item near the floor, which are not present in the CLEAN reference. These appear to be additions or obstructions that need to be noted for maintenance.\nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the right-hand aisle edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat floor  \n  - object near the right-hand aisle edge  \nDESCRIPTION: In the CURRENT image, there are new items such as a small dark object placed on a blue seat and another object near the right-hand aisle edge that were not present in the CLEAN reference. These appear to be forgotten or misplaced items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the right-hand aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "possibly a forgotten item",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the right-hand aisle (possibly a forgotten item)  \nDESCRIPTION: The second image shows additional elements not present in the clean reference, such as a person wearing a vest and an object placed on a seat or floor. These are new or differently positioned items that need to be noted for safety or maintenance.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor in the aisle zone  \nDESCRIPTION: The current image shows people and some objects that are not present in the clean reference, indicating recent human activity or items left behind. However, there is no visible graffiti or vandalism.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats, middle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the right-hand aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "possibly a forgotten item",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats, middle)\n  - object lying on the floor near the right-hand aisle (possibly a forgotten item)\nDESCRIPTION: The second image shows additional elements not present in the clean reference, such as a person wearing a vest and another with a device on a seat. These are new or differently positioned items that need to be documented for safety or maintenance.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object behind the floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle zone",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object behind the floor (aisle zone)  \nDESCRIPTION: In the current image, there is a person present who is not in the reference, indicating recent human presence or activity. Additionally, small dark objects appear to be left-behind items on seats or near edges, suggesting forgotten or misplaced belongings.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: In the current image, there are visible objects that were not present in the clean reference, such as items placed on seats or the floor. These appear to be forgotten or left-behind belongings.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.27,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: In the CURRENT image, there are small objects that appear to be placed or left behind, such as a device on a seat and something on the floor, which are not present in the CLEAN reference. These suggest forgotten items.  \nSEVERITY: 1  \n\nNote: The differences are minimal and seem to be minor obstructions or misplaced items rather than vandalism or graffiti.",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats, middle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the right-hand aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "possibly a forgotten item",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats, middle)\n  - object lying on the floor near the right-hand aisle (possibly a forgotten item)\nDESCRIPTION: The second image shows minor deviations from the clean reference, including a small black object placed on a seat and another object that appears to be left behind or misplaced.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.1,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on left-hand seat",
+     "type": "object",
+     "bbox": null,
+     "zone": "foreground",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on floor in middle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on left-hand seat (foreground)  \n  - object lying on floor in middle zone  \nDESCRIPTION: The second image shows subtle changes such as a small dark object placed on a seat and another object resting on the floor, which are not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor near the aisle (center)  \nDESCRIPTION: In the current image, there are subtle objects that appear to be placed or left behind, such as a small black item on a seat and something on the floor. These are not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows minor discrepancies such as a small dark object placed on a seat, which is not present in the clean reference. There are also possible forgotten items that appear to be left behind, suggesting neglect or abandonment.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object placed on the floor near the right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - object placed on the floor near the right-hand seats  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small black object resting on a seat and another object on the floor. These appear to be new additions or forgotten items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on a seat and another object near the floor. These appear to be forgotten or misplaced items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on a seat and another object near the floor. These suggest forgotten or misplaced items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on a seat and another object near the floor. These suggest forgotten or misplaced items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - object lying on the floor in the aisle  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as objects placed on seats or the floor.  \nSEVERITY: 1  \n\nReasoning: The differences appear to be minor and do not suggest vandalism or intentional damage; they seem to be forgotten or misplaced items.",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows a person entering, which introduces new human presence and possibly misplaced items. There are subtle differences in placement of objects that were not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: In the CURRENT image, there are visible objects that are not present in the CLEAN reference, such as a small dark item placed on a seat and another object on the floor. These suggest forgotten or misplaced items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - object lying on the floor in the aisle  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small black object placed on a seat and another object resting on the floor. These suggest forgotten or misplaced items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat \n  - object lying on the floor in the aisle  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small black object placed on a seat and another object on the floor. These are new or differently positioned than what was seen before.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat \n  - object lying on the floor near the aisle \nDESCRIPTION: In the current image, there are subtle objects that appear to be left behind or placed casually, such as a small black item on a seat and another object on the floor. These are not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats, middle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "aisle, far end",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats, middle)\n  - object lying on the floor (aisle, far end)\nDESCRIPTION: The second image shows minor items that were not present in the clean reference, such as a small black object placed on a seat and another item resting on the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle zone  \nDESCRIPTION: The second image shows minor discrepancies compared to the clean reference, including a small black object that appears to be placed or left behind on seating surfaces and a similar object near the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - object lying on the floor in the aisle  \nDESCRIPTION: The second image shows minor discrepancies compared to the clean reference, including a small black object placed on a blue seat and another object near the floor in the central aisle.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats, middle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the right-hand aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "possibly a forgotten bag or item",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats, middle)\n  - object lying on the floor near the right-hand aisle (possibly a forgotten bag or item)\nDESCRIPTION: In the CURRENT image, there are new items that were not present in the CLEAN reference, such as a small black object placed on a seat and another object resting on the floor. These suggest vandalism or forgotten belongings.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: The second image shows minor discrepancies compared to the clean reference, including a small black object that appears to be left behind or placed on seats and the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: In the CURRENT image, there are new small objects that were not present in the CLEAN reference, such as a misplaced item on a seat and something left behind on the floor.  \nSEVERITY: 1  \n\n(Note: Based on the observed differences, the issues appear minor and do not pose significant risks or concerns.)",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: In the current image, there are subtle objects that were not present in the clean reference, such as a small black item placed on a seat and another object near the floor. These appear to be forgotten or left-behind items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: In the current image, there are subtle changes such as a small black object placed on a seat and another object resting on the floor near the center. These are not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle zone  \nDESCRIPTION: The second image shows a small black object placed on a seat and another object near the floor, which are not present in the clean reference. These appear to be forgotten or misplaced items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - object lying on the floor in the aisle  \nDESCRIPTION: The second image shows a small dark object placed on a seat and another object on the floor, which are not present in the clean reference. There is also a possible presence of vandalism or graffiti, but none are visibly present.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats, middle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats, middle)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: The second image shows a small black object placed on a seat and another object near the floor, which are not present in the clean reference. There is no visible graffiti or vandalism.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: The second image shows subtle changes such as a small black object placed on a seat and another item resting on the floor, which are not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: The second image shows minor discrepancies compared to the clean reference, including a small black object placed on a seat and another item on the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows a person present, which is not present in the clean reference, indicating vandalism or forgotten items. Additionally, there are small dark objects that appear to be left behind on seats and the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small black object on a seat",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small black object on a seat \n  - object near the floor in the aisle zone  \nDESCRIPTION: The second image shows a person present, which suggests something was added or altered compared to the clean reference. There are also objects that appear to be left behind or misplaced, such as a small dark item on a seat and another object near the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.3,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small black object on a seat",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": null,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "dark object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": "center aisle",
+     "severity": null,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small black object on a seat (right-hand seats)  \n  - dark object on floor (center aisle)  \nDESCRIPTION: The second image shows an occupied or moved state, with objects that were previously unseen or present. Graffiti and vandalism are not visible. Forgotten objects include items like a small black object placed on a seat and a dark object on the floor. SEVERITY: 1  \n\nNote: Differences are minimal and do not indicate serious issues; mostly represent forgotten or misplaced items.",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor in the aisle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor in the aisle zone  \nDESCRIPTION: The second image shows a person present, which is not present in the clean reference, indicating vandalism or forgotten objects. Additionally, there are small dark objects appearing on seat edges that need to be noted for potential missing items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: The second image shows subtle changes such as a small black object placed on a seat and another object resting on the floor, which are not present in the clean reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "a small dark object appears to be placed on a seat, suggesting possible vandalism or misplaced items",
+     "type": "damage",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small black object on right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near floor in center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: yes - a small dark object appears to be placed on a seat, suggesting possible vandalism or misplaced items  \nFORGOTTEN OBJECT: yes  \n  - small black object on right-hand seats  \n  - object near floor in center aisle  \nDESCRIPTION: In the current image, there are new elements such as a small black object resting on a blue seat and another item that seems to be forgotten or left behind, which were not present in the clean reference.  \nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: In the current image, there are subtle objects that were not present in the clean reference, such as a small black item placed on a seat and another object near the floor. These appear to be new or forgotten items that need documentation.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor near the aisle (center)  \nDESCRIPTION: The second image shows minor deviations from the clean reference, including a small black object placed on a seat and another item resting on the floor. There is no visible graffiti or vandalism.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.2,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats, middle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor in the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats, middle)  \n  - object lying on the floor in the aisle (center)  \nDESCRIPTION: In the CURRENT image, there are new items that were not present in the CLEAN reference, such as a small black object placed on a blue seat and another item on the floor. These appear to be forgotten or left-behind objects.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "right-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (right-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: In the current image, there are visible objects that are not present in the clean reference, such as a small dark item placed on a seat and another object on the floor. These suggest forgotten or misplaced items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor aisle  \nDESCRIPTION: The current image shows a person entering, which introduces new elements not present in the clean reference. However, based on the masked windows and absence of visible graffiti or vandalism, the differences appear to be human presence rather than damage. There are also small dark objects on seat edges that seem to be new additions.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.17,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor aisle  \nDESCRIPTION: The current image shows a person present, which is not present in the reference, indicating something has been added or is being carried. Additionally, there appear to be new objects or debris that are not in the clean version, suggesting vandalism or forgotten items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor aisle  \nDESCRIPTION: The second image shows a person present, which is not in the clean reference, indicating human presence or activity that may be considered a forgotten object. Additionally, there appear to be subtle differences in the seating and floor areas that suggest objects are left behind or obscured.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.06,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on left-hand seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object behind the right-hand aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on left-hand seat edge  \n  - object behind the right-hand aisle \nDESCRIPTION: The second image shows a person and some visible objects that are not present in the clean reference, indicating items that have been placed or left behind.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.22,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack  \n  - bag  \n  - small dark object on floor  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a backpack placed near the center aisle and other objects that appear to be left behind or misplaced.  \nSEVERITY: 1  \n\nReasoning: The differences are minor and do not suggest vandalism or intentional damage; they seem to be forgotten or misplaced items.",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small black object on floor near center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object resting on seat edge of right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small black object on floor near center aisle  \n  - object resting on seat edge of right-hand seats  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on the floor and other objects left behind or obscured.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small black object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack  \n  - small black object on floor  \nDESCRIPTION: The second image shows a new dark object placed on the floor near the center, which was not present in the clean reference. Additionally, there appears to be a subtle change or presence of an item that may have been forgotten or left behind.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near the floor aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object near the floor aisle (center)  \nDESCRIPTION: In the CURRENT image, there are subtle objects that appear to be left behind or obscured, such as a small dark item on a seat and something near the floor aisle. These are not present in the CLEAN reference.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack  \n  - bag  \n  - small dark object on floor  \nDESCRIPTION: In the right-hand seats, there is a noticeable black object that appears to be a bag or backpack placed on the floor between the seats. Additionally, in the aisle, a small dark object is visible near the center. These are new or missing items compared to the clean reference.\nSEVERITY: 3",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack  \n  - bag  \n  - small dark object on floor  \nDESCRIPTION: In the middle aisle, there is a visible black bag that was not present in the clean reference. Additionally, a small dark object appears to be placed near a seat edge, which suggests something has been forgotten or left behind.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small black object on floor near center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag placed on floor near right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small black object on floor near center aisle  \n  - bag placed on floor near right-hand seats  \nDESCRIPTION: The second image shows additional objects that are not present in the clean reference, such as a small dark item on the floor and a visible bag, indicating forgotten or misplaced items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on left-hand seat floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object behind right-hand aisle seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on left-hand seat floor  \n  - object behind right-hand aisle seats  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small black object placed on the floor near the center and another object partially hidden behind a seat. These appear to be forgotten or misplaced items.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack  \n  - bag  \n  - small dark object on floor  \nDESCRIPTION: In the right-hand seats, there is a visible black object that appears to be a bag or backpack placed on the floor between the seats. This is new and not present in the clean reference. Other zones show no graffiti or vandalism.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small black object on floor near center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "bag or dark item on right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small black object on floor near center aisle  \n  - bag or dark item on right-hand seats  \nDESCRIPTION: The second image shows subtle differences such as a small dark object placed on the floor near the central aisle, and additional items like a bag that appears to be left behind on a seat. There are no visible graffiti or vandalism.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small black object on floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack  \n  - small black object on floor  \nDESCRIPTION: In the middle aisle, a dark object appears to be a bag or item that was forgotten. Additionally, there may be subtle differences in the seating areas or floor that suggest recent use or missing items.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small black object on left-hand seat floor",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near center aisle, possibly a bag or item",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small black object on left-hand seat floor  \n  - object near center aisle, possibly a bag or item  \nDESCRIPTION: In the current image, there are subtle differences such as a small dark object appearing on a seat edge and another object that seems to be forgotten or misplaced in the middle of the aisle. The rest of the space appears clean and undisturbed.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten object near the floor in the middle zone",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge  \n  - forgotten object near the floor in the middle zone  \nDESCRIPTION: The second image shows subtle differences such as a small dark object appearing on a seat edge, which is not present in the clean reference. There are also indications of forgotten or misplaced items that were left behind.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "center",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the aisle (center)  \nDESCRIPTION: In the current image, there are subtle objects that appear to be placed or left behind, which are not present in the clean reference. These include what looks like a small black item on a seat and another object on the floor.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.3,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on a seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": "left-hand seats",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object lying on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on a seat edge (left-hand seats)  \n  - object lying on the floor near the center aisle  \nDESCRIPTION: In the CURRENT image, there are new items such as a black bag placed on a seat and a small dark object on the floor, which are not present in the CLEAN reference. These suggest forgotten or misplaced objects that need to be reported.  \nSEVERITY: 1  \n\n(Note: The presence of minor obstructions like forgotten items is minimal and does not warrant high severity.)",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "backpack, located on the floor near the center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "small dark object on a seat edge, visible on the right-hand seats",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - backpack, located on the floor near the center aisle  \n  - small dark object on a seat edge, visible on the right-hand seats  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a bag placed on the floor and a small object resting on a seat. These suggest forgotten or misplaced objects.  \nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-130034-1ba9b6/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.08,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on left-hand seat edge",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "object near floor in center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no  \nVANDALISM: no  \nFORGOTTEN OBJECT: yes  \n  - small dark object on left-hand seat edge  \n  - object near floor in center aisle  \nDESCRIPTION: The second image shows additional items that are not present in the clean reference, such as a small dark object placed on a seat edge and another item lying on the floor.  \nSEVERITY: 1",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 159.47
+ }
+}

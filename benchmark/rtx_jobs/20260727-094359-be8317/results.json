@@ -1,0 +1,3189 @@
+{
+ "job_id": "20260727-094359-be8317",
+ "config": {
+  "script": "vlm_03",
+  "model": "blaifa/InternVL3_5:8b",
+  "prompt_name": "default",
+  "prompt": "Detect ALL anomalies inside this tram interior: graffiti, vandalism,\nand forgotten/left-behind objects (bags, backpacks, bottles, phones, wallets,\npackages).\n\nScan the whole image zone by zone - left-hand seats, right-hand seats, the floor\nand aisle, and the far end of the car. Report EVERY object separately, including\nsmall dark ones on a seat edge or on the floor; do NOT stop after the first one.\n\nReturn ONLY a JSON array. Each detected item is one element:\n{\"label\": \"graffiti|vandalism|forgotten_object\",\n \"bbox\": [x0, y0, x1, y1],\n \"severity\": <1-5>}\n\nRules:\n- ONE array element PER object (there are often several).\n- Coordinates are NORMALIZED between 0 and 1 (top-left origin):\n  x0,y0 = top-left corner, x1,y1 = bottom-right corner.\n- severity: 1 = minor, 5 = serious.\n- If nothing is found, return an empty array: []\n- Do NOT write any text outside the JSON array.\n",
+  "reference": null,
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": null,
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-27T07:43:59+00:00",
+ "finished": "2026-07-27T07:47:51+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.38,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      737,
+      995,
+      876,
+      1051
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      534,
+      51,
+      578,
+      85
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.384, 0.921, 0.456, 0.973], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [0.278, 0.047, 0.301, 0.079], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      421,
+      998,
+      443
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 390, 520, 410], \"severity\": 2},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.73,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      445
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 412], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.81,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      445
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 412], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.72,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      445
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 412], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.82,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      445
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 412], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.96,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      730,
+      454,
+      787,
+      486
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1286,
+      464,
+      1363,
+      486
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.38, 0.42, 0.41, 0.45], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.67, 0.43, 0.71, 0.45], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      526,
+      708,
+      554
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1058,
+      472,
+      1110,
+      500
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.487, 0.369, 0.513], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.551, 0.437, 0.578, 0.463], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1190,
+      464,
+      1286,
+      486
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.62, 0.43, 0.67, 0.45], \"severity\": 1},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      397,
+      1012,
+      416
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 368, 527, 385], \"severity\": 1},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.7,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      445
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 412], \"severity\": 2},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.93,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      25,
+      979,
+      65
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "graffiti",
+     "type": "graffiti",
+     "bbox": [
+      1382,
+      205,
+      1440,
+      248
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 23, 510, 60], \"severity\": 3},\n    {\"label\": \"graffiti\", \"bbox\": [720, 190, 750, 230], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.2,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      902,
+      41,
+      941,
+      67
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      960,
+      41,
+      998,
+      67
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      454,
+      749,
+      475
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [470, 38, 490, 62], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [500, 38, 520, 62], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 420, 390, 440], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.32,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      25,
+      960,
+      65
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      902,
+      97,
+      941,
+      140
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      547,
+      464,
+      614,
+      497
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 23, 500, 60], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [470, 90, 490, 130], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [285, 430, 320, 460], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.59,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      25,
+      960,
+      65
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      749,
+      76,
+      787,
+      119
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      547,
+      173,
+      586,
+      194
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      950,
+      454,
+      1008,
+      481
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 23, 500, 60], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [390, 70, 410, 110], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [285, 160, 305, 180], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [495, 420, 525, 445], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.94,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      25,
+      960,
+      65
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      749,
+      76,
+      787,
+      119
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 23, 500, 60], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [390, 70, 410, 110], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.53,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      622,
+      476,
+      687,
+      507
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1031,
+      461,
+      1096,
+      483
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      549,
+      100,
+      603,
+      131
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.324, 0.441, 0.358, 0.469], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.537, 0.427, 0.571, 0.447], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [0.286, 0.093, 0.314, 0.121], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.94,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      389,
+      998,
+      421
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      518,
+      108,
+      576,
+      140
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 360, 520, 390], \"severity\": 1},\n    {\"label\": \"vandalism\", \"bbox\": [270, 100, 300, 130], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.94,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      410,
+      998,
+      443
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      1286,
+      162,
+      1344,
+      194
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 380, 520, 410], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [670, 150, 700, 180], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      922,
+      421,
+      998,
+      443
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [480, 390, 520, 410], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.09,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      954,
+      413,
+      991,
+      483
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1073,
+      465,
+      1121,
+      483
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.497, 0.382, 0.516, 0.447], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.559, 0.431, 0.584, 0.447], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      410,
+      998,
+      443
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 380, 520, 410], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      445
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      595,
+      130,
+      634,
+      151
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 412], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [310, 120, 330, 140], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.01,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      302,
+      902,
+      378
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1325,
+      454,
+      1402,
+      486
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.43, 0.28, 0.47, 0.35], \"severity\": 1},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.69, 0.42, 0.73, 0.45], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.93,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      454,
+      768,
+      481
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 420, 400, 445], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.92,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      162,
+      749,
+      184
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 150, 390, 170], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.91,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      130,
+      883,
+      162
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      730,
+      76,
+      768,
+      97
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 120, 460, 150], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [380, 70, 400, 90], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.08,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      668,
+      298,
+      751,
+      378
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      833,
+      159,
+      895,
+      204
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.348, 0.276, 0.391, 0.35], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.434, 0.147, 0.466, 0.189], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.93,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      113,
+      749,
+      140
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 105, 390, 130], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.92,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      130,
+      883,
+      162
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      730,
+      76,
+      787,
+      108
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 120, 460, 150], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [380, 70, 410, 100], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.08,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      737,
+      298,
+      804,
+      378
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      833,
+      160,
+      895,
+      210
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.384, 0.276, 0.419, 0.35], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.434, 0.148, 0.466, 0.194], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.92,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      130,
+      883,
+      162
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      730,
+      76,
+      768,
+      97
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 120, 460, 150], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [380, 70, 400, 90], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.11,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      204,
+      701,
+      256
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      839,
+      160,
+      899,
+      207
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.189, 0.365, 0.237], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.437, 0.148, 0.468, 0.192], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      301,
+      893,
+      341
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      368,
+      893,
+      408
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      435,
+      893,
+      475
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      502,
+      893,
+      542
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      569,
+      893,
+      609
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      637,
+      893,
+      677
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      703,
+      893,
+      743
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      770,
+      893,
+      810
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      837,
+      893,
+      877
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      904,
+      893,
+      944
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      971,
+      893,
+      1011
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      1038,
+      893,
+      1078
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      301,
+      755,
+      341
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      368,
+      755,
+      408
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      435,
+      755,
+      475
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      502,
+      755,
+      542
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      569,
+      755,
+      609
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      636,
+      755,
+      677
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      703,
+      755,
+      743
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      770,
+      755,
+      810
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      837,
+      755,
+      877
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      722,
+      904,
+      755,
+      944
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.279, 0.465, 0.316], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.341, 0.465, 0.378], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.403, 0.465, 0.44], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.465, 0.465, 0.502], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.527, 0.465, 0.564], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.59, 0.465, 0.627], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.651, 0.465, 0.688], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.713, 0.465, 0.75], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.775, 0.465, 0.812], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.837, 0.465, 0.874], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.899, 0.465, 0.936], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.961, 0.465, 0.998], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.279, 0.393, 0.316], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.341, 0.393, 0.378], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.403, 0.393, 0.44], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.465, 0.393, 0.502], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.527, 0.393, 0.564], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.589, 0.393, 0.627], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.651, 0.393, 0.688], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.713, 0.393, 0.75], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.775, 0.393, 0.812], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.376, 0.837, 0.393, 0.874], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      737,
+      298,
+      804,
+      378
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      833,
+      166,
+      900,
+      246
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.384, 0.276, 0.419, 0.35], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.434, 0.154, 0.469, 0.228], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      113,
+      749,
+      140
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 105, 390, 130], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      302,
+      883,
+      335
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1094,
+      454,
+      1152,
+      486
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 280, 460, 310], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [570, 420, 600, 450], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.94,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      162,
+      749,
+      184
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 150, 390, 170], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.1,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      737,
+      298,
+      804,
+      378
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      841,
+      161,
+      897,
+      208
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.384, 0.276, 0.419, 0.35], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.438, 0.149, 0.467, 0.193], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.96,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      730,
+      292,
+      787,
+      324
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1075,
+      454,
+      1133,
+      486
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [380, 270, 410, 300], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [560, 420, 590, 450], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      668,
+      301,
+      701,
+      339
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      843,
+      160,
+      899,
+      206
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.348, 0.279, 0.365, 0.314], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.439, 0.148, 0.468, 0.191], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.79,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      941,
+      418,
+      1010,
+      448
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [490, 387, 526, 415], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      806,
+      140,
+      883,
+      205
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1114,
+      454,
+      1171,
+      486
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [420, 130, 460, 190], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [580, 420, 610, 450], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      313,
+      883,
+      340
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1094,
+      454,
+      1142,
+      481
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 290, 460, 315], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [570, 420, 595, 445], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      902,
+      178
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      835,
+      178,
+      912,
+      205
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 470, 165], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [435, 165, 475, 190], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      743,
+      260,
+      797,
+      320
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      833,
+      160,
+      887,
+      208
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.387, 0.241, 0.415, 0.296], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.434, 0.148, 0.462, 0.193], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.33,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      547,
+      113,
+      595,
+      184
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1037,
+      454,
+      1085,
+      481
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [285, 105, 310, 170], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [540, 420, 565, 445], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      806,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      576,
+      454,
+      653,
+      486
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [420, 98, 460, 175], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [300, 420, 340, 450], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      710,
+      113,
+      749,
+      140
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"forgotten_object\", \"bbox\": [370, 105, 390, 130], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      902,
+      178
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      576,
+      113,
+      614,
+      157
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 470, 165], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [300, 105, 320, 145], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.98,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      302,
+      902,
+      335
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      1075,
+      454,
+      1133,
+      486
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 280, 470, 310], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [560, 420, 590, 450], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.97,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      584,
+      322,
+      609,
+      351
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      1302,
+      162,
+      1334,
+      184
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [304, 298, 317, 325], \"severity\": 1},\n    {\"label\": \"vandalism\", \"bbox\": [678, 150, 695, 170], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.05,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      730,
+      778,
+      787,
+      810
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      1325,
+      486,
+      1382,
+      518
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.38, 0.72, 0.41, 0.75], \"severity\": 1},\n    {\"label\": \"vandalism\", \"bbox\": [0.69, 0.45, 0.72, 0.48], \"severity\": 3}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 3.03,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      653,
+      670,
+      730,
+      756
+     ],
+     "zone": null,
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      1133,
+      464,
+      1210,
+      508
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.34, 0.62, 0.38, 0.7], \"severity\": 1},\n    {\"label\": \"vandalism\", \"bbox\": [0.59, 0.43, 0.63, 0.47], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.76,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      902,
+      178
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 470, 165], \"severity\": 2},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      806,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [420, 98, 460, 175], \"severity\": 3},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.8,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.81,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      893,
+      186
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "vandalism",
+     "type": "damage",
+     "bbox": [
+      528,
+      138,
+      576,
+      178
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 465, 172], \"severity\": 3},\n    {\"label\": \"vandalism\", \"bbox\": [275, 128, 300, 165], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.95,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      806,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [420, 98, 460, 175], \"severity\": 3},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 1},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.77,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      893,
+      186
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 465, 172], \"severity\": 3},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.72,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.75,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.76,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      806,
+      106,
+      883,
+      146
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [420, 98, 460, 135], \"severity\": 3},\n    {\"label\": \"graffiti\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.82,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.82,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      135
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 125], \"severity\": 3},\n    {\"label\": \"graffiti|vandalism\", \"bbox\": [], \"severity\": 0}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.78,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      806,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 3,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [420, 98, 460, 175], \"severity\": 3},\n    {\"label\": \"vandalism\", \"bbox\": [], \"severity\": 1}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 2.96,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      826,
+      106,
+      883,
+      189
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      528,
+      113,
+      586,
+      200
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [430, 98, 460, 175], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [275, 105, 305, 185], \"severity\": 2}\n]\n```",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260727-094359-be8317/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 12.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      106,
+      720,
+      180
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      753,
+      106,
+      816,
+      180
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      829,
+      106,
+      893,
+      180
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      906,
+      106,
+      970,
+      180
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      180,
+      720,
+      255
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      753,
+      180,
+      816,
+      255
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      829,
+      180,
+      893,
+      255
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      906,
+      180,
+      970,
+      255
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      255,
+      720,
+      329
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      753,
+      255,
+      816,
+      329
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      829,
+      255,
+      893,
+      329
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      906,
+      255,
+      970,
+      329
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      329,
+      720,
+      404
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      753,
+      329,
+      816,
+      404
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      829,
+      329,
+      893,
+      404
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      906,
+      329,
+      970,
+      404
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      404,
+      720,
+      478
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      753,
+      404,
+      816,
+      478
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      829,
+      404,
+      893,
+      478
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      906,
+      404,
+      970,
+      478
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      657,
+      478,
+      720,
+      553
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    },
+    {
+     "label": "forgotten_object",
+     "type": "object",
+     "bbox": [
+      753,
+      478,
+      816,
+      553
+     ],
+     "zone": null,
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "```json\n[\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.098, 0.375, 0.167], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.392, 0.098, 0.425, 0.167], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.432, 0.098, 0.465, 0.167], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.472, 0.098, 0.505, 0.167], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.167, 0.375, 0.236], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.392, 0.167, 0.425, 0.236], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.432, 0.167, 0.465, 0.236], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.472, 0.167, 0.505, 0.236], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.236, 0.375, 0.305], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.392, 0.236, 0.425, 0.305], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.432, 0.236, 0.465, 0.305], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.472, 0.236, 0.505, 0.305], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.305, 0.375, 0.374], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.392, 0.305, 0.425, 0.374], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.432, 0.305, 0.465, 0.374], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.472, 0.305, 0.505, 0.374], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.374, 0.375, 0.443], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.392, 0.374, 0.425, 0.443], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.432, 0.374, 0.465, 0.443], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.472, 0.374, 0.505, 0.443], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.342, 0.443, 0.375, 0.512], \"severity\": 2},\n    {\"label\": \"forgotten_object\", \"bbox\": [0.392, 0.443, 0.425, 0.512], \"severity\": 2},\n    {\"label\": \"forgotten_object",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 231.83
+ }
+}

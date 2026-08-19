@@ -1,0 +1,210 @@
+{
+ "job_id": "20260715-104408-270e03",
+ "config": {
+  "script": "vlm_05",
+  "model": "haervwe/GLM-4.6V-Flash-9B",
+  "prompt_name": "conservative",
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "reference": "/home/student/Documents/ARSI-private/data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/_job_1784035029436.json",
+  "n_frames": 1,
+  "params": {
+   "max_retries": 2,
+   "DIFF_THRESHOLD": 40,
+   "MIN_AREA": 500,
+   "MAX_REGIONS": 25
+  }
+ },
+ "started": "2026-07-15T08:44:08+00:00",
+ "finished": "2026-07-15T08:44:36+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "tram_anomalies_11",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260715-104408-270e03/masked/tram_anomalies_11.png",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 27.4,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "bottle",
+     "type": "object",
+     "bbox": [
+      680,
+      684,
+      988,
+      1080
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "edge"
+    },
+    {
+     "label": "black backpack",
+     "type": "object",
+     "bbox": [
+      540,
+      0,
+      1008,
+      448
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "black backpack",
+     "type": "object",
+     "bbox": [
+      420,
+      280,
+      700,
+      576
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      968,
+      8,
+      1208,
+      452
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "plastic bottle",
+     "type": "object",
+     "bbox": [
+      708,
+      492,
+      852,
+      668
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "edge"
+    },
+    {
+     "label": "graffiti \"Hobo\"",
+     "type": "graffiti",
+     "bbox": [
+      1340,
+      488,
+      1440,
+      656
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "graffiti",
+     "type": "graffiti",
+     "bbox": [
+      1300,
+      676,
+      1380,
+      884
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo_lo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      1024,
+      480,
+      1216,
+      544
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "graffiti \"HOPE\"",
+     "type": "graffiti",
+     "bbox": [
+      1228,
+      488,
+      1328,
+      528
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      908,
+      472,
+      964,
+      540
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "graffiti \"Hob\"",
+     "type": "graffiti",
+     "bbox": [
+      1396,
+      428,
+      1424,
+      480
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    },
+    {
+     "label": "torn seat",
+     "type": "damage",
+     "bbox": [
+      1032,
+      476,
+      1064,
+      496
+     ],
+     "zone": null,
+     "severity": null,
+     "confidence": null,
+     "channel": "photo"
+    }
+   ],
+   "raw_response": "localizer: {'persons': 4, 'person_veto': 11, 'base': 27, 'second': 8, 'edge': 4, 'total': 39, 'capped': False}\n[540, 0, 1008, 448] [photo] -> YES black backpack\n[420, 280, 700, 576] [photo] -> YES black backpack\n[336, 1016, 588, 1080] [photo] -> NO \n[968, 8, 1208, 452] [photo] -> YES torn seat\n[1340, 488, 1440, 656] [photo] -> YES graffiti \"Hobo\"\n[972, 732, 1028, 908] [photo] -> NO \n[1024, 480, 1216, 544] [photo] -> YES torn seat\n[616, 864, 672, 932] [photo] -> NO \n[1228, 488, 1328, 528] [photo] -> YES graffiti \"HOPE\"\n[632, 756, 660, 816] [photo] -> NO \n[908, 472, 964, 540] [photo] -> YES torn seat\n[1396, 428, 1424, 480] [photo] -> YES graffiti \"Hob\"\n[504, 32, 536, 64] [photo] -> NO \n[552, 140, 580, 168] [photo] -> NO \n[1200, 656, 1240, 680] [photo] -> NO \n[1032, 476, 1064, 496] [photo] -> YES torn seat\n[500, 220, 528, 244] [photo] -> NO \n[928, 196, 956, 220] [photo] -> NO \n[1700, 968, 1724, 992] [photo] -> NO \n[652, 1024, 676, 1048] [photo] -> NO \n[180, 152, 204, 176] [photo] -> NO \n[1300, 676, 1380, 884] [photo_lo] -> YES graffiti\n[1220, 368, 1256, 492] [photo_lo] -> NO \n[1252, 296, 1292, 368] [photo_lo] -> NO \n[68, 884, 140, 928] [photo_lo] -> NO \n[1272, 652, 1308, 700] [photo_lo] -> NO \n[1584, 804, 1628, 836] [photo_lo] -> NO \n[1092, 688, 1124, 716] [photo_lo] -> NO \n[1140, 556, 1164, 580] [photo_lo] -> NO \n[680, 684, 988, 1080] [edge] -> YES bottle\n[708, 492, 852, 668] [edge] -> YES plastic bottle\n[964, 680, 1064, 748] [edge] -> NO \n[976, 632, 1044, 668] [edge] -> NO ",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 1,
+  "n_ok": 1,
+  "n_anomalous": 1,
+  "n_failed": 0,
+  "wall_seconds": 27.81
+ }
+}

@@ -1,0 +1,3 @@
+{"t": "2026-07-20T11:04:00+00:00", "event": "job_started", "job_id": "20260720-130400-a456f9", "script": "vlm_05", "model": "haervwe/GLM-4.6V-Flash-9B", "n_frames": 1}
+{"t": "2026-07-20T11:04:27+00:00", "event": "frame_done", "index": 0, "frame_id": "tram_anomalies_11", "status": "ok", "anomaly": true, "n_detections": 13, "attempts": 1, "seconds": 26.96}
+{"t": "2026-07-20T11:04:27+00:00", "event": "job_finished", "status": "completed", "n_frames": 1, "n_ok": 1, "n_anomalous": 1, "n_failed": 0, "wall_seconds": 26.96}

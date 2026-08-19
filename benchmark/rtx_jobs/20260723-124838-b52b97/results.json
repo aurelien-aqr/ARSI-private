@@ -1,0 +1,1541 @@
+{
+ "job_id": "20260723-124838-b52b97",
+ "config": {
+  "script": "vlm_02",
+  "model": "qwen3-vl:8b-instruct",
+  "prompt_name": "default",
+  "prompt": "You are given two images of the SAME tram interior.\n\n- The FIRST image is the CLEAN reference (empty, undamaged).\n- The SECOND image is the CURRENT inspection image. Its windows are masked\n  black on purpose - ignore the black areas completely.\n\nCompare them ZONE BY ZONE (left-hand seats, right-hand seats, floor and aisle,\nfar end of the car) and report EVERYTHING that is NEW or DIFFERENT in the second\nimage: graffiti, vandalism, or forgotten/left-behind objects. A small dark\nobject appearing on a seat edge or on the floor counts - look for these on\npurpose. There may be SEVERAL new objects; do NOT stop after the first one.\n\nAnswer ONLY in the following structured format:\n\nGRAFFITI: <yes/no> - short note\nVANDALISM: <yes/no> - short note\nFORGOTTEN OBJECT: <yes/no>\n  If yes, list EVERY new object, one per line, as:\n  - <what it is> (<which seat / zone>)\nDESCRIPTION: <one or two sentences describing the differences>\nSEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>\n",
+  "reference": "/home/student/Documents/ARSI-private/data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask": "/home/student/Documents/ARSI-private/data/app/masks/classic.json",
+  "n_frames": 72,
+  "params": {
+   "max_retries": 2
+  },
+  "reference_masked": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/tram_1762_v1_f0227_masked_reference.jpg",
+  "mask_hash": "a931ce520b9f"
+ },
+ "started": "2026-07-23T10:48:38+00:00",
+ "finished": "2026-07-23T10:50:11+00:00",
+ "status": "completed",
+ "frames": [
+  {
+   "frame_id": "f0000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 8.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.23,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.35,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle — it is absent in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.2,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.12,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. This object does not appear in the first reference image.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f0500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the second image, which was not visible in the first. No other differences are apparent.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.2,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f0950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f0950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the second image, which was not there in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the second image, which was not there in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.2,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the second image, which was not there in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.32,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on floor near center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "between right-hand seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object on floor near center aisle (between right-hand seats)\nDESCRIPTION: A small dark object is present on the floor in the second image, specifically near the center aisle between the right-hand seats — this object is absent in the first reference image. No other differences are visible.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f1900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f1950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f1950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. This object does not appear in the first reference image.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the second image, which was not there in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. This object does not appear in the first reference image.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. This object does not appear in the first reference image.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. This object does not appear in the first reference image.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.13,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. This object does not appear in the first reference image.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f2600",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2600.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2650",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2650.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle — it is absent in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2700",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2700.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2750",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2750.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.18,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2800",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2800.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2850",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2850.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2900",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2900.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f2950",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f2950.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3000",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3000.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3050",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3050.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3100",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3100.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.14,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle — it is absent in the first. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3150",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3150.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the second image, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3200",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3200.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3250",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3250.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.29,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object on floor near center aisle",
+     "type": "object",
+     "bbox": null,
+     "zone": "between right-hand seats",
+     "severity": 2,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object on floor near center aisle (between right-hand seats)\nDESCRIPTION: A small dark object is present on the floor in the second image, specifically near the center aisle between the right-hand seats — this object is absent in the first reference image. No other differences are visible.\nSEVERITY: 2",
+   "error": null
+  },
+  {
+   "frame_id": "f3300",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3300.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3350",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3350.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.24,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3400",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3400.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3450",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3450.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.15,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3500",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3500.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.16,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the center aisle of the tram, which was not there in the reference image. No other differences are visible.\nSEVERITY: 1",
+   "error": null
+  },
+  {
+   "frame_id": "f3550",
+   "image": "/home/student/Documents/ARSI-private/data/app/jobs/20260723-124838-b52b97/masked/f3550.jpg",
+   "status": "ok",
+   "attempts": 1,
+   "seconds": 1.21,
+   "anomaly": true,
+   "detections": [
+    {
+     "label": "small dark object",
+     "type": "object",
+     "bbox": null,
+     "zone": "floor near center aisle",
+     "severity": 1,
+     "confidence": null,
+     "channel": null
+    }
+   ],
+   "raw_response": "GRAFFITI: no\nVANDALISM: no\nFORGOTTEN OBJECT: yes\n  - small dark object (floor near center aisle)\nDESCRIPTION: A small dark object is present on the floor in the second image, near the center aisle. The rest of the tram interior appears identical to the reference image with no visible damage or graffiti.\nSEVERITY: 1",
+   "error": null
+  }
+ ],
+ "summary": {
+  "n_frames": 72,
+  "n_ok": 72,
+  "n_anomalous": 72,
+  "n_failed": 0,
+  "wall_seconds": 92.52
+ }
+}

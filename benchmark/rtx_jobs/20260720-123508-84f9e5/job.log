@@ -1,0 +1,7 @@
+{"t": "2026-07-20T10:35:08+00:00", "event": "job_started", "job_id": "20260720-123508-84f9e5", "script": "vlm_05", "model": "haervwe/GLM-4.6V-Flash-9B", "n_frames": 175}
+{"t": "2026-07-20T10:35:11+00:00", "event": "mask_applied", "mask": "classic", "hash": "a931ce520b9f", "n_images": 175}
+{"t": "2026-07-20T10:35:11+00:00", "event": "frame_done", "index": 0, "frame_id": "f0000", "status": "ok", "anomaly": false, "n_detections": 0, "attempts": 1, "seconds": 0.27}
+{"t": "2026-07-20T10:35:25+00:00", "event": "frame_done", "index": 1, "frame_id": "f0050", "status": "ok", "anomaly": false, "n_detections": 0, "attempts": 1, "seconds": 14.25}
+{"t": "2026-07-20T10:35:36+00:00", "event": "frame_done", "index": 2, "frame_id": "f0100", "status": "ok", "anomaly": false, "n_detections": 0, "attempts": 1, "seconds": 10.35}
+{"t": "2026-07-20T10:35:36+00:00", "event": "job_cancelled", "after_frames": 3}
+{"t": "2026-07-20T10:35:36+00:00", "event": "job_finished", "status": "cancelled", "n_frames": 3, "n_ok": 3, "n_anomalous": 0, "n_failed": 0, "wall_seconds": 27.76}

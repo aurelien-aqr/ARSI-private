@@ -1,0 +1,1153 @@
+{
+  "videos": {
+    "20260714-100126-6901ed": {
+      "frames_extracted": 123,
+      "source_mb": 510.0
+    },
+    "20260714-101824-e8b4a8": {
+      "frames_extracted": 73,
+      "source_mb": 339.0
+    },
+    "20260714-103833-8d8c1d": {
+      "frames_extracted": 176,
+      "source_mb": 769.0
+    },
+    "20260714-105538-f88568": {
+      "frames_extracted": 12,
+      "source_mb": 42.8
+    },
+    "20260720-094646-646b17": {
+      "frames_extracted": 123,
+      "source_mb": 510.0
+    },
+    "20260720-123304-dd9453": {
+      "frames_extracted": 176,
+      "source_mb": 769.0
+    },
+    "20260720-123606-0d8575": {
+      "frames_extracted": 73,
+      "source_mb": 769.0
+    },
+    "20260721-133856-fac758": {
+      "frames_extracted": 73,
+      "source_mb": 339.0
+    },
+    "20260729-093019-28ff6c": {
+      "frames_extracted": 0,
+      "source_mb": 42.8
+    },
+    "20260813-092527-6fda6b": {
+      "frames_extracted": 29,
+      "source_mb": 0
+    }
+  },
+  "jobs": [
+    {
+      "job": "20260714-100411-2db97c",
+      "script": "vlm_03",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-100126-6901ed*",
+      "n_frames": 122,
+      "flagged": 122,
+      "detections": 122,
+      "total_min": 5.0,
+      "sec_per_frame": 2.44,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 122
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260714-102034-7e5776",
+      "script": "vlm_03",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8",
+      "n_frames": 72,
+      "flagged": 69,
+      "detections": 117,
+      "total_min": 3.5,
+      "sec_per_frame": 2.78,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 69,
+        "failed": 3
+      },
+      "errors": 3
+    },
+    {
+      "job": "20260714-104028-4ed35f",
+      "script": "vlm_03",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260714-103833-8d8c1d",
+      "n_frames": 175,
+      "flagged": 175,
+      "detections": 209,
+      "total_min": 7.5,
+      "sec_per_frame": 2.48,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 175
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260714-110303-a7ec04",
+      "script": "vlm_01",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260714-105538-f88568",
+      "n_frames": 11,
+      "flagged": 1,
+      "detections": 2,
+      "total_min": 1.2,
+      "sec_per_frame": 6.91,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 1,
+        "failed": 10
+      },
+      "errors": 10
+    },
+    {
+      "job": "20260714-110522-81b8c9",
+      "script": "vlm_01",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8",
+      "n_frames": 72,
+      "flagged": 28,
+      "detections": 56,
+      "total_min": 7.0,
+      "sec_per_frame": 7.05,
+      "cache_replay": false,
+      "statuses": {
+        "failed": 44,
+        "ok": 28
+      },
+      "errors": 44
+    },
+    {
+      "job": "20260714-135437-f599de",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8",
+      "n_frames": 72,
+      "flagged": 65,
+      "detections": 228,
+      "total_min": 26.0,
+      "sec_per_frame": 22.51,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 70,
+        "failed": 2
+      },
+      "errors": 2
+    },
+    {
+      "job": "20260714-151709-748310",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 66,
+      "detections": 226,
+      "total_min": 26.5,
+      "sec_per_frame": 22.06,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260714-154917-41c231",
+      "script": "vlm_04",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 379,
+      "total_min": 3.3,
+      "sec_per_frame": 2.35,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260714-155634-59f208",
+      "script": "vlm_02",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 0,
+      "detections": 0,
+      "total_min": 1.8,
+      "sec_per_frame": 1.46,
+      "cache_replay": false,
+      "statuses": {
+        "failed": 72
+      },
+      "errors": 72
+    },
+    {
+      "job": "20260714-161604-40e69b",
+      "script": "vlm_02",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 197,
+      "total_min": 4.4,
+      "sec_per_frame": 3.57,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260714-162358-9cb5e8",
+      "script": "vlm_04",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 379,
+      "total_min": 3.2,
+      "sec_per_frame": 2.35,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260714-163920-f5fded",
+      "script": "vlm_05",
+      "model": "qwen3-vl:8b-instruct",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 1031,
+      "total_min": 48.4,
+      "sec_per_frame": 44.09,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260715-103346-104cfd",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 66,
+      "detections": 226,
+      "total_min": 0.6,
+      "sec_per_frame": 0.45,
+      "cache_replay": true,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260715-104408-270e03",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "?",
+      "n_frames": 1,
+      "flagged": 1,
+      "detections": 12,
+      "total_min": 0.5,
+      "sec_per_frame": 27.4,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 1
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260715-105445-b75552",
+      "script": "vlm_01",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 155,
+      "total_min": 4.4,
+      "sec_per_frame": 3.65,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260715-110654-22b825",
+      "script": "vlm_03",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 66,
+      "detections": 111,
+      "total_min": 3.6,
+      "sec_per_frame": 2.69,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 66,
+        "failed": 6
+      },
+      "errors": 6
+    },
+    {
+      "job": "20260720-095058-2d3301",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-100126-6901ed*",
+      "n_frames": 122,
+      "flagged": 0,
+      "detections": 0,
+      "total_min": 34.7,
+      "sec_per_frame": 16.31,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 122
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260720-123508-84f9e5",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-105538-f88568*",
+      "n_frames": 3,
+      "flagged": 0,
+      "detections": 0,
+      "total_min": 0.4,
+      "sec_per_frame": 10.35,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 3
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260720-123650-b35b69",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260720-123606-0d8575",
+      "n_frames": 72,
+      "flagged": 24,
+      "detections": 48,
+      "total_min": 15.6,
+      "sec_per_frame": 11.88,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260720-125634-0bf5bd",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "?",
+      "n_frames": 1,
+      "flagged": 1,
+      "detections": 12,
+      "total_min": 0.3,
+      "sec_per_frame": 15.85,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 1
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260720-130216-b87499",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "?",
+      "n_frames": 1,
+      "flagged": 1,
+      "detections": 9,
+      "total_min": 0.4,
+      "sec_per_frame": 21.29,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 1
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260720-130400-a456f9",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "?",
+      "n_frames": 1,
+      "flagged": 1,
+      "detections": 13,
+      "total_min": 0.4,
+      "sec_per_frame": 26.96,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 1
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260721-134049-c79eb8",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 66,
+      "detections": 228,
+      "total_min": 25.1,
+      "sec_per_frame": 21.13,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-115944-a78ef6",
+      "script": "vlm_01",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 145,
+      "total_min": 4.4,
+      "sec_per_frame": 3.64,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-120545-3b5157",
+      "script": "vlm_01",
+      "model": "qwen3-vl:8b-instruct",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 124,
+      "total_min": 3.8,
+      "sec_per_frame": 3.17,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-121035-9758ea",
+      "script": "vlm_01",
+      "model": "qwen3.5:9b",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 134,
+      "total_min": 4.8,
+      "sec_per_frame": 3.61,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-124037-9ec243",
+      "script": "vlm_02",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 202,
+      "total_min": 4.5,
+      "sec_per_frame": 3.63,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-124838-b52b97",
+      "script": "vlm_02",
+      "model": "qwen3-vl:8b-instruct",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 72,
+      "total_min": 1.5,
+      "sec_per_frame": 1.16,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-125344-bc27a3",
+      "script": "vlm_02",
+      "model": "qwen3.5:9b",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 72,
+      "total_min": 2.3,
+      "sec_per_frame": 1.78,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-125658-a18c90",
+      "script": "vlm_03",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 61,
+      "detections": 106,
+      "total_min": 3.8,
+      "sec_per_frame": 2.72,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 61,
+        "failed": 11
+      },
+      "errors": 11
+    },
+    {
+      "job": "20260723-130104-573d49",
+      "script": "vlm_03",
+      "model": "qwen3-vl:8b-instruct",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 67,
+      "detections": 119,
+      "total_min": 3.4,
+      "sec_per_frame": 2.87,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-130453-8c97ec",
+      "script": "vlm_03",
+      "model": "qwen3.5:9b",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 2,
+      "detections": 2,
+      "total_min": 4.0,
+      "sec_per_frame": 3.18,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-130941-a88046",
+      "script": "vlm_04",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 396,
+      "total_min": 3.6,
+      "sec_per_frame": 2.75,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-131439-f29f8c",
+      "script": "vlm_04",
+      "model": "qwen3-vl:8b-instruct",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 321,
+      "total_min": 7.6,
+      "sec_per_frame": 6.42,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260723-132513-bc8f21",
+      "script": "vlm_04",
+      "model": "qwen3.5:9b",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 323,
+      "total_min": 4.8,
+      "sec_per_frame": 3.81,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260726-203536-9c0b17",
+      "script": "vlm_05",
+      "model": "GLM-4.6V-Flash-9B",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 66,
+      "detections": 228,
+      "total_min": 0.7,
+      "sec_per_frame": 0.49,
+      "cache_replay": true,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260726-204856-3407ee",
+      "script": "vlm_05",
+      "model": "qwen3-vl:8b-instruct",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 617,
+      "total_min": 49.1,
+      "sec_per_frame": 40.44,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260726-213950-57d244",
+      "script": "vlm_05",
+      "model": "qwen3.5:9b",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 69,
+      "detections": 330,
+      "total_min": 33.3,
+      "sec_per_frame": 27.68,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-093308-5d5e2a",
+      "script": "vlm_01",
+      "model": "InternVL3_5:8b",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 115,
+      "total_min": 3.9,
+      "sec_per_frame": 2.97,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-093838-dc02c9",
+      "script": "vlm_02",
+      "model": "InternVL3_5:8b",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 122,
+      "total_min": 4.7,
+      "sec_per_frame": 3.9,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-094359-be8317",
+      "script": "vlm_03",
+      "model": "InternVL3_5:8b",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 164,
+      "total_min": 3.8,
+      "sec_per_frame": 2.95,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-094836-84fceb",
+      "script": "vlm_04",
+      "model": "InternVL3_5:8b",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 69,
+      "detections": 166,
+      "total_min": 3.4,
+      "sec_per_frame": 2.47,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-095258-40cc6e",
+      "script": "vlm_05",
+      "model": "InternVL3_5:8b",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 62,
+      "detections": 120,
+      "total_min": 33.9,
+      "sec_per_frame": 28.59,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-103053-424892",
+      "script": "vlm_01",
+      "model": "Cosmos-Reason2-8B-GGUF:Q4_K_M",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 81,
+      "total_min": 3.6,
+      "sec_per_frame": 2.72,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-104552-cfdbb4",
+      "script": "vlm_02",
+      "model": "Cosmos-Reason2-8B-GGUF:Q4_K_M",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 72,
+      "total_min": 1.4,
+      "sec_per_frame": 1.11,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-104758-97b235",
+      "script": "vlm_03",
+      "model": "Cosmos-Reason2-8B-GGUF:Q4_K_M",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 110,
+      "total_min": 3.2,
+      "sec_per_frame": 2.79,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-105421-83af88",
+      "script": "vlm_04",
+      "model": "Cosmos-Reason2-8B-GGUF:Q4_K_M",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 68,
+      "detections": 145,
+      "total_min": 7.3,
+      "sec_per_frame": 6.28,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-110237-e25b4d",
+      "script": "vlm_05",
+      "model": "Cosmos-Reason2-8B-GGUF:Q4_K_M",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": false,
+      "localizer": "photo",
+      "video": "20260721-133856-fac758",
+      "n_frames": 72,
+      "flagged": 67,
+      "detections": 341,
+      "total_min": 28.8,
+      "sec_per_frame": 24.49,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-123655-db7c98",
+      "script": "vlm_01",
+      "model": "minicpm-v4.6:latest",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 280,
+      "total_min": 2.0,
+      "sec_per_frame": 1.48,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-130034-1ba9b6",
+      "script": "vlm_02",
+      "model": "minicpm-v4.6:latest",
+      "prompt": "default",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 149,
+      "total_min": 2.6,
+      "sec_per_frame": 2.15,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-130425-e9a074",
+      "script": "vlm_03",
+      "model": "minicpm-v4.6:latest",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 63,
+      "detections": 175,
+      "total_min": 2.8,
+      "sec_per_frame": 1.6,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 64,
+        "failed": 8
+      },
+      "errors": 8
+    },
+    {
+      "job": "20260727-130806-a956f8",
+      "script": "vlm_04",
+      "model": "minicpm-v4.6:latest",
+      "prompt": "default",
+      "has_ref": false,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 72,
+      "detections": 411,
+      "total_min": 3.7,
+      "sec_per_frame": 2.96,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260727-131301-065d48",
+      "script": "vlm_05",
+      "model": "minicpm-v4.6:latest",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 0,
+      "detections": 0,
+      "total_min": 30.7,
+      "sec_per_frame": 25.97,
+      "cache_replay": false,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260803-133526-eae820",
+      "script": "vlm_05",
+      "model": "qwen3.5:9b",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 69,
+      "detections": 330,
+      "total_min": 0.6,
+      "sec_per_frame": 0.45,
+      "cache_replay": true,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    },
+    {
+      "job": "20260806-111434-4684f7",
+      "script": "vlm_05",
+      "model": "qwen3.5:9b",
+      "prompt": "conservative",
+      "has_ref": true,
+      "has_mask": true,
+      "localizer": "photo",
+      "video": "20260714-101824-e8b4a8*",
+      "n_frames": 72,
+      "flagged": 69,
+      "detections": 330,
+      "total_min": 0.6,
+      "sec_per_frame": 0.45,
+      "cache_replay": true,
+      "statuses": {
+        "ok": 72
+      },
+      "errors": 0
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+ "job_id": "20260720-123650-b35b69",
+ "updated": "2026-07-20T10:53:42+00:00",
+ "frames": {
+  "f2030": {
+   "verdicts": {},
+   "missed": [],
+   "done": true
+  },
+  "f4030": {
+   "verdicts": {},
+   "missed": [],
+   "done": true
+  },
+  "f4230": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f4280": {
+   "verdicts": {
+    "0": "tp",
+    "1": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f5180": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f5230": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f5280": {
+   "verdicts": {
+    "0": "tp"
+   },
+   "missed": [],
+   "done": true
+  },
+  "f5330": {
+   "verdicts": {
+    "0": "tp",
+    "1": "fp",
+    "2": "fp"
+   },
+   "missed": [],
+   "done": true
+  }
+ }
+}
