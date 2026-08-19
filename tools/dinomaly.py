@@ -58,6 +58,15 @@ N_GROUPS = 2                          # LAYERS split in two, one loss term each
 BLACK_LEVEL = 12                      # masked windows, same cutoff as vlm_05
 WEIGHTS_DIR = Path(__file__).resolve().parent.parent / "weights"
 
+#: Where the forward/backward passes run. Only the two expensive passes move -
+#: the encoder and the decoder's training steps. Everything that CROSSES a
+#: machine stays on CPU on purpose: the feature cache and the checkpoints are
+#: copied between this laptop and the GPU box, so a cuda tensor in either would
+#: make the file unloadable on the other. Override with DINOMALY_DEVICE=cpu to
+#: reproduce a CPU number on a machine that has a GPU.
+DEVICE = torch.device(os.environ.get("DINOMALY_DEVICE")
+                      or ("cuda" if torch.cuda.is_available() else "cpu"))
+
 _encoder = None
 
 
@@ -71,10 +80,10 @@ def _load_encoder():
         local = Path(torch.hub.get_dir()) / "facebookresearch_dinov2_main"
         if local.exists():
             _encoder = torch.hub.load(str(local), BACKBONE, source="local",
-                                      verbose=False).eval()
+                                      verbose=False).eval().to(DEVICE)
         else:
             _encoder = torch.hub.load("facebookresearch/dinov2", BACKBONE,
-                                      verbose=False).eval()
+                                      verbose=False).eval().to(DEVICE)
         for p in _encoder.parameters():
             p.requires_grad_(False)
     return _encoder
@@ -102,11 +111,11 @@ def encode(path: str, size=None):
     x = np.asarray(img, dtype=np.float32) / 255.0
     x = (x - np.array([0.485, 0.456, 0.406], np.float32)) / \
         np.array([0.229, 0.224, 0.225], np.float32)
-    t = torch.from_numpy(x.transpose(2, 0, 1))[None]
+    t = torch.from_numpy(x.transpose(2, 0, 1))[None].to(DEVICE)
     with torch.no_grad():
         outs = _load_encoder().get_intermediate_layers(
             t, n=list(LAYERS), reshape=False, return_class_token=False, norm=True)
-    layers = torch.cat([o for o in outs], 0)              # [L, N, D]
+    layers = torch.cat([o for o in outs], 0).cpu()        # [L, N, D]
     lum = np.asarray(Image.open(path).convert("L").resize((gw, gh), Image.BILINEAR),
                      dtype=np.float32).reshape(-1)
     return layers, torch.from_numpy(lum >= BLACK_LEVEL), (gh, gw)
@@ -213,14 +222,15 @@ def anomaly_map(model: nn.Module, layers: torch.Tensor, valid: torch.Tensor,
     """Per-patch anomaly score = summed cosine distance between the encoder
     groups and what the decoder rebuilt of them. Masked patches score 0."""
     model.eval()
+    layers = layers.to(DEVICE)
     targets = group_targets(layers)
     preds = model(layers.sum(0)[None])
-    score = torch.zeros(layers.shape[1])
+    score = torch.zeros(layers.shape[1], device=DEVICE)
     for p, t in zip(preds, targets):
         score = score + (1.0 - F.cosine_similarity(p[0], t, dim=-1))
-    score[~valid] = 0.0
+    score[~valid.to(DEVICE)] = 0.0
     gh, gw = grid
-    return score.numpy().reshape(gh, gw)
+    return score.cpu().numpy().reshape(gh, gw)
 
 
 # --- checkpoints -------------------------------------------------------------
@@ -231,7 +241,8 @@ def checkpoint_path(camera: str = "tram_1762") -> Path:
 
 def save(model, camera, meta: dict):
     WEIGHTS_DIR.mkdir(exist_ok=True)
-    torch.save({"state": model.state_dict(), "meta": meta,
+    state = {k: v.detach().cpu() for k, v in model.state_dict().items()}
+    torch.save({"state": state, "meta": meta,
                 "input_w": INPUT_W, "layers": list(LAYERS)},
                checkpoint_path(camera))
 
@@ -250,5 +261,5 @@ def load(camera: str = "tram_1762"):
                          f"but DINOMALY_INPUT_W is {INPUT_W} - the grid must match")
     model = Dinomaly()
     model.load_state_dict(ck["state"])
-    model.eval()
+    model.eval().to(DEVICE)
     return model, ck.get("meta", {})

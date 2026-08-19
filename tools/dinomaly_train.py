@@ -46,6 +46,7 @@ sys.path.insert(0, str(REPO_ROOT))
 import tools.dinomaly as dm                                   # noqa: E402
 
 MASKED_DIR = REPO_ROOT / "data" / "masked"
+NOMINAL_DIR = REPO_ROOT / "data" / "nominal"
 
 
 TRAIN_SESSIONS = ("v1", "v3")
@@ -67,9 +68,33 @@ def benchmark_frames():
     return out
 
 
-def nominal_frames(stride: int = 1):
+def nominal_frames(camera: str = "tram_1762", stride: int = 1):
     """The training list, with the reasons attached (printed, then stored in the
-    checkpoint - a model is only as interpretable as the data behind it)."""
+    checkpoint - a model is only as interpretable as the data behind it).
+
+    Two sources, because the two camera families arrived differently:
+
+      tram_1762  759 masked frames were already in data/masked/, so the session
+                 rules and the benchmark holdout are applied HERE, below.
+      1760 / 39T no frames existed at all. tools/build_nominal_frames.py cuts
+                 them out of the source videos and applies the same holdout plus
+                 a person filter at extraction time, so by the time they land in
+                 data/nominal/<camera>/ the selection is already done. Read that
+                 file for what each family can and cannot support - 1760 is
+                 within-session only, and the 39T negatives are too.
+    """
+    if camera != "tram_1762":
+        # `stride` is deliberately NOT applied here: build_nominal_frames.py
+        # already samples one frame every 2 s, so the sampling rate has exactly
+        # one owner per family. Applying it twice would silently halve the pool.
+        pool = sorted((NOMINAL_DIR / camera).glob(f"{camera}_*.jpg"))
+        if not pool:
+            raise SystemExit(
+                f"no nominal frames for '{camera}' under "
+                f"{NOMINAL_DIR / camera}. Build them first:\n"
+                f"    python tools/build_nominal_frames.py "
+                f"--family {camera.split('-')[0]}")
+        return pool, 0, set()
     held = benchmark_frames()
     picked, dropped = [], 0
     for f in sorted(MASKED_DIR.glob("tram_1762_v*_f*_masked.jpg")):
@@ -133,8 +158,9 @@ def train(files, epochs=40, batch=4, lr=1e-3, seed=0, crop=(23, 40),
     n = feats.shape[0]
     gh, gw = grid
     ch, cw = min(crop[0], gh), min(crop[1], gw)
-    feats = feats.reshape(n, dm.N_GROUPS, gh, gw, -1)
-    model = dm.Dinomaly()
+    feats = feats.reshape(n, dm.N_GROUPS, gh, gw, -1)   # stays on CPU: the whole
+    #   stack is ~5 MB/frame and only one crop per step is needed on the device
+    model = dm.Dinomaly().to(dm.DEVICE)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     steps = max(1, math.ceil(n / batch)) * epochs
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=lr, total_steps=steps,
@@ -150,7 +176,7 @@ def train(files, epochs=40, batch=4, lr=1e-3, seed=0, crop=(23, 40),
             y0 = torch.randint(0, gh - ch + 1, (1,)).item()
             x0 = torch.randint(0, gw - cw + 1, (1,)).item()
             g = feats[idx][:, :, y0:y0 + ch, x0:x0 + cw].reshape(
-                len(idx), dm.N_GROUPS, ch * cw, -1).float()
+                len(idx), dm.N_GROUPS, ch * cw, -1).float().to(dm.DEVICE)
             targets = [g[:, 0], g[:, 1]]
             preds = model(g.sum(1))               # bottleneck input = layer sum
             loss = dm.hard_cosine_loss(preds, targets)
@@ -182,17 +208,21 @@ def main():
                     help="re-encode instead of reusing the cached features")
     args = ap.parse_args()
 
-    files, dropped, held = nominal_frames(args.stride)
+    files, dropped, held = nominal_frames(args.camera, args.stride)
     if args.limit:
         files = files[:args.limit]
     by_session = {}
     for f in files:
-        by_session.setdefault(FRAME_RE.search(f.name).group(2), []).append(f)
+        mt = FRAME_RE.search(f.name)
+        # 1760 has one session; 39T names its moment between camera and t
+        key = mt.group(2) if mt else (f.stem.split("_")[1] if "_t" in f.stem
+                                      and len(f.stem.split("_")) > 2 else "run")
+        by_session.setdefault(key, []).append(f)
     print(f"training frames: {len(files)}  "
           + "  ".join(f"{s}={len(v)}" for s, v in sorted(by_session.items())))
     print(f"held out around {len(held)} benchmark frames (+-{HOLDOUT}): "
           f"{dropped} frames dropped")
-    print(f"grid {dm.INPUT_W}px wide, layers {dm.LAYERS}\n")
+    print(f"grid {dm.INPUT_W}px wide, layers {dm.LAYERS}, device {dm.DEVICE}\n")
 
     crop = tuple(int(v) for v in args.crop.lower().split("x"))
     model, hist, grid = train(files, args.epochs, args.batch, args.lr, crop=crop,

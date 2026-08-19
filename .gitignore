@@ -29,6 +29,12 @@ data/masked/*
 !data/masked/tram_1762_v4_f0016_masked.jpg
 !data/masked/tram_1762_v4_f0022_masked.jpg
 
+# Nominal training pools for the per-camera Dinomaly models: 1147 frames, 188 MB,
+# cut out of data/videos/ by tools/build_nominal_frames.py. The script IS the
+# record - it derives its exclusions from the benchmark rather than from a hand-
+# typed list - so the pool is reproducible and the frames themselves are not.
+data/nominal/
+
 # Spreadsheet backups made by bench_grid.py --to-xlsx
 *.bak-*.xlsx
 
