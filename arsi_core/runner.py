@@ -167,6 +167,12 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
     t_job = time.time()
 
     frames, references, mask_hash = _materialize_mask(cfg, emit)
+    if cache is not None:
+        # the verdict key names a file, it does not fingerprint it: an image
+        # rebuilt in place would otherwise be scored against the old pixels'
+        # verdicts, silently and with no failure to notice
+        for stale in cache.drop_changed(list(frames) + list(references)):
+            emit("cache_invalidated", **stale)
     if mask_hash:
         # the masked reference is what the pipeline compared against - the UI
         # must show that one, not the untouched file the user picked

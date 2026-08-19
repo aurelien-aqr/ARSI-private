@@ -273,3 +273,53 @@ def test_results_json_is_written_after_every_frame(fake_client, img_factory, tmp
     assert seen == [("running", 1), ("running", 2), ("running", 3)]
     final = json.loads((tmp_path / "job" / "results.json").read_text())
     assert final["status"] == "completed" and final["finished"]
+
+
+def test_cache_forgets_verdicts_when_the_image_changes(tmp_path, monkeypatch):
+    """The verdict key names a file, so a file rewritten in place must not keep
+    scoring against the pixels it no longer holds."""
+    from arsi_core import cache as cache_mod
+
+    monkeypatch.setattr(cache_mod, "FINGERPRINTS_PATH", tmp_path / "fp.json")
+    img = tmp_path / "frame.jpg"
+    img.write_bytes(b"first pixels")
+    ref = tmp_path / "ref.jpg"
+    ref.write_bytes(b"reference pixels")
+
+    c = cache_mod.VerdictCache(path=tmp_path / "v.json", seed_paths=())
+    key = "ref.jpg|frame.jpg|[0, 0, 10, 10]|model|fingerprint"
+    c.put(key, {"yes": True, "label": "backpack"})
+
+    assert c.drop_changed([img, ref]) == []          # first sight, nothing to drop
+    assert c.get(key) == {"yes": True, "label": "backpack"}
+
+    img.write_bytes(b"second pixels, same name")
+    assert c.drop_changed([img, ref]) == [
+        {"image": "frame.jpg", "dropped": 1, "seed_only": 0}]
+    assert c.get(key) is None                        # and it is gone from disk too
+    assert cache_mod.VerdictCache(path=tmp_path / "v.json",
+                                  seed_paths=()).get(key) is None
+
+
+def test_cache_reports_stale_entries_it_cannot_delete(tmp_path, monkeypatch):
+    """Verdicts inherited from the read-only benchmark seed are dropped for the
+    run but stay in the seed file - the caller is told so rather than left to
+    believe they are gone."""
+    import json
+
+    from arsi_core import cache as cache_mod
+
+    monkeypatch.setattr(cache_mod, "FINGERPRINTS_PATH", tmp_path / "fp.json")
+    img = tmp_path / "frame.jpg"
+    img.write_bytes(b"first pixels")
+    key = "ref.jpg|frame.jpg|[0, 0, 10, 10]|model|fingerprint"
+    seed = tmp_path / "seed.json"
+    seed.write_text(json.dumps({key: {"yes": False, "label": ""}}))
+
+    c = cache_mod.VerdictCache(path=tmp_path / "v.json", seed_paths=(seed,))
+    c.drop_changed([img])
+    img.write_bytes(b"second pixels")
+    assert c.drop_changed([img]) == [
+        {"image": "frame.jpg", "dropped": 1, "seed_only": 1}]
+    assert c.get(key) is None
+    assert json.loads(seed.read_text()), "the seed file is never written"
