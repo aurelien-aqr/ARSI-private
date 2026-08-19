@@ -23,6 +23,10 @@ opencv-python-headless>=4.9 ; python_version >= "3.9"
 # Spreadsheet export (jobs -> .xlsx in the ARSI_results_EN format)
 openpyxl>=3.1
 
+# Building the docs/ notes from Markdown (tools/build_md_note.py). Build-time
+# only: the Studio serves the HTML that comes out and never imports this.
+markdown-it-py>=3.0
+
 # Tests
 pytest>=8.0
 httpx>=0.27

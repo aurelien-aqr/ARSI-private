@@ -36,6 +36,8 @@ from arsi_core import localizers                                   # noqa: E402
 from .pipeline_docs import PIPELINE_DOCS                           # noqa: E402
 from .review import (ReviewError, compute_metrics, export_stats,   # noqa: E402
                      load_review, review_path, save_review)
+from tools.notes import NOTES                                      # noqa: E402
+from tools.render_note_pdf import render as render_note_pdf        # noqa: E402
 
 app = FastAPI(title="ARSI Studio", version="0.1")
 manager = JobManager()
@@ -1083,21 +1085,62 @@ def set_settings(payload: dict):
 
 # ---------------------------------------------------------------- notes
 
-#: Standalone HTML notes kept in docs/, opened from the sidebar. Self-contained
-#: (figures inlined), so they are served as-is rather than rendered by the app.
-NOTES = {
-    "camera-alignment": REPO_ROOT / "docs" / "camera_alignment"
-                        / "camera_framing_drift_1760_39T.html",
-}
+#: Standalone HTML notes kept in docs/, listed in tools/notes.py, opened from
+#: the sidebar. Self-contained (figures inlined) and carrying their own sheet,
+#: so they are served as-is rather than rendered by the app - the Studio frames
+#: one in an iframe with ?embed=1 and shows its own bar around it.
+
+
+#: FileResponse sends last-modified and an etag but no cache-control, which
+#: leaves the browser free to invent a freshness lifetime and serve a note it
+#: never revalidated. That is invisible on a normal page - a reload bypasses the
+#: cache - but the Studio inserts the note as an iframe AFTER load, so its
+#: request is an ordinary navigation that the reload flag never reaches: a
+#: rebuilt note kept showing its previous text through Ctrl+Shift+R.
+NO_CACHE = {"Cache-Control": "no-cache"}          # revalidate, don't re-download
+
+
+@app.get("/api/notes")
+def api_notes():
+    """What the sidebar lists, in the order tools/notes.py declares them.
+
+    `built` is the page's mtime: the Studio hangs it on the iframe URL so a
+    rebuilt note is a different URL, whatever any cache in between decides.
+    """
+    return {"notes": [{"key": n.key, "title": n.title, "pdf_name": n.pdf_name,
+                       "built": int(n.html.stat().st_mtime) if n.html.is_file() else 0}
+                      for n in NOTES.values()]}
+
+
+@app.get("/notes/{key}.pdf")
+def note_pdf(key: str):
+    """The note printed to A4. Declared before /notes/{key}, which would
+    otherwise swallow the request with key="<something>.pdf".
+
+    Chrome does the printing, which takes a couple of seconds for a short note
+    and rather longer for the one carrying 45 inlined photographs, so the
+    result is kept on disk and only reprinted when the page is newer than it.
+    """
+    note = NOTES.get(key)
+    if note is None or not note.html.is_file():
+        raise HTTPException(404, key)
+    try:
+        pdf = render_note_pdf(key)
+    except SystemExit as exc:                 # no browser on this machine
+        raise HTTPException(503, str(exc)) from exc
+    except Exception as exc:                  # noqa: BLE001 - reported as text
+        raise HTTPException(500, f"could not print {key}: {exc}") from exc
+    return FileResponse(pdf, media_type="application/pdf", filename=note.pdf_name,
+                        headers=NO_CACHE)
 
 
 @app.get("/notes/{key}")
 def note(key: str):
     """One of the named notes. A whitelist, not a static mount on docs/."""
-    path = NOTES.get(key)
-    if path is None or not path.is_file():
+    note = NOTES.get(key)
+    if note is None or not note.html.is_file():
         raise HTTPException(404, key)
-    return FileResponse(path, media_type="text/html")
+    return FileResponse(note.html, media_type="text/html", headers=NO_CACHE)
 
 
 # ---------------------------------------------------------------- frontend

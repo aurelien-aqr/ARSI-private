@@ -37,6 +37,8 @@ const S = {
   health: null, models: [], pipelines: [], demo: [], refs: [], masks: [],
   localizers: [], localizerDefault: "photo",   // vlm_05 region-proposal stage
   jobs: [], settings: null, storage: null,
+  notes: [], note: null,        // the standalone docs/ notes; `note` is the open one
+  notePdf: null,                // key of the note Chrome is printing, if any
   pulling: null, pullPct: 0, pullStatus: "",
   toast: null,
   docPipe: null,          // pipeline key whose "how it works" modal is open
@@ -166,7 +168,8 @@ function setScreen(s) {
   if (s !== "results" && playTimer) {   // leaving results stops playback
     clearInterval(playTimer); playTimer = null; S.res.playing = false;
   }
-  if (("#" + s) !== location.hash) history.replaceState(null, "", "#" + s);
+  const hash = "#" + (s === "note" ? "note/" + encodeURIComponent(S.note) : s);
+  if (hash !== location.hash) history.replaceState(null, "", hash);
   render();
 }
 
@@ -182,19 +185,33 @@ async function boot() {
     jget("/api/references").then(d => { S.refs = d.references; }),
     refreshMasks(), refreshJobs(),
     jget("/api/settings").then(d => { S.settings = d; }),
+    jget("/api/notes").then(d => { S.notes = d.notes; }),
   ]);
-  const hash = location.hash.slice(1);
-  if (["dashboard", "wizard", "run", "results", "history", "labels", "benchmark",
-       "lora", "settings"].includes(hash)) {
-    if (hash === "results") await openResults(); else S.screen = hash;
-    if (hash === "settings") refreshStorage();
-    if (hash === "labels") refreshLabels();
-    if (hash === "benchmark") refreshBench();
-    if (hash === "lora") refreshLora();
-  }
+  await routeHash();
   render();
   setInterval(refreshHealth, 15000);
 }
+const SCREENS = ["dashboard", "wizard", "run", "results", "history", "labels",
+                 "benchmark", "lora", "settings"];
+/* #note/<key> or #<screen>. Called at boot and on every hashchange: a note that
+   cites another note links to /#note/<key>, and when the Studio is already open
+   that changes the hash without reloading the page. */
+async function routeHash() {
+  const hash = location.hash.slice(1);
+  if (hash.startsWith("note/")) {
+    const key = decodeURIComponent(hash.slice(5));
+    if (S.notes.some(n => n.key === key)) { S.note = key; S.screen = "note"; }
+    return;
+  }
+  if (!SCREENS.includes(hash)) return;
+  if (hash === "results") await openResults(); else S.screen = hash;
+  if (hash === "settings") refreshStorage();
+  if (hash === "labels") refreshLabels();
+  if (hash === "benchmark") refreshBench();
+  if (hash === "lora") refreshLora();
+}
+window.addEventListener("hashchange", async () => { await routeHash(); render(); });
+
 async function refreshHealth() {
   let h;
   try { h = await jget("/api/health"); } catch { h = { ollama: false, models: [], gpu: false }; }
@@ -346,6 +363,32 @@ function maybeResetWizard() {
     clearTimeout(stageTimer); stageTimer = null;
   }
 }
+ACT.goNote = (key) => { S.note = key; setScreen("note"); };
+ACT.openNoteTab = (key) => { window.open(`/notes/${encodeURIComponent(key)}`, "_blank", "noopener"); };
+/* Printing is Chrome driving Chrome on the backend: a couple of seconds for a
+   short note, most of a minute for the one with 45 photographs in it. So the
+   button says what it is doing, and the file is handed over as a blob rather
+   than by navigating - a navigation would replace the Studio if the render
+   failed and the server answered with an error page. */
+ACT.downloadNotePdf = async (key) => {
+  if (S.notePdf) return;
+  const n = S.notes.find(x => x.key === key);
+  S.notePdf = key; render();
+  try {
+    const r = await fetch(`/notes/${encodeURIComponent(key)}.pdf`);
+    if (!r.ok) throw new Error((await r.text()) || r.status);
+    const url = URL.createObjectURL(await r.blob());
+    const a = document.createElement("a");
+    a.href = url; a.download = (n && n.pdf_name) || `${key}.pdf`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    S.notePdf = null;
+    toast(`Saved ${a.download}.`);
+  } catch (e) {
+    S.notePdf = null;
+    toast("PDF failed: " + e.message);
+  }
+};
 ACT.goWizard = () => { maybeResetWizard(); setScreen("wizard"); };
 ACT.goWizardDemo = () => { maybeResetWizard(); S.wiz.source = "demo"; S.wiz.step = 1; setScreen("wizard"); };
 ACT.toggleTheme = () => {
@@ -1642,9 +1685,9 @@ function render() {
         ${S.screen === "benchmark" ? benchView() : ""}
         ${S.screen === "lora" ? loraView() : ""}
         ${S.screen === "settings" ? settingsView() : ""}
+        ${S.screen === "note" ? noteView() : ""}
       </div>
     </div>
-    ${S.toast ? `<div style="position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:60; background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(S.toast)}</div>` : ""}
   </div>`;
   app.querySelectorAll("[data-scroll]").forEach(el => {
     const p = scrollPos[el.dataset.scroll];
@@ -1662,6 +1705,8 @@ function render() {
   if (gsel && S._kbNav) { gsel.scrollIntoView({ block: "nearest" }); S._kbNav = false; }
   hideTip();   // the hovered ? icon may not exist in the new DOM
   syncModal();
+  syncNote();
+  syncToast();
 }
 
 function navItem(key, label, icon, extra = "") {
@@ -1683,11 +1728,13 @@ const I = {   // 16px stroke icons from the design
 };
 
 /* Standalone HTML notes from docs/, served by the backend at /notes/<key>.
-   A plain link in a new tab, not a screen: these are self-contained documents
-   with their own layout, and nothing in the app needs to read them back. */
-function noteLink(key, label) {
+   They are self-contained documents with their own sheet, so the app does not
+   re-render them: it opens one in an iframe (?embed=1 drops the note's own bar,
+   the app's top bar carries its buttons instead) and stays one window. */
+function noteLink(n) {
+  const on = S.screen === "note" && S.note === n.key;
   const icon = `<svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M4 1.5 H11 L15 5.5 V16.5 H4 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M10.5 1.8 V5.6 H14.6" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><line x1="6.5" y1="9" x2="12" y2="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="6.5" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>`;
-  return `<a class="navitem" href="/notes/${encodeURIComponent(key)}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; font-size:13px; margin-bottom:2px; cursor:pointer; color:oklch(0.68 0.012 250); text-decoration:none;">${icon} <span style="flex:1;">${esc(label)}</span><span style="font-size:11px; color:${C.dim};">↗</span></a>`;
+  return `<div class="navitem" data-act="goNote" data-arg="${esc(n.key)}" style="display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:8px; font-size:13px; margin-bottom:2px; cursor:pointer; background:${on ? C.accBg : "transparent"}; color:${on ? C.accFg : "oklch(0.68 0.012 250)"};">${icon} <span style="flex:1;">${esc(n.title)}</span></div>`;
 }
 
 function sidebar() {
@@ -1731,8 +1778,8 @@ function sidebar() {
       ${navItem("lora", "LoRA", I.spark)}
       <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">System</div>
       ${navItem("settings", "Settings", I.sliders)}
-      <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Notes</div>
-      ${noteLink("camera-alignment", "Camera framing drift")}
+      ${S.notes.length ? `<div style="font-size:10px; text-transform:uppercase; letter-spacing:0.09em; color:${C.dim}; margin:16px 8px 6px; font-family:${C.mono};">Notes</div>
+      ${S.notes.map(noteLink).join("")}` : ""}
     </div>
   </div>`;
 }
@@ -1742,10 +1789,18 @@ function topbar() {
                    results: "Results", history: "History", settings: "Settings",
                    labels: "Labels", lora: "LoRA training data",
                    benchmark: "Benchmark - ground truth & score" };
+  const openNote = S.screen === "note" ? S.notes.find(n => n.key === S.note) : null;
   const themeIcon = S.theme === "dark"
     ? `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M15.5 10.5 A6.8 6.8 0 0 1 7.5 2.5 A6.8 6.8 0 1 0 15.5 10.5 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>`
     : `<svg width="17" height="17" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="3.4" stroke="currentColor" stroke-width="1.4"/><g stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="9" y1="1.5" x2="9" y2="3"/><line x1="9" y1="15" x2="9" y2="16.5"/><line x1="1.5" y1="9" x2="3" y2="9"/><line x1="15" y1="9" x2="16.5" y2="9"/></g></svg>`;
   let right = "";
+  if (openNote) {
+    const busy = S.notePdf === openNote.key;
+    const btn = (act, label, extra = "") => `<button data-act="${act}" data-arg="${esc(openNote.key)}"${extra} style="font-size:12.5px; color:oklch(0.85 0.012 250); background:${C.bgBtn}; border:1px solid ${C.bdBtn}; padding:8px 12px; border-radius:8px; cursor:pointer; display:flex; align-items:center; gap:7px;">${label}</button>`;
+    right = `
+      ${btn("openNoteTab", `Open in a tab <span style="color:${C.dim};">↗</span>`)}
+      <button data-act="downloadNotePdf" data-arg="${esc(openNote.key)}" title="Printed to A4 by Chrome, not a screenshot of this page" style="font-size:12.5px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:8px 14px; border-radius:8px; cursor:${busy ? "progress" : "pointer"}; opacity:${busy ? 0.7 : 1}; display:flex; align-items:center; gap:8px;">${busy ? `<span style="width:11px; height:11px; border:2px solid ${C.accDark}; border-top-color:transparent; border-radius:50%; animation:arsispin .8s linear infinite;"></span>Rendering…` : "Download PDF"}</button>`;
+  }
   if (S.screen === "dashboard")
     right = `<button data-act="goWizard" style="font-size:13px; font-weight:600; color:${C.accDark}; background:${C.acc}; border:none; padding:9px 16px; border-radius:8px; cursor:pointer;">+ New analysis</button>`;
   if (S.screen === "results" && S.res.data) {
@@ -1762,7 +1817,8 @@ function topbar() {
   }
   return `
   <div style="height:60px; flex:0 0 60px; border-bottom:1px solid oklch(0.26 0.012 250); display:flex; align-items:center; padding:0 26px; gap:16px;">
-    <div style="font-size:17px; font-weight:650; letter-spacing:-0.01em;">${titles[S.screen] || ""}</div>
+    <div style="font-size:17px; font-weight:650; letter-spacing:-0.01em;">${openNote ? esc(openNote.title) : (titles[S.screen] || "")}</div>
+    ${openNote ? `<span style="font-family:${C.mono}; font-size:11px; color:${C.dim}; letter-spacing:0.04em;">NOTE</span>` : ""}
     <div style="margin-left:auto; display:flex; gap:10px; align-items:center;">
       <button data-act="toggleTheme" title="Switch theme" style="width:34px; height:34px; display:flex; align-items:center; justify-content:center; color:oklch(0.72 0.012 250); background:oklch(0.18 0.01 250); border:1px solid ${C.bd3}; border-radius:8px; cursor:pointer;">${themeIcon}</button>
       ${right}
@@ -2051,6 +2107,66 @@ function wizStep3() {
    identical markup would restart the entrance animation and reset the body's
    scroll, which is exactly what a 15 s health poll used to do to an open
    modal. Theme is a class toggle, so it never touches the children. */
+/* The open note. The document itself is an iframe in #arsi-note, OUTSIDE #app
+   for the same reason the modal is: render() replaces #app wholesale, and a
+   background poll would reload the iframe every 15 s - losing the reader's
+   place in a forty-page document. What #app draws here is only the placeholder
+   shown while the iframe loads. */
+function noteView() {
+  const n = S.notes.find(x => x.key === S.note);
+  if (!n) return "";
+  return `
+  <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
+    <div style="display:flex; align-items:center; gap:10px; color:${C.fg4}; font-size:13px;">
+      <span style="width:13px; height:13px; border:2px solid ${C.bd3}; border-top-color:${C.acc}; border-radius:50%; animation:arsispin .8s linear infinite;"></span>
+      Opening ${esc(n.title)}…
+    </div>
+  </div>`;
+}
+
+/* The iframe is only rebuilt when the note or the theme changes; every other
+   render leaves it alone, scroll position included. ?theme= makes the note pick
+   the Studio's palette, which matters twice over in light mode: .arsi-app.light
+   inverts the whole UI, and index.html inverts the iframe back. */
+/* Outside #app like the rest: a toast raised while a note is open has to sit
+   above the iframe, and in light mode .arsi-app is a filtered stacking context
+   that no z-index inside it can lift over a sibling of #app. */
+function syncToast() {
+  const host = document.getElementById("arsi-toast");
+  if (!host) return;
+  host.classList.toggle("light", S.theme === "light");
+  const msg = S.toast || "";
+  if (host.dataset.msg === msg) return;
+  host.dataset.msg = msg;
+  host.innerHTML = msg
+    ? `<div style="background:${C.bgBtn}; border:1px solid oklch(0.36 0.014 250); color:${C.fg}; font-size:13px; padding:11px 18px; border-radius:10px; box-shadow:0 12px 34px -12px rgba(0,0,0,0.7); display:flex; align-items:center; gap:10px; animation:arsislide .18s ease;"><span style="width:7px; height:7px; border-radius:50%; background:${C.acc};"></span>${esc(msg)}</div>`
+    : "";
+}
+
+function syncNote() {
+  const host = document.getElementById("arsi-note");
+  if (!host) return;
+  const key = S.screen === "note" && S.note ? S.note : "";
+  const want = key ? `${key}|${S.theme}` : "";
+  host.classList.toggle("open", !!key);
+  if (host.dataset.key === want) return;
+  host.dataset.key = want;
+  host.innerHTML = key
+    ? `<iframe src="/notes/${encodeURIComponent(key)}?embed=1&theme=${S.theme}&v=${noteBuilt(key)}" title="${esc(noteTitle(key))}" style="width:100%; height:100%; border:none; display:block; background:${C.bg};"></iframe>`
+    : "";
+}
+function noteTitle(key) {
+  const n = S.notes.find(x => x.key === key);
+  return n ? n.title : key;
+}
+/* The note's mtime, so rebuilding it changes the iframe's URL. Without it the
+   browser is entitled to reuse the copy it already has: the notes are served
+   no-cache now, but a URL that changes with the file needs no cooperation. */
+function noteBuilt(key) {
+  const n = S.notes.find(x => x.key === key);
+  return n && n.built ? n.built : 0;
+}
+
 function syncModal() {
   const host = document.getElementById("arsi-modal");
   if (!host) return;

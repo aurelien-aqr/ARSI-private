@@ -57,6 +57,18 @@
   #arsi-modal.open { display:block; }
   #arsi-modal.light { filter: invert(1) hue-rotate(180deg); }
   #arsi-modal.light img { filter: invert(1) hue-rotate(180deg); }
+  /* The open note lives outside #app too, and for the same reason as the modal:
+     a re-render would reload the iframe and throw the reader back to the top of
+     a forty-page document. It is pinned over the content area, so its geometry
+     has to match the sidebar (248px) and the top bar (60px) drawn by app.js. */
+  #arsi-note { display:none; position:fixed; left:248px; top:60px; right:0; bottom:0; z-index:5; }
+  #arsi-note.open { display:block; }
+  /* no light-mode inversion here, unlike #arsi-modal: the note is served with
+     ?theme= matching the Studio and carries a real light palette of its own */
+  /* the toast sits above the note, so it lives outside #app as well - in light
+     mode .arsi-app is a filtered stacking context and would fall behind it */
+  #arsi-toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); z-index:80; }
+  #arsi-toast.light { filter: invert(1) hue-rotate(180deg); }
   .arsi-app { transition: filter .18s ease; height:100vh; display:flex; background:oklch(0.15 0.008 250); }
   .hoverable:hover { background: oklch(0.19 0.012 250) !important; }
   .navitem:hover { color: oklch(0.88 0.006 250) !important; }
@@ -65,6 +77,8 @@
 </head>
 <body>
 <div id="app"></div>
+<div id="arsi-note"></div>
+<div id="arsi-toast"></div>
 <div id="arsi-modal"></div>
 <!-- file inputs live OUTSIDE #app: a re-render (health poll, SSE event) while
      the file dialog is open would otherwise destroy the input the dialog is

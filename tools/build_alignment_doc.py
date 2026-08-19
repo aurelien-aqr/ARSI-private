@@ -11,13 +11,19 @@ from __future__ import annotations
 import base64
 import json
 import math
+import sys
 from pathlib import Path
 
 import cv2
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "docs" / "camera_alignment"
-DOC = OUT / "camera_framing_drift_1760_39T.html"
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from tools.notes import NOTES                                     # noqa: E402
+from tools.report_style import foot, head                         # noqa: E402
+
+NOTE = NOTES["camera-alignment"]
+DOC = NOTE.html
+OUT = DOC.parent
 
 ROWS = json.loads((OUT / "metrics.json").read_text())
 TOL = json.loads((OUT / "tolerance.json").read_text())
@@ -142,214 +148,7 @@ def build() -> str:
     flow_cam = "39T-cam52"
     fig_flow = embed(OUT / f"{flow_cam}_flow.jpg", 1280, 78)
 
-    return f"""<title>Framing Drift 1760 → 39T</title>
-<style>
-:root {{
-  --ground:#EDEFEE; --surface:#FFFFFF; --sunk:#E3E7E6;
-  --ink:#141B1E; --ink-2:#3C4A4E; --ink-3:#6B7A7D;
-  --rule:#CBD3D2; --rule-2:#DDE3E2;
-  --accent:#12586F; --accent-soft:#DCEAEF;
-  --ok:#2C7A56; --warn:#9A6612; --crit:#A33A34;
-  --magenta:#A83694; --green:#2F8B4E;
-  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"DejaVu Serif",Georgia,serif;
-  --mono:ui-monospace,"DejaVu Sans Mono",SFMono-Regular,Menlo,Consolas,monospace;
-}}
-@media (prefers-color-scheme: dark) {{
-  :root:not([data-theme="light"]) {{
-    --ground:#10161A; --surface:#161E22; --sunk:#0B1013;
-    --ink:#E6ECEA; --ink-2:#AFBCBC; --ink-3:#7E8C8D;
-    --rule:#2A363A; --rule-2:#202B2F;
-    --accent:#6FC5DE; --accent-soft:#16323C;
-    --ok:#5CBE8B; --warn:#D8A247; --crit:#E0736B;
-    --magenta:#DC7FCB; --green:#6BD08F;
-  }}
-}}
-:root[data-theme="dark"] {{
-  --ground:#10161A; --surface:#161E22; --sunk:#0B1013;
-  --ink:#E6ECEA; --ink-2:#AFBCBC; --ink-3:#7E8C8D;
-  --rule:#2A363A; --rule-2:#202B2F;
-  --accent:#6FC5DE; --accent-soft:#16323C;
-  --ok:#5CBE8B; --warn:#D8A247; --crit:#E0736B;
-  --magenta:#DC7FCB; --green:#6BD08F;
-}}
-
-* {{ box-sizing:border-box; }}
-body {{
-  background:var(--ground); color:var(--ink);
-  font-family:var(--serif); font-size:17px; line-height:1.65;
-  margin:0; padding:0 20px 96px;
-  -webkit-font-smoothing:antialiased;
-}}
-.wrap {{ max-width:1180px; margin:0 auto; }}
-.col {{ max-width:68ch; }}
-
-h1,h2,h3 {{ text-wrap:balance; line-height:1.18; margin:0; font-weight:600; }}
-h1 {{ font-size:clamp(2.1rem,4.6vw,3.1rem); letter-spacing:-.018em; }}
-h2 {{ font-size:1.62rem; letter-spacing:-.012em; }}
-h3 {{ font-size:1.12rem; }}
-p {{ margin:0; }}
-a {{ color:var(--accent); }}
-
-.eyebrow {{
-  font-family:var(--mono); font-size:.7rem; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--ink-3);
-}}
-
-/* --- masthead --------------------------------------------------------- */
-header.masthead {{ padding:72px 0 40px; border-bottom:2px solid var(--ink); display:flex; flex-direction:column; gap:18px; }}
-.masthead .lede {{ font-size:1.2rem; color:var(--ink-2); max-width:60ch; }}
-.meta {{ display:flex; flex-wrap:wrap; gap:8px 28px; font-family:var(--mono); font-size:.76rem; color:var(--ink-3); }}
-
-/* --- headline numbers -------------------------------------------------- */
-.keys {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(178px,1fr)); gap:1px;
-        background:var(--rule); border:1px solid var(--rule); margin:40px 0 0; }}
-.key {{ background:var(--surface); padding:20px 20px 22px; display:flex; flex-direction:column; gap:5px; }}
-.key__v {{ font-family:var(--mono); font-size:1.95rem; font-weight:600; letter-spacing:-.03em;
-           font-variant-numeric:tabular-nums; line-height:1; }}
-.key__l {{ font-size:.86rem; color:var(--ink-2); line-height:1.4; }}
-.key__n {{ font-family:var(--mono); font-size:.68rem; color:var(--ink-3); }}
-
-section {{ padding:56px 0 0; display:flex; flex-direction:column; gap:20px; }}
-section > .col {{ display:flex; flex-direction:column; gap:16px; }}
-.sect-head {{ display:flex; flex-direction:column; gap:6px; border-top:1px solid var(--rule); padding-top:22px; }}
-
-/* --- numbered steps (a real measurement sequence) --------------------- */
-ol.steps {{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0; counter-reset:s; }}
-ol.steps li {{ counter-increment:s; display:grid; grid-template-columns:56px 1fr; gap:18px;
-               padding:18px 0; border-top:1px solid var(--rule-2); }}
-ol.steps li::before {{ content:counter(s,decimal-leading-zero); font-family:var(--mono); font-size:.82rem;
-                       color:var(--accent); padding-top:4px; }}
-ol.steps b {{ font-weight:600; }}
-ol.steps p {{ color:var(--ink-2); font-size:.95rem; margin-top:4px; }}
-
-ul.plain {{ margin:0; padding-left:1.15em; display:flex; flex-direction:column; gap:9px; color:var(--ink-2); }}
-ul.plain li::marker {{ color:var(--ink-3); }}
-ul.plain b {{ color:var(--ink); font-weight:600; }}
-
-/* --- figures ---------------------------------------------------------- */
-figure {{ margin:0; display:flex; flex-direction:column; gap:9px; }}
-figure img {{ width:100%; height:auto; display:block; background:var(--sunk); border:1px solid var(--rule); }}
-figcaption {{ font-family:var(--mono); font-size:.72rem; line-height:1.55; color:var(--ink-3); max-width:80ch; }}
-
-/* --- tables ----------------------------------------------------------- */
-.tablewrap {{ overflow-x:auto; border:1px solid var(--rule); background:var(--surface); }}
-table {{ border-collapse:collapse; width:100%; font-family:var(--mono); font-size:.79rem;
-         font-variant-numeric:tabular-nums; }}
-caption {{ text-align:left; padding:14px 16px; font-family:var(--mono); font-size:.72rem;
-           color:var(--ink-3); border-bottom:1px solid var(--rule); }}
-th,td {{ padding:8px 12px; text-align:left; border-bottom:1px solid var(--rule-2); white-space:nowrap; }}
-thead th {{ font-weight:600; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase;
-            color:var(--ink-3); border-bottom:1px solid var(--rule); vertical-align:bottom; }}
-tbody th {{ font-weight:600; }}
-td.num {{ text-align:right; position:relative; }}
-td.strong {{ color:var(--ink); font-weight:600; }}
-td.muted {{ color:var(--ink-3); }}
-tbody tr:last-child td, tbody tr:last-child th {{ border-bottom:none; }}
-.arrow {{ color:var(--ink-3); }}
-.bar {{ position:absolute; left:0; bottom:2px; height:2px; width:calc(var(--v) * 100%); }}
-.bar--ok {{ background:var(--ok); }} .bar--warn {{ background:var(--warn); }} .bar--crit {{ background:var(--crit); }}
-
-/* --- pills ------------------------------------------------------------ */
-.pill {{ font-family:var(--mono); font-size:.7rem; padding:3px 9px; border:1px solid currentColor;
-         border-radius:2px; white-space:nowrap; }}
-.pill--ok {{ color:var(--ok); }} .pill--warn {{ color:var(--warn); }} .pill--crit {{ color:var(--crit); }}
-
-/* --- callout ---------------------------------------------------------- */
-.note {{ background:var(--surface); border-left:3px solid var(--accent); padding:18px 22px;
-         display:flex; flex-direction:column; gap:9px; }}
-.note h3 {{ font-size:.98rem; }}
-.note p {{ font-size:.94rem; color:var(--ink-2); }}
-
-/* --- teaching cases --------------------------------------------------- */
-.case {{ display:flex; flex-direction:column; gap:12px; padding:26px 0; border-top:1px solid var(--rule-2); }}
-.case p {{ color:var(--ink-2); max-width:68ch; }}
-.case__cam {{ font-family:var(--mono); font-size:.76rem; color:var(--ink-3); margin-left:8px; }}
-
-/* --- gallery ---------------------------------------------------------- */
-.cams {{ display:flex; flex-direction:column; gap:0; }}
-.cam {{ padding:34px 0; border-top:1px solid var(--rule); display:flex; flex-direction:column; gap:16px; }}
-.cam__head {{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }}
-.cam__head h3 {{ font-family:var(--mono); font-size:.92rem; font-weight:600; }}
-.cam__stats {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(132px,1fr)); gap:1px;
-               background:var(--rule-2); border:1px solid var(--rule-2); margin:0; }}
-.cam__stats > div {{ background:var(--surface); padding:10px 12px; }}
-.cam__stats dt {{ font-family:var(--mono); font-size:.63rem; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); }}
-.cam__stats dd {{ margin:2px 0 0; font-family:var(--mono); font-size:1.02rem; font-variant-numeric:tabular-nums; }}
-
-code {{ font-family:var(--mono); font-size:.82rem; background:var(--accent-soft);
-        color:var(--ink); padding:1px 5px; }}
-
-.legend {{ display:flex; flex-wrap:wrap; gap:6px 22px; font-family:var(--mono); font-size:.73rem; color:var(--ink-3); }}
-.legend span::before {{ content:"■ "; }}
-.legend .m {{ color:var(--magenta); }} .legend .v {{ color:var(--green); }} .legend .j {{ color:var(--warn); }}
-
-footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
-          font-family:var(--mono); font-size:.72rem; color:var(--ink-3); display:flex;
-          flex-direction:column; gap:6px; }}
-@media (max-width:640px) {{
-  body {{ font-size:16px; }}
-  ol.steps li {{ grid-template-columns:1fr; gap:6px; }}
-}}
-
-/* --- paper ------------------------------------------------------------ */
-@page {{ size:A4; margin:16mm 14mm 15mm; }}
-@page :first {{ margin-top:13mm; }}
-@media print {{
-  /* the light palette, whatever the renderer's colour scheme */
-  :root {{
-    --ground:#FFFFFF; --surface:#FFFFFF; --sunk:#E3E7E6;
-    --ink:#111A1C; --ink-2:#3C4A4C; --ink-3:#6B7A7B;
-    --rule:#C2CBCA; --rule-2:#DDE3E2;
-    --accent:#12586F; --accent-soft:#DCEAEF;
-    --ok:#2C7A56; --warn:#9A6612; --crit:#A33A34;
-    --magenta:#A83694; --green:#2F8B4E;
-  }}
-  html, body {{ background:#FFFFFF; }}
-  body {{ font-size:9.7pt; line-height:1.52; padding:0;
-          -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-  .wrap {{ max-width:none; }}
-  .col {{ max-width:none; }}
-
-  h1 {{ font-size:27pt; }}
-  h2 {{ font-size:15.5pt; }}
-  h3 {{ font-size:11pt; }}
-  header.masthead {{ padding:0 0 26px; }}
-  .masthead .lede {{ font-size:11.5pt; max-width:none; }}
-  .keys {{ grid-template-columns:repeat(3,1fr); margin-top:26px; }}
-  .key:last-child {{ grid-column:span 2; }}
-  section {{ padding-top:30px; gap:16px; }}
-
-  /* nothing orphaned from what introduces it */
-  h1, h2, h3 {{ break-after:avoid; }}
-  .sect-head, .cam__head {{ break-after:avoid; break-inside:avoid; }}
-  figure, .note, .case, .key, .legend, ol.steps li, ul.plain li, tr {{ break-inside:avoid; }}
-  figcaption {{ break-before:avoid; }}
-  p {{ orphans:3; widows:3; }}
-
-  /* the wide table has to fit the sheet, header repeated on every page */
-  .tablewrap {{ overflow:visible; }}
-  table {{ font-size:6.7pt; }}
-  caption {{ padding:10px 9px; font-size:6.9pt; }}
-  th, td {{ padding:4.2px 5px; }}
-  thead {{ display:table-header-group; }}
-
-  figure img {{ max-height:150mm; object-fit:contain; }}
-  figcaption {{ font-size:6.9pt; }}
-  /* smaller, so two teaching cases share a sheet */
-  .case figure img {{ max-height:76mm; }}
-
-  /* one camera per sheet */
-  .cam {{ break-before:page; break-inside:avoid; padding:0; border-top:none; gap:12px; }}
-  .cam:first-of-type {{ break-before:auto; }}
-  .cam figure img {{ max-height:112mm; }}
-  .cam__stats {{ grid-template-columns:repeat(6,1fr); }}
-  .cam__stats dt {{ min-height:3.1em; }}
-
-  footer {{ break-before:page; margin-top:0; }}
-}}
-</style>
-
-<div class="wrap">
+    return f"""{head(**NOTE.head_args)}
 
 <header class="masthead">
   <span class="eyebrow">ARSI · onboard cameras · framing drift</span>
@@ -384,7 +183,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </div>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">The problem</span>
     <h2>What went wrong</h2>
   </div>
@@ -407,12 +206,12 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
     <img src="{fig_sheet}" alt="Contact sheet of the 15 pairs overlaid in magenta and green">
     <figcaption>All {n} pairs overlaid. Wherever the magenta and the green split apart, the two
     cameras are not looking at the same thing.</figcaption>
-    <div class="legend"><span class="m">1760</span><span class="v">39T</span><span>grey = the two coincide</span></div>
+    <div class="legend"><span class="sw m">1760</span><span class="sw v">39T</span><span class="sw" style="color:var(--ink-3)">grey = the two coincide</span></div>
   </figure>
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Method</span>
     <h2>How the offset is measured</h2>
   </div>
@@ -442,7 +241,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Diagnosis</span>
     <h2>The cameras turned in place</h2>
   </div>
@@ -471,11 +270,11 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Measurements</span>
     <h2>Camera by camera</h2>
   </div>
-  <div class="tablewrap">
+  <div class="tablewrap full">
     <table>
       <caption>Transformation from the 1760 framing to the 39T framing. Degrees assume a 100°
       horizontal field; at 90° or 110° they move by about ±10 %. The pixels are the measurement.</caption>
@@ -513,7 +312,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Consequence</span>
     <h2>What the offset does to the masks</h2>
   </div>
@@ -539,7 +338,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Tolerance</span>
     <h2>How much offset can a mask absorb?</h2>
   </div>
@@ -553,7 +352,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
     zones are very sensitive to displacement. At the offset actually seen between the two trams,
     the median IoU has already fallen below 0.60.</figcaption>
   </figure>
-  <div class="tablewrap col">
+  <div class="tablewrap">
     <table>
       <caption>Effect of a pure shift on the {n} 39T masks, 8 directions.</caption>
       <thead><tr><th scope="col">shift px</th><th scope="col">deg</th><th scope="col">median IoU</th>
@@ -571,7 +370,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Recommendations</span>
     <h2>Aiming the cameras on the next tram</h2>
   </div>
@@ -594,7 +393,7 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Caveats</span>
     <h2>What the measurement doesn't cover</h2>
   </div>
@@ -609,25 +408,21 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
 </section>
 
 <section>
-  <div class="col sect-head">
+  <div class="sect-head">
     <span class="eyebrow">Detail</span>
     <h2>All {n} pairs</h2>
   </div>
-  <div class="col legend">
-    <span class="m">1760 mask copied as-is</span>
-    <span class="j">the same, aligned automatically</span>
-    <span class="v">39T mask redrawn by hand</span>
+  <div class="legend">
+    <span class="sw m">1760 mask copied as-is</span>
+    <span class="sw j">the same, aligned automatically</span>
+    <span class="sw v">39T mask redrawn by hand</span>
   </div>
-  <div class="cams">{gallery()}</div>
+  <div class="cams full">{gallery()}</div>
 </section>
 
-<footer>
-  <span>ARSI · tram anomaly detection · framing drift</span>
-  <span>Pipeline: tools/build_background_frames.py → tools/camera_alignment_report.py → tools/mask_shift_tolerance.py</span>
-  <span>Raw data: docs/camera_alignment/metrics.json and tolerance.json</span>
-</footer>
-
-</div>
+{foot("ARSI · tram anomaly detection · framing drift",
+      "Pipeline: tools/build_background_frames.py → tools/camera_alignment_report.py → tools/mask_shift_tolerance.py",
+      "Raw data: docs/camera_alignment/metrics.json and tolerance.json")}
 """
 
 
