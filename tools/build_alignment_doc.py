@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import base64
 import json
+import math
 from pathlib import Path
 
 import cv2
@@ -45,6 +46,8 @@ def num(v, n=1, signed=False):
 # --------------------------------------------------------------------------- #
 def build() -> str:
     n = len(ROWS)
+    # focal length behind the pixel -> degree conversion, from the assumed field
+    focal_px = (ROWS[0]["size"][0] / 2) / math.tan(math.radians(100.0 / 2))
     worst = max(ROWS, key=lambda r: r["shift_px"])
     best = min(ROWS, key=lambda r: r["shift_px"])
     max_rot = max(ROWS, key=lambda r: abs(r["rot_deg"]))
@@ -60,7 +63,7 @@ def build() -> str:
         ("39T-cam55", "The worst of the rear block",
          "143 px of offset, almost all of it pan. The copied mask leaves 14 % of the frame "
          "as unmasked glass and blacks out just as much useful interior."),
-        ("39T-cam52", "The largest gap we measured",
+        ("39T-cam52", "The largest gap measured",
          "164 px on the diagonal, and the only pair where the common field drops below 80 %. "
          "Its 39T mask was also cut much more finely, 52 zones against 20."),
         ("39T-cam50", "The one with the most roll",
@@ -287,6 +290,63 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
   body {{ font-size:16px; }}
   ol.steps li {{ grid-template-columns:1fr; gap:6px; }}
 }}
+
+/* --- paper ------------------------------------------------------------ */
+@page {{ size:A4; margin:16mm 14mm 15mm; }}
+@page :first {{ margin-top:13mm; }}
+@media print {{
+  /* the light palette, whatever the renderer's colour scheme */
+  :root {{
+    --ground:#FFFFFF; --surface:#FFFFFF; --sunk:#E3E7E6;
+    --ink:#111A1C; --ink-2:#3C4A4C; --ink-3:#6B7A7B;
+    --rule:#C2CBCA; --rule-2:#DDE3E2;
+    --accent:#12586F; --accent-soft:#DCEAEF;
+    --ok:#2C7A56; --warn:#9A6612; --crit:#A33A34;
+    --magenta:#A83694; --green:#2F8B4E;
+  }}
+  html, body {{ background:#FFFFFF; }}
+  body {{ font-size:9.7pt; line-height:1.52; padding:0;
+          -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
+  .wrap {{ max-width:none; }}
+  .col {{ max-width:none; }}
+
+  h1 {{ font-size:27pt; }}
+  h2 {{ font-size:15.5pt; }}
+  h3 {{ font-size:11pt; }}
+  header.masthead {{ padding:0 0 26px; }}
+  .masthead .lede {{ font-size:11.5pt; max-width:none; }}
+  .keys {{ grid-template-columns:repeat(3,1fr); margin-top:26px; }}
+  .key:last-child {{ grid-column:span 2; }}
+  section {{ padding-top:30px; gap:16px; }}
+
+  /* nothing orphaned from what introduces it */
+  h1, h2, h3 {{ break-after:avoid; }}
+  .sect-head, .cam__head {{ break-after:avoid; break-inside:avoid; }}
+  figure, .note, .case, .key, .legend, ol.steps li, ul.plain li, tr {{ break-inside:avoid; }}
+  figcaption {{ break-before:avoid; }}
+  p {{ orphans:3; widows:3; }}
+
+  /* the wide table has to fit the sheet, header repeated on every page */
+  .tablewrap {{ overflow:visible; }}
+  table {{ font-size:6.7pt; }}
+  caption {{ padding:10px 9px; font-size:6.9pt; }}
+  th, td {{ padding:4.2px 5px; }}
+  thead {{ display:table-header-group; }}
+
+  figure img {{ max-height:150mm; object-fit:contain; }}
+  figcaption {{ font-size:6.9pt; }}
+  /* smaller, so two teaching cases share a sheet */
+  .case figure img {{ max-height:76mm; }}
+
+  /* one camera per sheet */
+  .cam {{ break-before:page; break-inside:avoid; padding:0; border-top:none; gap:12px; }}
+  .cam:first-of-type {{ break-before:auto; }}
+  .cam figure img {{ max-height:112mm; }}
+  .cam__stats {{ grid-template-columns:repeat(6,1fr); }}
+  .cam__stats dt {{ min-height:3.1em; }}
+
+  footer {{ break-before:page; margin-top:0; }}
+}}
 </style>
 
 <div class="wrap">
@@ -433,8 +493,11 @@ footer {{ margin-top:60px; padding-top:22px; border-top:1px solid var(--rule);
   </div>
   <div class="col">
     <p><b>dx</b> and <b>dy</b>: how far the scene has moved within the frame, at the centre.
-    A positive dx means the scene drifts to the right. <b>Roll</b>: rotation of the camera about
-    its optical axis. <b>Common field</b>: share of the 1760 frame still visible in 39T.
+    A positive dx means the scene drifts to the right. <b>Gap</b>: the two as one distance,
+    √(dx² + dy²), how far a centre point travels between the two framings. It has no direction,
+    which is why the cameras are ranked by it. <b>Aim</b>: the same gap as a rotation,
+    arctan(gap / f) with f ≈ {focal_px:.0f} px from the assumed field; it leaves out the roll,
+    which moves nothing at the centre. <b>Roll</b>: rotation of the camera about its optical axis. <b>Common field</b>: share of the 1760 frame still visible in 39T.
     <b>Correlation</b>: how well the edges of the two images line up, with no correction applied
     → with the measured one applied. 0 means unrelated, 1 identical. The jump is what shows the
     transformation is real rather than noise.</p>
