@@ -1,0 +1,1359 @@
+{
+ "dataset": "ground_truth",
+ "references": {
+  "real": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+  "variant": "data/reference/tram_variant/tram_variant_reference.png",
+  "39T-cam52": "data/benchmark_39T/39T-cam52_08-55-37_t60.jpg",
+  "39T-cam53": "data/benchmark_39T/39T-cam53_08-55-37_t60.jpg",
+  "39T-cam54": "data/benchmark_39T/39T-cam54_08-55-37_t60.jpg",
+  "39T-cam55": "data/benchmark_39T/39T-cam55_08-55-37_t60.jpg"
+ },
+ "cases": [
+  {
+   "id": "real_f0037",
+   "image": "data/anomalies/tram_1762_v2_f0037_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "phone L seat, wallet R seat, bag near validator, backpack far-right",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      525,
+      420,
+      670,
+      505
+     ],
+     "note": "phone on left-mid seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      940,
+      405,
+      1060,
+      490
+     ],
+     "note": "wallet on right-mid seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator (far-left)"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      875,
+      0,
+      1040,
+      150
+     ],
+     "note": "backpack on far-right seat"
+    }
+   ]
+  },
+  {
+   "id": "real_f0053",
+   "image": "data/anomalies/tram_1762_v2_f0053_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "phone, wallet, bag on floor, bag near validator",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      525,
+      420,
+      670,
+      505
+     ],
+     "note": "phone on left-mid seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      940,
+      405,
+      1060,
+      490
+     ],
+     "note": "wallet on right-mid seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      775,
+      70,
+      915,
+      215
+     ],
+     "note": "backpack on the floor mid-back"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator"
+    }
+   ]
+  },
+  {
+   "id": "real_f0100",
+   "image": "data/anomalies/tram_1762_v2_f0100_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "phone L, wallet, bag on floor, bag near validator",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      285,
+      445,
+      390,
+      540
+     ],
+     "note": "phone on left seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      940,
+      405,
+      1060,
+      490
+     ],
+     "note": "wallet on right-mid seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      785,
+      80,
+      910,
+      210
+     ],
+     "note": "backpack on the floor mid-back"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator"
+    }
+   ]
+  },
+  {
+   "id": "real_f0112",
+   "image": "data/anomalies/tram_1762_v2_f0112_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "backpack on floor, phones on seats, bag near validator",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      798,
+      66,
+      915,
+      213
+     ],
+     "note": "backpack on the floor mid-back"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      290,
+      445,
+      390,
+      540
+     ],
+     "note": "phone on left seat"
+    },
+    {
+     "type": "object",
+     "label": "wallet on right foreground seat",
+     "bbox": [
+      1020,
+      650,
+      1120,
+      750
+     ],
+     "note": "phone on right foreground seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      535,
+      25,
+      695,
+      165
+     ],
+     "note": "bag near validator"
+    }
+   ]
+  },
+  {
+   "id": "real_f0205",
+   "image": "data/anomalies/tram_1762_v3_f0205_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "grey jacket draped over right-mid seat, backpack in front-left seat",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      1088,
+      132,
+      1384,
+      524
+     ],
+     "note": "jacket draped over right seats"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      36,
+      926,
+      294,
+      1080
+     ],
+     "note": "backpack in front-left seat"
+    }
+   ]
+  },
+  {
+   "id": "real_f0219",
+   "image": "data/anomalies/tram_1762_v3_f0219_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "jacket + backpack; a real seated person must be rejected",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      1082,
+      132,
+      1384,
+      528
+     ],
+     "note": "jacket draped over right seats"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      60,
+      930,
+      310,
+      1080
+     ],
+     "note": "backpack in front-left seat"
+    }
+   ]
+  },
+  {
+   "id": "gpt_01_suitcase",
+   "image": "data/anomalies/tram_anomalies_1.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "black suitcase standing in the aisle",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      700,
+      405,
+      925,
+      885
+     ],
+     "note": "suitcase in the aisle"
+    }
+   ]
+  },
+  {
+   "id": "gpt_02_multi",
+   "image": "data/anomalies/tram_anomalies_2.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "backpack, water bottle, paper bag, smartphone",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      445,
+      297,
+      655,
+      539
+     ],
+     "note": "backpack on left seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      950,
+      450,
+      1070,
+      535
+     ],
+     "note": "water bottle on right seat"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      792,
+      589,
+      969,
+      789
+     ],
+     "note": "paper shopping bag on floor"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      983,
+      695,
+      1085,
+      811
+     ],
+     "note": "smartphone"
+    }
+   ]
+  },
+  {
+   "id": "gpt_03_faint_tag",
+   "image": "data/anomalies/tram_anomalies_3.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "graffiti"
+   ],
+   "note": "faint 'XRP' tag on the right seat-pod side panel. GT-FIX 2026-07-12: the box previously pointed at the ventilation grille ~200px left of the tag - every 'XRP unreachable' probe measured the WRONG box. The multi-channel localizer boxes the tag at [1332,536,1412,628] and all judges name it 'XRP graffiti'.",
+   "instances": [
+    {
+     "type": "graffiti",
+     "label": "tag",
+     "bbox": [
+      1310,
+      515,
+      1435,
+      650
+     ],
+     "note": "faint XRP tag on right pod side panel"
+    }
+   ]
+  },
+  {
+   "id": "gpt_04_graffiti",
+   "image": "data/anomalies/tram_anomalies_4.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "graffiti"
+   ],
+   "note": "large multicolour graffiti covering the right-side wall",
+   "instances": [
+    {
+     "type": "graffiti",
+     "label": "graffiti",
+     "bbox": [
+      1268,
+      0,
+      1920,
+      920
+     ],
+     "note": "graffiti covering the whole right wall"
+    }
+   ]
+  },
+  {
+   "id": "gpt_05_slash",
+   "image": "data/anomalies/tram_anomalies_5.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "damage"
+   ],
+   "note": "slashed seat cushion on left-mid seat",
+   "instances": [
+    {
+     "type": "damage",
+     "label": "slashed cushion",
+     "bbox": [
+      524,
+      460,
+      630,
+      570
+     ],
+     "note": "slashed cushion on left-mid seat"
+    }
+   ]
+  },
+  {
+   "id": "gpt_07_multi",
+   "image": "data/anomalies/tram_anomalies_7.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "damage",
+    "graffiti",
+    "object"
+   ],
+   "note": "backpack, slashed seat, 'HOBO' tag, bottle",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      465,
+      295,
+      665,
+      565
+     ],
+     "note": "backpack on left seat"
+    },
+    {
+     "type": "damage",
+     "bbox": [
+      954,
+      460,
+      1082,
+      545
+     ],
+     "note": "slashed right-mid seat"
+    },
+    {
+     "type": "graffiti",
+     "label": "tag",
+     "bbox": [
+      1330,
+      460,
+      1460,
+      630
+     ],
+     "note": "HOBO tag on right pod"
+    },
+    {
+     "type": "object",
+     "label": "bottle on floor",
+     "bbox": [
+      720,
+      695,
+      800,
+      785
+     ],
+     "note": "bottle on floor (photometric diff below base thr; recovered by the low-threshold channel)"
+    }
+   ]
+  },
+  {
+   "id": "gpt_08_phone_tag",
+   "image": "data/anomalies/tram_anomalies_8.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "graffiti",
+    "object"
+   ],
+   "note": "smartphone on right-mid seat, 'ZORK' tag on right pod (tag recovered by the edge channel)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "wallet",
+     "bbox": [
+      1135,
+      405,
+      1225,
+      495
+     ],
+     "note": "smartphone on right-mid seat"
+    },
+    {
+     "type": "graffiti",
+     "label": "tag",
+     "bbox": [
+      1320,
+      500,
+      1440,
+      610
+     ],
+     "note": "ZORK tag on right pod"
+    }
+   ]
+  },
+  {
+   "id": "gpt_09_litter",
+   "image": "data/anomalies/tram_anomalies_9.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "litter"
+   ],
+   "note": "green can + scattered trash on the floor",
+   "instances": [
+    {
+     "type": "litter",
+     "label": "can + scattered trash on floor",
+     "bbox": [
+      715,
+      585,
+      915,
+      985
+     ],
+     "note": "can + scattered trash on floor (cluster)"
+    }
+   ]
+  },
+  {
+   "id": "gpt_10_litter",
+   "image": "data/anomalies/tram_anomalies_10.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "litter"
+   ],
+   "note": "can + crumpled paper on the floor",
+   "instances": [
+    {
+     "type": "litter",
+     "label": "can + trash",
+     "bbox": [
+      680,
+      200,
+      915,
+      350
+     ],
+     "note": "can + trash on floor mid-back (cluster)"
+    }
+   ]
+  },
+  {
+   "id": "gpt_11_crowd",
+   "image": "data/anomalies/tram_anomalies_11.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": true,
+   "types": [
+    "damage",
+    "graffiti",
+    "object"
+   ],
+   "note": "backpack, slashed seat, 'HOBO' tag, bottle; three real people must be rejected",
+   "instances": [
+    {
+     "type": "object",
+     "label": "backpack",
+     "bbox": [
+      430,
+      295,
+      695,
+      565
+     ],
+     "note": "backpack on left seat"
+    },
+    {
+     "type": "damage",
+     "bbox": [
+      895,
+      455,
+      1185,
+      545
+     ],
+     "note": "slashed right-mid seat"
+    },
+    {
+     "type": "graffiti",
+     "label": "tag",
+     "bbox": [
+      1325,
+      460,
+      1455,
+      630
+     ],
+     "note": "HOBO tag on right pod"
+    },
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      715,
+      715,
+      805,
+      795
+     ],
+     "note": "bottle on floor (low-threshold channel)"
+    }
+   ]
+  },
+  {
+   "id": "variant_01",
+   "image": "data/anomalies/tram_variant/tram_variant_anomalies.png",
+   "reference": "variant",
+   "source": "variant",
+   "has_anomaly": true,
+   "types": [
+    "damage",
+    "graffiti",
+    "object"
+   ],
+   "note": "backpack, 'KEPP' graffiti, torn seat, bottle (variant scene, own reference, 1672x941 space)",
+   "instances": [
+    {
+     "type": "object",
+     "bbox": [
+      250,
+      585,
+      475,
+      795
+     ],
+     "note": "backpack on left seat"
+    },
+    {
+     "type": "graffiti",
+     "bbox": [
+      1355,
+      310,
+      1535,
+      425
+     ],
+     "note": "KEPP graffiti on right panel"
+    },
+    {
+     "type": "damage",
+     "bbox": [
+      1315,
+      745,
+      1455,
+      865
+     ],
+     "note": "torn seat on right"
+    },
+    {
+     "type": "object",
+     "bbox": [
+      720,
+      330,
+      815,
+      390
+     ],
+     "note": "bottle on floor"
+    },
+    {
+     "type": "damage",
+     "label": "dirty seat",
+     "bbox": [
+      529,
+      701,
+      693,
+      836
+     ]
+    },
+    {
+     "type": "graffiti",
+     "label": "tag",
+     "bbox": [
+      585,
+      219,
+      669,
+      275
+     ]
+    },
+    {
+     "type": "damage",
+     "label": "torn seat",
+     "bbox": [
+      844,
+      147,
+      947,
+      223
+     ]
+    }
+   ]
+  },
+  {
+   "id": "neg_real_ref_self",
+   "image": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+   "reference": "real",
+   "source": "self",
+   "has_anomaly": false,
+   "types": [],
+   "note": "reference vs itself: must yield 0 anomalies",
+   "instances": []
+  },
+  {
+   "id": "neg_variant_ref_self",
+   "image": "data/reference/tram_variant/tram_variant_reference.png",
+   "reference": "variant",
+   "source": "self",
+   "has_anomaly": false,
+   "types": [],
+   "note": "variant reference vs itself: must yield 0",
+   "instances": []
+  },
+  {
+   "id": "neg_gpt_06_clean",
+   "image": "data/anomalies/tram_anomalies_6.png",
+   "reference": "real",
+   "source": "gpt",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean AI-generated frame: tests robustness to render artifacts",
+   "instances": []
+  },
+  {
+   "id": "neg_v1_f0151",
+   "image": "data/masked/tram_1762_v1_f0151_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, same session as the reference, camera-aligned",
+   "instances": []
+  },
+  {
+   "id": "neg_v1_f0181",
+   "image": "data/masked/tram_1762_v1_f0181_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, same session, aligned",
+   "instances": []
+  },
+  {
+   "id": "neg_v1_f0211",
+   "image": "data/masked/tram_1762_v1_f0211_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, same session, aligned",
+   "instances": []
+  },
+  {
+   "id": "neg_v1_f0241",
+   "image": "data/masked/tram_1762_v1_f0241_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, same session, aligned",
+   "instances": []
+  },
+  {
+   "id": "neg_v2_f0001_person",
+   "image": "data/masked/tram_1762_v2_f0001_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "CROSS-SESSION hard negative: one person walking through holding a phone and a card - nothing abandoned. Tests person rejection (filter + VLM); anything he wears/holds is NOT an anomaly.",
+   "instances": []
+  },
+  {
+   "id": "neg_v3_f0001",
+   "image": "data/masked/tram_1762_v3_f0001_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "CROSS-SESSION negative: empty tram, different lighting than the v1 reference (a faint motion-blur ghost on the centre floor).",
+   "instances": []
+  },
+  {
+   "id": "neg_v4_f0004",
+   "image": "data/masked/tram_1762_v4_f0004_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "CROSS-SESSION negative: empty tram, markedly DARKER exposure than the reference.",
+   "instances": []
+  },
+  {
+   "id": "neg_v4_f0016",
+   "image": "data/masked/tram_1762_v4_f0016_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "CROSS-SESSION negative: empty tram, brighter exposure; onboard display content differs from the reference (benign state change).",
+   "instances": []
+  },
+  {
+   "id": "neg_v4_f0022",
+   "image": "data/masked/tram_1762_v4_f0022_masked.jpg",
+   "reference": "real",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "CROSS-SESSION negative: empty tram, end of the v4 session.",
+   "instances": []
+  },
+  {
+   "id": "39T_cam52_084637",
+   "image": "data/benchmark_39T/39T-cam52_08-46-37_t60.jpg",
+   "reference": "39T-cam52",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam52, moment 08-46-37, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "bag",
+     "bbox": [
+      190,
+      660,
+      300,
+      720
+     ]
+    },
+    {
+     "type": "object",
+     "label": "plastic bag",
+     "bbox": [
+      525,
+      55,
+      580,
+      92
+     ]
+    },
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      667,
+      152,
+      728,
+      204
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam52_085124",
+   "image": "data/benchmark_39T/39T-cam52_08-51-24_t60.jpg",
+   "reference": "39T-cam52",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam52, moment 08-51-24, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "wallet",
+     "bbox": [
+      460,
+      398,
+      515,
+      440
+     ]
+    },
+    {
+     "type": "object",
+     "label": "bag",
+     "bbox": [
+      710,
+      188,
+      773,
+      263
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam53_083517",
+   "image": "data/benchmark_39T/39T-cam53_08-35-17_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam53, moment 08-35-17, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "jacket",
+     "bbox": [
+      157,
+      198,
+      274,
+      276
+     ]
+    },
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      869,
+      172,
+      948,
+      230
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam53_084021",
+   "image": "data/benchmark_39T/39T-cam53_08-40-21_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam53, moment 08-40-21, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "jacket",
+     "bbox": [
+      165,
+      198,
+      268,
+      272
+     ]
+    },
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      871,
+      174,
+      946,
+      224
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam53_084637",
+   "image": "data/benchmark_39T/39T-cam53_08-46-37_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam53, moment 08-46-37, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      172,
+      193,
+      235,
+      252
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam53_085124",
+   "image": "data/benchmark_39T/39T-cam53_08-51-24_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam53, moment 08-51-24, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "bag",
+     "bbox": [
+      443,
+      178,
+      492,
+      278
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam54_083517",
+   "image": "data/benchmark_39T/39T-cam54_08-35-17_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "litter"
+   ],
+   "note": "39T, cam54, moment 08-35-17, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "litter",
+     "label": "plastic bag",
+     "bbox": [
+      125,
+      600,
+      260,
+      700
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam54_084021",
+   "image": "data/benchmark_39T/39T-cam54_08-40-21_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "litter"
+   ],
+   "note": "39T, cam54, moment 08-40-21, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "litter",
+     "label": "plastic bag",
+     "bbox": [
+      128,
+      598,
+      278,
+      698
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam54_084637",
+   "image": "data/benchmark_39T/39T-cam54_08-46-37_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam54, moment 08-46-37, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "plastic bag",
+     "bbox": [
+      208,
+      122,
+      340,
+      182
+     ]
+    },
+    {
+     "type": "object",
+     "label": "laptop",
+     "bbox": [
+      0,
+      284,
+      120,
+      378
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam54_085124",
+   "image": "data/benchmark_39T/39T-cam54_08-51-24_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "litter",
+    "object"
+   ],
+   "note": "39T, cam54, moment 08-51-24, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "laptop",
+     "bbox": [
+      200,
+      145,
+      340,
+      210
+     ]
+    },
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      80,
+      260,
+      150,
+      315
+     ]
+    },
+    {
+     "type": "litter",
+     "label": "plastic bag",
+     "bbox": [
+      420,
+      600,
+      590,
+      710
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam55_083517",
+   "image": "data/benchmark_39T/39T-cam55_08-35-17_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "litter",
+    "object"
+   ],
+   "note": "39T, cam55, moment 08-35-17, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "laptop",
+     "bbox": [
+      412,
+      190,
+      520,
+      300
+     ]
+    },
+    {
+     "type": "litter",
+     "label": "plastic bag",
+     "bbox": [
+      365,
+      580,
+      480,
+      705
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam55_084021",
+   "image": "data/benchmark_39T/39T-cam55_08-40-21_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "litter",
+    "object"
+   ],
+   "note": "39T, cam55, moment 08-40-21, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "laptop",
+     "bbox": [
+      418,
+      188,
+      516,
+      302
+     ]
+    },
+    {
+     "type": "litter",
+     "label": "plastic bag",
+     "bbox": [
+      363,
+      578,
+      480,
+      706
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam55_084637",
+   "image": "data/benchmark_39T/39T-cam55_08-46-37_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam55, moment 08-46-37, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "laptop",
+     "bbox": [
+      443,
+      273,
+      580,
+      348
+     ]
+    },
+    {
+     "type": "object",
+     "label": "plastic bag",
+     "bbox": [
+      838,
+      250,
+      975,
+      378
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam55_085124",
+   "image": "data/benchmark_39T/39T-cam55_08-51-24_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": true,
+   "types": [
+    "object"
+   ],
+   "note": "39T, cam55, moment 08-51-24, t=60s (tram circulating)",
+   "instances": [
+    {
+     "type": "object",
+     "label": "bottle",
+     "bbox": [
+      545,
+      272,
+      610,
+      398
+     ]
+    },
+    {
+     "type": "object",
+     "label": "laptop",
+     "bbox": [
+      805,
+      288,
+      955,
+      362
+     ]
+    }
+   ]
+  },
+  {
+   "id": "39T_cam53_085954_clean",
+   "image": "data/benchmark_39T/39T-cam53_08-59-54_t60.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, a DIFFERENT run of the line than the reference",
+   "instances": []
+  },
+  {
+   "id": "39T_cam54_085954_clean",
+   "image": "data/benchmark_39T/39T-cam54_08-59-54_t60.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, a DIFFERENT run of the line than the reference",
+   "instances": []
+  },
+  {
+   "id": "39T_cam55_085954_clean",
+   "image": "data/benchmark_39T/39T-cam55_08-59-54_t60.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, a DIFFERENT run of the line than the reference",
+   "instances": []
+  },
+  {
+   "id": "39T_cam52_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam52_08-55-37_t120.jpg",
+   "reference": "39T-cam52",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "instances": []
+  },
+  {
+   "id": "39T_cam53_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam53_08-55-37_t120.jpg",
+   "reference": "39T-cam53",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "instances": []
+  },
+  {
+   "id": "39T_cam54_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam54_08-55-37_t120.jpg",
+   "reference": "39T-cam54",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "instances": []
+  },
+  {
+   "id": "39T_cam55_ref_t120_clean",
+   "image": "data/benchmark_39T/39T-cam55_08-55-37_t120.jpg",
+   "reference": "39T-cam55",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "clean, SAME run as the reference, 60s later - the cheapest possible negative",
+   "instances": []
+  }
+ ]
+}

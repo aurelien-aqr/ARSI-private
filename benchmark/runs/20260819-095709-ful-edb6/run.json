@@ -1,0 +1,25 @@
+{
+ "run_id": "20260819-095709-ful-edb6",
+ "dataset": "1760_negatives",
+ "digest": "6f96fd019855",
+ "created": "2026-08-19T07:57:09+00:00",
+ "status": "completed",
+ "job_id": "20260819-095709-3b946d",
+ "progress": {
+  "done": 18,
+  "total": 18
+ },
+ "wall_seconds": 136.53,
+ "config": {
+  "mode": "full",
+  "script": "vlm_05",
+  "localizer": "photo",
+  "model": "haervwe/GLM-4.6V-Flash-9B:latest",
+  "prompt": null,
+  "prompt_name": "conservative",
+  "n_cases": 18,
+  "subset": false
+ },
+ "params": {},
+ "frozen": true
+}

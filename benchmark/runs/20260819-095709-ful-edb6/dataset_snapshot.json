@@ -1,0 +1,190 @@
+{
+ "dataset": "1760_negatives",
+ "references": {
+  "1760-cam04": "data/benchmark_1760/1760-cam04_t070.jpg",
+  "1760-cam13": "data/benchmark_1760/1760-cam13_t070.jpg",
+  "1760-cam06": "data/benchmark_1760/1760-cam06_t070.jpg"
+ },
+ "cases": [
+  {
+   "id": "1760_cam04_t120",
+   "image": "data/benchmark_1760/1760-cam04_t120.jpg",
+   "reference": "1760-cam04",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 50 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam04_t220",
+   "image": "data/benchmark_1760/1760-cam04_t220.jpg",
+   "reference": "1760-cam04",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 150 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam04_t320",
+   "image": "data/benchmark_1760/1760-cam04_t320.jpg",
+   "reference": "1760-cam04",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 250 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam04_t420",
+   "image": "data/benchmark_1760/1760-cam04_t420.jpg",
+   "reference": "1760-cam04",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 350 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam04_t520",
+   "image": "data/benchmark_1760/1760-cam04_t520.jpg",
+   "reference": "1760-cam04",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 450 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam04_t570",
+   "image": "data/benchmark_1760/1760-cam04_t570.jpg",
+   "reference": "1760-cam04",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 500 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam13_t120",
+   "image": "data/benchmark_1760/1760-cam13_t120.jpg",
+   "reference": "1760-cam13",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 50 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam13_t220",
+   "image": "data/benchmark_1760/1760-cam13_t220.jpg",
+   "reference": "1760-cam13",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 150 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam13_t320",
+   "image": "data/benchmark_1760/1760-cam13_t320.jpg",
+   "reference": "1760-cam13",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 250 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam13_t420",
+   "image": "data/benchmark_1760/1760-cam13_t420.jpg",
+   "reference": "1760-cam13",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 350 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam13_t520",
+   "image": "data/benchmark_1760/1760-cam13_t520.jpg",
+   "reference": "1760-cam13",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 450 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam13_t570",
+   "image": "data/benchmark_1760/1760-cam13_t570.jpg",
+   "reference": "1760-cam13",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 500 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam06_t120",
+   "image": "data/benchmark_1760/1760-cam06_t120.jpg",
+   "reference": "1760-cam06",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 50 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam06_t220",
+   "image": "data/benchmark_1760/1760-cam06_t220.jpg",
+   "reference": "1760-cam06",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 150 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam06_t320",
+   "image": "data/benchmark_1760/1760-cam06_t320.jpg",
+   "reference": "1760-cam06",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 250 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam06_t420",
+   "image": "data/benchmark_1760/1760-cam06_t420.jpg",
+   "reference": "1760-cam06",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 350 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam06_t520",
+   "image": "data/benchmark_1760/1760-cam06_t520.jpg",
+   "reference": "1760-cam06",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 450 s after the reference frame",
+   "instances": []
+  },
+  {
+   "id": "1760_cam06_t570",
+   "image": "data/benchmark_1760/1760-cam06_t570.jpg",
+   "reference": "1760-cam06",
+   "source": "real",
+   "has_anomaly": false,
+   "types": [],
+   "note": "empty tram, 500 s after the reference frame",
+   "instances": []
+  }
+ ]
+}

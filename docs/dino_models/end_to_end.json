@@ -1,0 +1,162 @@
+[
+  {
+    "spec": "shipped",
+    "label": "Pixel diff",
+    "cases": 68,
+    "regions": 1192,
+    "frame_f1": 0.9310344827586207,
+    "frame_recall": 0.8709677419354839,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.7534246575342466,
+    "obj_recall_strict": 0.5342465753424658,
+    "obj_precision": 0.6938775510204082,
+    "inst_detected": 55,
+    "inst_total": 73,
+    "per_source": {
+      "self": {
+        "cases": 2,
+        "inst_total": 0,
+        "inst_detected": 0,
+        "fp_regions": 0
+      },
+      "real": {
+        "cases": 54,
+        "inst_total": 46,
+        "inst_detected": 29,
+        "fp_regions": 16
+      },
+      "gpt": {
+        "cases": 11,
+        "inst_total": 20,
+        "inst_detected": 20,
+        "fp_regions": 10
+      },
+      "variant": {
+        "cases": 1,
+        "inst_total": 7,
+        "inst_detected": 6,
+        "fp_regions": 4
+      }
+    }
+  },
+  {
+    "spec": "gate0.08",
+    "label": "Pixel diff + AnomalyDINO gate",
+    "cases": 68,
+    "regions": 727,
+    "frame_f1": 0.9310344827586207,
+    "frame_recall": 0.8709677419354839,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.7534246575342466,
+    "obj_recall_strict": 0.5342465753424658,
+    "obj_precision": 0.7727272727272727,
+    "inst_detected": 55,
+    "inst_total": 73,
+    "per_source": {
+      "self": {
+        "cases": 2,
+        "inst_total": 0,
+        "inst_detected": 0,
+        "fp_regions": 0
+      },
+      "real": {
+        "cases": 54,
+        "inst_total": 46,
+        "inst_detected": 29,
+        "fp_regions": 11
+      },
+      "gpt": {
+        "cases": 11,
+        "inst_total": 20,
+        "inst_detected": 20,
+        "fp_regions": 6
+      },
+      "variant": {
+        "cases": 1,
+        "inst_total": 7,
+        "inst_detected": 6,
+        "fp_regions": 3
+      }
+    }
+  },
+  {
+    "spec": "dino4@0.08",
+    "label": "AnomalyDINO alone",
+    "cases": 68,
+    "regions": 1228,
+    "frame_f1": 0.9836065573770492,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.7534246575342466,
+    "obj_recall_strict": 0.6301369863013698,
+    "obj_precision": 0.8955223880597015,
+    "inst_detected": 55,
+    "inst_total": 73,
+    "per_source": {
+      "self": {
+        "cases": 2,
+        "inst_total": 0,
+        "inst_detected": 0,
+        "fp_regions": 0
+      },
+      "real": {
+        "cases": 54,
+        "inst_total": 46,
+        "inst_detected": 29,
+        "fp_regions": 3
+      },
+      "gpt": {
+        "cases": 11,
+        "inst_total": 20,
+        "inst_detected": 20,
+        "fp_regions": 4
+      },
+      "variant": {
+        "cases": 1,
+        "inst_total": 7,
+        "inst_detected": 6,
+        "fp_regions": 0
+      }
+    }
+  },
+  {
+    "spec": "ddgate0.05",
+    "label": "AnomalyDINO + Dinomaly veto",
+    "cases": 68,
+    "regions": 654,
+    "frame_f1": 0.9836065573770492,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.7534246575342466,
+    "obj_recall_strict": 0.6301369863013698,
+    "obj_precision": 0.8955223880597015,
+    "inst_detected": 55,
+    "inst_total": 73,
+    "per_source": {
+      "self": {
+        "cases": 2,
+        "inst_total": 0,
+        "inst_detected": 0,
+        "fp_regions": 0
+      },
+      "real": {
+        "cases": 54,
+        "inst_total": 46,
+        "inst_detected": 29,
+        "fp_regions": 3
+      },
+      "gpt": {
+        "cases": 11,
+        "inst_total": 20,
+        "inst_detected": 20,
+        "fp_regions": 4
+      },
+      "variant": {
+        "cases": 1,
+        "inst_total": 7,
+        "inst_detected": 6,
+        "fp_regions": 0
+      }
+    }
+  }
+]

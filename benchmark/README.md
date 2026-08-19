@@ -303,6 +303,151 @@ Reports: `archive/report_gateshipped.md`, `archive/report_gate0.06/0.08/0.1/0.12
 Regression check without the VLM: `python benchmark/eval_localization.py
 --variants shipped,gate0.12,dino4@0.10`.
 
+## Does a better box become a better verdict? - ANSWERED 2026-08-19 (with the judge)
+
+The comparison below is localization only, so it bounds what the judge can do
+without saying what it does. Four localizers re-run end to end on the same 68
+cases through `haervwe/GLM-4.6V-Flash-9B` x conservative, via
+`tools/rescore_localizer.py`:
+
+| | regions judged | frame F1 | frame recall | frame spec. | instances kept | boxed strictly | region precision |
+|---|---|---|---|---|---|---|---|
+| `shipped` | 1192 | 0.931 | 0.871 | 1.000 | 55/73 | 0.534 | 0.694 |
+| `gate0.08` | 727 | 0.931 | 0.871 | 1.000 | 55/73 | 0.534 | 0.773 |
+| `dino4@0.08` | 1228 | **0.984** | **0.968** | 1.000 | 55/73 | **0.630** | **0.896** |
+| `ddgate0.05` | **654** | **0.984** | **0.968** | 1.000 | 55/73 | **0.630** | **0.896** |
+
+**Object recall does not move.** 55/73 under every localizer, the pixel diff
+included. AnomalyDINO localizes four instances the pixel diff misses (69/73 vs
+65/73) and the judge rejects all four anyway. Better boxes do NOT buy recall -
+that was the tempting reading of the localization table and it is wrong.
+
+**Everything else moves.** Frame F1 0.931 -> 0.984, which is entirely frame
+recall (0.871 -> 0.968; specificity is 1.000 in all four arms, so nothing is
+traded for false alarms). Kept-but-wrong regions fall 30 -> 7, region precision
+0.694 -> 0.896. And the instances that ARE found are properly boxed far more
+often: 0.534 -> 0.630. The localization gain survives the judge as PRECISION and
+BOX QUALITY.
+
+**`ddgate0.05` is identical to `dino4@0.08` on every judge metric for 47 % fewer
+calls** - and fewer calls than `gate0.08`, the previously recommended
+configuration, at much better quality. Its 0 fresh VLM calls in that run is also
+the proof that it is a strict subset of AnomalyDINO's boxes; `gate0.08` needed 0
+fresh calls over `shipped` for the same reason.
+
+**Consequence:** the `recommended` badge in `arsi_core/localizers.py` moved from
+`photo+dino` to `dino` (a registry entry; `ddgate` is not one, it needs a
+checkpoint per camera). The trade is +69 % VLM calls for +0.097 frame recall and
++0.123 region precision - revert the badge if judge cost, not miss rate, binds.
+
+Caveats: one judge, four of the eight variants, and the same nominal-footage
+limits as the section below. Reproduce:
+
+    venv/bin/python tools/rescore_localizer.py --localizer shipped     --refs all
+    venv/bin/python tools/rescore_localizer.py --localizer gate0.08    --refs all
+    venv/bin/python tools/rescore_localizer.py --localizer dino4@0.08  --refs all
+    venv/bin/python tools/rescore_localizer.py --localizer ddgate0.05  --refs all
+    venv/bin/python tools/collect_e2e.py shipped:"Pixel diff" \
+        gate0.08:"Pixel diff + AnomalyDINO gate" dino4@0.08:"AnomalyDINO alone" \
+        ddgate0.05:"AnomalyDINO + Dinomaly veto"
+
+## Three localizer families on THREE trams - ANSWERED 2026-08-19 (0 VLM calls)
+
+Every section below this one was measured on a single camera of tram 1762. This
+one re-runs the same six variants on the whole 68-case dataset (73 instances,
+3 trams, 9 reference views) with per-camera Dinomaly checkpoints, and it
+**reverses the standalone-AnomalyDINO verdict**.
+
+The pixel diff proposes in the first block, features propose in the second -
+that split, not the choice of veto, is what the strict-IoU column follows.
+
+| | localized | strict IoU>=0.3 | regions to the VLM | biggest box |
+|---|---|---|---|---|
+| `shipped` (`photo`) | 65/73 | 42/73 | 1192 | 911,360 px |
+| `gate0.08` (`photo+dino`) | 65/73 | 42/73 | 727 | 911,360 px |
+| `dgate0.05` (Dinomaly veto) | 65/73 | 42/73 | 699 | 911,360 px |
+| `bgate0.08+0.05` (both vetoes) | 65/73 | 42/73 | 546 | 911,360 px |
+| `dino4@0.08` (AnomalyDINO alone) | **69/73** | **58/73** | 1228 | **239,360 px** |
+| `dinomaly4@0.07` (Dinomaly alone) | 62/73 | 48/73 | 813 | 582,400 px |
+| `dpgate10` (AnomalyDINO + photometric veto) | **69/73** | **58/73** | 1035 | **239,360 px** |
+| **`ddgate0.05` (AnomalyDINO + Dinomaly veto)** | **69/73** | **58/73** | **654** | **239,360 px** |
+
+Per tram, which is where the averages stop hiding it:
+
+| strict IoU (regions) | tram_1762 | 39T | 1760 (clean only, regions) |
+|---|---|---|---|
+| `shipped` | 37/47 (559) | **5/26** (266) | 367 |
+| `gate0.08` | 37/47 (243) | **5/26** (243) | 241 |
+| `bgate0.08+0.05` | 37/47 (210) | **5/26** (204) | 132 |
+| `dino4@0.08` | 39/47 (533) | **19/26** (319) | 376 |
+| `dinomaly4@0.07` | 29/47 (465) | 19/26 (218) | 130 |
+| **`ddgate0.05`** | **39/47 (305)** | **19/26 (217)** | **132** |
+
+**The pixel diff draws unusable boxes on 39T.** Lenient recall barely moves
+(19/26 against AnomalyDINO's 24/26) but strict IoU collapses to 5/26: it finds
+the right area and boxes far too much of the frame. Its worst box is 911,360 px
+of a 1280x720 frame - 98.9 % of the image - against 93,312 px for AnomalyDINO on
+the same 21 cases. This is the same failure the 2026-08-17 benchmark saw as
+"object recall 0.500 on 39T, and the cause is box size, not the judge", and
+tiling was the mitigation; the feature localizer does not have the problem.
+
+**No gate can fix it.** All three variants that gate the PIXEL DIFF score
+exactly 42/73, identical to the ungated pixel diff, because a veto only ever
+deletes a region. Gating is a cost lever (1192 -> 546 regions, -54 %) and
+nothing else - so the question is not which veto, it is who proposes.
+
+**The winner is AnomalyDINO proposing and Dinomaly vetoing** (`ddgate0.05`):
+58/73 strict, the best of any configuration, for 654 regions - 47 % fewer than
+AnomalyDINO alone and only 20 % more than the cheapest variant, which boxes
+42/73. The two feature signals rest on different null hypotheses (one compares
+the frame to a reference, the other to a model of the scene), so their false
+positives differ. **This is not a leakage artefact**: on tram_1762, the one
+camera whose nominal model is properly held out, it cuts 533 -> 305 regions
+(-43 %) at the same 39/47 boxes. Demoting the photometric diff to a veto
+(`dpgate10`) is the free version: -16 % at the same 58/73, no model at all.
+Raising that threshold trades graffiti for cost - `dpgate20` loses one graffiti
+instance and `dpgate30` three, their in-box amplitude being far below
+DIFF_THRESHOLD, which is exactly why the shipped edge channel exists.
+
+**Dinomaly: the cost objection is dead, the quality objection is not.** With CUDA
+support in `tools/dinomaly.py` the per-camera cost went from 56 min of laptop CPU
+to 1 min 42 on the RTX 3080 Ti (feature encoding 7 min 30 -> 26 s, 40 epochs
+48 min -> 76 s), so the 26-camera fleet is ~45 minutes rather than ~24 hours. The
+port is measured, not assumed: `dgate0.05` on the 27 `real` cases returns
+40/40, 32/40, 191/99 regions and a 734,400 px biggest box on laptop CPU before
+the patch, on laptop CPU after it, and on the GPU. But it still boxes 48/73
+against AnomalyDINO's 58/73, and it costs 59 MB of state per camera.
+
+Training data for the new cameras is built by `tools/build_nominal_frames.py`
+(1147 frames over 7 cameras, benchmark holdout +-15 s, YOLOv8n person filter
+which dropped 18 % of the 39T candidates). **Read that file's header before
+quoting a 1760 or 39T negative**: 1760 has one run per camera so it is
+within-session only, and 39T has no leak-free nominal pool, so its 7 negatives
+come from the two sessions the model trained on. The 14 anomalous 39T cases are
+genuinely out-of-session and carry the result above.
+
+**Where this leaves Dinomaly.** Its August rejection was right for the two roles
+it was tested in - as a proposer (48/73) and as a gate over pixel-diff boxes
+(42/73, like every other veto there). Neither was the role that suited it. As a
+gate over AnomalyDINO's boxes it earns its 59 MB, and the GPU makes the per-camera
+training affordable enough to pay for it.
+
+Still not run: the end-to-end effect. Everything here is 0 VLM calls, so whether
+better boxes become better verdicts is untested - and that, not the localizer, is
+what tiling (`benchmark/rtx_jobs/TILING.md`) was measuring.
+
+Reproduce:
+
+    venv/bin/python tools/build_nominal_frames.py --family 39T
+    venv/bin/python tools/build_nominal_frames.py --family 1760
+    for c in 1760-cam04 1760-cam06 1760-cam13 39T-cam52 39T-cam53 39T-cam54 39T-cam55; do
+      venv/bin/python tools/dinomaly_train.py --camera $c --epochs 40; done
+    venv/bin/python benchmark/eval_localization.py --quiet \
+      --json docs/dino_models/metrics.json \
+      --variants shipped,gate0.08,dino4@0.08,dgate0.05,dinomaly4@0.07,\
+bgate0.08+0.05,dpgate10,ddgate0.05
+    venv/bin/python tools/build_dino_doc.py
+
 ## Dinomaly, reference-free - ANSWERED 2026-08-16 (localization only, 0 VLM calls)
 
 The other half of the anomalib question. `photo` and `photo+dino` both compare

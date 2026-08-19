@@ -19,9 +19,49 @@ benchmark/README.md "DINOv2 feature gate"):
     photo+dino             45/45    37/45      0.815              243
     dino (z4, floor .08)   44/45    36/45        n/a              533
 
-DEFAULT stays "photo": it is what every job in the history and every published
-benchmark number was run with, and switching the default would silently change
-what a re-run means. "photo+dino" carries the recommended badge instead.
+THAT TABLE IS ONE CAMERA. Re-measured 2026-08-19 on all 68 cases (3 trams,
+9 views, benchmark/README.md "Three localizer families on THREE trams"), the
+ranking inverts, and it inverts on the column the table above cannot see:
+
+                       instances   strict     regions sent
+                       localized      IoU       to the VLM
+    photo                  65/73    42/73             1192
+    photo+dino             65/73    42/73              727
+    dino (z4, floor .08)   69/73    58/73             1228
+
+On tram 39T the pixel diff scores 5/26 strict against "dino"'s 19/26 - it boxes
+almost the whole frame - and no gate can repair that, because a gate deletes
+regions and never redraws one. "photo+dino" remains the right pick on the 1762
+camera and is a pure cost lever everywhere; "dino" is the quality pick on the
+fleet cameras, at no region saving.
+
+Run END TO END through the shipped judge (GLM-4.6V-Flash-9B x conservative) on
+the same 68 cases, 2026-08-19:
+
+                       regions   frame F1   frame recall   region precision
+    photo                 1192      0.931          0.871              0.694
+    photo+dino             727      0.931          0.871              0.773
+    dino                  1228      0.984          0.968              0.896
+
+Object recall is 55/73 in ALL THREE - better boxes do not make the judge find
+more instances. What they change is everything else: three more anomalous frames
+flagged, and kept-but-wrong regions down from 30 to 7. Frame specificity is
+1.000 throughout, so no arm trades false alarms for this.
+
+THE RECOMMENDED BADGE THEREFORE MOVED to "dino" on 2026-08-19. It is a measured
+trade, not a preference: +69 % VLM calls for +0.097 frame recall and +0.123
+region precision. Revert by moving `recommended` back to "photo+dino" if judge
+cost, not miss rate, is the binding constraint on a deployment.
+
+DEFAULT stays "photo" regardless: it is what every job in the history and every
+published benchmark number was run with, and switching the default would
+silently change what a re-run means.
+
+Better still, and NOT in this registry: AnomalyDINO proposing with a per-camera
+Dinomaly model vetoing (`ddgate0.05`) reaches the same 0.984 / 0.896 for 654
+regions - fewer than photo+dino. It needs a trained checkpoint per camera, so it
+stays a tools/ experiment until the nominal-footage protocol is solid on more
+than one camera. See docs/dino_models/.
 
 Importing this module must stay cheap: torch is imported only when a DINOv2
 localizer is actually selected. The dependency direction (arsi_core -> tools/)
@@ -41,9 +81,11 @@ LOCALIZERS = {
         "summary": "The shipped change detector: photometric difference against "
                    "the clean reference at two thresholds plus an added-edge "
                    "channel, person veto, salience cap, merge.",
-        "measured": "Localizes all 45 benchmark instances. Its noise is purely "
-                    "photometric: a cross-session empty frame still yields 15-37 "
-                    "candidate regions from lighting and white balance alone.",
+        "measured": "Localizes all 45 instances of the 1762 benchmark, but on "
+                    "the full 68-case set it boxes only 42/73 at strict IoU, and "
+                    "5/26 on 39T where its worst box covers 98.9% of the frame. "
+                    "Its noise is purely photometric: a cross-session empty frame "
+                    "still yields 15-37 candidate regions from lighting alone.",
         "needs": [],
     },
     "photo+dino": {
@@ -53,21 +95,27 @@ LOCALIZERS = {
                    "shift on an empty seat looks identical to the features.",
         "measured": "Same 45/45 instances and the same box quality as the pixel "
                     "diff, with region precision 0.730 -> 0.815 and 57% fewer "
-                    "VLM calls (559 -> 243 on the benchmark). Recommended.",
+                    "VLM calls (559 -> 243) on the 1762 benchmark. Across all 68 "
+                    "cases it is a pure cost lever: 42/73 strict IoU, exactly the "
+                    "ungated pixel diff, because a veto never redraws a box.",
         "needs": ["torch"],
-        "recommended": True,
     },
     "dino": {
         "name": "DINOv2 features only (AnomalyDINO)",
         "summary": "No pixel comparison at all: each patch is scored by cosine "
                    "distance to the nominal reference patch at the same grid "
                    "position (AnomalyDINO, WACV 2025, specialised for a fixed "
-                   "camera).",
-        "measured": "Halves the region count on cross-session frames (105 -> 52) "
-                    "where exposure differs, but boxes are quantised to the 24 px "
-                    "patch grid, so strict-IoU box quality drops (37/45 -> 32/45). "
-                    "Use it to see the feature signal on its own.",
+                   "camera). The most accurate boxes once more than one camera "
+                   "is scored, at no saving in VLM calls.",
+        "measured": "Loses on the 1762 camera alone (strict IoU 32/45 vs 37/45, "
+                    "patch-grid boxes) and WINS across the fleet: 58/73 strict "
+                    "against the pixel diff's 42/73 on the 68-case set, and 19/26 "
+                    "against 5/26 on 39T. It sends no fewer regions to the VLM "
+                    "(1228 vs 1192), so it buys box quality, not cost. End to "
+                    "end it lifts frame F1 0.931 -> 0.984 and region precision "
+                    "0.694 -> 0.896 at unchanged object recall (55/73).",
         "needs": ["torch"],
+        "recommended": True,
     },
 }
 

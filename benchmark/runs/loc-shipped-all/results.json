@@ -1,0 +1,2575 @@
+{
+  "generated": 1787137432.307029,
+  "prompt": "You are shown the SAME spot in a tram twice, side by side:\n- LEFT half  = the clean reference (normal, empty, undamaged tram).\n- RIGHT half = the same spot now.\n\nReport ONLY a clear new ANOMALY that is present on the RIGHT and absent on the\nLEFT. An anomaly is one of:\n- a forgotten object (bag, backpack, phone, wallet, bottle, package),\n- litter left behind (can, bottle, wrapper, paper, food),\n- graffiti: painted letters, a tag or a scribble on a surface,\n- damage / vandalism: a torn or slashed seat, a broken part.\n\nAnswer NO (it is NOT an anomaly) if ANY of these hold:\n- the RIGHT shows the SAME empty seat, floor, wall, pole or panel as the LEFT and\n  only the brightness, shadow, reflection or colour differs,\n- the difference is a person, or anything a person is wearing, holding or sitting\n  on,\n- it is a scratch, glare or reflection on metal or glass (these are NOT graffiti).\n\nBe conservative: answer YES only if you can clearly SEE and NAME a specific new\nobject, marking or damage. If you are unsure, answer NO.\n\nReply with YES or NO, then name what appeared in 2-4 words.",
+  "model": "haervwe/GLM-4.6V-Flash-9B:latest",
+  "rows": [
+    {
+      "id": "neg_real_ref_self",
+      "reference": "real",
+      "image": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
+      "source": "self",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 0,
+      "n_classified": 0,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 0,
+        "second": 0,
+        "edge": 0,
+        "total": 0,
+        "capped": false,
+        "before_merge": 0,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 2.1
+    },
+    {
+      "id": "neg_variant_ref_self",
+      "reference": "variant",
+      "image": "data/reference/tram_variant/tram_variant_reference.png",
+      "source": "self",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 0,
+      "n_classified": 0,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 0,
+        "second": 0,
+        "edge": 0,
+        "total": 0,
+        "capped": false,
+        "before_merge": 0,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.3
+    },
+    {
+      "id": "neg_v1_f0211",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0211_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 6,
+      "n_classified": 6,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 2,
+        "second": 1,
+        "edge": 4,
+        "total": 6,
+        "capped": false,
+        "before_merge": 7,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.3
+    },
+    {
+      "id": "neg_v1_f0241",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0241_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 3,
+        "second": 1,
+        "edge": 4,
+        "total": 8,
+        "capped": false,
+        "before_merge": 8,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.3
+    },
+    {
+      "id": "neg_v1_f0151",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0151_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 12,
+      "n_classified": 12,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 4,
+        "second": 5,
+        "edge": 4,
+        "total": 12,
+        "capped": false,
+        "before_merge": 13,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.3
+    },
+    {
+      "id": "neg_v1_f0181",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v1_f0181_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 4,
+        "second": 0,
+        "edge": 4,
+        "total": 8,
+        "capped": false,
+        "before_merge": 8,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.3
+    },
+    {
+      "id": "39T_cam55_085124",
+      "reference": "39T-cam55",
+      "image": "data/benchmark_39T/39T-cam55_08-51-24_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 10,
+      "n_classified": 10,
+      "n_kept": 1,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 4,
+        "second": 3,
+        "edge": 4,
+        "total": 10,
+        "capped": false,
+        "before_merge": 11,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a green bottle"
+      ],
+      "instances_total": 2,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          1,
+          2
+        ]
+      },
+      "case_seconds": 6.6
+    },
+    {
+      "id": "39T_cam53_083517",
+      "reference": "39T-cam53",
+      "image": "data/benchmark_39T/39T-cam53_08-35-17_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 11,
+      "n_classified": 11,
+      "n_kept": 2,
+      "localizer": {
+        "persons": 1,
+        "person_veto": 2,
+        "base": 5,
+        "second": 3,
+        "edge": 4,
+        "total": 11,
+        "capped": false,
+        "before_merge": 12,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "yellow bag on seat",
+        "a yellow bag on the seat"
+      ],
+      "instances_total": 2,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          1,
+          2
+        ]
+      },
+      "case_seconds": 7.6
+    },
+    {
+      "id": "39T_cam54_ref_t120_clean",
+      "reference": "39T-cam54",
+      "image": "data/benchmark_39T/39T-cam54_08-55-37_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 10,
+      "n_classified": 10,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 5,
+        "second": 1,
+        "edge": 4,
+        "total": 10,
+        "capped": false,
+        "before_merge": 10,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 6.8
+    },
+    {
+      "id": "gpt_05_slash",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_5.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "damage"
+      ],
+      "n_regions": 16,
+      "n_classified": 16,
+      "n_kept": 1,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 6,
+        "second": 8,
+        "edge": 4,
+        "total": 16,
+        "capped": false,
+        "before_merge": 18,
+        "merged_away": 2,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "torn seat"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 1,
+      "fp_regions": 0,
+      "type_detect": {
+        "damage": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "39T_cam54_085124",
+      "reference": "39T-cam54",
+      "image": "data/benchmark_39T/39T-cam54_08-51-24_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "litter",
+        "object"
+      ],
+      "n_regions": 12,
+      "n_classified": 12,
+      "n_kept": 4,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 6,
+        "second": 2,
+        "edge": 4,
+        "total": 12,
+        "capped": false,
+        "before_merge": 12,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a crumpled bag with green items",
+        "litter (trash bag)",
+        "green bottle",
+        "a bag and food wrapper"
+      ],
+      "instances_total": 3,
+      "instances_detected": 1,
+      "instances_detected_strict": 1,
+      "fp_regions": 3,
+      "type_detect": {
+        "object": [
+          0,
+          2
+        ],
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 8.4
+    },
+    {
+      "id": "neg_v2_f0001_person",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v2_f0001_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 14,
+      "n_classified": 14,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 1,
+        "person_veto": 6,
+        "base": 7,
+        "second": 5,
+        "edge": 4,
+        "total": 14,
+        "capped": false,
+        "before_merge": 15,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.4
+    },
+    {
+      "id": "39T_cam53_084021",
+      "reference": "39T-cam53",
+      "image": "data/benchmark_39T/39T-cam53_08-40-21_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 13,
+      "n_classified": 13,
+      "n_kept": 2,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 7,
+        "second": 3,
+        "edge": 4,
+        "total": 13,
+        "capped": false,
+        "before_merge": 14,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "yellow item on seat",
+        "yellow bag on seat"
+      ],
+      "instances_total": 2,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          1,
+          2
+        ]
+      },
+      "case_seconds": 8.6
+    },
+    {
+      "id": "39T_cam53_085124",
+      "reference": "39T-cam53",
+      "image": "data/benchmark_39T/39T-cam53_08-51-24_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 15,
+      "n_classified": 15,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 7,
+        "second": 6,
+        "edge": 4,
+        "total": 15,
+        "capped": false,
+        "before_merge": 17,
+        "merged_away": 2,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "FN",
+      "kept_labels": [],
+      "instances_total": 1,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          0,
+          1
+        ]
+      },
+      "case_seconds": 9.4
+    },
+    {
+      "id": "39T_cam54_083517",
+      "reference": "39T-cam54",
+      "image": "data/benchmark_39T/39T-cam54_08-35-17_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 10,
+      "n_classified": 10,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 1,
+        "person_veto": 5,
+        "base": 7,
+        "second": 0,
+        "edge": 4,
+        "total": 10,
+        "capped": false,
+        "before_merge": 11,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "FN",
+      "kept_labels": [],
+      "instances_total": 1,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "litter": [
+          0,
+          1
+        ]
+      },
+      "case_seconds": 7.2
+    },
+    {
+      "id": "39T_cam55_084021",
+      "reference": "39T-cam55",
+      "image": "data/benchmark_39T/39T-cam55_08-40-21_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "litter",
+        "object"
+      ],
+      "n_regions": 6,
+      "n_classified": 6,
+      "n_kept": 1,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 7,
+        "second": 0,
+        "edge": 0,
+        "total": 6,
+        "capped": false,
+        "before_merge": 7,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a crumpled paper wrapper"
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          1,
+          1
+        ],
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 4.9
+    },
+    {
+      "id": "real_f0037",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0037_masked.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 18,
+      "n_classified": 18,
+      "n_kept": 3,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 8,
+        "edge": 4,
+        "total": 18,
+        "capped": false,
+        "before_merge": 20,
+        "merged_away": 2,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "backpack",
+        "phone",
+        "wallet"
+      ],
+      "instances_total": 4,
+      "instances_detected": 3,
+      "instances_detected_strict": 3,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          3,
+          4
+        ]
+      },
+      "case_seconds": 0.3
+    },
+    {
+      "id": "gpt_03_faint_tag",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_3.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "graffiti"
+      ],
+      "n_regions": 16,
+      "n_classified": 16,
+      "n_kept": 1,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 8,
+        "edge": 4,
+        "total": 16,
+        "capped": false,
+        "before_merge": 20,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "graffiti (letters XRP)"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 1,
+      "fp_regions": 0,
+      "type_detect": {
+        "graffiti": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "gpt_09_litter",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_9.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 4,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 8,
+        "edge": 1,
+        "total": 17,
+        "capped": false,
+        "before_merge": 17,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a can",
+        "a can",
+        "a small white wrapper",
+        "wrapper"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "gpt_10_litter",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_10.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 3,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 8,
+        "edge": 1,
+        "total": 17,
+        "capped": false,
+        "before_merge": 17,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a can",
+        "litter (can, wrapper, paper)",
+        "two pieces of litter (a tube and a crumpled item)."
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 1,
+      "type_detect": {
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "neg_gpt_06_clean",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_6.png",
+      "source": "gpt",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 8,
+        "edge": 3,
+        "total": 17,
+        "capped": false,
+        "before_merge": 19,
+        "merged_away": 2,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.4
+    },
+    {
+      "id": "39T_cam52_084637",
+      "reference": "39T-cam52",
+      "image": "data/benchmark_39T/39T-cam52_08-46-37_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 11,
+      "n_classified": 11,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 1,
+        "edge": 3,
+        "total": 11,
+        "capped": false,
+        "before_merge": 12,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "FN",
+      "kept_labels": [],
+      "instances_total": 3,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          0,
+          3
+        ]
+      },
+      "case_seconds": 0.3
+    },
+    {
+      "id": "39T_cam54_084021",
+      "reference": "39T-cam54",
+      "image": "data/benchmark_39T/39T-cam54_08-40-21_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "litter"
+      ],
+      "n_regions": 11,
+      "n_classified": 11,
+      "n_kept": 2,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 2,
+        "edge": 2,
+        "total": 11,
+        "capped": false,
+        "before_merge": 12,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "a crumpled paper wrapper",
+        "plastic bag"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 8.1
+    },
+    {
+      "id": "39T_cam55_083517",
+      "reference": "39T-cam55",
+      "image": "data/benchmark_39T/39T-cam55_08-35-17_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "litter",
+        "object"
+      ],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 2,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 0,
+        "edge": 0,
+        "total": 8,
+        "capped": false,
+        "before_merge": 8,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "laptop on left seat",
+        "laptop"
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          1,
+          1
+        ],
+        "litter": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 5.9
+    },
+    {
+      "id": "1760_cam13_t420",
+      "reference": "1760-cam13",
+      "image": "data/benchmark_1760/1760-cam13_t420.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 10,
+      "n_classified": 10,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 2,
+        "edge": 0,
+        "total": 10,
+        "capped": false,
+        "before_merge": 10,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 7.9
+    },
+    {
+      "id": "1760_cam06_t420",
+      "reference": "1760-cam06",
+      "image": "data/benchmark_1760/1760-cam06_t420.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 8,
+      "n_classified": 8,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 8,
+        "second": 0,
+        "edge": 0,
+        "total": 8,
+        "capped": false,
+        "before_merge": 8,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 6.2
+    },
+    {
+      "id": "gpt_01_suitcase",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_1.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 15,
+      "n_classified": 15,
+      "n_kept": 4,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 9,
+        "second": 8,
+        "edge": 1,
+        "total": 15,
+        "capped": false,
+        "before_merge": 18,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black suitcase",
+        "black suitcase",
+        "suitcase",
+        "black suitcase"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "gpt_04_graffiti",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_4.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "graffiti"
+      ],
+      "n_regions": 18,
+      "n_classified": 18,
+      "n_kept": 1,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 10,
+        "second": 8,
+        "edge": 4,
+        "total": 18,
+        "capped": false,
+        "before_merge": 22,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "graffiti"
+      ],
+      "instances_total": 1,
+      "instances_detected": 1,
+      "instances_detected_strict": 1,
+      "fp_regions": 0,
+      "type_detect": {
+        "graffiti": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.7
+    },
+    {
+      "id": "gpt_08_phone_tag",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_8.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "graffiti",
+        "object"
+      ],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 3,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 10,
+        "second": 8,
+        "edge": 1,
+        "total": 17,
+        "capped": false,
+        "before_merge": 19,
+        "merged_away": 2,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "graffiti \"ZONK\"",
+        "a black wallet/package",
+        "graffiti \"Zebr\""
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "instances_detected_strict": 2,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          1,
+          1
+        ],
+        "graffiti": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "39T_cam55_085954_clean",
+      "reference": "39T-cam55",
+      "image": "data/benchmark_39T/39T-cam55_08-59-54_t60.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 15,
+      "n_classified": 15,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 10,
+        "second": 2,
+        "edge": 4,
+        "total": 15,
+        "capped": false,
+        "before_merge": 16,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 11.1
+    },
+    {
+      "id": "39T_cam53_ref_t120_clean",
+      "reference": "39T-cam53",
+      "image": "data/benchmark_39T/39T-cam53_08-55-37_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 13,
+      "n_classified": 13,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 10,
+        "second": 3,
+        "edge": 4,
+        "total": 13,
+        "capped": false,
+        "before_merge": 17,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 9.3
+    },
+    {
+      "id": "neg_v4_f0004",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v4_f0004_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 18,
+      "n_classified": 18,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 11,
+        "second": 4,
+        "edge": 4,
+        "total": 18,
+        "capped": false,
+        "before_merge": 19,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.8
+    },
+    {
+      "id": "39T_cam55_084637",
+      "reference": "39T-cam55",
+      "image": "data/benchmark_39T/39T-cam55_08-46-37_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 4,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 12,
+        "second": 5,
+        "edge": 4,
+        "total": 17,
+        "capped": false,
+        "before_merge": 21,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "laptop and cloth",
+        "cloth on seat",
+        "laptop",
+        "laptop"
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "instances_detected_strict": 2,
+      "fp_regions": 2,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ]
+      },
+      "case_seconds": 10.8
+    },
+    {
+      "id": "39T_cam55_ref_t120_clean",
+      "reference": "39T-cam55",
+      "image": "data/benchmark_39T/39T-cam55_08-55-37_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 15,
+      "n_classified": 15,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 12,
+        "second": 2,
+        "edge": 1,
+        "total": 15,
+        "capped": false,
+        "before_merge": 15,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 9.9
+    },
+    {
+      "id": "1760_cam04_t220",
+      "reference": "1760-cam04",
+      "image": "data/benchmark_1760/1760-cam04_t220.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 20,
+      "n_classified": 20,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 12,
+        "second": 8,
+        "edge": 4,
+        "total": 20,
+        "capped": false,
+        "before_merge": 24,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 12.4
+    },
+    {
+      "id": "1760_cam13_t320",
+      "reference": "1760-cam13",
+      "image": "data/benchmark_1760/1760-cam13_t320.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 13,
+      "n_classified": 13,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 12,
+        "second": 1,
+        "edge": 0,
+        "total": 13,
+        "capped": false,
+        "before_merge": 13,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 8.9
+    },
+    {
+      "id": "1760_cam06_t120",
+      "reference": "1760-cam06",
+      "image": "data/benchmark_1760/1760-cam06_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 21,
+      "n_classified": 21,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 12,
+        "second": 8,
+        "edge": 4,
+        "total": 21,
+        "capped": false,
+        "before_merge": 24,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 11.8
+    },
+    {
+      "id": "variant_01",
+      "reference": "variant",
+      "image": "data/anomalies/tram_variant/tram_variant_anomalies.png",
+      "source": "variant",
+      "has_anomaly": true,
+      "types": [
+        "damage",
+        "graffiti",
+        "object"
+      ],
+      "n_regions": 24,
+      "n_classified": 24,
+      "n_kept": 12,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 13,
+        "second": 8,
+        "edge": 4,
+        "total": 24,
+        "capped": false,
+        "before_merge": 25,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "bottle",
+        "backpack",
+        "backpack",
+        "graffiti \"keep\"",
+        "torn seat fabric",
+        "bottle",
+        "bottle",
+        "backpack",
+        "plastic bottle",
+        "torn seat",
+        "torn seat",
+        "backpack"
+      ],
+      "instances_total": 7,
+      "instances_detected": 6,
+      "instances_detected_strict": 5,
+      "fp_regions": 4,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ],
+        "graffiti": [
+          1,
+          2
+        ],
+        "damage": [
+          3,
+          3
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "39T_cam54_085954_clean",
+      "reference": "39T-cam54",
+      "image": "data/benchmark_39T/39T-cam54_08-59-54_t60.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 15,
+      "n_classified": 15,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 13,
+        "second": 3,
+        "edge": 0,
+        "total": 15,
+        "capped": false,
+        "before_merge": 16,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 10.7
+    },
+    {
+      "id": "gpt_07_multi",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_7.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "damage",
+        "graffiti",
+        "object"
+      ],
+      "n_regions": 19,
+      "n_classified": 19,
+      "n_kept": 5,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 14,
+        "second": 8,
+        "edge": 4,
+        "total": 19,
+        "capped": false,
+        "before_merge": 26,
+        "merged_away": 7,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black backpack",
+        "black backpack",
+        "graffiti \"HOBBO\"",
+        "torn seat",
+        "torn seat"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "instances_detected_strict": 2,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ],
+        "graffiti": [
+          1,
+          1
+        ],
+        "damage": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.5
+    },
+    {
+      "id": "39T_cam53_084637",
+      "reference": "39T-cam53",
+      "image": "data/benchmark_39T/39T-cam53_08-46-37_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 6,
+      "n_classified": 6,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 14,
+        "second": 1,
+        "edge": 2,
+        "total": 6,
+        "capped": false,
+        "before_merge": 17,
+        "merged_away": 11,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "FN",
+      "kept_labels": [],
+      "instances_total": 1,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          0,
+          1
+        ]
+      },
+      "case_seconds": 5.4
+    },
+    {
+      "id": "39T_cam52_ref_t120_clean",
+      "reference": "39T-cam52",
+      "image": "data/benchmark_39T/39T-cam52_08-55-37_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 3,
+      "n_classified": 3,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 14,
+        "second": 1,
+        "edge": 4,
+        "total": 3,
+        "capped": false,
+        "before_merge": 19,
+        "merged_away": 16,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.3
+    },
+    {
+      "id": "1760_cam04_t320",
+      "reference": "1760-cam04",
+      "image": "data/benchmark_1760/1760-cam04_t320.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 22,
+      "n_classified": 22,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 14,
+        "second": 8,
+        "edge": 0,
+        "total": 22,
+        "capped": false,
+        "before_merge": 22,
+        "merged_away": 0,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 13.5
+    },
+    {
+      "id": "1760_cam04_t520",
+      "reference": "1760-cam04",
+      "image": "data/benchmark_1760/1760-cam04_t520.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 17,
+      "n_classified": 17,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 14,
+        "second": 0,
+        "edge": 4,
+        "total": 17,
+        "capped": false,
+        "before_merge": 18,
+        "merged_away": 1,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 11.4
+    },
+    {
+      "id": "39T_cam54_084637",
+      "reference": "39T-cam54",
+      "image": "data/benchmark_39T/39T-cam54_08-46-37_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 18,
+      "n_classified": 18,
+      "n_kept": 5,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 15,
+        "second": 4,
+        "edge": 4,
+        "total": 18,
+        "capped": false,
+        "before_merge": 23,
+        "merged_away": 5,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "cloth on seat",
+        "cloth on seat",
+        "laptop",
+        "laptop",
+        "a plastic bag"
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "instances_detected_strict": 2,
+      "fp_regions": 3,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ]
+      },
+      "case_seconds": 12.0
+    },
+    {
+      "id": "1760_cam06_t320",
+      "reference": "1760-cam06",
+      "image": "data/benchmark_1760/1760-cam06_t320.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 15,
+      "n_classified": 15,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 15,
+        "second": 4,
+        "edge": 0,
+        "total": 15,
+        "capped": false,
+        "before_merge": 19,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 10.1
+    },
+    {
+      "id": "gpt_02_multi",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_2.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 21,
+      "n_classified": 21,
+      "n_kept": 7,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 16,
+        "second": 8,
+        "edge": 4,
+        "total": 21,
+        "capped": false,
+        "before_merge": 28,
+        "merged_away": 7,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black backpack",
+        "brown paper bag",
+        "phone",
+        "bottle",
+        "plastic bottle",
+        "brown paper bag",
+        "plastic bottle"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "instances_detected_strict": 3,
+      "fp_regions": 2,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      },
+      "case_seconds": 0.5
+    },
+    {
+      "id": "39T_cam52_085124",
+      "reference": "39T-cam52",
+      "image": "data/benchmark_39T/39T-cam52_08-51-24_t60.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 18,
+      "n_classified": 18,
+      "n_kept": 1,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 17,
+        "second": 0,
+        "edge": 4,
+        "total": 18,
+        "capped": false,
+        "before_merge": 21,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "phone"
+      ],
+      "instances_total": 2,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          0,
+          2
+        ]
+      },
+      "case_seconds": 0.3
+    },
+    {
+      "id": "1760_cam13_t570",
+      "reference": "1760-cam13",
+      "image": "data/benchmark_1760/1760-cam13_t570.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 18,
+      "n_classified": 18,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 17,
+        "second": 1,
+        "edge": 4,
+        "total": 18,
+        "capped": false,
+        "before_merge": 22,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 12.4
+    },
+    {
+      "id": "1760_cam06_t220",
+      "reference": "1760-cam06",
+      "image": "data/benchmark_1760/1760-cam06_t220.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 20,
+      "n_classified": 20,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 17,
+        "second": 5,
+        "edge": 4,
+        "total": 20,
+        "capped": false,
+        "before_merge": 26,
+        "merged_away": 6,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 11.7
+    },
+    {
+      "id": "1760_cam04_t420",
+      "reference": "1760-cam04",
+      "image": "data/benchmark_1760/1760-cam04_t420.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 21,
+      "n_classified": 21,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 18,
+        "second": 3,
+        "edge": 4,
+        "total": 21,
+        "capped": false,
+        "before_merge": 25,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 13.6
+    },
+    {
+      "id": "1760_cam13_t520",
+      "reference": "1760-cam13",
+      "image": "data/benchmark_1760/1760-cam13_t520.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 20,
+      "n_classified": 20,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 19,
+        "second": 1,
+        "edge": 4,
+        "total": 20,
+        "capped": false,
+        "before_merge": 24,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 13.6
+    },
+    {
+      "id": "1760_cam04_t570",
+      "reference": "1760-cam04",
+      "image": "data/benchmark_1760/1760-cam04_t570.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 20,
+      "n_classified": 20,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 20,
+        "second": 1,
+        "edge": 4,
+        "total": 20,
+        "capped": false,
+        "before_merge": 25,
+        "merged_away": 5,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 12.7
+    },
+    {
+      "id": "1760_cam13_t120",
+      "reference": "1760-cam13",
+      "image": "data/benchmark_1760/1760-cam13_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 29,
+      "n_classified": 29,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 21,
+        "second": 8,
+        "edge": 4,
+        "total": 29,
+        "capped": false,
+        "before_merge": 33,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 16.3
+    },
+    {
+      "id": "1760_cam06_t520",
+      "reference": "1760-cam06",
+      "image": "data/benchmark_1760/1760-cam06_t520.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 25,
+      "n_classified": 25,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 21,
+        "second": 5,
+        "edge": 4,
+        "total": 25,
+        "capped": false,
+        "before_merge": 30,
+        "merged_away": 5,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 14.8
+    },
+    {
+      "id": "1760_cam04_t120",
+      "reference": "1760-cam04",
+      "image": "data/benchmark_1760/1760-cam04_t120.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 30,
+      "n_classified": 30,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 23,
+        "second": 8,
+        "edge": 4,
+        "total": 30,
+        "capped": false,
+        "before_merge": 35,
+        "merged_away": 5,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 16.7
+    },
+    {
+      "id": "1760_cam13_t220",
+      "reference": "1760-cam13",
+      "image": "data/benchmark_1760/1760-cam13_t220.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 27,
+      "n_classified": 27,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 23,
+        "second": 5,
+        "edge": 4,
+        "total": 27,
+        "capped": false,
+        "before_merge": 32,
+        "merged_away": 5,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 16.6
+    },
+    {
+      "id": "1760_cam06_t570",
+      "reference": "1760-cam06",
+      "image": "data/benchmark_1760/1760-cam06_t570.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 31,
+      "n_classified": 31,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 23,
+        "second": 7,
+        "edge": 4,
+        "total": 31,
+        "capped": false,
+        "before_merge": 34,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 17.8
+    },
+    {
+      "id": "real_f0053",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0053_masked.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 33,
+      "n_classified": 33,
+      "n_kept": 5,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 30,
+        "second": 8,
+        "edge": 4,
+        "total": 33,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 4,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black backpack",
+        "black backpack",
+        "wallet",
+        "phone",
+        "wallet"
+      ],
+      "instances_total": 4,
+      "instances_detected": 3,
+      "instances_detected_strict": 3,
+      "fp_regions": 2,
+      "type_detect": {
+        "object": [
+          3,
+          4
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "real_f0100",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0100_masked.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 31,
+      "n_classified": 31,
+      "n_kept": 3,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 28,
+        "second": 8,
+        "edge": 4,
+        "total": 31,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 6,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black backpack",
+        "wallet",
+        "a black wallet"
+      ],
+      "instances_total": 4,
+      "instances_detected": 3,
+      "instances_detected_strict": 3,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          3,
+          4
+        ]
+      },
+      "case_seconds": 0.4
+    },
+    {
+      "id": "real_f0112",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v2_f0112_masked.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 34,
+      "n_classified": 34,
+      "n_kept": 4,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 65,
+        "second": 8,
+        "edge": 4,
+        "total": 34,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "black backpack",
+        "black backpack",
+        "phone",
+        "phone"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "instances_detected_strict": 4,
+      "fp_regions": 0,
+      "type_detect": {
+        "object": [
+          4,
+          4
+        ]
+      },
+      "case_seconds": 0.6
+    },
+    {
+      "id": "real_f0205",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v3_f0205_masked.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 32,
+      "n_classified": 32,
+      "n_kept": 2,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 52,
+        "second": 8,
+        "edge": 4,
+        "total": 32,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 5,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "jacket on seat",
+        "jacket on seat"
+      ],
+      "instances_total": 2,
+      "instances_detected": 1,
+      "instances_detected_strict": 1,
+      "fp_regions": 1,
+      "type_detect": {
+        "object": [
+          1,
+          2
+        ]
+      },
+      "case_seconds": 0.6
+    },
+    {
+      "id": "real_f0219",
+      "reference": "real",
+      "image": "data/anomalies/tram_1762_v3_f0219_masked.jpg",
+      "source": "real",
+      "has_anomaly": true,
+      "types": [
+        "object"
+      ],
+      "n_regions": 34,
+      "n_classified": 34,
+      "n_kept": 5,
+      "localizer": {
+        "persons": 1,
+        "person_veto": 3,
+        "base": 54,
+        "second": 8,
+        "edge": 4,
+        "total": 34,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "jacket on seat",
+        "clothes on seat",
+        "backpack",
+        "backpack on seat",
+        "backpack"
+      ],
+      "instances_total": 2,
+      "instances_detected": 2,
+      "instances_detected_strict": 2,
+      "fp_regions": 2,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ]
+      },
+      "case_seconds": 0.5
+    },
+    {
+      "id": "gpt_11_crowd",
+      "reference": "real",
+      "image": "data/anomalies/tram_anomalies_11.png",
+      "source": "gpt",
+      "has_anomaly": true,
+      "types": [
+        "damage",
+        "graffiti",
+        "object"
+      ],
+      "n_regions": 27,
+      "n_classified": 27,
+      "n_kept": 11,
+      "localizer": {
+        "persons": 4,
+        "person_veto": 4,
+        "base": 28,
+        "second": 8,
+        "edge": 4,
+        "total": 27,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 10,
+        "spec": "shipped"
+      },
+      "flagged": true,
+      "outcome": "TP",
+      "kept_labels": [
+        "water bottle",
+        "black backpack",
+        "black backpack",
+        "torn seat",
+        "black backpack",
+        "graffiti \"Hob88\"",
+        "plastic bottle",
+        "graffiti",
+        "torn seat",
+        "graffiti \"HOPE\"",
+        "torn seat"
+      ],
+      "instances_total": 4,
+      "instances_detected": 4,
+      "instances_detected_strict": 3,
+      "fp_regions": 5,
+      "type_detect": {
+        "object": [
+          2,
+          2
+        ],
+        "graffiti": [
+          1,
+          1
+        ],
+        "damage": [
+          1,
+          1
+        ]
+      },
+      "case_seconds": 0.6
+    },
+    {
+      "id": "neg_v3_f0001",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v3_f0001_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 27,
+      "n_classified": 27,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 40,
+        "second": 8,
+        "edge": 4,
+        "total": 27,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 10,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.4
+    },
+    {
+      "id": "neg_v4_f0016",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v4_f0016_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 29,
+      "n_classified": 29,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 32,
+        "second": 7,
+        "edge": 4,
+        "total": 29,
+        "capped": true,
+        "before_merge": 36,
+        "merged_away": 7,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.6
+    },
+    {
+      "id": "neg_v4_f0022",
+      "reference": "real",
+      "image": "data/masked/tram_1762_v4_f0022_masked.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 31,
+      "n_classified": 31,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 37,
+        "second": 8,
+        "edge": 4,
+        "total": 31,
+        "capped": true,
+        "before_merge": 37,
+        "merged_away": 6,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 0.6
+    },
+    {
+      "id": "39T_cam53_085954_clean",
+      "reference": "39T-cam53",
+      "image": "data/benchmark_39T/39T-cam53_08-59-54_t60.jpg",
+      "source": "real",
+      "has_anomaly": false,
+      "types": [],
+      "n_regions": 29,
+      "n_classified": 29,
+      "n_kept": 0,
+      "localizer": {
+        "persons": 0,
+        "person_veto": 0,
+        "base": 29,
+        "second": 5,
+        "edge": 2,
+        "total": 29,
+        "capped": true,
+        "before_merge": 32,
+        "merged_away": 3,
+        "spec": "shipped"
+      },
+      "flagged": false,
+      "outcome": "TN",
+      "kept_labels": [],
+      "instances_total": 0,
+      "instances_detected": 0,
+      "instances_detected_strict": 0,
+      "fp_regions": 0,
+      "type_detect": {},
+      "case_seconds": 17.7
+    }
+  ]
+}

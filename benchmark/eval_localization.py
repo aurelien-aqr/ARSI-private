@@ -41,7 +41,7 @@
 #      python benchmark/eval_localization.py --dataset 39T --variants shipped
 # =============================================================================
 
-import sys, argparse
+import sys, argparse, json
 from pathlib import Path
 import numpy as np
 
@@ -49,6 +49,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 import vlm_05_reference_diff as m
 from arsi_core import benchmarks
+import tools.localizer_specs as specs
 
 
 
@@ -87,75 +88,22 @@ VARIANTS = {
 def eval_case(case, refmap, variant):
     ref_path = str(REPO_ROOT / refmap[case["reference"]])
     img_path = str(REPO_ROOT / case["image"])
-    if variant == "shipped":
-        regions, loc = m.localize(ref_path, img_path)
-        extra = (f" base={loc['base']} +lo={loc['second']} +edge={loc['edge']}"
-                 f" -person={loc['person_veto']}")
-    elif variant.startswith("gate"):
-        # shipped boxes, filtered by DINOv2 feature support: "gate0.10" or
-        # "gate0.10mean" (default statistic is the max patch distance in the box)
-        import tools.dino_localizer as dl
-        spec = variant[4:]
-        stat = "mean" if spec.endswith("mean") else "max"
-        thr = float(spec.replace("mean", "") or dl.GATE_THRESHOLD)
-        regions, loc = dl.localize_gated(ref_path, img_path, gate=thr, stat=stat)
-        extra = (f" -gate={loc['gated_away']} -person={loc['person_veto']}"
-                 f" {loc['seconds']}s")
-    elif variant.startswith("dinomaly"):
-        # REFERENCE-FREE: a Dinomaly model trained on this camera's nominal
-        # frames (tools/dinomaly_train.py). "dinomaly", "dinomaly4@0.35".
-        # Must be tested before the "dino" prefix below - it starts with it.
-        import tools.dinomaly_localizer as dml
-        spec = variant[len("dinomaly"):]
-        zs, _, fs = spec.partition("@")
-        regions, loc = dml.localize(ref_path, img_path,
-                                    z_thr=float(zs) if zs else None,
-                                    abs_floor=float(fs) if fs else None)
-        extra = (f" raw={loc['raw']} patches={loc['patches_over']}"
-                 f" -person={loc['person_veto']} {loc['seconds']}s")
-    elif variant.startswith("bgate"):
-        # BOTH gates over the shipped boxes: "bgate0.08+0.05" keeps a region only
-        # if the reference features AND the nominal model both find something
-        # there. The two disagree by construction - one compares to a frame, the
-        # other to a model of the scene - so the question is whether their vetoes
-        # are independent enough to cut more at the same recall.
-        import tools.dino_localizer as dl
-        import tools.dinomaly_localizer as dml
-        a, _, b = variant[5:].partition("+")
-        regions, loc = dl.localize_gated(ref_path, img_path, gate=float(a))
-        n_dino = len(regions)
-        dml.support(ref_path, img_path, regions)
-        regions = [r for r in regions if r["dinomaly_max"] > float(b)]
-        extra = (f" -gate={loc['gated_away']} -dgate={n_dino - len(regions)}"
-                 f" -person={loc['person_veto']}")
-    elif variant.startswith("dgate"):
-        # shipped boxes filtered by the Dinomaly model's reconstruction error,
-        # the reference-free counterpart of "gate": "dgate0.30", "dgate0.30mean"
-        import tools.dinomaly_localizer as dml
-        spec = variant[5:]
-        stat = "mean" if spec.endswith("mean") else "max"
-        thr = float(spec.replace("mean", "") or dml.GATE_THRESHOLD)
-        regions, loc = dml.localize_gated(ref_path, img_path, gate=thr, stat=stat)
-        extra = (f" -dgate={loc['gated_away']} -person={loc['person_veto']}"
-                 f" {loc['seconds']}s")
-    elif variant.startswith("dino"):
-        # dino / dino3.5 / dino5 ... = DINOv2 feature localizer at that z-threshold
-        # (tools/dino_localizer.py). Same post-processing as shipped, so the only
-        # thing that differs is the change signal: features instead of pixels.
-        import tools.dino_localizer as dl
-        spec = variant[4:]                      # "", "6", "4@0.10" -> z / z@floor
-        zs, _, fs = spec.partition("@")
-        z = float(zs) if zs else dl.Z_THRESHOLD
-        floor = float(fs) if fs else dl.ABS_FLOOR
-        regions, loc = dl.localize(ref_path, img_path, z_thr=z, abs_floor=floor)
-        extra = (f" raw={loc['raw']} patches={loc['patches_over']}"
-                 f" -person={loc['person_veto']} {loc['seconds']}s")
-    else:
+    if variant in VARIANTS:
         a, b, black = m._gray_pair(ref_path, img_path)
         mask, _ = VARIANTS[variant](a, b, black)
         regions = m.find_regions(mask, m.DOWNSCALE, m.DILATE,
                                  m.MIN_AREA, m.MAX_AREA)
         extra = ""
+    else:
+        # every non-threshold-sweep variant is defined once, in
+        # tools/localizer_specs, so this script and tools/rescore_localizer.py
+        # cannot disagree about what a spec means
+        regions, loc = specs.propose(variant, ref_path, img_path,
+                                     specs.camera_of(case))
+        extra = "  " + " ".join(f"{k}={loc[k]}" for k in
+                                ("raw", "base", "second", "edge", "gated_away",
+                                 "vetoed", "person_veto", "seconds")
+                                if k in loc)
     hits = [any(m._boxes_overlap(r["bbox"], inst["bbox"]) for r in regions)
             for inst in case.get("instances", [])]
     # Strict hits are NOT decoration: the lenient rule counts a frame-sized box
@@ -188,6 +136,8 @@ def main():
                          "truth, every case)")
     ap.add_argument("--ref", default="", help="only cases whose reference key "
                     "contains this (e.g. --ref 39T for the 39T cameras)")
+    ap.add_argument("--json", default="", help="also write the summary here, "
+                    "with a per-camera breakdown - what the reports read")
     args = ap.parse_args()
 
     ds_id, gt = benchmarks.load(args.gt)
@@ -195,6 +145,7 @@ def main():
              and args.ref in c.get("reference", "")]
     print(f"dataset: {ds_id}  ({len(cases)} of {len(gt['cases'])} cases)")
 
+    out = {"dataset": ds_id, "n_cases": len(cases), "variants": {}}
     for name in args.variants.split(","):
         name = name.strip()
         rows = [eval_case(c, gt["references"], name) for c in cases]
@@ -209,6 +160,15 @@ def main():
                 per_type[t] = (d0 + int(h), n0 + 1)
         det_s = sum(sum(r["strict"]) for r in rows)
         max_box = max((r["max_box"] for r in rows), default=0)
+        out["variants"][name] = {
+            "instances": inst, "detected": det, "strict": det_s,
+            "regions_anomaly": reg_a, "regions_clean": reg_c,
+            "max_box": max_box,
+            "per_type": {t: list(v) for t, v in sorted(per_type.items())},
+            # per family, because that is the comparison the reports make: one
+            # camera with 559 regions and three with 40 must not average away
+            "by_family": _by_family(cases, rows),
+        }
         print(f"\n=== {name} ===")
         print(f"instance recall: {det}/{inst}   strict IoU>=0.3: {det_s}/{inst}"
               f"   biggest box: {max_box:,} px")
@@ -223,6 +183,29 @@ def main():
             flag = "A" if r["anomaly"] else "-"
             print(f"  [{flag}] {r['id']:<22} regions={r['n_regions']:<3}"
                   f" hit={sum(r['hits'])}/{len(r['hits'])}{note}{r['extra']}")
+
+    if args.json:
+        Path(args.json).write_text(json.dumps(out, indent=2))
+        print(f"\nwrote {args.json}")
+
+
+def _by_family(cases, rows):
+    """Totals per camera family (tram_1762 / 1760 / 39T), keyed as the reports
+    name them. A case's family is read off its reference key, the same way
+    camera_of() picks the checkpoint."""
+    fam = {}
+    for c, r in zip(cases, rows):
+        ref = c.get("reference", "")
+        key = ref.split("-")[0] if "-cam" in ref else "tram_1762"
+        d = fam.setdefault(key, {"cases": 0, "instances": 0, "detected": 0,
+                                 "strict": 0, "regions_anomaly": 0,
+                                 "regions_clean": 0})
+        d["cases"] += 1
+        d["instances"] += len(r["hits"])
+        d["detected"] += sum(r["hits"])
+        d["strict"] += sum(r["strict"])
+        d["regions_anomaly" if r["anomaly"] else "regions_clean"] += r["n_regions"]
+    return fam
 
 
 if __name__ == "__main__":

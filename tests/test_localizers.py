@@ -31,7 +31,13 @@ def test_registry_shape():
     rows = {r["key"]: r for r in localizers.catalog()}
     assert set(rows) == set(localizers.names())
     assert rows["photo"]["available"] is True          # never needs torch
-    assert rows["photo+dino"]["recommended"] is True
+    # Exactly one badge, on a real key: the INVARIANT the picker relies on.
+    # Which key carries it is a measured call that has already moved once
+    # (photo+dino -> dino on 2026-08-19, on the end-to-end numbers in the
+    # module docstring), so it is asserted separately and deliberately.
+    badged = [k for k, r in rows.items() if r["recommended"]]
+    assert len(badged) == 1 and badged[0] in localizers.names()
+    assert badged == ["dino"]
     for r in rows.values():
         assert r["summary"]                            # the card renders this
         assert "measured" not in r                     # kept out of the payload

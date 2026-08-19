@@ -95,3 +95,23 @@ still rests on a single video.
 
 The 2 instances the localizer never proposes at all (one eaten by the person
 veto at cam54_083517) - untouched by tiling, and a localizer problem.
+
+## SUPERSEDED IN PART - 2026-08-19
+
+Tiling exists because the localizer hands the judge boxes that are far too big on
+39T. The 68-case comparison (`benchmark/README.md` § "Three localizer families on
+THREE trams", report in `docs/dino_models/`) measured WHY, and found a
+cheaper fix than cutting the boxes up afterwards:
+
+- the pixel diff scores **5/26 strict IoU on 39T**, with a worst box covering
+  98.9 % of the frame - it is the proposer, not the judge, that fails there;
+- **AnomalyDINO used as the proposer** (not as a gate) scores **19/26** on the
+  same cases, and its worst box is ~10x smaller. There is no oversized region
+  left to tile.
+
+So tiling is a mitigation for a defect that the `dino` localizer does not have.
+Before enabling tiling on a moving-tram camera, measure that camera with the
+`dino` localizer first - it may remove the need entirely. What tiling still
+covers, and the comparison does not, is the JUDGE side: everything above was
+measured with 0 VLM calls, so whether better boxes actually turn into better
+verdicts is untested.

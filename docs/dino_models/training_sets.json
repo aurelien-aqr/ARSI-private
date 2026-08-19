@@ -1,0 +1,138 @@
+[
+  {
+    "camera": "1760-cam04",
+    "frames": 192,
+    "sessions": [
+      [
+        "single run",
+        192
+      ]
+    ],
+    "n_sessions": 1,
+    "epochs": 40,
+    "loss_first": 0.826972458511591,
+    "loss_last": 0.03032672416884452,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "1760-cam06",
+    "frames": 194,
+    "sessions": [
+      [
+        "single run",
+        194
+      ]
+    ],
+    "n_sessions": 1,
+    "epochs": 40,
+    "loss_first": 0.8222224748864466,
+    "loss_last": 0.029902402577655657,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "1760-cam13",
+    "frames": 194,
+    "sessions": [
+      [
+        "single run",
+        194
+      ]
+    ],
+    "n_sessions": 1,
+    "epochs": 40,
+    "loss_first": 0.8275096246174404,
+    "loss_last": 0.030334356906158582,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "39T-cam52",
+    "frames": 90,
+    "sessions": [
+      [
+        "08-55-37",
+        90
+      ]
+    ],
+    "n_sessions": 1,
+    "epochs": 40,
+    "loss_first": 0.9179080880206564,
+    "loss_last": 0.0431259434832179,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "39T-cam53",
+    "frames": 173,
+    "sessions": [
+      [
+        "08-55-37",
+        90
+      ],
+      [
+        "08-59-54",
+        83
+      ]
+    ],
+    "n_sessions": 2,
+    "epochs": 40,
+    "loss_first": 0.8300329148769379,
+    "loss_last": 0.03138887674801729,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "39T-cam54",
+    "frames": 151,
+    "sessions": [
+      [
+        "08-55-37",
+        90
+      ],
+      [
+        "08-59-54",
+        61
+      ]
+    ],
+    "n_sessions": 2,
+    "epochs": 40,
+    "loss_first": 0.855630415050607,
+    "loss_last": 0.032559537181728763,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "39T-cam55",
+    "frames": 153,
+    "sessions": [
+      [
+        "08-55-37",
+        91
+      ],
+      [
+        "08-59-54",
+        62
+      ]
+    ],
+    "n_sessions": 2,
+    "epochs": 40,
+    "loss_first": 0.8497569698553818,
+    "loss_last": 0.03212287998161255,
+    "size_mb": 58.7
+  },
+  {
+    "camera": "tram_1762",
+    "frames": 135,
+    "sessions": [
+      [
+        "v1",
+        68
+      ],
+      [
+        "v3",
+        67
+      ]
+    ],
+    "n_sessions": 2,
+    "epochs": 40,
+    "loss_first": 0.877914532142527,
+    "loss_last": 0.031290239325779325,
+    "size_mb": 58.7
+  }
+]

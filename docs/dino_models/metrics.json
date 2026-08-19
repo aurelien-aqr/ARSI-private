@@ -1,0 +1,422 @@
+{
+  "dataset": "ground_truth",
+  "n_cases": 68,
+  "variants": {
+    "shipped": {
+      "instances": 73,
+      "detected": 65,
+      "strict": 42,
+      "regions_anomaly": 555,
+      "regions_clean": 637,
+      "max_box": 911360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          47,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 46,
+          "strict": 37,
+          "regions_anomaly": 389,
+          "regions_clean": 170
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 19,
+          "strict": 5,
+          "regions_anomaly": 166,
+          "regions_clean": 100
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 367
+        }
+      }
+    },
+    "gate0.08": {
+      "instances": 73,
+      "detected": 65,
+      "strict": 42,
+      "regions_anomaly": 317,
+      "regions_clean": 410,
+      "max_box": 911360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          47,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 46,
+          "strict": 37,
+          "regions_anomaly": 164,
+          "regions_clean": 79
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 19,
+          "strict": 5,
+          "regions_anomaly": 153,
+          "regions_clean": 90
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 241
+        }
+      }
+    },
+    "dino4@0.08": {
+      "instances": 73,
+      "detected": 69,
+      "strict": 58,
+      "regions_anomaly": 537,
+      "regions_clean": 691,
+      "max_box": 239360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          51,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 45,
+          "strict": 39,
+          "regions_anomaly": 345,
+          "regions_clean": 188
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 24,
+          "strict": 19,
+          "regions_anomaly": 192,
+          "regions_clean": 127
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 376
+        }
+      }
+    },
+    "dgate0.05": {
+      "instances": 73,
+      "detected": 65,
+      "strict": 42,
+      "regions_anomaly": 356,
+      "regions_clean": 343,
+      "max_box": 911360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          47,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 46,
+          "strict": 37,
+          "regions_anomaly": 215,
+          "regions_clean": 99
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 19,
+          "strict": 5,
+          "regions_anomaly": 141,
+          "regions_clean": 76
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 168
+        }
+      }
+    },
+    "dinomaly4@0.07": {
+      "instances": 73,
+      "detected": 62,
+      "strict": 48,
+      "regions_anomaly": 434,
+      "regions_clean": 379,
+      "max_box": 582400,
+      "per_type": {
+        "damage": [
+          4,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          46,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 41,
+          "strict": 29,
+          "regions_anomaly": 283,
+          "regions_clean": 182
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 21,
+          "strict": 19,
+          "regions_anomaly": 151,
+          "regions_clean": 67
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 130
+        }
+      }
+    },
+    "bgate0.08+0.05": {
+      "instances": 73,
+      "detected": 65,
+      "strict": 42,
+      "regions_anomaly": 273,
+      "regions_clean": 273,
+      "max_box": 911360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          47,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 46,
+          "strict": 37,
+          "regions_anomaly": 140,
+          "regions_clean": 70
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 19,
+          "strict": 5,
+          "regions_anomaly": 133,
+          "regions_clean": 71
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 132
+        }
+      }
+    },
+    "dpgate10": {
+      "instances": 73,
+      "detected": 69,
+      "strict": 58,
+      "regions_anomaly": 436,
+      "regions_clean": 599,
+      "max_box": 239360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          51,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 45,
+          "strict": 39,
+          "regions_anomaly": 245,
+          "regions_clean": 121
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 24,
+          "strict": 19,
+          "regions_anomaly": 191,
+          "regions_clean": 125
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 353
+        }
+      }
+    },
+    "ddgate0.05": {
+      "instances": 73,
+      "detected": 69,
+      "strict": 58,
+      "regions_anomaly": 336,
+      "regions_clean": 318,
+      "max_box": 239360,
+      "per_type": {
+        "damage": [
+          6,
+          6
+        ],
+        "graffiti": [
+          6,
+          7
+        ],
+        "litter": [
+          6,
+          7
+        ],
+        "object": [
+          51,
+          53
+        ]
+      },
+      "by_family": {
+        "tram_1762": {
+          "cases": 29,
+          "instances": 47,
+          "detected": 45,
+          "strict": 39,
+          "regions_anomaly": 206,
+          "regions_clean": 99
+        },
+        "39T": {
+          "cases": 21,
+          "instances": 26,
+          "detected": 24,
+          "strict": 19,
+          "regions_anomaly": 130,
+          "regions_clean": 87
+        },
+        "1760": {
+          "cases": 18,
+          "instances": 0,
+          "detected": 0,
+          "strict": 0,
+          "regions_anomaly": 0,
+          "regions_clean": 132
+        }
+      }
+    }
+  }
+}
