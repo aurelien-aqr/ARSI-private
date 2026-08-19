@@ -18566,5 +18566,101 @@
  "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0022_masked.jpg|[760, 0, 852, 140]|haervwe/GLM-4.6V-Flash-9B:latest|22778a7877c2": {
   "yes": false,
   "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0211_masked.jpg|[792, 812, 940, 936]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v1_f0151_masked.jpg|[1664, 936, 1776, 1080]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[688, 732, 1016, 1032]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "torn seat cushion"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_5.png|[964, 640, 1032, 740]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0001_masked.jpg|[1668, 932, 1784, 1080]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[1668, 936, 1784, 1080]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v2_f0037_masked.jpg|[648, 528, 712, 612]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "Digital display on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[712, 748, 1012, 1052]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_3.png|[884, 0, 916, 88]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[712, 676, 936, 1032]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_6.png|[724, 0, 776, 108]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[740, 508, 904, 628]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "black suitcase appears"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[884, 0, 924, 104]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_1.png|[636, 28, 680, 104]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[1240, 0, 1920, 1080]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "graffiti on wall"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_4.png|[688, 788, 964, 1044]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[724, 0, 776, 108]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_8.png|[884, 0, 916, 104]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_1762_v4_f0004_masked.jpg|[380, 0, 488, 288]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
+ },
+ "tram_variant_reference.png|tram_variant_anomalies.png|[552, 396, 720, 448]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "bottle on floor"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[640, 480, 1012, 1072]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "backpack on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[436, 304, 692, 572]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "backpack on seat"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[1340, 428, 1444, 656]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": true,
+  "label": "graffiti on panel"
+ },
+ "tram_1762_v1_f0227_masked_reference.jpg|tram_anomalies_7.png|[884, 0, 920, 104]|qwen3-vl:8b-instruct|6e993cc0ed8b": {
+  "yes": false,
+  "label": ""
  }
 }
