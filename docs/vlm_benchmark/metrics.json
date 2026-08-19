@@ -1,0 +1,482 @@
+[
+  {
+    "model": "Qwen2.5-VL-7B",
+    "model_tag": "qwen2.5vl:7b",
+    "prompt": "balanced",
+    "cases": 68,
+    "regions": 654,
+    "kept": 355,
+    "yes_rate": 0.5428134556574924,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.6521739130434783,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.16216216216216217,
+    "obj_recall": 0.8767123287671232,
+    "obj_recall_strict": 0.726027397260274,
+    "obj_precision": 0.2,
+    "inst_detected": 64,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 46,
+        "total": 53,
+        "recall": 0.8679245283018868
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "Qwen3-VL-8B",
+    "model_tag": "qwen3-vl:8b-instruct",
+    "prompt": "lenient",
+    "cases": 68,
+    "regions": 654,
+    "kept": 189,
+    "yes_rate": 0.2889908256880734,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.6896551724137931,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.2972972972972973,
+    "obj_recall": 0.863013698630137,
+    "obj_recall_strict": 0.726027397260274,
+    "obj_precision": 0.37566137566137564,
+    "inst_detected": 63,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 45,
+        "total": 53,
+        "recall": 0.8490566037735849
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "Qwen3-VL-8B",
+    "model_tag": "qwen3-vl:8b-instruct",
+    "prompt": "balanced",
+    "cases": 68,
+    "regions": 654,
+    "kept": 265,
+    "yes_rate": 0.40519877675840976,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.6593406593406593,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.1891891891891892,
+    "obj_recall": 0.863013698630137,
+    "obj_recall_strict": 0.726027397260274,
+    "obj_precision": 0.2679245283018868,
+    "inst_detected": 63,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 45,
+        "total": 53,
+        "recall": 0.8490566037735849
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "Qwen2.5-VL-7B",
+    "model_tag": "qwen2.5vl:7b",
+    "prompt": "conservative",
+    "cases": 68,
+    "regions": 654,
+    "kept": 316,
+    "yes_rate": 0.4831804281345566,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.6451612903225806,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.13513513513513514,
+    "obj_recall": 0.863013698630137,
+    "obj_recall_strict": 0.7123287671232876,
+    "obj_precision": 0.22151898734177214,
+    "inst_detected": 63,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 45,
+        "total": 53,
+        "recall": 0.8490566037735849
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "Qwen3-VL-8B",
+    "model_tag": "qwen3-vl:8b-instruct",
+    "prompt": "conservative",
+    "cases": 68,
+    "regions": 654,
+    "kept": 259,
+    "yes_rate": 0.39602446483180426,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.6451612903225806,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.13513513513513514,
+    "obj_recall": 0.863013698630137,
+    "obj_recall_strict": 0.726027397260274,
+    "obj_precision": 0.27413127413127414,
+    "inst_detected": 63,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 45,
+        "total": 53,
+        "recall": 0.8490566037735849
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "Qwen2.5-VL-7B",
+    "model_tag": "qwen2.5vl:7b",
+    "prompt": "lenient",
+    "cases": 68,
+    "regions": 654,
+    "kept": 579,
+    "yes_rate": 0.8853211009174312,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.631578947368421,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.08108108108108109,
+    "obj_recall": 0.863013698630137,
+    "obj_recall_strict": 0.726027397260274,
+    "obj_precision": 0.1226252158894646,
+    "inst_detected": 63,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 45,
+        "total": 53,
+        "recall": 0.8490566037735849
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "GLM-4.6V-Flash-9B",
+    "model_tag": "haervwe/GLM-4.6V-Flash-9B:latest",
+    "prompt": "lenient",
+    "cases": 68,
+    "regions": 654,
+    "kept": 89,
+    "yes_rate": 0.13608562691131498,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.9090909090909091,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.8648648648648649,
+    "obj_recall": 0.7671232876712328,
+    "obj_recall_strict": 0.6575342465753424,
+    "obj_precision": 0.7191011235955056,
+    "inst_detected": 56,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 38,
+        "total": 53,
+        "recall": 0.7169811320754716
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "GLM-4.6V-Flash-9B",
+    "model_tag": "haervwe/GLM-4.6V-Flash-9B:latest",
+    "prompt": "conservative",
+    "cases": 68,
+    "regions": 654,
+    "kept": 67,
+    "yes_rate": 0.10244648318042814,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.9836065573770492,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.7534246575342466,
+    "obj_recall_strict": 0.6301369863013698,
+    "obj_precision": 0.8955223880597015,
+    "inst_detected": 55,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 37,
+        "total": 53,
+        "recall": 0.6981132075471698
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "GLM-4.6V-Flash-9B",
+    "model_tag": "haervwe/GLM-4.6V-Flash-9B:latest",
+    "prompt": "balanced",
+    "cases": 68,
+    "regions": 654,
+    "kept": 68,
+    "yes_rate": 0.10397553516819572,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.967741935483871,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 0.972972972972973,
+    "obj_recall": 0.7534246575342466,
+    "obj_recall_strict": 0.6301369863013698,
+    "obj_precision": 0.8823529411764706,
+    "inst_detected": 55,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 37,
+        "total": 53,
+        "recall": 0.6981132075471698
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "InternVL3.5-8B",
+    "model_tag": "blaifa/InternVL3_5:8b",
+    "prompt": "balanced",
+    "cases": 68,
+    "regions": 654,
+    "kept": 57,
+    "yes_rate": 0.0871559633027523,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.9836065573770492,
+    "frame_recall": 0.967741935483871,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.6575342465753424,
+    "obj_recall_strict": 0.5616438356164384,
+    "obj_precision": 0.9122807017543859,
+    "inst_detected": 48,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 31,
+        "total": 53,
+        "recall": 0.5849056603773585
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 5,
+        "total": 6,
+        "recall": 0.8333333333333334
+      },
+      "litter": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      }
+    }
+  },
+  {
+    "model": "InternVL3.5-8B",
+    "model_tag": "blaifa/InternVL3_5:8b",
+    "prompt": "lenient",
+    "cases": 68,
+    "regions": 654,
+    "kept": 51,
+    "yes_rate": 0.0779816513761468,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.9310344827586207,
+    "frame_recall": 0.8709677419354839,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.589041095890411,
+    "obj_recall_strict": 0.4931506849315068,
+    "obj_precision": 0.9215686274509803,
+    "inst_detected": 43,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 26,
+        "total": 53,
+        "recall": 0.49056603773584906
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 6,
+        "total": 6,
+        "recall": 1.0
+      },
+      "litter": {
+        "detected": 5,
+        "total": 7,
+        "recall": 0.7142857142857143
+      }
+    }
+  },
+  {
+    "model": "InternVL3.5-8B",
+    "model_tag": "blaifa/InternVL3_5:8b",
+    "prompt": "conservative",
+    "cases": 68,
+    "regions": 654,
+    "kept": 45,
+    "yes_rate": 0.06880733944954129,
+    "yes_rate_implied": 0.11162079510703364,
+    "frame_f1": 0.8928571428571429,
+    "frame_recall": 0.8064516129032258,
+    "frame_specificity": 1.0,
+    "obj_recall": 0.5342465753424658,
+    "obj_recall_strict": 0.4657534246575342,
+    "obj_precision": 0.9333333333333333,
+    "inst_detected": 39,
+    "inst_total": 73,
+    "per_type": {
+      "object": {
+        "detected": 24,
+        "total": 53,
+        "recall": 0.4528301886792453
+      },
+      "graffiti": {
+        "detected": 6,
+        "total": 7,
+        "recall": 0.8571428571428571
+      },
+      "damage": {
+        "detected": 4,
+        "total": 6,
+        "recall": 0.6666666666666666
+      },
+      "litter": {
+        "detected": 5,
+        "total": 7,
+        "recall": 0.7142857142857143
+      }
+    }
+  }
+]

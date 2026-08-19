@@ -303,6 +303,67 @@ Reports: `archive/report_gateshipped.md`, `archive/report_gate0.06/0.08/0.1/0.12
 Regression check without the VLM: `python benchmark/eval_localization.py
 --variants shipped,gate0.12,dino4@0.10`.
 
+## VLM benchmark: 4 models x 3 prompts - ANSWERED 2026-08-19 (boxes held fixed)
+
+With the localizer settled, the judge became the constraint: it loses 18 of 73
+instances against the proposer's 4. This sweeps the judge over ONE fixed set of
+boxes (`ddgate0.05`, 654 crops of 68 cases) so every arm sees identical input.
+12 arms, 2 h 7 of GPU, `tools/judge_sweep.py`.
+
+**Read every recall number next to the YES rate.** The ground truth puts 73
+anomalies among 654 crops, so a calibrated judge answers YES to ~11 %. An arm
+answering YES to 88 % has not detected more - it has rejected less, and its
+recall is the LOCALIZER's with a judge that never says no.
+
+| model | prompt | YES | instances | strict | region prec. | frame spec. |
+|---|---|---|---|---|---|---|
+| InternVL3.5-8B | conservative | 6.9 % | 39/73 | 0.466 | 0.933 | 1.000 |
+| InternVL3.5-8B | lenient | 7.8 % | 43/73 | 0.493 | 0.922 | 1.000 |
+| InternVL3.5-8B | balanced | 8.7 % | 48/73 | 0.562 | 0.912 | 1.000 |
+| **GLM-4.6V-Flash-9B** | **conservative** | **10.2 %** | **55/73** | **0.630** | **0.896** | **1.000** |
+| GLM-4.6V-Flash-9B | balanced | 10.4 % | 55/73 | 0.630 | 0.882 | 0.973 |
+| GLM-4.6V-Flash-9B | lenient | 13.6 % | 56/73 | 0.658 | 0.719 | 0.865 |
+| Qwen3-VL-8B | lenient | 28.9 % | 63/73 | 0.726 | 0.376 | 0.297 |
+| Qwen3-VL-8B | conservative | 39.6 % | 63/73 | 0.726 | 0.274 | 0.135 |
+| Qwen3-VL-8B | balanced | 40.5 % | 63/73 | 0.726 | 0.268 | 0.189 |
+| Qwen2.5-VL-7B | conservative | 48.3 % | 63/73 | 0.712 | 0.222 | 0.135 |
+| Qwen2.5-VL-7B | balanced | 54.3 % | 64/73 | 0.726 | 0.200 | 0.162 |
+| Qwen2.5-VL-7B | lenient | 88.5 % | 63/73 | 0.726 | 0.123 | 0.081 |
+
+**Nothing beats the shipped configuration**, and its YES rate (10.2 %) is the
+closest in the grid to the 11.2 % the labels imply. Four arms hold specificity
+1.000; GLM x conservative is the highest-recall of them.
+
+**The hypothesis that motivated this sweep was WRONG.** It was that the
+conservative prompt now overpays, having been written to fix a precision problem
+the pixel-diff proposer caused. On GLM, `balanced` gains zero instances and costs
+specificity (1.000 -> 0.973); `lenient` gains one and costs a lot (0.865, region
+precision 0.896 -> 0.719). Caution is not waste here.
+
+**But the prompt lever is real where there is slack.** On InternVL3.5, which
+under-calls at 6.9 %, `balanced` lifts 39 -> 48 instances with specificity
+unchanged at 1.000. A prompt can rescue an under-calling model; it cannot push a
+calibrated one past its ceiling.
+
+**The Qwen family is not usable as a crop judge here** - 0.081 to 0.297 frame
+specificity. Worth flagging: `qwen3-vl:8b-instruct` is still `MODEL_NAME` in
+`vlm_05_reference_diff.py` while the benchmark judge is GLM.
+
+Caveats: one box set (a prompt suiting tight AnomalyDINO crops need not suit
+frame-sized pixel-diff regions), specificity resting on a thin negative set, and
+three wordings differing on one axis - this isolates caution, it does not search
+the prompt space. Prompt and model selection is now exhausted for this model set;
+the next lever is fine-tuning (`docs/LORA_PLAN.md`), not more wording.
+
+Reproduce:
+
+    venv/bin/python tools/judge_sweep.py --localizer ddgate0.05 --refs all \
+      --models haervwe/GLM-4.6V-Flash-9B:latest,qwen3-vl:8b-instruct,\
+qwen2.5vl:7b,blaifa/InternVL3_5:8b \
+      --prompts conservative,lenient,balanced
+    venv/bin/python tools/collect_judge.py
+    venv/bin/python tools/build_vlm_doc.py
+
 ## Does a better box become a better verdict? - ANSWERED 2026-08-19 (with the judge)
 
 The comparison below is localization only, so it bounds what the judge can do
