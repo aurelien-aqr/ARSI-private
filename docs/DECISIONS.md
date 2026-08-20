@@ -7,7 +7,7 @@ somewhere else - this page only says the verdict and where to look.
 | Question | Verdict | Measured on | Details |
 |---|---|---|---|
 | Judge model × prompt, swept | **No change. GLM-4.6V-Flash-9B × conservative stays**, and 12 arms failed to beat it at usable specificity. Read any recall number next to the arm's YES rate: the labels imply ~11 % of crops are anomalies, and the arms posting 63-64/73 answer YES to 29-88 % of them | 12 arms (4 models × 3 prompts) on 68 cases, boxes fixed at `ddgate0.05`, 2026-08-19 | Studio → Notes → *VLM benchmark*; `docs/vlm_benchmark/` |
-| Qwen2.5-VL-7B / Qwen3-VL-8B as crop judges | **No.** Frame specificity 0.081-0.297 — they fire on nearly every clean tram. Note `qwen3-vl:8b-instruct` is still the `MODEL_NAME` default in `vlm_05_reference_diff.py`; on these crops that default is unusable | idem | idem |
+| Qwen2.5-VL-7B / Qwen3-VL-8B as crop judges | **No.** Frame specificity 0.081-0.297 — they fire on nearly every clean tram. `qwen3-vl:8b-instruct` was the `MODEL_NAME` default of the vlm_0x scripts until 2026-08-20; every script now defaults to GLM | idem | idem |
 | The `balanced` prompt (caution clauses dropped, NO conditions kept) | **Keep it available, do not ship it.** It works where a model under-calls: InternVL3.5 39 → 48 instances at specificity 1.000 unchanged. On GLM it moves nothing — a prompt can rescue an under-calling model, not push a calibrated one past its ceiling | idem | `tools/judge_prompts.py` |
 | Does a better box become a better verdict? | **Partly - and not the part you would guess.** Object recall is 55/73 under every localizer; better boxes buy frame recall (0.871 → 0.968), region precision (0.694 → 0.896) and correct boxing (0.534 → 0.630), at frame specificity 1.000 throughout | 68 cases end to end, GLM-4.6V-Flash-9B × conservative, 2026-08-19 | `benchmark/README.md` § "Does a better box…"; `tools/rescore_localizer.py` |
 | `recommended` badge in the Studio picker | **Moved `photo+dino` → `dino`** on the end-to-end numbers. Trade: +69 % VLM calls for +0.097 frame recall and +0.123 region precision. Revert if judge cost, not miss rate, binds | idem | `arsi_core/localizers.py` docstring |
@@ -59,3 +59,19 @@ The remaining 22 cameras are still unmeasured, so:
 Read every row above as measured on the 1762 camera. The benchmark now covers 5
 cameras, so a re-run of these questions over the whole thing is the way to find
 out which verdicts survive.
+
+## Leads never measured
+
+Three ideas that were queued for a GPU day and never scored. Recorded here so
+they are re-decided deliberately rather than re-invented:
+
+- **Cascade**: score `openbmb/minicpm-v4.6` as a cheap screener in front of the
+  real judge. If its false-negative rate on cached crops is ~0, it cuts most of
+  the judge cost. (It was disqualified as a *judge* - it hallucinates objects on
+  198 of 199 clean crops - which says nothing about its recall.)
+- **Temporal persistence**: "forgotten = present in N frames with no person
+  nearby". The videos in `data/videos` are the input; nothing in the pipeline
+  looks across frames today.
+- **AD-Copilot-Thinking** (`jiang-cc/AD-Copilot-Thinking`, transformers, not
+  Ollama): the closest published system to vlm_05's visual in-context
+  comparison. Worth one afternoon of comparison.

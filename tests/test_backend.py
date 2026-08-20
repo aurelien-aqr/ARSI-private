@@ -18,7 +18,7 @@ import app.backend.main as backend
 from arsi_core import runner
 from arsi_core.ollama_client import OllamaClient
 
-from conftest import FakeOllama
+from conftest import FakeOllama, INSTALLED
 
 APP_DATA = Path(os.environ["ARSI_APP_DATA"])
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -38,7 +38,7 @@ class DownOllama:
 def api(monkeypatch):
     """TestClient wired to a programmable fake Ollama, for both the request
     path (backend.client_for) and the worker thread (runner.OllamaClient)."""
-    def make(replies=None, models=("qwen3-vl:8b-instruct",), down=False):
+    def make(replies=None, models=INSTALLED, down=False):
         impl = DownOllama() if down else FakeOllama(replies, models)
         oc = OllamaClient(impl=impl)
         monkeypatch.setattr(backend, "client_for", lambda timeout=None: oc)

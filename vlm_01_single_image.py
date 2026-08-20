@@ -7,7 +7,7 @@
 #  it to report graffiti, vandalism and forgotten objects in a fixed format.
 #
 #  Hardware target : x86 Ubuntu + NVIDIA RTX 3080 Ti (12 GB VRAM)
-#  Model           : qwen2.5vl:7b  (served locally by Ollama)
+#  Model           : haervwe/GLM-4.6V-Flash-9B  (served locally by Ollama)
 #
 #  Run from the repository root:   python vlm_01_single_image.py
 # =============================================================================
@@ -57,7 +57,7 @@ SEVERITY: <1-5, where 1 = nothing wrong, 5 = serious problem>
 #  (the ctx/predict/temperature values are tuned for 8-9B models on the target
 #  RTX 3080 Ti and are shared by every model in the benchmark grid)
 # =============================================================================
-MODEL_NAME  = "qwen3-vl:8b-instruct"
+MODEL_NAME  = "haervwe/GLM-4.6V-Flash-9B"
 NUM_CTX     = 4096
 NUM_PREDICT = 512
 TEMPERATURE = 0.1

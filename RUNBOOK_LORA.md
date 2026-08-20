@@ -109,7 +109,7 @@ client = OllamaClient(impl=LlamaCppServer("http://localhost:11435"))
 ## 7. Evaluate - the untouched benchmark decides
 
 ```bash
-# exactly like the base-model sweeps (RUNBOOK_GPU.md): fresh cache, judge = arsi-judge
+# exactly like the base-model sweeps: fresh cache, judge = arsi-judge
 cd benchmark && python run_benchmark.py   # with MODEL_NAME=arsi-judge
 ```
 

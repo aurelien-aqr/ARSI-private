@@ -14,16 +14,16 @@
 #                 change mask.
 #     2) BLOBS    group the changed pixels into regions (connected components)
 #                 and keep the reasonably sized ones as candidate objects.
-#     3) CLASSIFY each candidate region with the local VLM (qwen2.5vl:7b via
-#                 Ollama): is it an anomaly - a forgotten object, graffiti, or
-#                 damage - (not a person, not a reflection)? and if so, what is it?
+#     3) CLASSIFY each candidate region with the local VLM (GLM-4.6V-Flash-9B
+#                 via Ollama): is it an anomaly - a forgotten object, graffiti,
+#                 or damage - (not a person, not a reflection)? and if so, what?
 #
 #  Differencing has high recall (it flags everything that changed) but also
 #  flags people and lighting/reflection changes - the VLM is what tells those
 #  apart from genuine anomalies.
 #
 #  Hardware target : x86 Ubuntu + NVIDIA RTX 3080 Ti (12 GB VRAM)
-#  Model           : qwen2.5vl:7b  (served locally by Ollama)
+#  Model           : haervwe/GLM-4.6V-Flash-9B  (served locally by Ollama)
 #
 #  Run from the repository root:   python vlm_05_reference_diff.py
 # =============================================================================
@@ -300,12 +300,13 @@ object, marking or damage. If you are unsure, answer NO.
 
 Reply with YES or NO, then name what appeared in 2-4 words."""
 
-# Classifier model (served by Ollama). Both options below are ~6 GB and fit the
-# 12 GB GPU. qwen3-vl:8b-instruct is markedly better at REJECTING people and
-# reflections in the side-by-side comparison (qwen2.5vl:7b tends to answer YES
-# and then name a body part), so it is the default here.
-# Alternative: "qwen2.5vl:7b".
-MODEL_NAME = "qwen3-vl:8b-instruct"
+# Crop judge (served by Ollama, ~8 GB, fits the 12 GB GPU). This is the measured
+# winner of the 12-arm judge sweep and the model setup.sh installs: twelve
+# model x prompt arms failed to beat it at usable specificity (docs/DECISIONS.md,
+# Studio -> Notes -> "VLM benchmark"). The Qwen VLMs, which used to be the
+# default here, fire on nearly every clean tram at this scale of crop (frame
+# specificity 0.081-0.297) - do not put them back without re-reading that note.
+MODEL_NAME = "haervwe/GLM-4.6V-Flash-9B"
 
 # =============================================================================
 #  HARDWARE-LOCK  ---  DO NOT CHANGE

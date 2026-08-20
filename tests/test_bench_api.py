@@ -17,7 +17,7 @@ from app.backend import bench_runs
 from arsi_core import benchmarks, runner
 from arsi_core.ollama_client import OllamaClient
 
-from conftest import FakeOllama
+from conftest import FakeOllama, INSTALLED
 
 APP_DATA = Path(os.environ["ARSI_APP_DATA"])
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -61,7 +61,7 @@ def bench(monkeypatch, tmp_path):
            ]}
     benchmarks.save("demo", doc)
 
-    def make(replies=None, models=("qwen3-vl:8b-instruct",)):
+    def make(replies=None, models=INSTALLED):
         impl = FakeOllama(replies, models)
         oc = OllamaClient(impl=impl)
         monkeypatch.setattr(backend, "client_for", lambda timeout=None: oc)

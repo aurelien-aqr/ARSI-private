@@ -1,180 +1,99 @@
-# ARSI-VLM - Tram Interior Anomaly Detection
+# ARSI - anomaly detection in tram interiors
 
-Detect **graffiti**, **vandalism**, and **forgotten objects** in tram interiors
-using a local **vision-language model (VLM)** - Qwen2.5-VL served through
-[Ollama](https://ollama.com). Runs fully locally: no cloud, no API key.
+Find **graffiti**, **vandalism**, **damage** and **forgotten objects** in tram
+CCTV footage, on a fixed camera, **fully locally**: the vision-language model runs
+on your own machine through [Ollama](https://ollama.com).
 
----
-
-## Target hardware
-
-| Item  | Value                                                  |
-|-------|--------------------------------------------------------|
-| OS    | Ubuntu (x86_64)                                        |
-| GPU   | NVIDIA RTX 3080 Ti, 12 GB VRAM (CPU-only works, slow)  |
-| Model | `qwen3-vl:8b-instruct` default; override with `--model`|
-
-> `NUM_CTX` / `NUM_PREDICT` / `TEMPERATURE` are shared runtime settings tuned
-> for 8-9B models on the target GPU. The model itself is a per-run choice:
-> every script accepts `--model <ollama-name>` (see also `bench_grid.py` for
-> sweeping several models). GPU-day procedure: **RUNBOOK_GPU.md**.
+**ARSI Studio** is the local web app over **`arsi_core`**, the engine.
 
 ---
 
-## ARSI Studio - the web app
+## First run, after cloning
 
-A local web UI over the five scripts: upload a tram CCTV video, extract
-frames, draw a window mask once (fixed camera), pick pipeline × localizer ×
-model × prompt, watch the run live, browse boxed results, export report / JSON /
-XLSX. Contracts in `docs/SPEC.md`; UI designed in claude.ai/design.
+```bash
+bash setup.sh                     # venv + libraries + Ollama + the judge model (~8 GB)
+venv/bin/pip install torch torchvision    # optional: unlocks the dino localizers
+```
 
-Its **Benchmark** screen is where the labelled ground truth lives: browse and
-correct the instance boxes of `benchmark/datasets/*.json`, then score a run -
-full (with the judge) or localization-only (no VLM, seconds) - and read the
-frame/object metrics per case. See `benchmark/README.md`.
+Ollama's installer registers a systemd service, so the server is up from now on -
+you never start it by hand. `setup.sh` is idempotent and safe to re-run.
+
+The reference frames the benchmark points at travel with the repo; the bulk
+footage does not (`data/videos`, `data/raw`, `data/masked`, `weights/`).
+
+## Every run after that
+
+From the repository root, one command:
 
 ```bash
 venv/bin/python -m uvicorn app.backend.main:app --port 8321
-# then open http://localhost:8321  (Ollama must be running: ollama serve)
 ```
 
-Layers: `arsi_core/` (engine, importable + `python -m arsi_core` CLI) →
-`app/backend/` (FastAPI + SSE) → `app/frontend/` (static SPA).
-Tests: `venv/bin/python -m pytest tests/`.
+Then open <http://localhost:8321>: upload a video, mask the windows once (the
+camera is fixed), pick pipeline × localizer × judge × prompt, watch the run,
+browse the boxed results, export a report.
 
 ---
 
-## Quick start
+## How it works
 
-```bash
-git clone https://github.com/mpyt/ARSI-vlm.git
-cd ARSI-vlm
-bash setup.sh                 # venv + libraries + Ollama + model download (~6 GB)
-source venv/bin/activate      # do this in every new terminal
-```
-
-Then put your images here:
+`vlm_05` is **two stages that fail for different reasons**, so both are picked
+independently:
 
 ```
-data/reference/   clean reference image   (e.g. tram_1762_reference.jpg)
-data/raw/         frames to inspect        (tram_1762_v1_f0001.jpg)
-data/masked/      masked frames            (tram_1762_v1_f0001_masked.jpg)
+reference  ─┐
+            ├─►  LOCALIZER  ─►  candidate regions  ─►  JUDGE (VLM, one crop at a time)  ─►  boxes
+inspection ─┘     (no VLM)                                YES / NO
 ```
 
-And run a script:
+Asking a VLM about a whole tram frame does not work - it invents anomalies out of
+worn seats and posters. Asking it about one crop against the same crop of a clean
+reference does.
 
-```bash
-python vlm_01_single_image.py        # analyse a single image
-python vlm_02_reference_compare.py   # compare against a clean reference
-python vlm_03_bounding_box.py        # draw bounding boxes -> results/
-```
+**Localizers** (`arsi_core/localizers.py`), picked per run in the Studio:
 
-> Run the scripts **from the repository root**. Paths inside each script are
-> anchored to the repo root, so `data/...` and `results/...` always resolve.
->
-> If you see "could not reach the Ollama server", open a second terminal, run
-> `ollama serve`, then try again.
+- `photo` - photometric diff against the reference.
+- `photo+dino` - the diff proposes, DINOv2 features veto.
+- `dino` - AnomalyDINO patch features, no pixel comparison.
+- `dino+dinomaly` - `dino`, plus a per-camera Dinomaly model as a second veto.
+
+**Judge**: `haervwe/GLM-4.6V-Flash-9B` × the `conservative` prompt - the default
+everywhere, and what `setup.sh` installs.
+
+Which localizer and which judge to use, and what each was measured on:
+[`docs/DECISIONS.md`](docs/DECISIONS.md).
 
 ---
 
-## The three scripts
-
-| Script | Input | Output |
-|--------|-------|--------|
-| `vlm_01_single_image.py`      | one image | structured text report |
-| `vlm_02_reference_compare.py` | reference + masked inspection image | structured text (differences only) |
-| `vlm_03_bounding_box.py`      | one image | JSON detections + annotated image in `results/` |
-| `vlm_04_hybrid_detect.py`     | reference + inspection image | confirmed forgotten objects: JSON + annotated image in `results/` |
-| `vlm_05_reference_diff.py`    | reference + inspection image | abandoned objects via change detection: JSON + annotated image in `results/` |
-
-`vlm_04` is a **hybrid** POC for forgotten personal objects (phone, wallet, bag):
-an open-vocabulary detector (**YOLO-World**) localizes candidate objects, an
-optional **reference filter** keeps only what is NEW versus a clean reference,
-and the local **VLM confirms/labels** each surviving crop.
-
-`vlm_05` takes a different route that works when the camera is **fixed**: it
-**diffs** the inspection frame against the clean reference to localize whatever
-changed (YOLO-World misses tiny objects like a wallet on the floor; the diff
-does not), then the **VLM classifies** each changed region as an anomaly or not
-(person / reflection / lighting are rejected). Localization is multi-channel
-(base photometric diff + a bounded low-threshold channel for low-contrast
-objects + an added-edge channel for faint graffiti) with a YOLOv8n **person
-veto** - design rationale and measured numbers live in the USER CONFIG comments.
-
-Benchmarking lives in `benchmark/`: ONE labelled protocol,
-`benchmark/datasets/ground_truth.json`, holding every labelled frame whatever it
-shows, frame- and object-level metrics, a resumable VLM cache and a
-localizer-only eval that runs in seconds. Launch and score it from **ARSI Studio →
-Benchmark**, or from the CLI (`benchmark/run_benchmark.py`,
-`benchmark/eval_localization.py`). `bench_grid.py` is the separate model × task ×
-image sweep that fills the ARSI results spreadsheet. See `benchmark/README.md`
-and `RUNBOOK_GPU.md`.
-
-**Which approaches we actually use, and which were tried and rejected:
-`docs/DECISIONS.md`** - one line per settled question, with what it was measured
-on and what that measurement does not cover.
-
-Structured text format:
+## Repo
 
 ```
-GRAFFITI: yes/no - note
-VANDALISM: yes/no - note
-FORGOTTEN OBJECT: yes/no - note
-DESCRIPTION: ...
-SEVERITY: 1-5
+arsi_core/    engine: video, masking, localizers, adapters, runner, scoring
+app/          FastAPI backend (jobs + SSE) + the SPA
+benchmark/    the ground truth, the runs, the verdict cache
+docs/         SPEC (contracts), DECISIONS (verdicts), and the measured notes
+tools/        localizer research, Dinomaly training, doc builders, exporters
+vlm_01..05    the standalone scripts, still runnable from the repo root
 ```
 
-`vlm_03` returns JSON (it carries normalized 0–1 bounding boxes) and colours each
-box by severity (green = low → red = high).
+`venv/bin/python -m pytest tests/` - 186 tests, no GPU, no Ollama, no network.
+Headless engine CLI: `python -m arsi_core run --script vlm_05 --localizer dino …`.
+
+Target hardware: Ubuntu x86_64 + RTX 3080 Ti (12 GB). CPU works and the app warns
+you how slow it will be. Judge fine-tuning: `RUNBOOK_LORA.md`.
 
 ---
 
-## What you may change
+## When something breaks
 
-Every script has a clearly marked block:
-
-```python
-# =====================================================
-#  USER CONFIG  ---  the ONLY part you are meant to edit
-# =====================================================
-```
-
-Inside it you may freely change the **image paths** and the **`PROMPT`**.
-**Do not touch** the `HARDWARE-LOCK` block.
+| symptom | fix |
+|---|---|
+| `could not reach the Ollama server` | `systemctl status ollama`, or `ollama serve` by hand |
+| a localizer is greyed out | needs torch, or a per-camera checkpoint for `dino+dinomaly` |
+| `dino+dinomaly` behaves like `dino` | no checkpoint for that camera - it degrades on purpose |
+| out of memory | an 8-9B model needs ~7-8 GB free |
+| `ModuleNotFoundError` | you ran `python`, not `venv/bin/python` |
 
 ---
 
-## Folder structure
-
-```
-ARSI-vlm/
-├── setup.sh
-├── requirements.txt
-├── README.md
-├── .gitignore
-├── vlm_01_single_image.py
-├── vlm_02_reference_compare.py
-├── vlm_03_bounding_box.py
-├── vlm_04_hybrid_detect.py
-├── data/
-│   ├── reference/    clean reference images
-│   ├── raw/          raw frames to inspect
-│   └── masked/       masked frames (windows blacked out)
-└── results/          annotated output images
-```
-
----
-
-## Troubleshooting
-
-| Symptom                                  | Fix                                                        |
-|------------------------------------------|------------------------------------------------------------|
-| `could not reach the Ollama server`      | Run `ollama serve` in another terminal.                    |
-| `model 'qwen2.5vl:7b' is not installed`  | Run `ollama pull qwen2.5vl:7b`.                            |
-| `image not found: ...`                   | Upload images into `data/...` and edit the path in USER CONFIG. |
-| Out-of-memory (OOM) on the GPU           | Close other GPU programs; the 7B model needs ~7–8 GB free. |
-| `ModuleNotFoundError: ollama` / `PIL`    | You forgot `source venv/bin/activate`.                     |
-
----
-
-*ARSI - VŠB-TUO FEI. Local inference with Ollama + Qwen2.5-VL.*
+*ARSI - VŠB-TUO FEI.*

@@ -8,8 +8,8 @@
 #     2) FILTER      (optional) against a clean reference image: keep only
 #                    objects that are NEW compared to the reference.
 #     3) CONFIRM     (optional) each surviving candidate with the local VLM
-#                    (qwen2.5vl:7b via Ollama) by cropping the box and asking
-#                    a short yes/no + label question.
+#                    (GLM-4.6V-Flash-9B via Ollama) by cropping the box and
+#                    asking a short yes/no + label question.
 #
 #  This is a POC. There is NO person detection, NO tracking, and NO temporal
 #  "owner walked away" logic - it only finds candidate objects, optionally keeps
@@ -17,7 +17,7 @@
 #
 #  Hardware target : x86 Ubuntu + NVIDIA RTX 3080 Ti (12 GB VRAM)
 #  Detector        : YOLO-World (weights auto-downloaded by ultralytics)
-#  Model (confirm) : qwen2.5vl:7b  (served locally by Ollama)
+#  Model (confirm) : haervwe/GLM-4.6V-Flash-9B  (served locally by Ollama)
 #
 #  Run from the repository root:   python vlm_04_hybrid_detect.py
 # =============================================================================
@@ -107,7 +107,7 @@ PROMPT = """Is this a personal object a passenger might have forgotten
 # =============================================================================
 #  HARDWARE-LOCK  ---  DO NOT CHANGE
 # =============================================================================
-MODEL_NAME  = "qwen3-vl:8b-instruct"   # locked to this machine's GPU (RTX 3080 Ti)
+MODEL_NAME  = "haervwe/GLM-4.6V-Flash-9B"   # the measured judge (docs/DECISIONS.md)
 NUM_CTX     = 4096
 NUM_PREDICT = 512
 TEMPERATURE = 0.1

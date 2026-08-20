@@ -22,13 +22,22 @@ if "ARSI_APP_DATA" not in os.environ:
     atexit.register(shutil.rmtree, _tmp_root, True)
 
 from arsi_core.ollama_client import OllamaClient  # noqa: E402
+from arsi_core.adapters import get_module  # noqa: E402
+
+#: A job that names no model runs the script's own MODEL_NAME, and the backend
+#: refuses to start a job whose model is not installed - so the fake server must
+#: report that default as present or every default-model test dies as a job that
+#: never finishes. Read from the module instead of typed here: changing the
+#: shipped default must not mean editing four tuples in three files.
+PIPELINE_DEFAULT_MODEL = get_module("vlm_05").MODEL_NAME
+INSTALLED = ("qwen3-vl:8b-instruct", PIPELINE_DEFAULT_MODEL)
 
 
 class FakeOllama:
     """Programmable stand-in for ollama.Client: .chat pops replies from a
     queue (or calls a function), .list reports installed models."""
 
-    def __init__(self, replies=None, models=("qwen3-vl:8b-instruct",)):
+    def __init__(self, replies=None, models=INSTALLED):
         self.replies = list(replies or [])
         self.models = list(models)
         self.calls = []
@@ -50,7 +59,7 @@ class FakeOllama:
 
 @pytest.fixture
 def fake_client():
-    def make(replies=None, models=("qwen3-vl:8b-instruct",)):
+    def make(replies=None, models=INSTALLED):
         return OllamaClient(impl=FakeOllama(replies, models))
     return make
 

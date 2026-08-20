@@ -2,16 +2,16 @@
 # =============================================================================
 #  ARSI-VLM - environment setup (run once on a fresh machine)
 #  Target: x86 Ubuntu + NVIDIA RTX 3080 Ti (12 GB VRAM)
-#  Locked VLM model: qwen2.5vl:7b
+#  Judge model: haervwe/GLM-4.6V-Flash-9B (measured winner, docs/DECISIONS.md)
 #
-#      git clone https://github.com/mpyt/ARSI-vlm.git
+#      git clone git@github.com:aurelien-aqr/ARSI-private.git ARSI-vlm
 #      cd ARSI-vlm
 #      bash setup.sh
 # =============================================================================
 set -e
 
 echo "==================================================="
-echo "  ARSI-VLM setup  (RTX 3080 Ti, qwen2.5vl:7b)"
+echo "  ARSI-VLM setup  (RTX 3080 Ti, GLM-4.6V-Flash-9B)"
 echo "==================================================="
 
 # --- 1) Python virtual environment -------------------------------------------
@@ -39,22 +39,17 @@ else
 fi
 
 # --- 4) Vision-language model ------------------------------------------------
-echo "[4/4] Pulling the vision-language model (qwen2.5vl:7b) ..."
-echo "      (~6 GB download on first run)"
-ollama pull qwen2.5vl:7b
+echo "[4/4] Pulling the judge model (haervwe/GLM-4.6V-Flash-9B) ..."
+echo "      (~8 GB download on first run)"
+ollama pull haervwe/GLM-4.6V-Flash-9B
 
 echo
 echo "==================================================="
 echo "  Done."
 echo "==================================================="
-echo "Activate the environment in every new terminal:"
-echo "    source venv/bin/activate"
+echo "Start ARSI Studio from the repository root:"
+echo "    venv/bin/python -m uvicorn app.backend.main:app --port 8321"
+echo "    then open http://localhost:8321"
 echo
-echo "Put your images into:"
-echo "    data/reference/   (clean reference image)"
-echo "    data/raw/         (frames to inspect)"
-echo "    data/masked/      (masked frames, *_masked.jpg)"
-echo
-echo "Then run, e.g.:"
-echo "    python vlm_01_single_image.py"
+echo "The standalone vlm_0x scripts use the same model by default."
 echo "==================================================="
