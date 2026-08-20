@@ -156,7 +156,9 @@ def run_job(cfg: JobConfig, on_event=None, client=None, cache=None,
         # backbone must fail the job once, with one message, not per frame
         cfg.localizer = cfg.localizer or localizers.DEFAULT
         localizers.check(cfg.localizer)
-        localizers.warmup(cfg.localizer)
+        note = localizers.warmup(cfg.localizer, cfg.references_for_frames())
+        if note:
+            emit("localizer_ready", localizer=cfg.localizer, note=note)
 
     prompt = cfg.prompt or default_prompt(cfg.script)
     result = JobResult(job_id=cfg.job_id, config=cfg.public_dict(),

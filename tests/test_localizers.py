@@ -20,6 +20,10 @@ dino_only = pytest.mark.skipif(
     not localizers.availability("photo+dino")[0] or not localizers._weights_cached(),
     reason="needs torch and the cached DINOv2 backbone")
 
+dinomaly_only = pytest.mark.skipif(
+    not localizers.availability("dino+dinomaly")[0] or not localizers._weights_cached(),
+    reason="needs torch, the cached DINOv2 backbone and a Dinomaly checkpoint")
+
 
 @pytest.fixture
 def cache(tmp_path):
@@ -38,6 +42,10 @@ def test_registry_shape():
     badged = [k for k, r in rows.items() if r["recommended"]]
     assert len(badged) == 1 and badged[0] in localizers.names()
     assert badged == ["dino"]
+    # NOT "dino+dinomaly", however good its cost number: the badge is what a
+    # user picks without reading, and that arm silently does nothing on a camera
+    # with no checkpoint. Recommending it would recommend "dino" under a name
+    # that promises more.
     for r in rows.values():
         assert r["summary"]                            # the card renders this
         assert "measured" not in r                     # kept out of the payload
@@ -166,3 +174,97 @@ def test_a_post_filtered_yes_is_not_reported_as_a_judge_no(fake_client, img_fact
     assert all(c["dropped_by"] for c in fr.candidates)
     assert fr.localization["filtered"] == len(fr.candidates)
     assert fr.localization["rejected"] == 0
+
+
+# --- the Dinomaly veto -------------------------------------------------------
+
+def test_checkpoint_glob_matches_dinomaly_naming():
+    """localizers.py spells the checkpoint filename itself, to stay torch-free
+    on the availability path. This is the pin that stops the two spellings from
+    drifting: if dinomaly.checkpoint_path ever changes, this fails instead of
+    the arm silently reporting "no checkpoint trained yet" forever."""
+    pytest.importorskip("torch")
+    import tools.dinomaly as dm
+    expected = dm.checkpoint_path("some-cam")
+    assert expected.parent == localizers.WEIGHTS_DIR
+    assert expected.name == localizers.CKPT_GLOB.replace("*", "some-cam")
+
+
+def test_camera_comes_from_the_reference_path(tmp_path, monkeypatch):
+    monkeypatch.setattr(localizers, "checkpoint_cameras",
+                        lambda: ["1760-cam04", "tram_1762"])
+    assert localizers.resolve_camera("data/benchmark_1760/1760-cam04_t070.jpg") \
+        == "1760-cam04"
+    assert localizers.resolve_camera(
+        "data/reference/tram_1762_v1_f0227_masked_reference.jpg") == "tram_1762"
+    # a scene with no model of its own resolves to nothing rather than to some
+    # other camera's model - the fallback is 'dino', never a wrong checkpoint
+    assert localizers.resolve_camera(
+        "data/reference/tram_variant/tram_variant_reference.png") is None
+    # and an explicit param wins over the path
+    assert localizers.resolve_camera("whatever.jpg",
+                                     {"DINOMALY_CAMERA": "39T-cam53"}) == "39T-cam53"
+
+
+def test_the_arm_is_offered_only_when_some_checkpoint_exists(monkeypatch):
+    monkeypatch.setattr(localizers, "checkpoint_cameras", lambda: [])
+    ok, why = localizers.availability("dino+dinomaly")
+    assert ok is False and "dinomaly_train" in why
+    with pytest.raises(FrameError):
+        localizers.check("dino+dinomaly")
+    # the other three do not depend on a checkpoint
+    assert localizers.availability("photo")[0] is True
+
+
+@dino_only
+def test_veto_falls_back_to_dino_on_an_unknown_camera(img_factory):
+    """A tmp_path reference matches no checkpoint. The contract is that this
+    degrades to exactly 'dino' - same boxes, nothing deleted - and SAYS so."""
+    ref = img_factory("ref.jpg", **REF_KW)
+    insp = img_factory("insp.jpg", **REF_KW, rects=INSP_RECTS)
+    m = get_module("vlm_05")
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(m, "PERSON_FILTER", False)
+        plain, _ = localizers.localize("dino", m, str(ref), str(insp))
+        fell, info = localizers.localize("dino+dinomaly", m, str(ref), str(insp))
+    assert [r["bbox"] for r in fell] == [r["bbox"] for r in plain]
+    assert info["localizer"] == "dino+dinomaly"
+    assert info["dinomaly_camera"] is None
+    assert info["vetoed"] == 0 and "dino" in info["dinomaly"]
+
+
+@dinomaly_only
+def test_veto_is_a_strict_subset_of_dino(img_factory):
+    """Same invariant as the DINOv2 gate, for the same reason: the veto only
+    DROPS boxes, so the survivors keep byte-identical coordinates and their
+    cached verdicts stay valid. This is what makes a dino / dino+dinomaly A/B
+    cost only the frames the first arm already paid for."""
+    cam = localizers.checkpoint_cameras()[0]
+    ref = img_factory("ref.jpg", **REF_KW)
+    insp = img_factory("insp.jpg", **REF_KW, rects=INSP_RECTS)
+    m = get_module("vlm_05")
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(m, "PERSON_FILTER", False)
+        plain, _ = localizers.localize("dino", m, str(ref), str(insp))
+        vetoed, info = localizers.localize("dino+dinomaly", m, str(ref), str(insp),
+                                           {"DINOMALY_CAMERA": cam})
+    plain_boxes = [tuple(r["bbox"]) for r in plain]
+    kept_boxes = [tuple(r["bbox"]) for r in vetoed]
+    assert set(kept_boxes) <= set(plain_boxes)
+    assert info["dinomaly_camera"] == cam
+    assert info["vetoed"] == len(plain_boxes) - len(kept_boxes)
+
+
+@dinomaly_only
+def test_warmup_reports_whether_the_veto_will_fire(img_factory):
+    """Whether this job gets the veto at all is a fact about the job, and the
+    operator must learn it when it starts - not by reading a per-frame info key
+    after paying for the run."""
+    cam = localizers.checkpoint_cameras()[0]
+    covered = img_factory(f"{cam}_ref.jpg", **REF_KW)
+    unknown = img_factory("nothing_matches.jpg", **REF_KW)
+    assert cam in localizers.warmup("dino+dinomaly", [str(covered)])
+    assert "will not fire" in localizers.warmup("dino+dinomaly", [str(unknown)])
+    mixed = localizers.warmup("dino+dinomaly", [str(covered), str(unknown)])
+    assert cam in mixed and "no checkpoint" in mixed
+    assert localizers.warmup("photo") == ""       # nothing to say, and no crash

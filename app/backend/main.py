@@ -425,11 +425,19 @@ def pipelines():
 
 
 @app.get("/api/localizers")
-def localizers_index():
+def localizers_index(reference: str = None):
     """The region-proposal stage of vlm_05, selectable independently of the
     judge (the model). Availability is resolved server-side: DINOv2 needs
-    torch, so the UI can grey out what this machine cannot run."""
-    return {"localizers": localizers.catalog(), "default": localizers.DEFAULT}
+    torch, so the UI can grey out what this machine cannot run.
+
+    `reference` is optional and is matched by NAME only (arsi_core.localizers
+    .resolve_camera reads the basename), so it is never opened and does not have
+    to exist yet - the wizard can ask about a reference the operator is still
+    choosing. It resolves `reference_note`: whether the per-camera Dinomaly
+    model that 'dino+dinomaly' needs exists for this input."""
+    return {"localizers": localizers.catalog(reference),
+            "default": localizers.DEFAULT,
+            "dinomaly_cameras": localizers.checkpoint_cameras()}
 
 
 @app.post("/api/jobs")

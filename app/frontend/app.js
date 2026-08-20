@@ -179,8 +179,7 @@ async function boot() {
   await Promise.allSettled([
     refreshHealth(), refreshModels(),
     jget("/api/pipelines").then(d => { S.pipelines = d.pipelines; initWizardDefaults(); }),
-    jget("/api/localizers").then(d => { S.localizers = d.localizers;
-                                        S.localizerDefault = d.default; }),
+    refreshLocalizers(),
     jget("/api/demo-frames").then(d => { S.demo = d.frames; }),
     jget("/api/references").then(d => { S.refs = d.references; }),
     refreshMasks(), refreshJobs(),
@@ -191,6 +190,25 @@ async function boot() {
   render();
   setInterval(refreshHealth, 15000);
 }
+/* The localizer catalogue is refetched whenever the REFERENCE changes, not just
+   at boot: one arm ('dino+dinomaly') needs a model trained on that camera and
+   silently degrades without one, and only the server knows which cameras have
+   one. Doing the name matching here instead would fork the rule that
+   arsi_core.localizers.resolve_camera owns - the same fork the backend module
+   already refuses to make for its own checkpoint glob.
+   `seq` drops out-of-order replies: clicking along the reference strip fires one
+   request per frame and they need not come back in order. */
+let locSeq = 0;
+async function refreshLocalizers() {
+  const mine = ++locSeq;
+  const ref = S.wiz.refPath;
+  const d = await jget("/api/localizers" + (ref ? "?reference=" + encodeURIComponent(ref) : ""));
+  if (mine !== locSeq) return;
+  S.localizers = d.localizers;
+  S.localizerDefault = d.default;
+  render();
+}
+
 const SCREENS = ["dashboard", "wizard", "run", "results", "history", "labels",
                  "benchmark", "lora", "settings"];
 /* #note/<key> or #<screen>. Called at boot and on every hashchange: a note that
@@ -420,7 +438,7 @@ ACT.wizNext = async () => {
         return { path: d.path, img: d.img, id: d.id };
       });
       const d0 = S.demo.find(x => x.id === w.demoSel[0]);
-      if (d0) w.refPath = d0.reference;
+      if (d0) { w.refPath = d0.reference; refreshLocalizers(); }
     }
   }
   if (w.step === 2 && w.source === "video" && !w.frames.length) {
@@ -686,7 +704,7 @@ ACT.resetPrompt = () => {
   S.wiz.promptPreset = name; S.wiz.promptText = p.prompts[name]; render();
 };
 ACT.toggleAdv = () => { S.wiz.advOpen = !S.wiz.advOpen; render(); };
-ACT.setRefFromFrame = (path) => { S.wiz.refPath = path; render(); };
+ACT.setRefFromFrame = (path) => { S.wiz.refPath = path; render(); refreshLocalizers(); };
 ACT.pickRefFile = () => document.getElementById("refFile").click();
 
 /* --- launch + run --- */
@@ -1562,7 +1580,7 @@ const CHANGE = {
   trimEnd: v => { S.wiz.trimEnd = Math.max(+v, S.wiz.trimStart + 2); invalidateExtraction(); render(); },
   promptText: v => { S.wiz.promptText = v; S.wiz.promptPreset = "custom"; render(); },
   promptPreset: v => ACT.setPromptPreset(v),
-  refPath: v => { S.wiz.refPath = v; render(); },
+  refPath: v => { S.wiz.refPath = v; render(); refreshLocalizers(); },
   maskPreset: v => ACT.setMaskPreset(v),
   camera: v => { S.wiz.camera = v.trim().replace(/[^A-Za-z0-9_-]+/g, "_"); },
   labelmeFile: async (_, input) => {
@@ -2358,6 +2376,14 @@ function localizerPicker() {
       </div>
       <div style="font-size:11.5px; color:oklch(0.66 0.012 250); margin-top:7px; line-height:1.5;">${esc(l.summary)}</div>
       ${off ? `<div style="font-size:11px; color:${C.redFg}; margin-top:5px;">${esc(l.unavailable_reason)}</div>` : ""}
+      ${!off && l.reference_note ? `
+        <div style="display:flex; gap:7px; margin-top:7px; padding:7px 9px; border-radius:7px; line-height:1.5;
+                    font-size:11px; color:${l.reference_ok ? C.fg3 : "oklch(0.78 0.1 75)"};
+                    background:${l.reference_ok ? C.bgBtn : "oklch(0.24 0.05 75)"};
+                    border:1px solid ${l.reference_ok ? C.bd : "oklch(0.42 0.08 75)"};">
+          <span style="flex:0 0 auto;">${l.reference_ok ? "✓" : "⚠"}</span>
+          <span>${esc(l.reference_note)}</span>
+        </div>` : ""}
     </div>`;
   }).join("");
   return `

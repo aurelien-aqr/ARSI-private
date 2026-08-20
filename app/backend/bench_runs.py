@@ -264,7 +264,8 @@ class LocalizeWorker:
         stop = self.cancel.get(run_id) or threading.Event()
         name = run["config"]["localizer"]
         localizers.check(name)
-        localizers.warmup(name)
+        localizers.warmup(name, [str(benchmarks.REPO_ROOT / refs[c["reference"]])
+                                 for c in cases])
 
         module = get_module("vlm_05")
         overrides = _module_overrides(module, run["params"])

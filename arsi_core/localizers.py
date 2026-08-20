@@ -57,11 +57,29 @@ DEFAULT stays "photo" regardless: it is what every job in the history and every
 published benchmark number was run with, and switching the default would
 silently change what a re-run means.
 
-Better still, and NOT in this registry: AnomalyDINO proposing with a per-camera
-Dinomaly model vetoing (`ddgate0.05`) reaches the same 0.984 / 0.896 for 654
-regions - fewer than photo+dino. It needs a trained checkpoint per camera, so it
-stays a tools/ experiment until the nominal-footage protocol is solid on more
-than one camera. See docs/dino_models/.
+A FOURTH arm, "dino+dinomaly" (`ddgate0.05` in tools/localizer_specs.py), adds a
+per-camera Dinomaly model as a VETO on AnomalyDINO's boxes:
+
+                       regions   frame F1   frame recall   region precision
+    dino                  1228      0.984          0.968              0.896
+    dino+dinomaly          654      0.984          0.968              0.896
+
+Every quality column is EQUAL to "dino", to the digit, and that is the expected
+result rather than a disappointment: a veto only deletes boxes, so "dino" is its
+ceiling, and reaching that ceiling means none of the 574 deleted boxes held a
+true instance. It is a pure cost lever - 47 % fewer judge calls - and it costs
+one Dinomaly forward pass per frame to save them.
+
+It is NOT recommended, for one reason that has nothing to do with the numbers:
+it needs a checkpoint trained on nominal footage of THAT camera
+(weights/dinomaly_<camera>.pt, tools/dinomaly_train.py). Eight exist; a ninth
+camera has none. So the veto is applied when a checkpoint for the frame's camera
+is found and SILENTLY SKIPPED otherwise - the arm degrades to plain "dino",
+which is the recommended localizer anyway, and says so in info["dinomaly"].
+Never let it degrade to something worse than what the user could have picked.
+
+The camera is inferred from the reference PATH (see `resolve_camera`), or named
+outright with the DINOMALY_CAMERA param. See docs/dino_models/.
 
 Importing this module must stay cheap: torch is imported only when a DINOv2
 localizer is actually selected. The dependency direction (arsi_core -> tools/)
@@ -117,26 +135,115 @@ LOCALIZERS = {
         "needs": ["torch"],
         "recommended": True,
     },
+    "dino+dinomaly": {
+        "name": "AnomalyDINO + Dinomaly veto",
+        "summary": "AnomalyDINO draws the same boxes as above, then a model "
+                   "trained on nominal footage of this camera deletes the ones "
+                   "it can reconstruct - it has seen the scene without them. "
+                   "Identical accuracy to AnomalyDINO for half the VLM calls, "
+                   "on the cameras that have a trained model.",
+        "measured": "Equal to 'dino' on every quality column of the 68-case set "
+                    "(frame F1 0.984, region precision 0.896, 55/73 instances, "
+                    "46/73 strict) for 654 regions against 1228 - a veto cannot "
+                    "beat what it filters, and matching it means none of the 574 "
+                    "deleted boxes held a true instance. Costs one Dinomaly "
+                    "forward per frame. Falls back to plain 'dino' on a camera "
+                    "with no checkpoint.",
+        "needs": ["torch", "checkpoint"],
+    },
 }
+
+#: Checkpoint naming contract, duplicated from tools/dinomaly.checkpoint_path
+#: ON PURPOSE: availability is asked for on every /api/localizers call and this
+#: module promises to stay torch-free until a feature localizer is actually
+#: selected, while importing tools.dinomaly costs a torch import. The two
+#: spellings are pinned together by test_checkpoint_glob_matches_dinomaly.
+WEIGHTS_DIR = Path(__file__).resolve().parent.parent / "weights"
+CKPT_GLOB = "dinomaly_*.pt"
 
 
 def names():
     return list(LOCALIZERS)
 
 
-def catalog():
-    """Registry for /api/localizers, with availability resolved."""
+def catalog(reference: str = None):
+    """Registry for /api/localizers, with availability resolved.
+
+    `reference` is the reference image the job will use, when the caller knows
+    it. It changes nothing about availability - it resolves `reference_note`,
+    which is how an arm says "I am selectable, and on THIS input I will quietly
+    do less than my name says". Only 'dino+dinomaly' has such a mode, and the
+    picker sits directly above the reference chooser, so the warning is the
+    difference between learning this before the run and after it.
+    """
     out = []
     for key, spec in LOCALIZERS.items():
         ok, why = _availability(key)
         # `measured` is deliberately NOT shipped: the cards show the name and
         # the summary only. The numbers live in this file and in
         # benchmark/README.md, where they can be kept honest.
+        note, note_ok = _reference_note(key, reference)
         out.append({"key": key, "name": spec["name"], "summary": spec["summary"],
                     "recommended": bool(spec.get("recommended")),
                     "available": ok, "unavailable_reason": why,
+                    "reference_note": note, "reference_ok": note_ok,
                     "first_use_download_mb": 0 if _weights_cached() or not spec["needs"] else 84})
     return out
+
+
+def _reference_note(key: str, reference: str):
+    """(text, ok) about what this arm will actually do on `reference`."""
+    if "checkpoint" not in LOCALIZERS.get(key, {}).get("needs", []):
+        return "", True
+    cams = checkpoint_cameras()
+    if not cams:
+        return "", True                   # already reported as unavailable
+    if not reference:
+        return f"Trained cameras: {', '.join(sorted(cams))}.", True
+    cam = resolve_camera(reference)
+    if cam:
+        return f"Dinomaly model found for this reference: {cam}.", True
+    return (f"No Dinomaly model matches this reference, so the veto cannot fire: "
+            f"this runs exactly as '{LOCALIZERS['dino']['name']}' - same boxes, "
+            f"same number of VLM calls. Trained cameras: "
+            f"{', '.join(sorted(cams))}. Train one for this camera with "
+            f"tools/dinomaly_train.py, or name the reference after a trained "
+            f"camera."), False
+
+
+def checkpoint_cameras():
+    """Cameras with a trained Dinomaly checkpoint, longest name first so
+    `resolve_camera` prefers the most specific match."""
+    if not WEIGHTS_DIR.is_dir():
+        return []
+    names_ = [p.stem[len("dinomaly_"):] for p in WEIGHTS_DIR.glob(CKPT_GLOB)]
+    return sorted(names_, key=lambda c: (-len(c), c))
+
+
+def resolve_camera(reference: str, params: dict = None):
+    """Which Dinomaly checkpoint a frame's reference belongs to, or None.
+
+    The reference PATH is the evidence, because it is the one thing every
+    caller already has: the app names an uploaded reference after its camera,
+    and the benchmark's reference paths are literally
+    `data/benchmark_39T/39T-cam53_...jpg`. `camera_of` in
+    tools/localizer_specs.py reads the same fact off the benchmark's reference
+    KEY - same convention, the copy each caller can actually see.
+
+    Returning None is a normal answer, not a failure: the 'variant' scene has no
+    model of its own, and `localize` degrades to plain 'dino' rather than
+    scoring it against some other camera's model. (The offline benchmark DOES
+    deliberately score variant against tram_1762, because out-of-domain
+    behaviour is a thing it measures - a shipped job has no such reason.)
+    """
+    named = (params or {}).get("DINOMALY_CAMERA")
+    if named:
+        return str(named)
+    hay = Path(reference).name
+    for cam in checkpoint_cameras():
+        if cam in hay:
+            return cam
+    return None
 
 
 def _weights_cached() -> bool:
@@ -158,6 +265,15 @@ def _availability(name: str):
             return False, ("PyTorch is not installed in this environment "
                            "(pip install torch), so DINOv2 features are "
                            "unavailable")
+    if "checkpoint" in spec["needs"] and not checkpoint_cameras():
+        # NO checkpoint at all means the veto could never fire on any frame, so
+        # the arm is just 'dino' with extra words - do not offer it. ONE
+        # checkpoint is enough to offer it: the per-frame fallback handles the
+        # cameras that are not covered.
+        return False, ("no Dinomaly checkpoint has been trained yet "
+                       f"({WEIGHTS_DIR}/{CKPT_GLOB}). Train one on nominal "
+                       "footage of a camera first: "
+                       "python tools/dinomaly_train.py --camera <name>")
     return True, ""
 
 
@@ -176,23 +292,58 @@ def check(name: str):
     return name
 
 
-def warmup(name: str):
+def warmup(name: str, references=()):
     """Load whatever the localizer needs, once, before the frame loop - a failed
-    weight download must fail the job with one message, not N frame errors."""
-    if name in ("photo+dino", "dino"):
+    weight download must fail the job with one message, not N frame errors.
+
+    `references` is the job's reference images. They are only needed by
+    'dino+dinomaly', to resolve and load the per-camera checkpoints up front:
+    the same reason as the backbone, plus one the backbone does not have -
+    whether the veto will fire at all is a fact about this job that the operator
+    should learn when it starts, not infer from a per-frame info key afterwards.
+    Returns a note about that, or "".
+    """
+    if name not in ("photo+dino", "dino", "dino+dinomaly"):
+        return ""
+    try:
+        _dino()._load_model()
+    except Exception as exc:
+        raise FrameError(
+            f"cannot load the DINOv2 backbone for localizer '{name}': "
+            f"{type(exc).__name__}: {exc}. The first use downloads ~84 MB "
+            f"from dl.fbaipublicfiles.com; pick the 'photo' localizer to run "
+            f"offline.") from exc
+    if name != "dino+dinomaly":
+        return ""
+
+    cams = {resolve_camera(r) for r in references if r}
+    covered = sorted(c for c in cams if c)
+    for cam in covered:
         try:
-            _dino()._load_model()
+            _dinomaly()._model(cam)
         except Exception as exc:
             raise FrameError(
-                f"cannot load the DINOv2 backbone for localizer '{name}': "
-                f"{type(exc).__name__}: {exc}. The first use downloads ~84 MB "
-                f"from dl.fbaipublicfiles.com; pick the 'photo' localizer to run "
-                f"offline.") from exc
+                f"cannot load the Dinomaly checkpoint '{cam}' for localizer "
+                f"'{name}': {type(exc).__name__}: {exc}") from exc
+    if not references:
+        return ""
+    if not covered:
+        return ("no Dinomaly checkpoint matches this job's reference - the veto "
+                "will not fire and every frame runs as plain 'dino'")
+    if None in cams:
+        return (f"Dinomaly veto active for {', '.join(covered)}; the other "
+                f"references have no checkpoint and run as plain 'dino'")
+    return f"Dinomaly veto active for {', '.join(covered)}"
 
 
 def _dino():
     import tools.dino_localizer as dl
     return dl
+
+
+def _dinomaly():
+    import tools.dinomaly_localizer as dml
+    return dml
 
 
 def localize(name: str, module, reference: str, inspection: str, params: dict = None):
@@ -209,20 +360,57 @@ def localize(name: str, module, reference: str, inspection: str, params: dict = 
     params = params or {}
     if name == "photo":
         regions, info = module.localize(reference, inspection)
-        info["localizer"] = name
-        return regions, info
+        return _tagged(regions, info, name)
 
     dl = _dino()
-    if name == "dino":
+    if name in ("dino", "dino+dinomaly"):
         regions, info = dl.localize(
             reference, inspection,
             z_thr=float(params.get("DINO_Z", dl.Z_THRESHOLD)),
             abs_floor=float(params.get("DINO_FLOOR", dl.ABS_FLOOR)))
+        if name == "dino+dinomaly":
+            _dinomaly_veto(regions, info, reference, inspection, params)
     elif name == "photo+dino":
         regions, info = dl.localize_gated(
             reference, inspection,
             gate=float(params.get("DINO_GATE", dl.GATE_THRESHOLD)))
     else:
         raise FrameError(f"unknown localizer '{name}'")
+    return _tagged(regions, info, name)
+
+
+def _tagged(regions, info, name):
+    """Stamp the arm's name and re-state the region count on the way out.
+
+    `total` is re-derived rather than trusted because the sub-localizers set it
+    BEFORE their veto step runs, so a gated arm would otherwise report the
+    ungated count - a silently wrong cost number in the one field named for it.
+    (The offline path pins the same key the same way, tools/localizer_specs.py.)
+    """
     info["localizer"] = name
+    info["total"] = len(regions)
     return regions, info
+
+
+def _dinomaly_veto(regions, info, reference, inspection, params):
+    """Delete the AnomalyDINO boxes the nominal model rebuilds. In place, and
+    only if this camera has a model - see `resolve_camera`.
+
+    The kept boxes keep their coordinates exactly, which is the property the
+    whole cheap-A/B story rests on: a 'dino' run and a 'dino+dinomaly' run share
+    every verdict in the cache for the boxes that survive, so the second arm
+    costs only the frames the first one already paid for."""
+    camera = resolve_camera(reference, params)
+    info["dinomaly_camera"] = camera
+    if camera is None:
+        info["dinomaly"] = "no checkpoint for this reference - ran as 'dino'"
+        info["vetoed"] = 0
+        return regions
+    dml = _dinomaly()
+    gate = float(params.get("DINOMALY_GATE", dml.GATE_THRESHOLD))
+    dml.support(reference, inspection, regions, camera=camera)
+    kept = [r for r in regions if r["dinomaly_max"] > gate]
+    info["vetoed"] = len(regions) - len(kept)
+    info["dinomaly_gate"] = gate
+    regions[:] = kept
+    return regions

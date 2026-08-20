@@ -166,6 +166,14 @@ PIPELINE_DOCS = {
              "identical instance recall and box quality, region precision "
              "0.730 → 0.815, and 559 → 243 VLM calls. A lighting shift on an "
              "empty seat is invisible to the features; a phone is not."),
+            ("Optional Dinomaly veto", "With the 'dino+dinomaly' localizer, the "
+             "AnomalyDINO boxes are additionally scored by a model trained on "
+             "nominal footage of THIS camera, and the ones it can reconstruct "
+             "are dropped - it has seen the scene without them. Measured on the "
+             "68-case set: every quality column identical to 'dino' (frame F1 "
+             "0.984, region precision 0.896) for 1228 → 654 VLM calls. Needs a "
+             "checkpoint per camera; on a camera without one the veto is "
+             "skipped and the frame runs as plain 'dino'."),
             ("VLM judges each region", "Each region is cropped from BOTH images "
              "with context padding and sent side by side (reference | now). The "
              "model answers YES/NO plus a 2-4 word name. In 'filter' mode the "

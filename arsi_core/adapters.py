@@ -494,7 +494,8 @@ def _run_vlm05(image, reference, model, prompt, params, client, cache, mask_hash
              "filtered": sum(1 for c in cands if c["outcome"] == "filtered"),
              **{k: v for k, v in loc.items()
                 if k in ("person_veto", "capped", "gated_away", "base",
-                         "second", "edge", "merged_away", "persons")}}
+                         "second", "edge", "merged_away", "persons",
+                         "vetoed", "dinomaly_camera", "dinomaly")}}
     if aborted:
         # partial by construction: keep what was judged, and say so rather than
         # reporting a clean frame that was never fully looked at
