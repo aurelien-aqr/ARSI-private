@@ -67,16 +67,16 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| 39T_cam52_085124 | anomaly | **TP** | 0/2 | 1 | phone |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow bag on seat, a yellow bag on the seat |
-| 39T_cam53_084021 | anomaly | **TP** | 1/2 | 1 | yellow item on seat, yellow bag on seat |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 0 | a crumpled paper wrapper, plastic bag |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 3 | cloth on seat, cloth on seat, laptop, laptop, a plastic bag |
-| 39T_cam54_085124 | anomaly | **TP** | 1/3 | 3 | a crumpled bag with green items, litter (trash bag), green bottle, a bag and food wrapper |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 0 | laptop on left seat, laptop |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 0 | a crumpled paper wrapper |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 2 | laptop and cloth, cloth on seat, laptop, laptop |
-| 39T_cam55_085124 | anomaly | **TP** | 1/2 | 0 | a green bottle |
+| 3333_cam52_085124\* | anomaly | **TP** | 0/2 | 1 | phone |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow bag on seat, a yellow bag on the seat |
+| 3333_cam53_084021 | anomaly | **TP** | 1/2 | 1 | yellow item on seat, yellow bag on seat |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 0 | a crumpled paper wrapper, plastic bag |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 3 | cloth on seat, cloth on seat, laptop, laptop, a plastic bag |
+| 3333_cam54_085124 | anomaly | **TP** | 1/3 | 3 | a crumpled bag with green items, litter (trash bag), green bottle, a bag and food wrapper |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 0 | laptop on left seat, laptop |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 0 | a crumpled paper wrapper |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 2 | laptop and cloth, cloth on seat, laptop, laptop |
+| 3333_cam55_085124 | anomaly | **TP** | 1/2 | 0 | a green bottle |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 0 | black suitcase, black suitcase, suitcase, black suitcase |
 | gpt_02_multi | anomaly | **TP** | 4/4 | 2 | black backpack, brown paper bag, phone, bottle, plastic bottle, brown paper bag, plastic bottle |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 0 | graffiti (letters XRP) |
@@ -94,10 +94,10 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | real_f0205 | anomaly | **TP** | 1/2 | 1 | jacket on seat, jacket on seat |
 | real_f0219 | anomaly | **TP** | 2/2 | 2 | jacket on seat, clothes on seat, backpack, backpack on seat, backpack |
 | variant_01 | anomaly | **TP** | 6/7 | 4 | bottle, backpack, backpack, graffiti "keep", torn seat fabric, bottle, bottle, backpack, plastic bottle, torn seat, torn seat, backpack |
-| 39T_cam52_084637 | anomaly | **FN** | 0/3 | 0 | - |
-| 39T_cam53_084637 | anomaly | **FN** | 0/1 | 0 | - |
-| 39T_cam53_085124 | anomaly | **FN** | 0/1 | 0 | - |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam52_084637 | anomaly | **FN** | 0/3 | 0 | - |
+| 3333_cam53_084637 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam53_085124 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
 | 1760_cam04_t120 | clean | **TN** | - | 0 | - |
 | 1760_cam04_t220 | clean | **TN** | - | 0 | - |
 | 1760_cam04_t320 | clean | **TN** | - | 0 | - |
@@ -116,13 +116,13 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam13_t420 | clean | **TN** | - | 0 | - |
 | 1760_cam13_t520 | clean | **TN** | - | 0 | - |
 | 1760_cam13_t570 | clean | **TN** | - | 0 | - |
-| 39T_cam52_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam53_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam54_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam54_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam55_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam52_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam54_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam54_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam55_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_gpt_06_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_v1_f0151 | clean | **TN** | - | 0 | - |
@@ -137,3 +137,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
 
 Annotated images: `benchmark/runs/cli-latest/annotated/<id>.jpg` (blue = ground-truth boxes, green = correct detections, red = false-positive boxes). Raw results: `benchmark/runs/loc-shipped-all/results.json`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

@@ -48,7 +48,7 @@ def main():
     ap.add_argument("--refs", default="real,variant",
                     help="comma list of benchmark reference keys, or 'all'. The "
                          "default is what run_benchmark has always scored; 'all' "
-                         "adds the 1760 and 39T cameras")
+                         "adds the 1760 and 3333 cameras")
     ap.add_argument("--model", default="haervwe/GLM-4.6V-Flash-9B:latest")
     ap.add_argument("--prompt", default="conservative",
                     choices=sorted(prompts.PROMPTS),

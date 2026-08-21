@@ -102,6 +102,20 @@ const $app = () => document.getElementById("app");
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;")
   .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const hint = (text) => `<span class="hint" data-tip="${esc(text)}">?</span>`;
+/* 3333 is a PLACEHOLDER tram id, not a fleet number - the real vehicle number
+   of the 2026-08-11 capture is unknown (mirror of arsi_core.TRAM_ID_NOTE).
+   Every label that shows it gets an asterisk and the note on hover. */
+const TRAM_ID_NOTE = "3333 is a placeholder, not the tram's real fleet number - "
+  + "the vehicle number of the 2026-08-11 capture is unknown. It was called 39T "
+  + "before, but 39T is the \u0160koda type, which tram 1760 shares.";
+/* The id as an id, not four digits inside a box coordinate (817.3333740234375). */
+const isPlaceholderTram = (s) => /(?<![\d.])3333(?!\d)/.test(String(s ?? ""));
+/* Compact form for dense labels (grid tiles): just the asterisk, note on hover. */
+const tramStar = (s) => isPlaceholderTram(s)
+  ? `${esc(s)}<sup title="${esc(TRAM_ID_NOTE)}" style="cursor:help;">*</sup>` : esc(s);
+/* Roomy form (headers): asterisk plus the usual "?" tooltip badge. */
+const tramId = (s) => isPlaceholderTram(s)
+  ? `${tramStar(s)} ${hint(TRAM_ID_NOTE)}` : esc(s);
 const fmtGB = (b) => (b / 1e9).toFixed(1);
 const fmtEta = (sec) => {
   sec = Math.max(0, Math.round(sec));
@@ -287,7 +301,7 @@ async function loadBenchDataset(ds) {
   B.candidates = null;
 }
 /* Instance boxes live in the pixel space of THEIR OWN reference, and a dataset
-   can mix sizes: `real` is 1920x1080, `variant` 1672x941 and the four 39T
+   can mix sizes: `real` is 1920x1080, `variant` 1672x941 and the four 3333
    cameras 1280x720. One global size drew
    those at the wrong scale and - worse - turned a drawn box into corrupted
    coordinates. So the space is resolved per case, from its reference image.
@@ -3166,7 +3180,7 @@ function labelsView() {
 
 /* --------------- benchmark ---------------
    The labelled ground truth, and runs scored against it. Two things the repo
-   could only do from a terminal: read/correct the labels (the 39T protocol was
+   could only do from a terminal: read/correct the labels (the 3333 protocol was
    drafted by a model and needs human review), and score a chosen
    script x localizer x model x prompt instead of whatever vlm_05 happens to be
    configured with. */
@@ -3280,8 +3294,8 @@ function benchDataTab() {
       </div>
       <div style="padding:5px 7px; background:${C.bgCard2};">
         <div style="font-family:${C.mono}; font-size:10px; color:oklch(0.86 0.006 250);
-                    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(c.id)}</div>
-        <div style="font-size:9.5px; color:${C.fg4}; margin-top:1px;">${(c.instances || []).length} inst · ${esc(c.reference || "")}</div>
+                    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tramStar(c.id)}</div>
+        <div style="font-size:9.5px; color:${C.fg4}; margin-top:1px;">${(c.instances || []).length} inst · ${tramStar(c.reference || "")}</div>
       </div>
     </div>`).join("");
   const warnings = (d.warnings || []).length ? `
@@ -3373,9 +3387,9 @@ function benchEditor() {
   <div style="padding:13px 15px; border-bottom:1px solid ${C.bd2}; display:flex; align-items:center; gap:8px;">
     <div style="flex:1; min-width:0;">
       <div style="font-family:${C.mono}; font-size:12.5px; color:oklch(0.92 0.006 250);
-                  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${esc(c.id)}</div>
+                  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${tramId(c.id)}</div>
       <div style="font-size:10.5px; color:${C.fg4}; margin-top:2px;">
-        ref ${esc(c.reference)} · ${(stored.instances || []).length} instance(s) on file</div>
+        ref ${tramStar(c.reference)} · ${(stored.instances || []).length} instance(s) on file</div>
     </div>
     <button data-act="benchToggleSide" title="Show the reference side by side"
       style="font-size:11px; color:${B.side ? C.accFg : C.fg2}; background:${B.side ? C.accBg : C.bgBtn};
@@ -3465,8 +3479,8 @@ function benchAddPanel() {
         No unused image in ${esc((cand.dirs || []).join(", ") || "this dataset's folders")}.
         Every image there already belongs to a case or is a reference - extract the
         frames you want to label first (Studio → New analysis, or
-        <span style="font-family:${C.mono};">tools/build_39T_benchmark.py</span>).</div>`}
-    <input data-change="benchAddId" data-live value="${esc(a.id)}" placeholder="case id - e.g. 39T_cam52_083517"
+        <span style="font-family:${C.mono};">tools/build_3333_benchmark.py</span>).</div>`}
+    <input data-change="benchAddId" data-live value="${esc(a.id)}" placeholder="case id - e.g. 3333_cam52_083517"
       style="width:100%; box-sizing:border-box; padding:7px 9px; border-radius:7px; background:${C.bgInput};
              border:1px solid ${C.bd3}; color:oklch(0.92 0.006 250); font-family:${C.mono};
              font-size:11.5px; margin-bottom:8px;">

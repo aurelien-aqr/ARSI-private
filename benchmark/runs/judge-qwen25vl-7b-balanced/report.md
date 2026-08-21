@@ -68,19 +68,19 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| 39T_cam52_084637 | anomaly | **TP** | 3/3 | 3 | Handbag., small red object., small object under seat., small object under seat., small object under seat., dog. |
-| 39T_cam52_085124 | anomaly | **TP** | 2/2 | 10 | Small black object., Phone., Small black object., Wallet., Handbag hanging., small object under seat., Blood stain., Red sticker or tag., small object under seat., Paper wrapper., small object under seat., small object under seat. |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 2 | Yellow cloth item., Wrapper., paper wrapper. |
-| 39T_cam53_084021 | anomaly | **TP** | 2/2 | 3 | can., yellow cloth., yellow object., Green bottle., Wrapper. |
-| 39T_cam53_084637 | anomaly | **TP** | 1/1 | 1 | Wrapper., small object under seat. |
-| 39T_cam53_085124 | anomaly | **TP** | 1/1 | 4 | paper wrapper., Pink bag hanging., white object., small object under seat., small object under seat. |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 2 | Trash bag., Paper wrapper., litter left behind: can. |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 7 | Cloth draped seat, phone., A small object on floor., a small object under seat., can., torn seat., small object under seat., Yellow object., yellow object. |
-| 39T_cam54_085124 | anomaly | **TP** | 3/3 | 4 | discarded cloth., discarded cloth., Paper wrapper., green wrapper., Paper wrapper., small object under seat., flame. |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 5 | Purple plastic bag., Paper wrapper., Small box-like object., Paper wrapper., small object under seat., A small object on the floor., small object under seat. |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 5 | paper bag., Small object under seat., small black object., Small object under seat., paper wrapper., bottle., Small object under seat. |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 1 | Clothing item on seat., Laptop placed on seat., Bag. |
-| 39T_cam55_085124 | anomaly | **TP** | 2/2 | 5 | Green bottle., Green bottle and book., Paper wrapper., paper wrapper., small object under seat., can., small object under seat. |
+| 3333_cam52_084637\* | anomaly | **TP** | 3/3 | 3 | Handbag., small red object., small object under seat., small object under seat., small object under seat., dog. |
+| 3333_cam52_085124 | anomaly | **TP** | 2/2 | 10 | Small black object., Phone., Small black object., Wallet., Handbag hanging., small object under seat., Blood stain., Red sticker or tag., small object under seat., Paper wrapper., small object under seat., small object under seat. |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 2 | Yellow cloth item., Wrapper., paper wrapper. |
+| 3333_cam53_084021 | anomaly | **TP** | 2/2 | 3 | can., yellow cloth., yellow object., Green bottle., Wrapper. |
+| 3333_cam53_084637 | anomaly | **TP** | 1/1 | 1 | Wrapper., small object under seat. |
+| 3333_cam53_085124 | anomaly | **TP** | 1/1 | 4 | paper wrapper., Pink bag hanging., white object., small object under seat., small object under seat. |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 2 | Trash bag., Paper wrapper., litter left behind: can. |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 7 | Cloth draped seat, phone., A small object on floor., a small object under seat., can., torn seat., small object under seat., Yellow object., yellow object. |
+| 3333_cam54_085124 | anomaly | **TP** | 3/3 | 4 | discarded cloth., discarded cloth., Paper wrapper., green wrapper., Paper wrapper., small object under seat., flame. |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 5 | Purple plastic bag., Paper wrapper., Small box-like object., Paper wrapper., small object under seat., A small object on the floor., small object under seat. |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 5 | paper bag., Small object under seat., small black object., Small object under seat., paper wrapper., bottle., Small object under seat. |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 1 | Clothing item on seat., Laptop placed on seat., Bag. |
+| 3333_cam55_085124 | anomaly | **TP** | 2/2 | 5 | Green bottle., Green bottle and book., Paper wrapper., paper wrapper., small object under seat., can., small object under seat. |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 2 | black suitcase., small sticker., Small black object. |
 | gpt_02_multi | anomaly | **TP** | 4/4 | 5 | Backpack and bottle present., Black backpack, Water bottle, Black backpack, small object under seat., Graffiti: painted letters., A small object on floor., A small black object appears on the right side of the image. It looks like a phone or a small electronic device. |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 4 | XRP graffiti., torn seat., small object under seat., Small black object., small object under seat. |
@@ -98,7 +98,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | real_f0205 | anomaly | **TP** | 2/2 | 7 | Clothing item left behind., backpack., litter left behind: paper wrapper., Green wrapper., phone., small object under seat., small object under seat., A small object resembling a bottle., can. |
 | real_f0219 | anomaly | **TP** | 2/2 | 7 | Clothing item left behind., backpack., backpack., small object under seat., Black cylindrical object., torn seat., Graffiti: painted letters., Paper wrapper., small object under seat. |
 | variant_01 | anomaly | **TP** | 6/7 | 5 | Backpack on seat, Plastic bottle lying down., Torn seat material., Graffiti: "KEPP", Graffiti: bird drawing, small blue object., Small object under seat., can., water stain., A small object appears on the right side of the image that is not present on the left side. It looks like a piece of debris or trash. |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
 | 1760_cam04_t120 | clean | **FP** | - | 5 | small white mark., small object under seat., small object., Paper wrapper., Sticker on wall. |
 | 1760_cam04_t220 | clean | **FP** | - | 6 | small object under seat., Red button anomaly., Graffiti: painted letters., Cable connected to device., Graffiti: painted letters., small object under seat. |
 | 1760_cam04_t320 | clean | **FP** | - | 4 | Yellow device attached to seat., yellow cloud., Small object under seat., small object. |
@@ -116,12 +116,12 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam13_t420 | clean | **FP** | - | 9 | seat damage., small yellow object., Vent cover., Paper wrapper., Paper wrapper., paper wrapper., Paper wrapper., paper wrapper., A small object under seat. |
 | 1760_cam13_t520 | clean | **FP** | - | 3 | small object under seat., bottle., phone. |
 | 1760_cam13_t570 | clean | **FP** | - | 2 | bottle., Graffiti: yellow letters |
-| 39T_cam52_ref_t120_clean | clean | **FP** | - | 10 | phone., Small object under seat., A small object on the floor., A small object under seat., small object under seat., Paper wrapper., Paper wrapper., bottle., A small object on floor., Graffiti: painted letters |
-| 39T_cam53_085954_clean | clean | **FP** | - | 7 | small object under seat., footprints., bottle., Paper wrapper., cable., small object under seat., small object on floor. |
-| 39T_cam54_085954_clean | clean | **FP** | - | 7 | small object under seat., Shadow of object., small object under seat., litter left behind: can., Reflection of light., A small object on the floor., can. |
-| 39T_cam54_ref_t120_clean | clean | **FP** | - | 6 | shadow of pole., Black object under seat., Paper wrapper., A small object on the floor., small object under seat., Graffiti: scribble on seat. |
-| 39T_cam55_085954_clean | clean | **FP** | - | 10 | A small black object appears on the right side of the image, which is not present on the left side. It looks like a piece of debris or trash., small object under seat., small black object., paper wrapper., A small object on the floor., can., Paper wrapper., Small object under seat., small object under seat., small object under seat. |
-| 39T_cam55_ref_t120_clean | clean | **FP** | - | 6 | small object under seat., Paper wrapper., can., A small object appears on the right side of the seat., small object under seat., Paper wrapper. |
+| 3333_cam52_ref_t120_clean | clean | **FP** | - | 10 | phone., Small object under seat., A small object on the floor., A small object under seat., small object under seat., Paper wrapper., Paper wrapper., bottle., A small object on floor., Graffiti: painted letters |
+| 3333_cam53_085954_clean | clean | **FP** | - | 7 | small object under seat., footprints., bottle., Paper wrapper., cable., small object under seat., small object on floor. |
+| 3333_cam54_085954_clean | clean | **FP** | - | 7 | small object under seat., Shadow of object., small object under seat., litter left behind: can., Reflection of light., A small object on the floor., can. |
+| 3333_cam54_ref_t120_clean | clean | **FP** | - | 6 | shadow of pole., Black object under seat., Paper wrapper., A small object on the floor., small object under seat., Graffiti: scribble on seat. |
+| 3333_cam55_085954_clean | clean | **FP** | - | 10 | A small black object appears on the right side of the image, which is not present on the left side. It looks like a piece of debris or trash., small object under seat., small black object., paper wrapper., A small object on the floor., can., Paper wrapper., Small object under seat., small object under seat., small object under seat. |
+| 3333_cam55_ref_t120_clean | clean | **FP** | - | 6 | small object under seat., Paper wrapper., can., A small object appears on the right side of the seat., small object under seat., Paper wrapper. |
 | neg_gpt_06_clean | clean | **FP** | - | 4 | small object under seat., small dark mark., torn seat., paper wrapper. |
 | neg_v1_f0151 | clean | **FP** | - | 3 | blue light anomaly., Graffiti: painted letters., small object under seat. |
 | neg_v1_f0241 | clean | **FP** | - | 3 | A small object on the floor near pole., small object under seat., bottle. |
@@ -131,10 +131,14 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_v4_f0016 | clean | **FP** | - | 9 | black bag., A small black object., small red object., small object under seat., a small object under seat., can., Graffiti: scribble on seat, phone., small object under seat. |
 | neg_v4_f0022 | clean | **FP** | - | 4 | small object under seat., torn seat., Small object, possibly bottle., small object under seat. |
 | 1760_cam04_t570 | clean | **TN** | - | 0 | - |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_v1_f0181 | clean | **TN** | - | 0 | - |
 | neg_v1_f0211 | clean | **TN** | - | 0 | - |
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
 
 Annotated images: `benchmark/runs/cli-latest/annotated/<id>.jpg` (blue = ground-truth boxes, green = correct detections, red = false-positive boxes). Raw results: `benchmark/runs/judge-qwen25vl-7b-balanced/results.json`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

@@ -811,7 +811,7 @@ CANDIDATE_LIMIT = 300
 @app.get("/api/benchmarks/{ds_id}/candidates")
 def benchmark_candidates(ds_id: str):
     """Images in the dataset's own folders that no case uses yet - what "add a
-    case" picks from. `dirs` is reported too: for 39T the answer is currently
+    case" picks from. `dirs` is reported too: for 3333 the answer is currently
     empty, because the frames of the moments left unlabelled (cam52 at 08-35,
     08-40, 08-59) were never extracted, and the UI should say that rather than
     show an unexplained empty list."""

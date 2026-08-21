@@ -1,10 +1,10 @@
-"""Static background per camera, by temporal median, for both 1760 and 39T.
+"""Static background per camera, by temporal median, for both 1760 and 3333.
 
 A median background removes passengers, moving shadows and noise: only the
 structure of the tram survives, which makes cross-tram matching far more
 reliable than a single frame does.
 
-Output: docs/camera_alignment/bg/{1760,39T}/<cam>.png
+Output: docs/camera_alignment/bg/{1760,3333}/<cam>.png
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ def median_background(path: Path, n: int = N_SAMPLES) -> np.ndarray | None:
 
 def main():
     (OUT / "1760").mkdir(parents=True, exist_ok=True)
-    (OUT / "39T").mkdir(parents=True, exist_ok=True)
+    (OUT / "3333").mkdir(parents=True, exist_ok=True)
 
     for p in sorted((VID / "1760").glob("*.mp4")):
         dst = OUT / "1760" / f"{p.stem}.png"
@@ -54,21 +54,21 @@ def main():
             cv2.imwrite(str(dst), bg)
             print("1760", p.stem, bg.shape)
 
-    # for 39T, take the longest moment: more frames, better median
+    # for 3333, take the longest moment: more frames, better median
     by_cam: dict[str, Path] = {}
-    for m in sorted((VID / "39T").iterdir()):
+    for m in sorted((VID / "3333").iterdir()):
         for p in m.glob("*.mp4"):
             best = by_cam.get(p.stem)
             if best is None or p.stat().st_size > best.stat().st_size:
                 by_cam[p.stem] = p
     for cam, p in sorted(by_cam.items()):
-        dst = OUT / "39T" / f"{cam}.png"
+        dst = OUT / "3333" / f"{cam}.png"
         if dst.exists():
             continue
         bg = median_background(p)
         if bg is not None:
             cv2.imwrite(str(dst), bg)
-            print("39T", cam, p.parent.name, bg.shape)
+            print("3333", cam, p.parent.name, bg.shape)
 
 
 if __name__ == "__main__":

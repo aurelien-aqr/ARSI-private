@@ -4,7 +4,7 @@ Measurement chain
 -----------------
 1. Median background per camera (tools/build_background_frames.py): removes
    passengers, moving shadows and noise, leaving only the tram structure.
-2. SIFT matching between the 1760 background and the 39T background of the
+2. SIFT matching between the 1760 background and the 3333 background of the
    counterpart camera, then robust estimation of three models (similarity,
    affine, homography) plus an independent phase correlation.
 3. Every model is scored by the NCC of the gradient maps after registration;
@@ -35,9 +35,9 @@ BG = OUT / "bg"
 HFOV_DEG = 100.0
 HFOV_LOW, HFOV_HIGH = 90.0, 110.0
 
-# 1760 camera <-> 39T camera occupying the same physical position in the tram.
-PAIRS = [(f"1760-cam{a:02d}", f"39T-cam{b}") for a, b in zip(range(1, 9), range(10, 18))]
-PAIRS += [(f"1760-cam{a:02d}", f"39T-cam{b}") for a, b in zip(range(11, 18), range(50, 57))]
+# 1760 camera <-> 3333 camera occupying the same physical position in the tram.
+PAIRS = [(f"1760-cam{a:02d}", f"3333-cam{b}") for a, b in zip(range(1, 9), range(10, 18))]
+PAIRS += [(f"1760-cam{a:02d}", f"3333-cam{b}") for a, b in zip(range(11, 18), range(50, 57))]
 
 
 # --------------------------------------------------------------------------- #
@@ -77,7 +77,7 @@ def ncc_score(img_a: np.ndarray, img_b: np.ndarray, W: np.ndarray) -> float:
 # estimation
 # --------------------------------------------------------------------------- #
 def estimate(img_a: np.ndarray, img_b: np.ndarray) -> dict:
-    """Return the candidate 1760 -> 39T models and their correspondences."""
+    """Return the candidate 1760 -> 3333 models and their correspondences."""
     sift = cv2.SIFT_create(nfeatures=12000, contrastThreshold=0.01)
     ka, da = sift.detectAndCompute(_gray(img_a), None)
     kb, db = sift.detectAndCompute(_gray(img_b), None)
@@ -133,7 +133,7 @@ def deg_from_px(shift_px: float, w: int, hfov: float) -> float:
 
 def analyse_pair(name_a: str, name_b: str) -> dict:
     img_a = cv2.imread(str(BG / "1760" / f"{name_a}.png"))
-    img_b = cv2.imread(str(BG / "39T" / f"{name_b}.png"))
+    img_b = cv2.imread(str(BG / "3333" / f"{name_b}.png"))
     h, w = img_a.shape[:2]
     est = estimate(img_a, img_b)
     scores = est["scores"]
@@ -177,7 +177,7 @@ def analyse_pair(name_a: str, name_b: str) -> dict:
 
     shift = math.hypot(dx, dy)
     return {
-        "cam_1760": name_a, "cam_39T": name_b, "size": [w, h],
+        "cam_1760": name_a, "cam_3333": name_b, "size": [w, h],
         "model": read_name, "best_model": best_name,
         "ncc": round(best_score, 3), "ncc_identity": round(scores["identity"], 3),
         "n_matches": est["n_matches"], "n_inliers": n_inl,
@@ -224,7 +224,7 @@ def mask_from_json(path: Path, w: int, h: int) -> np.ndarray:
 
 def mask_stats(name_a: str, name_b: str, H, w: int, h: int):
     ma = mask_from_json(MASKS / "1760" / f"{name_a}.json", w, h)
-    mb = mask_from_json(MASKS / "39T" / f"{name_b}.json", w, h)
+    mb = mask_from_json(MASKS / "3333" / f"{name_b}.json", w, h)
     mw = cv2.warpPerspective(ma, np.array(H), (w, h), flags=cv2.INTER_NEAREST)
 
     def iou(x, y):
@@ -232,11 +232,11 @@ def mask_stats(name_a: str, name_b: str, H, w: int, h: int):
         return round(float(np.logical_and(x > 0, y > 0).sum()) / u, 3) if u else None
 
     n_a = len(json.loads((MASKS / "1760" / f"{name_a}.json").read_text())["shapes"])
-    n_b = len(json.loads((MASKS / "39T" / f"{name_b}.json").read_text())["shapes"])
+    n_b = len(json.loads((MASKS / "3333" / f"{name_b}.json").read_text())["shapes"])
     out = {
-        "n_shapes_1760": n_a, "n_shapes_39T": n_b,
+        "n_shapes_1760": n_a, "n_shapes_3333": n_b,
         "area_1760_pct": round(float((ma > 0).mean()) * 100, 1),
-        "area_39T_pct": round(float((mb > 0).mean()) * 100, 1),
+        "area_3333_pct": round(float((mb > 0).mean()) * 100, 1),
         "iou_copied": iou(ma, mb),
         "iou_registered": iou(mw, mb),
         # under-coverage: glass that should have been masked and stays visible
@@ -262,7 +262,7 @@ def fig_align(img_a, img_b, r, path: Path):
     h, w = img_a.shape[:2]
     a, b = img_a.copy(), img_b.copy()
     for im, txt, col in ((a, f"{r['cam_1760']}  -  median background 1760", (0, 200, 255)),
-                         (b, f"{r['cam_39T']}  -  median background 39T", (0, 255, 120))):
+                         (b, f"{r['cam_3333']}  -  median background 3333", (0, 255, 120))):
         for x in range(w // 8, w, w // 8):
             cv2.line(im, (x, 0), (x, h), (70, 70, 70), 1)
         for y in range(h // 6, h, h // 6):
@@ -272,7 +272,7 @@ def fig_align(img_a, img_b, r, path: Path):
 
     ga, gb = cv2.cvtColor(img_a, cv2.COLOR_BGR2GRAY), cv2.cvtColor(img_b, cv2.COLOR_BGR2GRAY)
     over = cv2.merge([ga, gb, ga])
-    label(over, "raw overlay   magenta = 1760   green = 39T", scale=0.64)
+    label(over, "raw overlay   magenta = 1760   green = 3333", scale=0.64)
     if abs(r["dx"]) + abs(r["dy"]) > 4:
         cv2.arrowedLine(over, (w // 2, h // 2), (int(w // 2 + r["dx"]), int(h // 2 + r["dy"])),
                         (0, 255, 255), 3, tipLength=0.2)
@@ -301,7 +301,7 @@ def fig_masks(img_b, ma, mb, mw, r, path: Path):
     draw(mb, (0, 255, 120))
     label(canvas, "magenta : 1760 mask copied as-is", (12, 28), (255, 90, 255), 0.6)
     label(canvas, "yellow  : same mask, auto-aligned", (12, 52), (0, 210, 255), 0.6)
-    label(canvas, "green   : 39T mask redrawn by hand", (12, 76), (0, 255, 120), 0.6)
+    label(canvas, "green   : 3333 mask redrawn by hand", (12, 76), (0, 255, 120), 0.6)
     label(canvas, f"IoU copied {r['iou_copied']:.2f} -> aligned {r['iou_registered']:.2f}    "
                   f"glass left visible {r['glass_exposed_copied_pct']:.1f} % of frame    "
                   f"interior wrongly masked {r['interior_masked_copied_pct']:.1f} %",
@@ -326,7 +326,7 @@ def fig_flow(img_b, r, path: Path):
         t = min(m / vmax, 1.0)
         cv2.arrowedLine(canvas, (int(x0), int(y0)), (int(x1), int(y1)),
                         (int(255 * (1 - t)), int(90 + 110 * (1 - t)), int(255 * t)), 1, tipLength=0.3)
-    label(canvas, f"displacement of the {len(src)} matched structural points (1760 -> 39T)",
+    label(canvas, f"displacement of the {len(src)} matched structural points (1760 -> 3333)",
           (12, 28), scale=0.6)
     if len(mags):
         label(canvas, f"median {np.median(mags):.0f} px   min {mags.min():.0f}   max {mags.max():.0f} px"
@@ -379,11 +379,11 @@ def fig_summary(rows: list[dict], path: Path):
             lx, ly = lx + int(14 * ux), ly + int(14 * uy)
         placed.append((lx, ly))
         cv2.line(canvas, (x, y), (lx - 4, ly - 4), (70, 70, 70), 1)
-        label(canvas, r["cam_39T"].replace("39T-", ""), (lx, ly), col, 0.5)
+        label(canvas, r["cam_3333"].replace("3333-", ""), (lx, ly), col, 0.5)
 
-    label(canvas, "Framing offset 1760 -> 39T, measured at the image centre",
+    label(canvas, "Framing offset 1760 -> 3333, measured at the image centre",
           (pad, 34), (235, 235, 235), 0.66)
-    label(canvas, "->  right = the 39T scene is shifted right    "
+    label(canvas, "->  right = the 3333 scene is shifted right    "
                   "down = shifted down", (pad, 58), (150, 150, 150), 0.5)
     label(canvas, f"angular scale : 100 px ~ {deg_from_px(100, 1280, HFOV_DEG):.1f} deg "
                   f"(assumed {HFOV_DEG:.0f} deg field)", (pad, S + 2 * pad - 24), (150, 150, 150), 0.5)
@@ -397,14 +397,14 @@ def fig_contact_sheet(path: Path, rows: list[dict]):
     sheet = np.full((rws * (th + 26), cols * tw, 3), 20, np.uint8)
     for i, r in enumerate(rows):
         a = cv2.imread(str(BG / "1760" / f"{r['cam_1760']}.png"))
-        b = cv2.imread(str(BG / "39T" / f"{r['cam_39T']}.png"))
+        b = cv2.imread(str(BG / "3333" / f"{r['cam_3333']}.png"))
         ga = cv2.cvtColor(cv2.resize(a, (tw, th)), cv2.COLOR_BGR2GRAY)
         gb = cv2.cvtColor(cv2.resize(b, (tw, th)), cv2.COLOR_BGR2GRAY)
         tile = cv2.merge([ga, gb, ga])
         r_, c_ = divmod(i, cols)
         y0 = r_ * (th + 26)
         sheet[y0:y0 + th, c_ * tw:(c_ + 1) * tw] = tile
-        label(sheet, f"{r['cam_1760']} / {r['cam_39T']}   {r['shift_px']:.0f} px  "
+        label(sheet, f"{r['cam_1760']} / {r['cam_3333']}   {r['shift_px']:.0f} px  "
                      f"{r['total_deg']:.1f} deg  roll {r['rot_deg']:+.1f}",
               (c_ * tw + 6, y0 + th + 18), (220, 220, 220), 0.42)
     cv2.imwrite(str(path), sheet, [cv2.IMWRITE_JPEG_QUALITY, 88])

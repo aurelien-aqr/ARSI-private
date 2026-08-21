@@ -67,19 +67,19 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| 39T_cam52_084637 | anomaly | **TP** | 3/3 | 5 | shadow on seat., Purple bag on seat., Seat stain., small red mark., Seat tear., broken seat., Graffiti., dog. |
-| 39T_cam52_085124 | anomaly | **TP** | 2/2 | 12 | small black object on seat back., black wallet., small black object., Damaged seat, Pink object., Wallet on seat., pink object., Bag on seat., blood stain., Red sticker on window., small white object., small black mark., Graffiti on wall., Graffiti. |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 2 | Yellow jacket., Wrapper., white powder cloud. |
-| 39T_cam53_084021 | anomaly | **TP** | 2/2 | 2 | Yellow cloth on seat., Yellow bag., green bottle., Wrapper on seat. |
-| 39T_cam53_084637 | anomaly | **TP** | 1/1 | 0 | Green wrapper. |
-| 39T_cam53_085124 | anomaly | **TP** | 1/1 | 3 | paper wrapper., pink bag., Two white objects on floor., black object on floor. |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 2 | plastic bag., Litter left behind (can)., litter left behind. |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 5 | cloth on seat., Laptop., Seat damage., Seat stain., wrapper paper., Yellow object., Yellow object. |
-| 39T_cam54_085124 | anomaly | **TP** | 3/3 | 3 | discarded cloth., Plastic bag on floor., green wrapper., torn seat., Flame., torn seat. |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 4 | Purple plastic bag., Folded seat back., Yellow line on floor., small hole., Seat tear., Graffiti. |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 3 | plastic bag., Seat cushion., wrapper paper., Paper wrapper., Marked lines on roof. |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 3 | pink seat cover., cloth bag., Laptop on seat., Bag on floor., Graffiti. |
-| 39T_cam55_085124 | anomaly | **TP** | 2/2 | 4 | Green bottle., Green bottle on seat., paper wrapper., paper bag., A small green object appears on the right side of the image. It looks like a piece of paper or a wrapper., scratch on metal. |
+| 3333_cam52_084637\* | anomaly | **TP** | 3/3 | 5 | shadow on seat., Purple bag on seat., Seat stain., small red mark., Seat tear., broken seat., Graffiti., dog. |
+| 3333_cam52_085124 | anomaly | **TP** | 2/2 | 12 | small black object on seat back., black wallet., small black object., Damaged seat, Pink object., Wallet on seat., pink object., Bag on seat., blood stain., Red sticker on window., small white object., small black mark., Graffiti on wall., Graffiti. |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 2 | Yellow jacket., Wrapper., white powder cloud. |
+| 3333_cam53_084021 | anomaly | **TP** | 2/2 | 2 | Yellow cloth on seat., Yellow bag., green bottle., Wrapper on seat. |
+| 3333_cam53_084637 | anomaly | **TP** | 1/1 | 0 | Green wrapper. |
+| 3333_cam53_085124 | anomaly | **TP** | 1/1 | 3 | paper wrapper., pink bag., Two white objects on floor., black object on floor. |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 2 | plastic bag., Litter left behind (can)., litter left behind. |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 5 | cloth on seat., Laptop., Seat damage., Seat stain., wrapper paper., Yellow object., Yellow object. |
+| 3333_cam54_085124 | anomaly | **TP** | 3/3 | 3 | discarded cloth., Plastic bag on floor., green wrapper., torn seat., Flame., torn seat. |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 4 | Purple plastic bag., Folded seat back., Yellow line on floor., small hole., Seat tear., Graffiti. |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 3 | plastic bag., Seat cushion., wrapper paper., Paper wrapper., Marked lines on roof. |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 3 | pink seat cover., cloth bag., Laptop on seat., Bag on floor., Graffiti. |
+| 3333_cam55_085124 | anomaly | **TP** | 2/2 | 4 | Green bottle., Green bottle on seat., paper wrapper., paper bag., A small green object appears on the right side of the image. It looks like a piece of paper or a wrapper., scratch on metal. |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 4 | black suitcase., torn poster., sticker on window., scratch on metal., black object on seat. |
 | gpt_02_multi | anomaly | **TP** | 4/4 | 5 | Backpack on seat., backpack., Water bottle on seat., Black backpack, bottle., scratch on metal., torn seat., Canister on floor. |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 4 | XRP graffiti., torn seat., green line., torn seat panel., small black object. |
@@ -97,7 +97,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | real_f0205 | anomaly | **TP** | 1/2 | 6 | backpack., Green wrapper., scratch on metal., phone on seat., black object on seat., Blue light reflection., graffiti. |
 | real_f0219 | anomaly | **TP** | 1/2 | 10 | backpack., backpack., scratch on metal., paper wrapper., blue light strip., black cylindrical object., broken seat., broken window., Purple object on floor., phone on seat., Blue light reflection. |
 | variant_01 | anomaly | **TP** | 6/7 | 4 | backpack., Plastic bottle on floor., Torn seat material., Graffiti: "KEPP"., torn seat., Scratch on seat., sticker on wall., sticker on wall., Small yellow object. |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
 | 1760_cam04_t120 | clean | **FP** | - | 4 | scratch on metal., small white object., Can., red tag. |
 | 1760_cam04_t220 | clean | **FP** | - | 4 | Seat torn on right side., red light., Graffiti., Black mark on pole. |
 | 1760_cam04_t320 | clean | **FP** | - | 4 | Yellow object attached to seat., yellow stain., small black mark., small metal object. |
@@ -116,12 +116,12 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam13_t420 | clean | **FP** | - | 10 | Paper wrapper., Seat torn., Yellow object on seat., Paper wrapper., Vent cover., yellow seat cover., Paper wrapper on floor., Paper wrapper., Paper wrapper., Seat tear. |
 | 1760_cam13_t520 | clean | **FP** | - | 2 | torn seat., Damage to seat |
 | 1760_cam13_t570 | clean | **FP** | - | 3 | torn seat., Yellow text on metal., Canister hanging. |
-| 39T_cam52_ref_t120_clean | clean | **FP** | - | 8 | torn seat., bottle., Graffiti., torn seat., Graffiti on wall., blue object on seat., A torn seat panel., black mark on seat. |
-| 39T_cam53_085954_clean | clean | **FP** | - | 2 | Graffiti: painted letters, wire. |
-| 39T_cam54_085954_clean | clean | **FP** | - | 4 | Seat cushion., torn seat., seat torn., shadow cast on wall. |
-| 39T_cam54_ref_t120_clean | clean | **FP** | - | 5 | Paper wrapper., litter left behind., Graffiti on wall, small scratch on metal., Graffiti. |
-| 39T_cam55_085954_clean | clean | **FP** | - | 4 | black sticker., paper wrapper., Pink object., small green object. |
-| 39T_cam55_ref_t120_clean | clean | **FP** | - | 2 | small tear on seat., broken window. |
+| 3333_cam52_ref_t120_clean | clean | **FP** | - | 8 | torn seat., bottle., Graffiti., torn seat., Graffiti on wall., blue object on seat., A torn seat panel., black mark on seat. |
+| 3333_cam53_085954_clean | clean | **FP** | - | 2 | Graffiti: painted letters, wire. |
+| 3333_cam54_085954_clean | clean | **FP** | - | 4 | Seat cushion., torn seat., seat torn., shadow cast on wall. |
+| 3333_cam54_ref_t120_clean | clean | **FP** | - | 5 | Paper wrapper., litter left behind., Graffiti on wall, small scratch on metal., Graffiti. |
+| 3333_cam55_085954_clean | clean | **FP** | - | 4 | black sticker., paper wrapper., Pink object., small green object. |
+| 3333_cam55_ref_t120_clean | clean | **FP** | - | 2 | small tear on seat., broken window. |
 | neg_gpt_06_clean | clean | **FP** | - | 5 | Graffiti., torn seat., torn seat., sticker on window., torn seat. |
 | neg_v1_f0151 | clean | **FP** | - | 2 | Graffiti: painted letters "CAD", Black object on seat. |
 | neg_v1_f0181 | clean | **FP** | - | 2 | scratch on metal., Graffiti on the wall. |
@@ -130,10 +130,14 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_v4_f0004 | clean | **FP** | - | 7 | dark smudge on seat., Seat torn., broken window pane., Litter left behind., bottle., A torn seat appears on the right side., phone on seat. |
 | neg_v4_f0016 | clean | **FP** | - | 7 | black bag., scratch on metal., red circle sign., broken window., water stain., debris., sticker on door. |
 | neg_v4_f0022 | clean | **FP** | - | 5 | torn seat panel., black object on seat., Graffiti on wall., A small white object appears on the floor near the bottom right of the image on the right side. It is not present in the left image., small white mark. |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_v1_f0211 | clean | **TN** | - | 0 | - |
 | neg_v1_f0241 | clean | **TN** | - | 0 | - |
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
 
 Annotated images: `benchmark/runs/cli-latest/annotated/<id>.jpg` (blue = ground-truth boxes, green = correct detections, red = false-positive boxes). Raw results: `benchmark/runs/judge-qwen25vl-7b-conservative/results.json`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

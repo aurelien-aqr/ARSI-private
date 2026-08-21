@@ -12,7 +12,7 @@ somewhere else - this page only says the verdict and where to look.
 | Does a better box become a better verdict? | **Partly - and not the part you would guess.** Object recall is 55/73 under every localizer; better boxes buy frame recall (0.871 → 0.968), region precision (0.694 → 0.896) and correct boxing (0.534 → 0.630), at frame specificity 1.000 throughout | 68 cases end to end, GLM-4.6V-Flash-9B × conservative, 2026-08-19 | `benchmark/README.md` § "Does a better box…"; `tools/rescore_localizer.py` |
 | `recommended` badge in the Studio picker | **Moved `photo+dino` → `dino`** on the end-to-end numbers. Trade: +69 % VLM calls for +0.097 frame recall and +0.123 region precision. Revert if judge cost, not miss rate, binds | idem | `arsi_core/localizers.py` docstring |
 | Best measured localizer | **AnomalyDINO proposes, Dinomaly vetoes** (`ddgate0.05`): 58/73 strict for 654 regions, against 42/73 / 1192 for the pixel diff. On 1762, where the nominal model is properly held out, −43 % regions at unchanged boxes. End to end it matches `dino` exactly for 47 % fewer calls — but it is not a registry entry, it needs a checkpoint per camera | 68-case localization benchmark, 3 trams / 9 views, 0 VLM calls, 2026-08-19 | Studio → Notes → *Dinomaly & AnomalyDINO*; `docs/dino_models/` |
-| Best localizer **without any training** | **AnomalyDINO standalone**, and this REVERSES the 2026-08-12 row below. 58/73 strict against the pixel diff's 42/73; on 39T, 19/26 against 5/26. Costs no fewer VLM calls; `dpgate10` gives −16 % of them for free | idem | idem |
+| Best localizer **without any training** | **AnomalyDINO standalone**, and this REVERSES the 2026-08-12 row below. 58/73 strict against the pixel diff's 42/73; on 3333\*, 19/26 against 5/26. Costs no fewer VLM calls; `dpgate10` gives −16 % of them for free | idem | idem |
 | Dinomaly, re-opened now that training is cheap | **Yes, but only as a veto over feature-proposed boxes.** Its August rejection stands for the two roles it was tested in (proposer 48/73, gate over pixel boxes 42/73). Cost objection dead: 56 min → 1 min 42 per camera on the RTX 3080 Ti, fleet ~45 min | idem | idem; GPU support in `tools/dinomaly.py` |
 | Gating (any veto) as a way to fix boxes | **No - structural.** Every variant that gates the pixel diff scores exactly 42/73, identical to the ungated pixel diff. A veto deletes regions; it never redraws one, so what decides box quality is the PROPOSER | idem | idem |
 | Dinomaly (CVPR 2025), reference-free | **No.** Coded and measured, deliberately not wired into the app | 29-case localization benchmark, 0 VLM calls, 2026-08-16 | `benchmark/README.md` § Dinomaly; code in `tools/dinomaly*.py` |
@@ -29,11 +29,11 @@ Every row above was measured on **one camera of tram 1762**, from the July
 footage: 29 cases, 45 instance boxes, two reference frames. That was the only
 labelled data available when they were decided.
 
-Since then we have the **1760 and 39T multi-camera captures** - other trams,
+Since then we have the **1760 and 3333 multi-camera captures** - other trams,
 other angles, 26 masked cameras.
 
 **Four of those cameras are now labelled** and part of the benchmark:
-21 cases / 24 instances on tram 39T in `benchmark/datasets/ground_truth.json`
+21 cases / 24 instances on tram 3333 in `benchmark/datasets/ground_truth.json`
 (built 2026-08-16, labelled by Claude from the footage). Their first measurement
 already moves
 the ground under the table above: the shipped localizer scores **17/24
@@ -75,3 +75,7 @@ they are re-decided deliberately rather than re-invented:
 - **AD-Copilot-Thinking** (`jiang-cc/AD-Copilot-Thinking`, transformers, not
   Ollama): the closest published system to vlm_05's visual in-context
   comparison. Worth one afternoon of comparison.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

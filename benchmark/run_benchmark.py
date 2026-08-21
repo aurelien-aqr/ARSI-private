@@ -304,6 +304,10 @@ def write_report(rows, frame, obj, elapsed, done, total):
         L.append(f"| {r['id']} | {truth} | **{r['outcome']}** | {inst} | "
                  f"{r['fp_regions']} | {labels} |")
     L.append("")
+    # 3333 is a placeholder id - see arsi_core.TRAM_ID_NOTE.
+    from arsi_core import TRAM_ID_NOTE_MD, names_placeholder_tram
+    if any(names_placeholder_tram(r["id"]) for r in rows):
+        L.append(TRAM_ID_NOTE_MD + "\n")
     L.append(f"Annotated images: `{ANNOT_DIR.relative_to(REPO_ROOT)}/<id>.jpg` "
              "(blue = ground-truth boxes, green = correct detections, red = "
              f"false-positive boxes). Raw results: `{RESULTS.relative_to(REPO_ROOT)}`.\n")

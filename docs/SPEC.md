@@ -270,7 +270,7 @@ Every failure is logged (structured JSONL per job under
   The `runs` routes are declared BEFORE `/{ds_id}` - FastAPI matches in
   declaration order and would otherwise read "runs" as a dataset id.
 - `JobConfig.frame_references` (parallel to `frames`) is what lets one run cover a
-  multi-camera protocol: the 39T dataset has one clean reference per camera, and
+  multi-camera protocol: the 3333\* dataset has one clean reference per camera, and
   masking renders each of them.
 
 ## Non-goals (v1)
@@ -288,3 +288,7 @@ Every failure is logged (structured JSONL per job under
    test pass (model absent, bad JSON, corrupt frame).
 
 Each milestone ends runnable; commit per slice; `/code-review` before merge.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

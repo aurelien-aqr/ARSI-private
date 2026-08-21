@@ -4,11 +4,11 @@
 #  Builds the 1760 cameras of benchmark/datasets/ground_truth.json and the masked
 #  frames they point at, from data/videos/1760/1760-camNN.mp4. It MERGES into the
 #  one benchmark: every case on a 1760 camera is replaced, the rest is left alone.
-#  Same contract as tools/build_39T_benchmark.py - read that one first.
+#  Same contract as tools/build_3333_benchmark.py - read that one first.
 #
 #  WHY these frames. Specificity - the rate at which an empty tram raises an
 #  alarm - is the number that decides deployment, and it rested on 12 clean 1762
-#  frames and 7 clean 39T ones. These are 18 clean frames of a THIRD tram
+#  frames and 7 clean 3333 ones. These are 18 clean frames of a THIRD tram
 #  (DPO-1760, 04/08/2026 09:00-09:10, a moving run of the line) on three interior
 #  cameras, each paired with a reference from its own run 50-500 s earlier: a
 #  negative here means clean under a visibly different sun. No anomalous case on
@@ -21,7 +21,7 @@
 #  point at the door and the ground (cam01/02/03/11/12) are not usable.
 #
 #  MASKS come from data/masks_labelme/1760/1760-camNN.json - the same place and
-#  the same format build_39T_benchmark.py reads, hand-drawn, ~26 polygons per
+#  the same format build_3333_benchmark.py reads, hand-drawn, ~26 polygons per
 #  camera. On a tram in motion the world outside changes completely between two
 #  frames, so an unmasked window is a guaranteed change region: the first version
 #  of these frames was written UNMASKED by mistake, and the second through the

@@ -21,7 +21,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from tools.notes import NOTES                                     # noqa: E402
-from tools.report_style import foot, head                         # noqa: E402
+from tools.report_style import TRAM_FOOT, foot, head, tram_star                         # noqa: E402
 
 NOTE = NOTES["vlm-benchmark"]
 DOC = NOTE.html
@@ -357,7 +357,7 @@ def build() -> str:
       <li><b>One set of crops.</b> A wording suited to these tight crops may not
       suit the much larger regions the pixel-difference detector produces. The
       result is which model for these crops, not which model in general.</li>
-      <li><b>The false-alarm figure rests on few clean images</b>, and the 39T
+      <li><b>The false-alarm figure rests on few clean images</b>, and the {tram_star()}
       clean frames come from the same recordings the filtering model was trained
       on. A run that raises no alarm here is not proven safe.</li>
       <li><b>Three wordings is not a search of the prompt space.</b> They differ
@@ -372,6 +372,8 @@ def build() -> str:
     </ul>
   </div>
 </section>
+
+<p class="footnote">{TRAM_FOOT}</p>
 
 </div>
 """

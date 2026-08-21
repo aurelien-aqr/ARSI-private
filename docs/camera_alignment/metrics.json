@@ -1,7 +1,7 @@
 [
   {
     "cam_1760": "1760-cam01",
-    "cam_39T": "39T-cam10",
+    "cam_3333": "3333-cam10",
     "size": [
       1280,
       720
@@ -32,9 +32,9 @@
     "flow_dispersion": 0.198,
     "fov_overlap": 0.885,
     "n_shapes_1760": 4,
-    "n_shapes_39T": 5,
+    "n_shapes_3333": 5,
     "area_1760_pct": 52.5,
-    "area_39T_pct": 44.2,
+    "area_3333_pct": 44.2,
     "iou_copied": 0.796,
     "iou_registered": 0.949,
     "glass_exposed_copied_pct": 1.34,
@@ -44,7 +44,7 @@
   },
   {
     "cam_1760": "1760-cam02",
-    "cam_39T": "39T-cam11",
+    "cam_3333": "3333-cam11",
     "size": [
       1280,
       720
@@ -75,9 +75,9 @@
     "flow_dispersion": 0.426,
     "fov_overlap": 0.895,
     "n_shapes_1760": 3,
-    "n_shapes_39T": 4,
+    "n_shapes_3333": 4,
     "area_1760_pct": 51.7,
-    "area_39T_pct": 44.5,
+    "area_3333_pct": 44.5,
     "iou_copied": 0.857,
     "iou_registered": 0.941,
     "glass_exposed_copied_pct": 0.1,
@@ -87,7 +87,7 @@
   },
   {
     "cam_1760": "1760-cam03",
-    "cam_39T": "39T-cam12",
+    "cam_3333": "3333-cam12",
     "size": [
       1280,
       720
@@ -118,9 +118,9 @@
     "flow_dispersion": 0.313,
     "fov_overlap": 0.903,
     "n_shapes_1760": 4,
-    "n_shapes_39T": 3,
+    "n_shapes_3333": 3,
     "area_1760_pct": 49.6,
-    "area_39T_pct": 48.9,
+    "area_3333_pct": 48.9,
     "iou_copied": 0.96,
     "iou_registered": 0.841,
     "glass_exposed_copied_pct": 0.66,
@@ -130,7 +130,7 @@
   },
   {
     "cam_1760": "1760-cam04",
-    "cam_39T": "39T-cam13",
+    "cam_3333": "3333-cam13",
     "size": [
       1280,
       720
@@ -161,9 +161,9 @@
     "flow_dispersion": 0.382,
     "fov_overlap": 0.903,
     "n_shapes_1760": 26,
-    "n_shapes_39T": 31,
+    "n_shapes_3333": 31,
     "area_1760_pct": 34.2,
-    "area_39T_pct": 32.7,
+    "area_3333_pct": 32.7,
     "iou_copied": 0.368,
     "iou_registered": 0.803,
     "glass_exposed_copied_pct": 14.74,
@@ -173,7 +173,7 @@
   },
   {
     "cam_1760": "1760-cam05",
-    "cam_39T": "39T-cam14",
+    "cam_3333": "3333-cam14",
     "size": [
       1280,
       720
@@ -204,9 +204,9 @@
     "flow_dispersion": 0.123,
     "fov_overlap": 0.907,
     "n_shapes_1760": 7,
-    "n_shapes_39T": 11,
+    "n_shapes_3333": 11,
     "area_1760_pct": 43.2,
-    "area_39T_pct": 39.5,
+    "area_3333_pct": 39.5,
     "iou_copied": 0.788,
     "iou_registered": 0.915,
     "glass_exposed_copied_pct": 3.04,
@@ -216,7 +216,7 @@
   },
   {
     "cam_1760": "1760-cam06",
-    "cam_39T": "39T-cam15",
+    "cam_3333": "3333-cam15",
     "size": [
       1280,
       720
@@ -247,9 +247,9 @@
     "flow_dispersion": 0.158,
     "fov_overlap": 0.904,
     "n_shapes_1760": 16,
-    "n_shapes_39T": 16,
+    "n_shapes_3333": 16,
     "area_1760_pct": 29.2,
-    "area_39T_pct": 25.4,
+    "area_3333_pct": 25.4,
     "iou_copied": 0.697,
     "iou_registered": 0.913,
     "glass_exposed_copied_pct": 2.99,
@@ -259,7 +259,7 @@
   },
   {
     "cam_1760": "1760-cam07",
-    "cam_39T": "39T-cam16",
+    "cam_3333": "3333-cam16",
     "size": [
       1280,
       720
@@ -290,9 +290,9 @@
     "flow_dispersion": 0.157,
     "fov_overlap": 0.904,
     "n_shapes_1760": 13,
-    "n_shapes_39T": 13,
+    "n_shapes_3333": 13,
     "area_1760_pct": 46.3,
-    "area_39T_pct": 52.6,
+    "area_3333_pct": 52.6,
     "iou_copied": 0.789,
     "iou_registered": 0.831,
     "glass_exposed_copied_pct": 9.0,
@@ -302,7 +302,7 @@
   },
   {
     "cam_1760": "1760-cam08",
-    "cam_39T": "39T-cam17",
+    "cam_3333": "3333-cam17",
     "size": [
       1280,
       720
@@ -333,9 +333,9 @@
     "flow_dispersion": 0.097,
     "fov_overlap": 0.945,
     "n_shapes_1760": 40,
-    "n_shapes_39T": 42,
+    "n_shapes_3333": 42,
     "area_1760_pct": 36.8,
-    "area_39T_pct": 38.0,
+    "area_3333_pct": 38.0,
     "iou_copied": 0.5,
     "iou_registered": 0.809,
     "glass_exposed_copied_pct": 13.04,
@@ -345,7 +345,7 @@
   },
   {
     "cam_1760": "1760-cam11",
-    "cam_39T": "39T-cam50",
+    "cam_3333": "3333-cam50",
     "size": [
       1280,
       720
@@ -376,9 +376,9 @@
     "flow_dispersion": 0.419,
     "fov_overlap": 0.921,
     "n_shapes_1760": 4,
-    "n_shapes_39T": 3,
+    "n_shapes_3333": 3,
     "area_1760_pct": 52.0,
-    "area_39T_pct": 51.5,
+    "area_3333_pct": 51.5,
     "iou_copied": 0.961,
     "iou_registered": 0.875,
     "glass_exposed_copied_pct": 0.83,
@@ -388,7 +388,7 @@
   },
   {
     "cam_1760": "1760-cam12",
-    "cam_39T": "39T-cam51",
+    "cam_3333": "3333-cam51",
     "size": [
       1280,
       720
@@ -419,9 +419,9 @@
     "flow_dispersion": 0.227,
     "fov_overlap": 0.879,
     "n_shapes_1760": 3,
-    "n_shapes_39T": 2,
+    "n_shapes_3333": 2,
     "area_1760_pct": 49.7,
-    "area_39T_pct": 56.1,
+    "area_3333_pct": 56.1,
     "iou_copied": 0.887,
     "iou_registered": 0.768,
     "glass_exposed_copied_pct": 6.33,
@@ -431,7 +431,7 @@
   },
   {
     "cam_1760": "1760-cam13",
-    "cam_39T": "39T-cam52",
+    "cam_3333": "3333-cam52",
     "size": [
       1280,
       720
@@ -462,9 +462,9 @@
     "flow_dispersion": 0.177,
     "fov_overlap": 0.769,
     "n_shapes_1760": 20,
-    "n_shapes_39T": 52,
+    "n_shapes_3333": 52,
     "area_1760_pct": 33.2,
-    "area_39T_pct": 37.1,
+    "area_3333_pct": 37.1,
     "iou_copied": 0.395,
     "iou_registered": 0.57,
     "glass_exposed_copied_pct": 17.18,
@@ -474,7 +474,7 @@
   },
   {
     "cam_1760": "1760-cam14",
-    "cam_39T": "39T-cam53",
+    "cam_3333": "3333-cam53",
     "size": [
       1280,
       720
@@ -505,9 +505,9 @@
     "flow_dispersion": 0.057,
     "fov_overlap": 0.884,
     "n_shapes_1760": 17,
-    "n_shapes_39T": 19,
+    "n_shapes_3333": 19,
     "area_1760_pct": 25.9,
-    "area_39T_pct": 18.5,
+    "area_3333_pct": 18.5,
     "iou_copied": 0.59,
     "iou_registered": 0.892,
     "glass_exposed_copied_pct": 2.02,
@@ -517,7 +517,7 @@
   },
   {
     "cam_1760": "1760-cam15",
-    "cam_39T": "39T-cam54",
+    "cam_3333": "3333-cam54",
     "size": [
       1280,
       720
@@ -548,9 +548,9 @@
     "flow_dispersion": 0.928,
     "fov_overlap": 0.924,
     "n_shapes_1760": 10,
-    "n_shapes_39T": 12,
+    "n_shapes_3333": 12,
     "area_1760_pct": 15.2,
-    "area_39T_pct": 18.6,
+    "area_3333_pct": 18.6,
     "iou_copied": 0.699,
     "iou_registered": 0.669,
     "glass_exposed_copied_pct": 4.69,
@@ -560,7 +560,7 @@
   },
   {
     "cam_1760": "1760-cam16",
-    "cam_39T": "39T-cam55",
+    "cam_3333": "3333-cam55",
     "size": [
       1280,
       720
@@ -591,9 +591,9 @@
     "flow_dispersion": 0.043,
     "fov_overlap": 0.841,
     "n_shapes_1760": 13,
-    "n_shapes_39T": 11,
+    "n_shapes_3333": 11,
     "area_1760_pct": 23.1,
-    "area_39T_pct": 24.5,
+    "area_3333_pct": 24.5,
     "iou_copied": 0.268,
     "iou_registered": 0.605,
     "glass_exposed_copied_pct": 14.44,
@@ -603,7 +603,7 @@
   },
   {
     "cam_1760": "1760-cam17",
-    "cam_39T": "39T-cam56",
+    "cam_3333": "3333-cam56",
     "size": [
       1280,
       720
@@ -634,9 +634,9 @@
     "flow_dispersion": 0.593,
     "fov_overlap": 0.891,
     "n_shapes_1760": 35,
-    "n_shapes_39T": 30,
+    "n_shapes_3333": 30,
     "area_1760_pct": 33.9,
-    "area_39T_pct": 35.6,
+    "area_3333_pct": 35.6,
     "iou_copied": 0.569,
     "iou_registered": 0.791,
     "glass_exposed_copied_pct": 10.37,

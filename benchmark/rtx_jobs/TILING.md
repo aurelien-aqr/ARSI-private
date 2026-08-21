@@ -1,19 +1,19 @@
-# Tiling large regions before judging — 39T sweep (2026-08-17/18)
+# Tiling large regions before judging — 3333\* sweep (2026-08-17/18)
 
 ## Why
 
-On the 39T arm the pipeline misses half the instances. The diagnosis (from the
+On the 3333 arm the pipeline misses half the instances. The diagnosis (from the
 first full 50-case run) is that the object *is* inside a proposed region but
 occupies 0.4–4.2 % of it, so the judge is shown a crop where a bottle is a dozen
 pixels. Two earlier hypotheses were tested and rejected first:
 
-- **region merging is not the cause** — MERGE_REGIONS on/off over the 39T cases
+- **region merging is not the cause** — MERGE_REGIONS on/off over the 3333 cases
   gives 19/26 localized and 5/26 strict either way, and the biggest box is
   identical at 911,360 px. The mega-blob is born in the diff, not in the merge;
 - **the blob-vs-bbox area gate is real but marginal** — `MAX_AREA=400000` gates
   the connected component's pixel count while the crop shown to the judge is the
   bounding box, so a sprawling thin blob passes. It affects 7 of 242 candidates
-  on 39T (2.9 %) and 2 of 485 on 1762. Worth fixing for hygiene; it explains
+  on 3333 (2.9 %) and 2 of 485 on 1762. Worth fixing for hygiene; it explains
   nothing.
 
 ## Method
@@ -67,7 +67,7 @@ Same script, same two arms, over the 29 original cases (47 instances):
 | tile160 | 926 | 0.872 | 0.702 | 0.402 | 1.000 | **0.750** |
 
 **Specificity falls from 1.000 to 0.750** — three of the twelve clean 1762 frames
-now raise an alarm, which never happened on 39T. Tiling small crops out of the
+now raise an alarm, which never happened on 3333. Tiling small crops out of the
 faint residual regions on an empty frame gives the judge exactly the kind of
 ambiguous patch it hallucinates on. Frame recall was already 1.000 here, so the
 recall tiling buys (0.809 to 0.872) is worth little, and it is paid for in the
@@ -75,7 +75,7 @@ one metric that matters for deployment.
 
 Caveat on this control: the 1762 baseline arm does NOT reproduce the official
 object recall (0.809 here vs 0.894 in `benchmark/runs/`) — this script's
-simplified FP attribution and matching diverge more on these cases than on 39T,
+simplified FP attribution and matching diverge more on these cases than on 3333,
 where recall and strict matched exactly. The **cross-arm** specificity drop is
 measured inside one script with one rule, so it stands; the absolute numbers do
 not transfer to the published report.
@@ -84,9 +84,9 @@ not transfer to the published report.
 
 Tiling is a **per-camera option, not a default** — the same shape as the DINOv2
 gate, which also failed to transfer between these two camera families. Enable it
-on moving-tram footage (the 39T family), leave it off on 1762.
+on moving-tram footage (the 3333 family), leave it off on 1762.
 
-Confidence is limited by the negatives: 39T's specificity 1.000 under tiling
+Confidence is limited by the negatives: 3333's specificity 1.000 under tiling
 rests on 7 clean frames, and 1762's drop on 12. More clean footage per camera is
 what would firm this up - and it is the same gap as the false-alarm rate, which
 still rests on a single video.
@@ -99,11 +99,11 @@ veto at cam54_083517) - untouched by tiling, and a localizer problem.
 ## SUPERSEDED IN PART - 2026-08-19
 
 Tiling exists because the localizer hands the judge boxes that are far too big on
-39T. The 68-case comparison (`benchmark/README.md` § "Three localizer families on
+3333. The 68-case comparison (`benchmark/README.md` § "Three localizer families on
 THREE trams", report in `docs/dino_models/`) measured WHY, and found a
 cheaper fix than cutting the boxes up afterwards:
 
-- the pixel diff scores **5/26 strict IoU on 39T**, with a worst box covering
+- the pixel diff scores **5/26 strict IoU on 3333**, with a worst box covering
   98.9 % of the frame - it is the proposer, not the judge, that fails there;
 - **AnomalyDINO used as the proposer** (not as a gate) scores **19/26** on the
   same cases, and its worst box is ~10x smaller. There is no oversized region
@@ -115,3 +115,7 @@ Before enabling tiling on a moving-tram camera, measure that camera with the
 covers, and the comparison does not, is the JUDGE side: everything above was
 measured with 0 VLM calls, so whether better boxes actually turn into better
 verdicts is untested.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

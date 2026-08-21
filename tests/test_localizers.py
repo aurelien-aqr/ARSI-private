@@ -203,7 +203,7 @@ def test_camera_comes_from_the_reference_path(tmp_path, monkeypatch):
         "data/reference/tram_variant/tram_variant_reference.png") is None
     # and an explicit param wins over the path
     assert localizers.resolve_camera("whatever.jpg",
-                                     {"DINOMALY_CAMERA": "39T-cam53"}) == "39T-cam53"
+                                     {"DINOMALY_CAMERA": "3333-cam53"}) == "3333-cam53"
 
 
 def test_the_arm_is_offered_only_when_some_checkpoint_exists(monkeypatch):

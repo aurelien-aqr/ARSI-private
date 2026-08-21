@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Tile-size sweep over the whole 39T arm, judged end to end.
+"""Tile-size sweep over the whole 3333 arm, judged end to end.
 
 Arm 0 is the shipped behaviour re-run through this same script: it must
-reproduce today's 39T numbers, which is what makes the other arms comparable.
+reproduce today's 3333 numbers, which is what makes the other arms comparable.
 Every arm applies the pipeline's own post-filters (is_non_anomaly,
 is_implausible, dedupe_regions) so the difference is the tiling alone.
 """
@@ -57,7 +57,7 @@ def iou_cov(inner, outer):
 
 _, doc = benchmarks.load("ground_truth")
 refs, ROOT = doc["references"], benchmarks.REPO_ROOT
-cases = [c for c in doc["cases"] if not c["reference"].startswith("39T")]
+cases = [c for c in doc["cases"] if not c["reference"].startswith("3333")]
 m.check_model(MODEL)
 print(f"{len(cases)} cas 1762, {sum(len(c.get('instances') or []) for c in cases)} instances\n",
       flush=True)

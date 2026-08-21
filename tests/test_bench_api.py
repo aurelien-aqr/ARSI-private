@@ -106,7 +106,7 @@ def test_unknown_dataset_is_404(bench):
 
 
 def test_candidates_reports_the_dirs_it_scanned(bench):
-    """An empty candidate list must be explainable - for 39T it means the
+    """An empty candidate list must be explainable - for 3333 it means the
     unlabelled moments were never extracted, not that the endpoint is broken."""
     client, _ = bench()
     r = client.get("/api/benchmarks/demo/candidates").json()
@@ -225,7 +225,7 @@ def test_full_run_reproduces_the_frame_matrix(bench):
 
 
 def test_full_run_uses_each_case_own_reference(bench):
-    """The 39T protocol has one reference per camera. The run must pass the
+    """The 3333 protocol has one reference per camera. The run must pass the
     case's reference, not the first one it saw."""
     client, _ = bench([CLEAN_CROP] * 40)
     ref2 = _img("ref2.jpg", rects=[(0, 0, 60, 60)])

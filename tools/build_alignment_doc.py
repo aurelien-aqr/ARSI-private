@@ -1,9 +1,9 @@
-"""Assemble the standalone HTML report on the 1760 -> 39T framing offset.
+"""Assemble the standalone HTML report on the 1760 -> 3333 framing offset.
 
 Every figure is re-encoded and inlined as a data: URI, so the document opens on
 its own with no image folder alongside it.
 
-Output: docs/camera_alignment/camera_framing_drift_1760_39T.html
+Output: docs/camera_alignment/camera_framing_drift_1760_3333.html
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import cv2
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from tools.notes import NOTES                                     # noqa: E402
-from tools.report_style import foot, head                         # noqa: E402
+from tools.report_style import TRAM_FOOT, foot, head, tram_star                         # noqa: E402
 
 NOTE = NOTES["camera-alignment"]
 DOC = NOTE.html
@@ -66,13 +66,13 @@ def build() -> str:
 
     # three teaching cases, from the most striking to the most subtle
     cases = [
-        ("39T-cam55", "The worst of the rear block",
+        ("3333-cam55", "The worst of the rear block",
          "143 px of offset, almost all of it pan. The copied mask leaves 14 % of the frame "
          "as unmasked glass and blacks out just as much useful interior."),
-        ("39T-cam52", "The largest gap measured",
+        ("3333-cam52", "The largest gap measured",
          "164 px on the diagonal, and the only pair where the common field drops below 80 %. "
-         "Its 39T mask was also cut much more finely, 52 zones against 20."),
-        ("39T-cam50", "The one with the most roll",
+         "Its 3333 mask was also cut much more finely, 52 zones against 20."),
+        ("3333-cam50", "The one with the most roll",
          "Only 51 px of offset, but 5.4° of roll: the camera points the right way and sits "
          "turned on its own axis. Its mask happens to survive the copy at IoU 0.96, though a "
          "small offset is no guarantee of that. cam54 is closer still, at 46 px, and its copied "
@@ -84,7 +84,7 @@ def build() -> str:
         for r in ROWS:
             sev = "crit" if r["shift_px"] > 120 else ("warn" if r["shift_px"] > 80 else "ok")
             out.append(f"""<tr>
-<th scope="row">{r['cam_1760'].replace('1760-', '')} <span class="arrow">→</span> {r['cam_39T'].replace('39T-', '')}</th>
+<th scope="row">{r['cam_1760'].replace('1760-', '')} <span class="arrow">→</span> {r['cam_3333'].replace('3333-', '')}</th>
 <td class="num">{num(r['dx'], 0, True)}</td><td class="num">{num(r['dy'], 0, True)}</td>
 <td class="num"><span class="bar bar--{sev}" style="--v:{min(r['shift_px'] / 170, 1):.3f}"></span>{r['shift_px']:.0f}</td>
 <td class="num">{num(r['total_deg'], 1)}</td>
@@ -110,7 +110,7 @@ def build() -> str:
     def gallery():
         out = []
         for r in ROWS:
-            cam = r["cam_39T"]
+            cam = r["cam_3333"]
             sev = "crit" if r["shift_px"] > 120 else ("warn" if r["shift_px"] > 80 else "ok")
             out.append(f"""<article class="cam" id="{cam}">
   <header class="cam__head">
@@ -125,7 +125,7 @@ def build() -> str:
     <div><dt>IoU, mask copied</dt><dd>{num(r['iou_copied'], 2)}</dd></div>
     <div><dt>IoU, aligned</dt><dd>{num(r['iou_registered'], 2)}</dd></div>
   </dl>
-  <figure><img src="{embed(OUT / f'{cam}_align.jpg', 1400, 72)}" alt="1760 and 39T framings of {cam}, overlay and residual after alignment" loading="lazy">
+  <figure><img src="{embed(OUT / f'{cam}_align.jpg', 1400, 72)}" alt="1760 and 3333 framings of {cam}, overlay and residual after alignment" loading="lazy">
     <figcaption>Top: the two median backgrounds. Bottom: the raw overlay, then the residual after alignment.</figcaption></figure>
   <figure><img src="{embed(OUT / f'{cam}_masks.jpg', 1180, 72)}" alt="Masks for {cam}: copied, aligned, redrawn" loading="lazy">
     <figcaption>Glass left visible by the copy: {num(r['glass_exposed_copied_pct'], 1)} % of the frame · interior wrongly masked: {num(r['interior_masked_copied_pct'], 1)} %.</figcaption></figure>
@@ -135,17 +135,17 @@ def build() -> str:
     def case_blocks():
         out = []
         for cam, title, text in cases:
-            r = next(x for x in ROWS if x["cam_39T"] == cam)
+            r = next(x for x in ROWS if x["cam_3333"] == cam)
             out.append(f"""<div class="case">
   <h3>{title} <span class="case__cam">{cam}</span></h3>
   <p>{text}</p>
   <figure><img src="{embed(OUT / f'{cam}_masks.jpg', 1280, 78)}" alt="Masks overlaid on {cam}">
     <figcaption>Magenta: the 1760 mask dropped in as-is. Yellow: the same mask, aligned automatically.
-    Green: the 39T mask redrawn by hand. IoU {num(r['iou_copied'], 2)} → {num(r['iou_registered'], 2)}.</figcaption></figure>
+    Green: the 3333 mask redrawn by hand. IoU {num(r['iou_copied'], 2)} → {num(r['iou_registered'], 2)}.</figcaption></figure>
 </div>""")
         return "\n".join(out)
 
-    flow_cam = "39T-cam52"
+    flow_cam = "3333-cam52"
     fig_flow = embed(OUT / f"{flow_cam}_flow.jpg", 1280, 78)
 
     return f"""{head(**NOTE.head_args)}
@@ -153,12 +153,12 @@ def build() -> str:
 <header class="masthead">
   <span class="eyebrow">ARSI · onboard cameras · framing drift</span>
   <h1>The framing drift issue</h1>
-  <p class="lede">Tram 39T carries the same {n} interior cameras as tram 1760, mounted in the same
+  <p class="lede">Tram {tram_star()} carries the same {n} interior cameras as tram 1760, mounted in the same
   places. None of them points quite where its counterpart points. The median gap is
   <strong>{num(med('shift_px'), 0)} pixels</strong>, about <strong>{num(med('total_deg'), 1)}°</strong>
   of aim, and that is enough that every mask had to be redrawn.</p>
   <div class="meta">
-    <span>Trams 1760 &amp; 39T</span>
+    <span>Trams 1760 &amp; 3333</span>
     <span>{n} camera pairs</span>
     <span>1280 × 720</span>
   </div>
@@ -170,10 +170,10 @@ def build() -> str:
     <span class="key__n">min {num(best['shift_px'], 0)} · max {num(worst['shift_px'], 0)}</span></div>
   <div class="key"><span class="key__v">{num(med('total_deg'), 1)}°</span>
     <span class="key__l">equivalent camera re-aim</span>
-    <span class="key__n">up to {num(worst['total_deg'], 1)}° on {worst['cam_39T'].replace('39T-', '')}</span></div>
+    <span class="key__n">up to {num(worst['total_deg'], 1)}° on {worst['cam_3333'].replace('3333-', '')}</span></div>
   <div class="key"><span class="key__v">{num(max_rot['rot_deg'], 1, True)}°</span>
     <span class="key__l">largest roll, camera turned on its own axis</span>
-    <span class="key__n">{max_rot['cam_39T'].replace('39T-', '')} · median {num(med_abs_rot, 1)}°</span></div>
+    <span class="key__n">{max_rot['cam_3333'].replace('3333-', '')} · median {num(med_abs_rot, 1)}°</span></div>
   <div class="key"><span class="key__v">{num(med('iou_copied'), 2)}</span>
     <span class="key__l">overlap of a 1760 mask dropped in as-is</span>
     <span class="key__n">down to {num(min(r['iou_copied'] for r in ROWS), 2)}</span></div>
@@ -189,7 +189,7 @@ def build() -> str:
   </div>
   <div class="col">
     <p>The exclusion masks (windows, glazed doors, portholes) were drawn once for each of the
-    {n} interior cameras of tram 1760. Tram 39T carries the same camera set, in the same
+    {n} interior cameras of tram 1760. Tram 3333 carries the same camera set, in the same
     positions, in a tram of the same type, so on paper the masks should transfer straight
     across. Not one of them landed correctly, and all {n} had to be redrawn.</p>
     <p>The cause is geometric. Each camera was aimed by hand when it was fitted, and nobody
@@ -206,7 +206,7 @@ def build() -> str:
     <img src="{fig_sheet}" alt="Contact sheet of the 15 pairs overlaid in magenta and green">
     <figcaption>All {n} pairs overlaid. Wherever the magenta and the green split apart, the two
     cameras are not looking at the same thing.</figcaption>
-    <div class="legend"><span class="sw m">1760</span><span class="sw v">39T</span><span class="sw" style="color:var(--ink-3)">grey = the two coincide</span></div>
+    <div class="legend"><span class="sw m">1760</span><span class="sw v">3333</span><span class="sw" style="color:var(--ink-3)">grey = the two coincide</span></div>
   </figure>
 </section>
 
@@ -221,7 +221,7 @@ def build() -> str:
       <p>A single still per camera with nobody in it, on both trams.</p></div></li>
     <li><div><b>Find the same details in both images.</b>
       <p>A few hundred small recognisable spots are located in the 1760 image, a screw head, the
-      corner of a panel, the edge of a seat, then looked for again in the 39T image
+      corner of a panel, the edge of a seat, then looked for again in the 3333 image
       (<code>cv2.SIFT</code> keypoints, paired by Lowe's ratio test). Every spot found twice gives
       one arrow: where the detail used to be, and where it is now.</p></div></li>
     <li><div><b>Find the one camera movement that explains every arrow.</b>
@@ -276,7 +276,7 @@ def build() -> str:
   </div>
   <div class="tablewrap full">
     <table>
-      <caption>Transformation from the 1760 framing to the 39T framing. Degrees assume a 100°
+      <caption>Transformation from the 1760 framing to the 3333 framing. Degrees assume a 100°
       horizontal field; at 90° or 110° they move by about ±10 %. The pixels are the measurement.</caption>
       <thead><tr>
         <th scope="col">pair</th>
@@ -296,7 +296,7 @@ def build() -> str:
     √(dx² + dy²), how far a centre point travels between the two framings. It has no direction,
     which is why the cameras are ranked by it. <b>Aim</b>: the same gap as a rotation,
     arctan(gap / f) with f ≈ {focal_px:.0f} px from the assumed field; it leaves out the roll,
-    which moves nothing at the centre. <b>Roll</b>: rotation of the camera about its optical axis. <b>Common field</b>: share of the 1760 frame still visible in 39T.
+    which moves nothing at the centre. <b>Roll</b>: rotation of the camera about its optical axis. <b>Common field</b>: share of the 1760 frame still visible in 3333.
     <b>Correlation</b>: how well the edges of the two images line up, with no correction applied
     → with the measured one applied. 0 means unrelated, 1 identical. The jump is what shows the
     transformation is real rather than noise.</p>
@@ -304,7 +304,7 @@ def build() -> str:
     share divided by the area they cover between them. 1 means they coincide exactly, 0 that they
     never touch. It punishes a shift twice over, once by losing intersection and once by growing
     the union, so two identical squares offset by half their width already score 0.33 rather than
-    0.50. <em>Copied</em> is the 1760 mask dropped straight onto 39T, <em>aligned</em> the same
+    0.50. <em>Copied</em> is the 1760 mask dropped straight onto 3333, <em>aligned</em> the same
     mask moved by the measured transformation. Being symmetric, IoU says how far apart two masks
     are but not in which direction, which is why the exposed glass and the wrongly masked
     interior are reported separately below.</p>
@@ -329,7 +329,7 @@ def build() -> str:
       <b>{num(med('interior_masked_registered_pct'), 1)} %</b> and lifts the median IoU from
       {num(med('iou_copied'), 2)} to {num(med('iou_registered'), 2)}, so most of the geometric
       error is recoverable after the fact.</li>
-      <li>The exposed glass does not improve with alignment. The hand-drawn 39T masks cover
+      <li>The exposed glass does not improve with alignment. The hand-drawn 3333 masks cover
       zones the 1760 mask never had, so that part of the gap is an annotation difference rather
       than a geometric one. It shows plainly on cam52, which went from 20 zones to 52.</li>
     </ul>
@@ -343,7 +343,7 @@ def build() -> str:
     <h2>How much offset can a mask absorb?</h2>
   </div>
   <div class="col">
-    <p>Rather than pick a threshold out of the air, each of the {n} 39T masks was shifted by
+    <p>Rather than pick a threshold out of the air, each of the {n} 3333 masks was shifted by
     <em>k</em> pixels in eight directions to find where it stops being usable.</p>
   </div>
   <figure>
@@ -354,7 +354,7 @@ def build() -> str:
   </figure>
   <div class="tablewrap">
     <table>
-      <caption>Effect of a pure shift on the {n} 39T masks, 8 directions.</caption>
+      <caption>Effect of a pure shift on the {n} 3333 masks, 8 directions.</caption>
       <thead><tr><th scope="col">shift px</th><th scope="col">deg</th><th scope="col">median IoU</th>
       <th scope="col">10th pct IoU</th><th scope="col">glass exposed</th></tr></thead>
       <tbody>{tol_rows()}</tbody>
@@ -365,7 +365,7 @@ def build() -> str:
     <p><b>Aim for 5 px (0.5°), never exceed 10 px (1.1°).</b> At 5 px the mask keeps an IoU of
     0.95 and transfers with no retouching. At 10 px it still holds at 0.91, which calls for a
     check but not a recut. Past 20 px it has to be redrawn by hand. The median gap measured
-    between 1760 and 39T, {num(med('shift_px'), 0)} px, is seven times that limit.</p>
+    between 1760 and 3333, {num(med('shift_px'), 0)} px, is seven times that limit.</p>
   </div>
 </section>
 
@@ -381,7 +381,7 @@ def build() -> str:
     <p>So bring the picture of each camera from the previous tram and keep it beside the live
     stream. Better still, superimpose the two instead of putting them side by side. A small
     difference leaps out on an overlay and stays invisible when the images merely sit next to
-    each other, which is how 70 px went unnoticed on the 39T.</p>
+    each other, which is how 70 px went unnoticed on the 3333.</p>
     <p>While aiming, watch the roll. Getting left/right and up/down correct and leaving the
     camera tilted on its own axis is the easy mistake to make, and cam50 shows it costs as much
     as a bad aim. Line up on fixed details spread around the frame, a door pillar, a seat leg,
@@ -415,14 +415,15 @@ def build() -> str:
   <div class="legend">
     <span class="sw m">1760 mask copied as-is</span>
     <span class="sw j">the same, aligned automatically</span>
-    <span class="sw v">39T mask redrawn by hand</span>
+    <span class="sw v">3333 mask redrawn by hand</span>
   </div>
   <div class="cams full">{gallery()}</div>
 </section>
 
 {foot("ARSI · tram anomaly detection · framing drift",
       "Pipeline: tools/build_background_frames.py → tools/camera_alignment_report.py → tools/mask_shift_tolerance.py",
-      "Raw data: docs/camera_alignment/metrics.json and tolerance.json")}
+      "Raw data: docs/camera_alignment/metrics.json and tolerance.json",
+      TRAM_FOOT)}
 """
 
 

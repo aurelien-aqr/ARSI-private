@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Does tiling a big region rescue the objects the judge rejects on 39T?
+"""Does tiling a big region rescue the objects the judge rejects on 3333?
 
-The four 39T frames the pipeline misses all show the same geometry: the object
+The four 3333 frames the pipeline misses all show the same geometry: the object
 IS inside a proposed region, but occupies 0.4-4.2 % of it, so the judge sees a
 crop where a bottle is a dozen pixels. This re-judges those frames with every
 large region cut into overlapping tiles, and asks whether any tile that lands on
@@ -21,8 +21,8 @@ import vlm_05_reference_diff as m                      # noqa: E402
 from arsi_core import benchmarks                       # noqa: E402
 
 MODEL = "haervwe/GLM-4.6V-Flash-9B:latest"
-CASES = ["39T_cam52_084637", "39T_cam53_084637",
-         "39T_cam53_085124", "39T_cam54_083517"]
+CASES = ["3333_cam52_084637", "3333_cam53_084637",
+         "3333_cam53_085124", "3333_cam54_083517"]
 
 TILE_TRIGGER = 40_000    # px of bbox area above which a region is cut up
 TILE = 160               # tile side in reference-space pixels

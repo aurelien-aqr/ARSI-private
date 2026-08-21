@@ -134,7 +134,7 @@ def camera_of(case: dict) -> str:
     """Which per-camera Dinomaly checkpoint a case belongs to.
 
     The benchmark's reference key IS the camera for the fleet cameras
-    ("1760-cam04", "39T-cam53"), so nothing is maintained in parallel. "real" is
+    ("1760-cam04", "3333-cam53"), so nothing is maintained in parallel. "real" is
     the tram_1762 camera; "variant" is a different scene with no model of its
     own and is deliberately scored against the tram_1762 checkpoint, because
     out-of-domain behaviour is one of the things the benchmark measures.

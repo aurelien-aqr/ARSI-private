@@ -24,7 +24,7 @@ so the two can never drift. Two levels, as in `benchmark/README.md`:
                 IoU >= 0.3 recall is reported alongside because the lenient rule
                 credits a frame-sized blob with hitting everything
 
-Editing is a first-class operation here (the 39T labels were drafted by a model
+Editing is a first-class operation here (the 3333 labels were drafted by a model
 and need human correction), so `save()` writes through a stable formatter: one
 line per case, one line per instance, keys in a fixed order. A corrected box then
 shows up as a one-line git diff instead of reshuffling the whole file.
@@ -207,7 +207,7 @@ def save(ds_id: str, doc: dict) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
         BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
-        # This backup is what tools/build_39T_benchmark.py tells the reader to
+        # This backup is what tools/build_3333_benchmark.py tells the reader to
         # rely on when a rebuild replaces human corrections, so losing one is not
         # acceptable. A timestamp alone does not guarantee that: two saves land in
         # the same millisecond easily enough (measured). Resolve the collision

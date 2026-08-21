@@ -55,7 +55,8 @@ h2 { font-size:1.32rem; letter-spacing:-.015em; }
 h3 { font-size:1.04rem; }
 h4 { font-size:.93rem; }
 p { margin:0; }
-a { color:var(--accent); text-underline-offset:2px; }
+/* the converted notes cite full URLs; without this one runs off the sheet */
+a { color:var(--accent); text-underline-offset:2px; overflow-wrap:break-word; }
 em { font-style:italic; }
 code { font-family:var(--mono); font-size:.85em; background:var(--sunk);
        padding:1px 5px; border-radius:4px; }
@@ -99,6 +100,9 @@ header.masthead { padding:74px 0 40px; display:flex; flex-direction:column; gap:
 :root.embed header.masthead { padding-top:44px; }
 header.masthead .lede { font-size:1.14rem; color:var(--ink-2); max-width:600px; }
 header.masthead .lede strong, header.masthead .lede b { color:var(--ink); font-weight:650; }
+abbr.tram-ph { text-decoration:underline dotted; text-underline-offset:2px; cursor:help; }
+abbr.tram-ph sup { font-size:0.7em; }
+p.footnote { font-size:0.82rem; color:var(--ink-3); margin:28px 0 0; }
 .meta { display:flex; flex-wrap:wrap; gap:6px 26px; font-family:var(--mono);
         font-size:.73rem; color:var(--ink-3); padding-top:4px; }
 
@@ -193,6 +197,22 @@ b.alarm { color:var(--warn); font-weight:650; }
 .bar { position:absolute; left:0; bottom:1px; height:2px; width:calc(var(--v) * 100%); }
 .bar--ok { background:var(--ok); } .bar--warn { background:var(--warn); }
 .bar--crit { background:var(--crit); }
+
+/* A listing, not a data table: the converted notes use fenced blocks for a
+   paper outline, a protocol and a couple of small diagrams. */
+pre { margin:0; background:var(--sunk); border:1px solid var(--line);
+      border-radius:10px; padding:15px 17px; overflow-x:auto;
+      font-family:var(--mono); font-size:.79rem; line-height:1.6;
+      color:var(--ink-2); }
+pre code { background:none; padding:0; font-size:inherit; color:inherit; }
+
+/* Markdown tables hold sentences rather than numbers, so their cells wrap
+   instead of running off the side under the mono/nowrap rules above. */
+.tablewrap--text table { min-width:0; font-size:.85rem; }
+.tablewrap--text th, .tablewrap--text td { white-space:normal; vertical-align:top;
+      padding:11px 15px; }
+.tablewrap--text thead th { font-family:var(--mono); }
+.tablewrap--text tbody td:first-child, .tablewrap--text tbody th { color:var(--ink); }
 
 /* --- inline status ------------------------------------------------------ */
 .pill { font-family:var(--mono); font-size:.69rem; padding:3px 9px;
@@ -340,8 +360,12 @@ footer { margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
   p { orphans:3; widows:3; }
 
   /* wide tables have to fit the sheet, header repeated on every page */
+  pre { break-inside:avoid; font-size:7.2pt; padding:9px 11px; border-radius:0;
+        line-height:1.5; }
   .tablewrap { overflow:visible; border-radius:0; }
   table { font-size:6.8pt; min-width:0; }
+  .tablewrap--text table { font-size:7.4pt; }
+  .tablewrap--text th, .tablewrap--text td { padding:5px 7px; }
   caption { padding:9px; font-size:6.9pt; }
   th, td { padding:4.2px 5px; white-space:normal; }
   thead { display:table-header-group; }
@@ -634,7 +658,7 @@ footer { margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
       <li><b>One set of crops.</b> A wording suited to these tight crops may not
       suit the much larger regions the pixel-difference detector produces. The
       result is which model for these crops, not which model in general.</li>
-      <li><b>The false-alarm figure rests on few clean images</b>, and the 39T
+      <li><b>The false-alarm figure rests on few clean images</b>, and the <abbr class="tram-ph" title="3333 is a placeholder, not the tram&#x27;s real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.">3333<sup>*</sup></abbr>
       clean frames come from the same recordings the filtering model was trained
       on. A run that raises no alarm here is not proven safe.</li>
       <li><b>Three wordings is not a search of the prompt space.</b> They differ
@@ -649,5 +673,7 @@ footer { margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
     </ul>
   </div>
 </section>
+
+<p class="footnote">* 3333 is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.</p>
 
 </div>

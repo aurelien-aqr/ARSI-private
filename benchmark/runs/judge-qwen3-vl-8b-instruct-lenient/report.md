@@ -55,19 +55,19 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| 39T_cam52_084637 | anomaly | **TP** | 3/3 | 4 | purple bag appears., bright reflection on right side seat., White cat sitting on seat, a red bag appears., white substance on seat, small green object, white dog sitting on seats |
-| 39T_cam52_085124 | anomaly | **TP** | 1/2 | 6 | phone on seat, wallet on seat, a handbag appears., shadow on seats, wallet on seat, Shadow on seat surface, phone on seat back. |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow bag on seat, yellow bag appears |
-| 39T_cam53_084021 | anomaly | **TP** | 2/2 | 2 | yellow cloth on seat, colorful items on seat, green bottle appears, a yellow bag appears. |
-| 39T_cam53_084637 | anomaly | **TP** | 1/1 | 1 | green bottle on seat, graffiti tag on right side. |
-| 39T_cam53_085124 | anomaly | **TP** | 1/1 | 1 | white smudge-like substance, pink strap hanging |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 0 | plastic bag on floor |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 3 | crumpled bag on seat, laptop on seat, white circular mark, liquid droplets on surface., liquid droplets on surface. |
-| 39T_cam54_085124 | anomaly | **TP** | 3/3 | 2 | crumpled trash bag appeared., bottle and trash bag, a blurry reflection appears., bottle on seat, a phone appeared. |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 1 | crumpled plastic bag, laptop on seat, light streak on surface |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 1 | crumpled plastic bag, laptop on seat, 褶皱的白色布料 |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 2 | crumpled trash on seat, laptop on seat, white cord/strap appears, a blurry object appears. |
-| 39T_cam55_085124 | anomaly | **TP** | 2/2 | 2 | bottle and notebook, laptop and bottle, a hanging bag appears., graffiti or tag |
+| 3333_cam52_084637\* | anomaly | **TP** | 3/3 | 4 | purple bag appears., bright reflection on right side seat., White cat sitting on seat, a red bag appears., white substance on seat, small green object, white dog sitting on seats |
+| 3333_cam52_085124 | anomaly | **TP** | 1/2 | 6 | phone on seat, wallet on seat, a handbag appears., shadow on seats, wallet on seat, Shadow on seat surface, phone on seat back. |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow bag on seat, yellow bag appears |
+| 3333_cam53_084021 | anomaly | **TP** | 2/2 | 2 | yellow cloth on seat, colorful items on seat, green bottle appears, a yellow bag appears. |
+| 3333_cam53_084637 | anomaly | **TP** | 1/1 | 1 | green bottle on seat, graffiti tag on right side. |
+| 3333_cam53_085124 | anomaly | **TP** | 1/1 | 1 | white smudge-like substance, pink strap hanging |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 0 | plastic bag on floor |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 3 | crumpled bag on seat, laptop on seat, white circular mark, liquid droplets on surface., liquid droplets on surface. |
+| 3333_cam54_085124 | anomaly | **TP** | 3/3 | 2 | crumpled trash bag appeared., bottle and trash bag, a blurry reflection appears., bottle on seat, a phone appeared. |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 1 | crumpled plastic bag, laptop on seat, light streak on surface |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 1 | crumpled plastic bag, laptop on seat, 褶皱的白色布料 |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 2 | crumpled trash on seat, laptop on seat, white cord/strap appears, a blurry object appears. |
+| 3333_cam55_085124 | anomaly | **TP** | 2/2 | 2 | bottle and notebook, laptop and bottle, a hanging bag appears., graffiti or tag |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 0 | black suitcase appeared. |
 | gpt_02_multi | anomaly | **TP** | 4/4 | 2 | backpack and paper bag, black backpack appeared., water bottle on seat, backpack on seat, graffiti on surface |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 0 | graffiti tag "XRP" |
@@ -85,7 +85,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | real_f0205 | anomaly | **TP** | 2/2 | 3 | jacket on seat, backpacks appear., green foliage visible, a lock icon appears., purple light glow |
 | real_f0219 | anomaly | **TP** | 2/2 | 3 | jacket on seat, black backpack appeared, black backpack appears., phone appears on right., blue light glow |
 | variant_01 | anomaly | **TP** | 6/7 | 2 | backpack on seat, bottle on floor, tear in seat fabric, graffiti on wall, damage on seat., damage on seat cushion., small yellow object |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
 | 1760_cam04_t220 | clean | **FP** | - | 2 | white cat sitting, white plastic bag |
 | 1760_cam04_t320 | clean | **FP** | - | 2 | sunlight pattern changed, orange smoke/smoke cloud |
 | 1760_cam04_t420 | clean | **FP** | - | 4 | sunlight reflection, bright light reflection, a reflection appears., white plastic bag |
@@ -101,10 +101,10 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam13_t420 | clean | **FP** | - | 12 | bright sunlight reflection, white object on seat, graffiti on wall, yellow object appears., yellow light reflection, ventilation grille appears., light reflection on seat, yellow seat appears., white object on seat, a yellow object appears., light reflection on seat, white ball appears. |
 | 1760_cam13_t520 | clean | **FP** | - | 1 | a torn seat cover. |
 | 1760_cam13_t570 | clean | **FP** | - | 1 | green graffiti tag |
-| 39T_cam52_ref_t120_clean | clean | **FP** | - | 3 | bright light reflection, black rectangular patch, Graffiti-like scribble on right side |
-| 39T_cam53_085954_clean | clean | **FP** | - | 4 | Dark object on surface, shadows cast by vertical bars., metal pipe attached to wall, white object appears |
-| 39T_cam54_ref_t120_clean | clean | **FP** | - | 3 | black box-like object, white cloth on floor, graffiti or tag |
-| 39T_cam55_085954_clean | clean | **FP** | - | 4 | reflection on seats, paper on seat., red mark on surface, graffiti tag on wall |
+| 3333_cam52_ref_t120_clean | clean | **FP** | - | 3 | bright light reflection, black rectangular patch, Graffiti-like scribble on right side |
+| 3333_cam53_085954_clean | clean | **FP** | - | 4 | Dark object on surface, shadows cast by vertical bars., metal pipe attached to wall, white object appears |
+| 3333_cam54_ref_t120_clean | clean | **FP** | - | 3 | black box-like object, white cloth on floor, graffiti or tag |
+| 3333_cam55_085954_clean | clean | **FP** | - | 4 | reflection on seats, paper on seat., red mark on surface, graffiti tag on wall |
 | neg_gpt_06_clean | clean | **FP** | - | 2 | faint scuff mark, dark stain on seat |
 | neg_v1_f0151 | clean | **FP** | - | 1 | blue light reflection |
 | neg_v2_f0001_person | clean | **FP** | - | 1 | laptop on seat |
@@ -115,9 +115,9 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam04_t120 | clean | **TN** | - | 0 | - |
 | 1760_cam04_t570 | clean | **TN** | - | 0 | - |
 | 1760_cam06_t220 | clean | **TN** | - | 0 | - |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam54_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam54_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_v1_f0181 | clean | **TN** | - | 0 | - |
 | neg_v1_f0211 | clean | **TN** | - | 0 | - |
@@ -125,3 +125,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
 
 Annotated images: `benchmark/runs/cli-latest/annotated/<id>.jpg` (blue = ground-truth boxes, green = correct detections, red = false-positive boxes). Raw results: `benchmark/runs/judge-qwen3-vl-8b-instruct-lenient/results.json`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

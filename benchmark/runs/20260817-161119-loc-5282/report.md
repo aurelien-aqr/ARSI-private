@@ -21,24 +21,28 @@
 
 | id | truth | regions | instances localized | biggest box |
 |---|---|---|---|---|
-| 39T_cam52_084637 | anomaly | 11 | 2/2 | 558,480 |
-| 39T_cam52_085124 | anomaly | 18 | 1/1 | 495,216 |
-| 39T_cam53_083517 | anomaly | 11 | 1/2 | 143,488 |
-| 39T_cam53_084021 | anomaly | 13 | 1/2 | 144,768 |
-| 39T_cam53_084637 | anomaly | 6 | 1/1 | 613,440 |
-| 39T_cam53_085124 | anomaly | 15 | 0/1 | 119,888 |
-| 39T_cam54_083517 | anomaly | 10 | 0/1 | 130,720 |
-| 39T_cam54_084021 | anomaly | 11 | 1/1 | 840,960 |
-| 39T_cam54_084637 | anomaly | 18 | 2/2 | 252,880 |
-| 39T_cam54_085124 | anomaly | 12 | 1/3 | 102,272 |
-| 39T_cam55_083517 | anomaly | 8 | 2/2 | 911,360 |
-| 39T_cam55_084021 | anomaly | 6 | 2/2 | 911,360 |
-| 39T_cam55_084637 | anomaly | 17 | 2/2 | 117,952 |
-| 39T_cam55_085124 | anomaly | 10 | 1/2 | 86,640 |
-| 39T_cam53_085954_clean | clean | 29 | - | 276,336 |
-| 39T_cam54_085954_clean | clean | 15 | - | 419,136 |
-| 39T_cam55_085954_clean | clean | 15 | - | 207,264 |
-| 39T_cam52_ref_t120_clean | clean | 3 | - | 792,000 |
-| 39T_cam53_ref_t120_clean | clean | 13 | - | 264,576 |
-| 39T_cam54_ref_t120_clean | clean | 10 | - | 228,288 |
-| 39T_cam55_ref_t120_clean | clean | 15 | - | 622,080 |
+| 3333_cam52_084637\* | anomaly | 11 | 2/2 | 558,480 |
+| 3333_cam52_085124 | anomaly | 18 | 1/1 | 495,216 |
+| 3333_cam53_083517 | anomaly | 11 | 1/2 | 143,488 |
+| 3333_cam53_084021 | anomaly | 13 | 1/2 | 144,768 |
+| 3333_cam53_084637 | anomaly | 6 | 1/1 | 613,440 |
+| 3333_cam53_085124 | anomaly | 15 | 0/1 | 119,888 |
+| 3333_cam54_083517 | anomaly | 10 | 0/1 | 130,720 |
+| 3333_cam54_084021 | anomaly | 11 | 1/1 | 840,960 |
+| 3333_cam54_084637 | anomaly | 18 | 2/2 | 252,880 |
+| 3333_cam54_085124 | anomaly | 12 | 1/3 | 102,272 |
+| 3333_cam55_083517 | anomaly | 8 | 2/2 | 911,360 |
+| 3333_cam55_084021 | anomaly | 6 | 2/2 | 911,360 |
+| 3333_cam55_084637 | anomaly | 17 | 2/2 | 117,952 |
+| 3333_cam55_085124 | anomaly | 10 | 1/2 | 86,640 |
+| 3333_cam53_085954_clean | clean | 29 | - | 276,336 |
+| 3333_cam54_085954_clean | clean | 15 | - | 419,136 |
+| 3333_cam55_085954_clean | clean | 15 | - | 207,264 |
+| 3333_cam52_ref_t120_clean | clean | 3 | - | 792,000 |
+| 3333_cam53_ref_t120_clean | clean | 13 | - | 264,576 |
+| 3333_cam54_ref_t120_clean | clean | 10 | - | 228,288 |
+| 3333_cam55_ref_t120_clean | clean | 15 | - | 622,080 |
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

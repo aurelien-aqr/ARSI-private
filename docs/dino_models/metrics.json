@@ -36,7 +36,7 @@
           "regions_anomaly": 389,
           "regions_clean": 170
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 19,
@@ -88,7 +88,7 @@
           "regions_anomaly": 164,
           "regions_clean": 79
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 19,
@@ -140,7 +140,7 @@
           "regions_anomaly": 345,
           "regions_clean": 188
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 24,
@@ -192,7 +192,7 @@
           "regions_anomaly": 215,
           "regions_clean": 99
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 19,
@@ -244,7 +244,7 @@
           "regions_anomaly": 283,
           "regions_clean": 182
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 21,
@@ -296,7 +296,7 @@
           "regions_anomaly": 140,
           "regions_clean": 70
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 19,
@@ -348,7 +348,7 @@
           "regions_anomaly": 245,
           "regions_clean": 121
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 24,
@@ -400,7 +400,7 @@
           "regions_anomaly": 206,
           "regions_clean": 99
         },
-        "39T": {
+        "3333": {
           "cases": 21,
           "instances": 26,
           "detected": 24,

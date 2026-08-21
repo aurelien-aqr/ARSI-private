@@ -137,6 +137,9 @@ header.masthead { padding:74px 0 40px; display:flex; flex-direction:column; gap:
 :root.embed header.masthead { padding-top:44px; }
 header.masthead .lede { font-size:1.14rem; color:var(--ink-2); max-width:600px; }
 header.masthead .lede strong, header.masthead .lede b { color:var(--ink); font-weight:650; }
+abbr.tram-ph { text-decoration:underline dotted; text-underline-offset:2px; cursor:help; }
+abbr.tram-ph sup { font-size:0.7em; }
+p.footnote { font-size:0.82rem; color:var(--ink-3); margin:28px 0 0; }
 .meta { display:flex; flex-wrap:wrap; gap:6px 26px; font-family:var(--mono);
         font-size:.73rem; color:var(--ink-3); padding-top:4px; }
 
@@ -505,6 +508,22 @@ def head(title: str, key: str, filename: str) -> str:
   </div>
 </div>
 <div class="wrap">"""
+
+
+#: "3333" is a PLACEHOLDER tram id, not a fleet number - mirror of
+#: arsi_core.TRAM_ID_NOTE. Every note that prints the id stars its first
+#: mention with tram_star() and ends on TRAM_FOOT.
+TRAM_ID_NOTE = ("3333 is a placeholder, not the tram's real fleet number - the "
+                "vehicle number of the 2026-08-11 capture is unknown. It was "
+                "called 39T before, but 39T is the \u0160koda type, which tram "
+                "1760 shares.")
+TRAM_FOOT = "* " + TRAM_ID_NOTE
+
+
+def tram_star(text: str = "3333") -> str:
+    """`text`, an asterisk, and the note on hover."""
+    return (f'<abbr class="tram-ph" title="{escape(TRAM_ID_NOTE)}">{text}'
+            f'<sup>*</sup></abbr>')
 
 
 def foot(*lines: str) -> str:

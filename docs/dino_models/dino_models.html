@@ -55,7 +55,8 @@ h2 { font-size:1.32rem; letter-spacing:-.015em; }
 h3 { font-size:1.04rem; }
 h4 { font-size:.93rem; }
 p { margin:0; }
-a { color:var(--accent); text-underline-offset:2px; }
+/* the converted notes cite full URLs; without this one runs off the sheet */
+a { color:var(--accent); text-underline-offset:2px; overflow-wrap:break-word; }
 em { font-style:italic; }
 code { font-family:var(--mono); font-size:.85em; background:var(--sunk);
        padding:1px 5px; border-radius:4px; }
@@ -99,6 +100,9 @@ header.masthead { padding:74px 0 40px; display:flex; flex-direction:column; gap:
 :root.embed header.masthead { padding-top:44px; }
 header.masthead .lede { font-size:1.14rem; color:var(--ink-2); max-width:600px; }
 header.masthead .lede strong, header.masthead .lede b { color:var(--ink); font-weight:650; }
+abbr.tram-ph { text-decoration:underline dotted; text-underline-offset:2px; cursor:help; }
+abbr.tram-ph sup { font-size:0.7em; }
+p.footnote { font-size:0.82rem; color:var(--ink-3); margin:28px 0 0; }
 .meta { display:flex; flex-wrap:wrap; gap:6px 26px; font-family:var(--mono);
         font-size:.73rem; color:var(--ink-3); padding-top:4px; }
 
@@ -193,6 +197,22 @@ b.alarm { color:var(--warn); font-weight:650; }
 .bar { position:absolute; left:0; bottom:1px; height:2px; width:calc(var(--v) * 100%); }
 .bar--ok { background:var(--ok); } .bar--warn { background:var(--warn); }
 .bar--crit { background:var(--crit); }
+
+/* A listing, not a data table: the converted notes use fenced blocks for a
+   paper outline, a protocol and a couple of small diagrams. */
+pre { margin:0; background:var(--sunk); border:1px solid var(--line);
+      border-radius:10px; padding:15px 17px; overflow-x:auto;
+      font-family:var(--mono); font-size:.79rem; line-height:1.6;
+      color:var(--ink-2); }
+pre code { background:none; padding:0; font-size:inherit; color:inherit; }
+
+/* Markdown tables hold sentences rather than numbers, so their cells wrap
+   instead of running off the side under the mono/nowrap rules above. */
+.tablewrap--text table { min-width:0; font-size:.85rem; }
+.tablewrap--text th, .tablewrap--text td { white-space:normal; vertical-align:top;
+      padding:11px 15px; }
+.tablewrap--text thead th { font-family:var(--mono); }
+.tablewrap--text tbody td:first-child, .tablewrap--text tbody th { color:var(--ink); }
 
 /* --- inline status ------------------------------------------------------ */
 .pill { font-family:var(--mono); font-size:.69rem; padding:3px 9px;
@@ -340,8 +360,12 @@ footer { margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
   p { orphans:3; widows:3; }
 
   /* wide tables have to fit the sheet, header repeated on every page */
+  pre { break-inside:avoid; font-size:7.2pt; padding:9px 11px; border-radius:0;
+        line-height:1.5; }
   .tablewrap { overflow:visible; border-radius:0; }
   table { font-size:6.8pt; min-width:0; }
+  .tablewrap--text table { font-size:7.4pt; }
+  .tablewrap--text th, .tablewrap--text td { padding:5px 7px; }
   caption { padding:9px; font-size:6.9pt; }
   th, td { padding:4.2px 5px; white-space:normal; }
   thead { display:table-header-group; }
@@ -437,7 +461,7 @@ footer { margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
     <ol>
       <li><b>AnomalyDINO draws the best boxes.</b> It covers
         58/73 objects properly against 42/73
-        for the current detector. Almost all of the gap is tram 39T, where the
+        for the current detector. Almost all of the gap is tram <abbr class="tram-ph" title="3333 is a placeholder, not the tram&#x27;s real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.">3333<sup>*</sup></abbr>, where the
         current detector manages
         5/26 and AnomalyDINO
         19/26. It needs no training.</li>
@@ -645,22 +669,22 @@ trained on nominal frames">
 <td class="num bad">1</td>
 <td class="muted">single run (194)</td>
 <td class="num muted">0.83 → 0.030</td></tr>
-<tr><th scope="row">39T-cam52</th>
+<tr><th scope="row">3333-cam52</th>
 <td class="num">90</td>
 <td class="num bad">1</td>
 <td class="muted">08-55-37 (90)</td>
 <td class="num muted">0.92 → 0.043</td></tr>
-<tr><th scope="row">39T-cam53</th>
+<tr><th scope="row">3333-cam53</th>
 <td class="num">173</td>
 <td class="num">2</td>
 <td class="muted">08-55-37 (90), 08-59-54 (83)</td>
 <td class="num muted">0.83 → 0.031</td></tr>
-<tr><th scope="row">39T-cam54</th>
+<tr><th scope="row">3333-cam54</th>
 <td class="num">151</td>
 <td class="num">2</td>
 <td class="muted">08-55-37 (90), 08-59-54 (61)</td>
 <td class="num muted">0.86 → 0.033</td></tr>
-<tr><th scope="row">39T-cam55</th>
+<tr><th scope="row">3333-cam55</th>
 <td class="num">153</td>
 <td class="num">2</td>
 <td class="muted">08-55-37 (91), 08-59-54 (62)</td>
@@ -676,7 +700,7 @@ trained on nominal frames">
     tram, taken one every 2 seconds from the source video, then filtered twice.
     Anything shot within 15 seconds of a test image is dropped, so no model is
     ever scored on what it learned from. A person detector then removes any image
-    with someone in it, which took out 18 % of the 39T candidates. One 39T
+    with someone in it, which took out 18 % of the 3333 candidates. One 3333
     recording was excluded by hand: it has two passengers <em>and</em> a bag on
     the floor, and the detector would have kept the frames where the bag sits
     alone.</figcaption>
@@ -703,7 +727,7 @@ trained on nominal frames">
     for this table.</p>
     <p><b>On its own, AnomalyDINO is the best of the three</b>, with
     58/73 against 42/73 for the pixel diff.
-    The gap is not spread evenly. Almost all of it comes from tram 39T, where the
+    The gap is not spread evenly. Almost all of it comes from tram 3333, where the
     pixel diff manages 5/26 and
     AnomalyDINO 19/26. On those cameras
     the pixel diff's worst box covers 99 % of the image. AnomalyDINO's worst is
@@ -720,7 +744,7 @@ trained on nominal frames">
       <span class="key__l">objects boxed properly by AnomalyDINO, against
       42/73 for the pixel diff</span></div>
     <div class="key"><span class="key__v a1">19/26</span>
-      <span class="key__l">on tram 39T, where the pixel diff manages
+      <span class="key__l">on tram 3333, where the pixel diff manages
       5/26</span></div>
     <div class="key"><span class="key__v a2">−47 %</span>
       <span class="key__l">fewer crops sent to the VLM when Dinomaly filters
@@ -732,7 +756,7 @@ trained on nominal frames">
   <figure>
     <div class="tablewrap"><table>
       <thead><tr><th scope="col">Configuration</th><th scope="col">Model used</th>
-      <th scope="col">Boxed properly</th><th scope="col">On 39T</th>
+      <th scope="col">Boxed properly</th><th scope="col">On 3333</th>
       <th scope="col">Regions</th></tr></thead>
       <tbody><tr class="base">
 <th scope="row">Pixel diff<small>the current detector, no neural model</small></th>
@@ -847,15 +871,15 @@ trained on nominal frames">
       same run. Training images are kept 15 seconds away from any test image, but
       they still share its light. So nothing here tells us whether a 1760 model
       still works on another day.</li>
-      <li><b>The 39T clean frames are not independent either.</b> Of the nine
+      <li><b>The 3333 clean frames are not independent either.</b> Of the nine
       recordings, four contain the staged anomalies, one is the reference and one
       is used as a clean test case. The three that are unlabelled last 12, 8 and
       10 seconds, which is far too short to train on. There is simply no clean
       pool left, so training uses the two long clean recordings minus the images
-      held out. The 14 anomalous 39T cases are genuinely from sessions the model
-      never saw. The 7 clean ones are not, so the false-alarm rate on 39T looks
+      held out. The 14 anomalous 3333 cases are genuinely from sessions the model
+      never saw. The 7 clean ones are not, so the false-alarm rate on 3333 looks
       better than it should.</li>
-      <li><b>39T-cam52 is the weakest model of the eight.</b> It has only 90
+      <li><b>3333-cam52 is the weakest model of the eight.</b> It has only 90
       images, all from one recording, and it ends training with the highest
       error.</li>
       <li><b>On an unknown camera, Dinomaly goes quiet rather than wrong.</b> We
@@ -875,6 +899,7 @@ trained on nominal frames">
   <span>ARSI · tram anomaly detection · region proposal</span>
   <span>Pipeline: benchmark/eval_localization.py → tools/collect_e2e.py → tools/dump_training_sets.py</span>
   <span>Raw data: docs/dino_models/metrics.json, end_to_end.json, training_sets.json</span>
+  <span>* 3333 is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.</span>
 </footer>
 
 </div>

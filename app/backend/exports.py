@@ -4,6 +4,13 @@ import json
 from datetime import datetime
 from io import BytesIO
 
+from arsi_core import TRAM_ID_NOTE, TRAM_ID_NOTE_MD, names_placeholder_tram
+
+
+def _tram_note_needed(text: str) -> bool:
+    """A report that names the placeholder tram id has to explain it."""
+    return names_placeholder_tram(text)
+
 
 def used_reference(cfg: dict):
     """The reference the pipeline actually compared against - the masked copy
@@ -62,7 +69,10 @@ def report_md(data: dict) -> str:
                  f"{f['attempts']} | {f['seconds']} |")
     if cfg.get("prompt"):
         L += ["", "## Prompt", "", "```", cfg["prompt"], "```"]
-    return "\n".join(L) + "\n"
+    out = "\n".join(L) + "\n"
+    if _tram_note_needed(out):
+        out += "\n---\n\n" + TRAM_ID_NOTE_MD + "\n"
+    return out
 
 
 def report_html(data: dict) -> str:
@@ -95,6 +105,8 @@ def report_html(data: dict) -> str:
                     f"<td>{f['status']}</td><td>{anom}</td><td>{dets}</td>"
                     f"<td>{f['attempts']}</td><td>{f['seconds']}</td></tr>")
     body.append("</table>")
+    if _tram_note_needed("".join(body)):
+        body.append(f"<p class='footnote'>* {html.escape(TRAM_ID_NOTE)}</p>")
     style = ("body{font-family:system-ui;margin:32px auto;max-width:960px;color:#1c2128}"
              "table{border-collapse:collapse;width:100%;font-size:14px}"
              "td,th{border:1px solid #d5dae1;padding:6px 10px;text-align:left;"
@@ -103,7 +115,8 @@ def report_html(data: dict) -> str:
              ".cards{display:flex;gap:12px;margin:18px 0}"
              ".card{border:1px solid #d5dae1;border-radius:10px;padding:12px 18px;"
              "display:flex;flex-direction:column}.card b{font-size:22px}"
-             ".card span{font-size:12px;color:#68707c}.card.red b{color:#c0392b}")
+             ".card span{font-size:12px;color:#68707c}.card.red b{color:#c0392b}"
+             ".footnote{font-size:12px;color:#68707c;margin-top:22px}")
     return (f"<!doctype html><meta charset='utf-8'><title>{html.escape(data['job_id'])}"
             f"</title><style>{style}</style>" + "".join(body))
 

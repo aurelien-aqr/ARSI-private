@@ -51,7 +51,7 @@ it scored and an imported public protocol would be a second file
 **One protocol over every labelled frame, whatever it shows.** Each case:
 inspection image, reference key, `has_anomaly`, `types`, `source` (real / gpt /
 variant / self), instance boxes in the pixel space of THAT case's reference, and a
-note. Reference sizes differ (`real` 1920x1080, `variant` 1672x941, the 39T
+note. Reference sizes differ (`real` 1920x1080, `variant` 1672x941, the 3333\*
 cameras 1280x720), which is why every box is read in its own reference's space.
 
 Counts are deliberately not written down anywhere: the file is the source, the
@@ -70,7 +70,7 @@ filmed in July.
   deployment-realistic negatives: different exposure, onboard-display content
   changes, one walking person.
 
-**References `39T-cam52..55`** - tram 39T, 2026-08-11. See "The 39T cameras" below.
+**References `3333-cam52..55`** - tram 3333, 2026-08-11. See "The 3333 cameras" below.
 Those labels were drafted by Claude from the footage; correct them in the Studio.
 
 ## How to run
@@ -100,7 +100,7 @@ python benchmark/run_benchmark.py                    # the 1762 cases, whatever
                                                     # vlm_05 is configured with
                                                     # -> benchmark/runs/cli-latest/
 python benchmark/eval_localization.py               # localizer-only, every case
-python benchmark/eval_localization.py --ref 39T --variants shipped   # one tram
+python benchmark/eval_localization.py --ref 3333 --variants shipped   # one tram
 python benchmark/eval_localization.py --ref real --variants shipped
 ```
 
@@ -140,7 +140,7 @@ definition drift, so:
 | 1762 cases · full · `photo` | 17/0/12/0 · 40/45 · strict 33/45 · 20 FP of 74 · precision 0.730 | `archive/report_gateshipped.md` |
 | 1762 cases · full · `photo+dino` | same matrix · 40/45 · 33/45 · 12 FP of 65 · precision 0.815 · 243 regions | `archive/report_gate0.08.md` |
 | 1762 cases · localize · `photo` | 45/45 · strict 37/45 · 559 regions | this file, above |
-| 39T cases · localize · `photo` | 17/24 · strict 5/24 · 100 regions on 7 clean frames | this file, below |
+| 3333 cases · localize · `photo` | 17/24 · strict 5/24 · 100 regions on 7 clean frames | this file, below |
 
 Both full runs cost **0 fresh VLM calls** out of 559 and 243 regions - the score
 counts them, so that is a measurement, not a claim. 13 s and 59 s on this laptop.
@@ -435,7 +435,7 @@ that split, not the choice of veto, is what the strict-IoU column follows.
 
 Per tram, which is where the averages stop hiding it:
 
-| strict IoU (regions) | tram_1762 | 39T | 1760 (clean only, regions) |
+| strict IoU (regions) | tram_1762 | 3333 | 1760 (clean only, regions) |
 |---|---|---|---|
 | `shipped` | 37/47 (559) | **5/26** (266) | 367 |
 | `gate0.08` | 37/47 (243) | **5/26** (243) | 241 |
@@ -444,12 +444,12 @@ Per tram, which is where the averages stop hiding it:
 | `dinomaly4@0.07` | 29/47 (465) | 19/26 (218) | 130 |
 | **`ddgate0.05`** | **39/47 (305)** | **19/26 (217)** | **132** |
 
-**The pixel diff draws unusable boxes on 39T.** Lenient recall barely moves
+**The pixel diff draws unusable boxes on 3333.** Lenient recall barely moves
 (19/26 against AnomalyDINO's 24/26) but strict IoU collapses to 5/26: it finds
 the right area and boxes far too much of the frame. Its worst box is 911,360 px
 of a 1280x720 frame - 98.9 % of the image - against 93,312 px for AnomalyDINO on
 the same 21 cases. This is the same failure the 2026-08-17 benchmark saw as
-"object recall 0.500 on 39T, and the cause is box size, not the judge", and
+"object recall 0.500 on 3333, and the cause is box size, not the judge", and
 tiling was the mitigation; the feature localizer does not have the problem.
 
 **No gate can fix it.** All three variants that gate the PIXEL DIFF score
@@ -481,10 +481,10 @@ against AnomalyDINO's 58/73, and it costs 59 MB of state per camera.
 
 Training data for the new cameras is built by `tools/build_nominal_frames.py`
 (1147 frames over 7 cameras, benchmark holdout +-15 s, YOLOv8n person filter
-which dropped 18 % of the 39T candidates). **Read that file's header before
-quoting a 1760 or 39T negative**: 1760 has one run per camera so it is
-within-session only, and 39T has no leak-free nominal pool, so its 7 negatives
-come from the two sessions the model trained on. The 14 anomalous 39T cases are
+which dropped 18 % of the 3333 candidates). **Read that file's header before
+quoting a 1760 or 3333 negative**: 1760 has one run per camera so it is
+within-session only, and 3333 has no leak-free nominal pool, so its 7 negatives
+come from the two sessions the model trained on. The 14 anomalous 3333 cases are
 genuinely out-of-session and carry the result above.
 
 **Where this leaves Dinomaly.** Its August rejection was right for the two roles
@@ -499,9 +499,9 @@ what tiling (`benchmark/rtx_jobs/TILING.md`) was measuring.
 
 Reproduce:
 
-    venv/bin/python tools/build_nominal_frames.py --family 39T
+    venv/bin/python tools/build_nominal_frames.py --family 3333
     venv/bin/python tools/build_nominal_frames.py --family 1760
-    for c in 1760-cam04 1760-cam06 1760-cam13 39T-cam52 39T-cam53 39T-cam54 39T-cam55; do
+    for c in 1760-cam04 1760-cam06 1760-cam13 3333-cam52 3333-cam53 3333-cam54 3333-cam55; do
       venv/bin/python tools/dinomaly_train.py --camera $c --epochs 40; done
     venv/bin/python benchmark/eval_localization.py --quiet \
       --json docs/dino_models/metrics.json \
@@ -615,13 +615,13 @@ Findings:
 - The preserved `archive/report_lenient_qwen3vl.md` is the OLD baseline (24-case GT,
   single-channel localizer, CPU) - not comparable to the table above.
 
-## Second protocol: 39T, 4 cameras - NEW 2026-08-16
+## Second protocol: 3333, 4 cameras - NEW 2026-08-16
 
 Everything above was measured on ONE camera of tram 1762, filmed in July.
-The 39T cameras of `benchmark/datasets/ground_truth.json` (built by
-`tools/build_39T_benchmark.py`) are a
+The 3333 cameras of `benchmark/datasets/ground_truth.json` (built by
+`tools/build_3333_benchmark.py`) are a
 second, independent protocol: **21 cases, 24 instances, 4 viewpoints of tram
-39T**, from the 2026-08-11 multi-camera capture. Every frame is masked with its
+3333**, from the 2026-08-11 multi-camera capture. Every frame is masked with its
 own camera's mask, each camera is its own reference (moment 08-55-37, verified
 empty on all 15 interior cameras), and the other moments are **separate runs of
 the line** - so a negative here means clean under a different sun, at a different
@@ -635,10 +635,10 @@ frame. That test rejected two candidates (a seat cover present in both frames, a
 sunlit floor patch) and it is also what tells the tram's yellow validators from a
 left object.
 
-**First measurement, and it is a bad one** (`--dataset 39T --variants shipped`,
+**First measurement, and it is a bad one** (`--dataset 3333 --variants shipped`,
 0 VLM calls):
 
-| | 1762 (29 cases) | **39T (21 cases)** |
+| | 1762 (29 cases) | **3333 (21 cases)** |
 |---|---|---|
 | instances localized | 45/45 | **17/24** |
 | strict IoU ≥ 0.3 | 37/45 | **5/24** |
@@ -676,3 +676,7 @@ size are uniformly resized onto the reference (fine while the camera framing /
 aspect ratio matches). For a new camera: create its reference + a `references`
 entry, add same-session AND cross-session empty frames as negatives, and
 retune `DIFF_THRESHOLD` / `MIN_AREA` with `eval_localization.py`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

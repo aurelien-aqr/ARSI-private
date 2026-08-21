@@ -214,9 +214,9 @@
       "case_seconds": 4.7
     },
     {
-      "id": "39T_cam55_085124",
-      "reference": "39T-cam55",
-      "image": "data/benchmark_39T/39T-cam55_08-51-24_t60.jpg",
+      "id": "3333_cam55_085124",
+      "reference": "3333-cam55",
+      "image": "data/benchmark_3333/3333-cam55_08-51-24_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -256,9 +256,9 @@
       "case_seconds": 12.2
     },
     {
-      "id": "39T_cam53_083517",
-      "reference": "39T-cam53",
-      "image": "data/benchmark_39T/39T-cam53_08-35-17_t60.jpg",
+      "id": "3333_cam53_083517",
+      "reference": "3333-cam53",
+      "image": "data/benchmark_3333/3333-cam53_08-35-17_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -300,9 +300,9 @@
       "case_seconds": 4.9
     },
     {
-      "id": "39T_cam54_ref_t120_clean",
-      "reference": "39T-cam54",
-      "image": "data/benchmark_39T/39T-cam54_08-55-37_t120.jpg",
+      "id": "3333_cam54_ref_t120_clean",
+      "reference": "3333-cam54",
+      "image": "data/benchmark_3333/3333-cam54_08-55-37_t120.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],
@@ -379,9 +379,9 @@
       "case_seconds": 9.8
     },
     {
-      "id": "39T_cam54_085124",
-      "reference": "39T-cam54",
-      "image": "data/benchmark_39T/39T-cam54_08-51-24_t60.jpg",
+      "id": "3333_cam54_085124",
+      "reference": "3333-cam54",
+      "image": "data/benchmark_3333/3333-cam54_08-51-24_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -465,9 +465,9 @@
       "case_seconds": 7.0
     },
     {
-      "id": "39T_cam53_084021",
-      "reference": "39T-cam53",
-      "image": "data/benchmark_39T/39T-cam53_08-40-21_t60.jpg",
+      "id": "3333_cam53_084021",
+      "reference": "3333-cam53",
+      "image": "data/benchmark_3333/3333-cam53_08-40-21_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -509,9 +509,9 @@
       "case_seconds": 5.8
     },
     {
-      "id": "39T_cam53_085124",
-      "reference": "39T-cam53",
-      "image": "data/benchmark_39T/39T-cam53_08-51-24_t60.jpg",
+      "id": "3333_cam53_085124",
+      "reference": "3333-cam53",
+      "image": "data/benchmark_3333/3333-cam53_08-51-24_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -551,9 +551,9 @@
       "case_seconds": 5.3
     },
     {
-      "id": "39T_cam54_083517",
-      "reference": "39T-cam54",
-      "image": "data/benchmark_39T/39T-cam54_08-35-17_t60.jpg",
+      "id": "3333_cam54_083517",
+      "reference": "3333-cam54",
+      "image": "data/benchmark_3333/3333-cam54_08-35-17_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -593,9 +593,9 @@
       "case_seconds": 1.4
     },
     {
-      "id": "39T_cam55_084021",
-      "reference": "39T-cam55",
-      "image": "data/benchmark_39T/39T-cam55_08-40-21_t60.jpg",
+      "id": "3333_cam55_084021",
+      "reference": "3333-cam55",
+      "image": "data/benchmark_3333/3333-cam55_08-40-21_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -854,9 +854,9 @@
       "case_seconds": 8.2
     },
     {
-      "id": "39T_cam52_084637",
-      "reference": "39T-cam52",
-      "image": "data/benchmark_39T/39T-cam52_08-46-37_t60.jpg",
+      "id": "3333_cam52_084637",
+      "reference": "3333-cam52",
+      "image": "data/benchmark_3333/3333-cam52_08-46-37_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -898,9 +898,9 @@
       "case_seconds": 11.8
     },
     {
-      "id": "39T_cam54_084021",
-      "reference": "39T-cam54",
-      "image": "data/benchmark_39T/39T-cam54_08-40-21_t60.jpg",
+      "id": "3333_cam54_084021",
+      "reference": "3333-cam54",
+      "image": "data/benchmark_3333/3333-cam54_08-40-21_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -942,9 +942,9 @@
       "case_seconds": 5.3
     },
     {
-      "id": "39T_cam55_083517",
-      "reference": "39T-cam55",
-      "image": "data/benchmark_39T/39T-cam55_08-35-17_t60.jpg",
+      "id": "3333_cam55_083517",
+      "reference": "3333-cam55",
+      "image": "data/benchmark_3333/3333-cam55_08-35-17_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -1201,9 +1201,9 @@
       "case_seconds": 9.2
     },
     {
-      "id": "39T_cam55_085954_clean",
-      "reference": "39T-cam55",
-      "image": "data/benchmark_39T/39T-cam55_08-59-54_t60.jpg",
+      "id": "3333_cam55_085954_clean",
+      "reference": "3333-cam55",
+      "image": "data/benchmark_3333/3333-cam55_08-59-54_t60.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],
@@ -1236,9 +1236,9 @@
       "case_seconds": 14.2
     },
     {
-      "id": "39T_cam53_ref_t120_clean",
-      "reference": "39T-cam53",
-      "image": "data/benchmark_39T/39T-cam53_08-55-37_t120.jpg",
+      "id": "3333_cam53_ref_t120_clean",
+      "reference": "3333-cam53",
+      "image": "data/benchmark_3333/3333-cam53_08-55-37_t120.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],
@@ -1306,9 +1306,9 @@
       "case_seconds": 14.1
     },
     {
-      "id": "39T_cam55_084637",
-      "reference": "39T-cam55",
-      "image": "data/benchmark_39T/39T-cam55_08-46-37_t60.jpg",
+      "id": "3333_cam55_084637",
+      "reference": "3333-cam55",
+      "image": "data/benchmark_3333/3333-cam55_08-46-37_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -1350,9 +1350,9 @@
       "case_seconds": 9.7
     },
     {
-      "id": "39T_cam55_ref_t120_clean",
-      "reference": "39T-cam55",
-      "image": "data/benchmark_39T/39T-cam55_08-55-37_t120.jpg",
+      "id": "3333_cam55_ref_t120_clean",
+      "reference": "3333-cam55",
+      "image": "data/benchmark_3333/3333-cam55_08-55-37_t120.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],
@@ -1547,9 +1547,9 @@
       "case_seconds": 16.5
     },
     {
-      "id": "39T_cam54_085954_clean",
-      "reference": "39T-cam54",
-      "image": "data/benchmark_39T/39T-cam54_08-59-54_t60.jpg",
+      "id": "3333_cam54_085954_clean",
+      "reference": "3333-cam54",
+      "image": "data/benchmark_3333/3333-cam54_08-59-54_t60.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],
@@ -1639,9 +1639,9 @@
       "case_seconds": 11.9
     },
     {
-      "id": "39T_cam53_084637",
-      "reference": "39T-cam53",
-      "image": "data/benchmark_39T/39T-cam53_08-46-37_t60.jpg",
+      "id": "3333_cam53_084637",
+      "reference": "3333-cam53",
+      "image": "data/benchmark_3333/3333-cam53_08-46-37_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -1683,9 +1683,9 @@
       "case_seconds": 4.1
     },
     {
-      "id": "39T_cam52_ref_t120_clean",
-      "reference": "39T-cam52",
-      "image": "data/benchmark_39T/39T-cam52_08-55-37_t120.jpg",
+      "id": "3333_cam52_ref_t120_clean",
+      "reference": "3333-cam52",
+      "image": "data/benchmark_3333/3333-cam52_08-55-37_t120.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],
@@ -1788,9 +1788,9 @@
       "case_seconds": 5.8
     },
     {
-      "id": "39T_cam54_084637",
-      "reference": "39T-cam54",
-      "image": "data/benchmark_39T/39T-cam54_08-46-37_t60.jpg",
+      "id": "3333_cam54_084637",
+      "reference": "3333-cam54",
+      "image": "data/benchmark_3333/3333-cam54_08-46-37_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -1913,9 +1913,9 @@
       "case_seconds": 13.1
     },
     {
-      "id": "39T_cam52_085124",
-      "reference": "39T-cam52",
-      "image": "data/benchmark_39T/39T-cam52_08-51-24_t60.jpg",
+      "id": "3333_cam52_085124",
+      "reference": "3333-cam52",
+      "image": "data/benchmark_3333/3333-cam52_08-51-24_t60.jpg",
       "source": "real",
       "has_anomaly": true,
       "types": [
@@ -2686,9 +2686,9 @@
       "case_seconds": 10.4
     },
     {
-      "id": "39T_cam53_085954_clean",
-      "reference": "39T-cam53",
-      "image": "data/benchmark_39T/39T-cam53_08-59-54_t60.jpg",
+      "id": "3333_cam53_085954_clean",
+      "reference": "3333-cam53",
+      "image": "data/benchmark_3333/3333-cam53_08-59-54_t60.jpg",
       "source": "real",
       "has_anomaly": false,
       "types": [],

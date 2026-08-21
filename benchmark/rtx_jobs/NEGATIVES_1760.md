@@ -11,9 +11,9 @@ the phone in it). No anomalous case, on purpose: this measures specificity only.
 
 Built by `tools/build_1760_benchmark.py` through the hand-drawn LabelMe masks
 in `data/masks_labelme/1760/` (~26 polygons per camera, the same source and
-format `build_39T_benchmark.py` reads), merged into `ground_truth`
+format `build_3333_benchmark.py` reads), merged into `ground_truth`
 (50 -> 68 cases, 6 -> 9 references). Why it exists: specificity rested on 12
-clean 1762 frames and 7 clean 39T ones. **The negatives went from 19 to 37.**
+clean 1762 frames and 7 clean 3333\* ones. **The negatives went from 19 to 37.**
 
 ## Result — vlm_05 x GLM-4.6V-Flash-9B:latest x conservative x photo
 
@@ -24,18 +24,18 @@ and correctly masked — so specificity here is not an artefact of the masking.
 Consolidated over the 68 cases: frame TP 27 / FP 0 / TN 37 / FN 4, accuracy
 0.941, precision 1.000, recall 0.871, **specificity 1.000**, F1 0.931; objects
 55/73 = 0.753, strict 0.534, region precision 0.694 (object metrics unchanged —
-the 1760 cases carry no instance). Per family: 1762 17/0/12/0, 39T 10/0/7/4,
+the 1760 cases carry no instance). Per family: 1762 17/0/12/0, 3333 10/0/7/4,
 1760 0/0/18/0.
 
 ## Three mistakes made building this, and what they cost
 
 **The frames were first written unmasked**, then through the coarse 5-zone masks
 under `data/app/masks/`. The reference source is `data/masks_labelme/1760/`,
-which `build_39T_benchmark.py` already pointed at — copying that builder
+which `build_3333_benchmark.py` already pointed at — copying that builder
 literally would have avoided both rounds. The protocol is stated in
 `bench_runs`: "the benchmark images are already masked, so no mask is applied
 here", and it is checkable in one line — pure-black coverage is 27.6 % on the
-1762 reference, 18-36 % on the 39T cameras, 29-34 % on these. The first version
+1762 reference, 18-36 % on the 3333 cameras, 29-34 % on these. The first version
 had 0.3 %.
 
 **That produced a false finding, now retracted.** On the unmasked frames, six of
@@ -66,11 +66,15 @@ and a `cache_invalidated` event in the job log.
 Oversized regions on moving trams are real, they come from the photometric diff
 itself, and **proper masking does not remove them**: 4 of these 18 frames still
 carry a box covering more than half the frame and one covers 97 % of it, against
-911,360 px (99 %) on 39T where the merge A/B had already shown the same
+911,360 px (99 %) on 3333 where the merge A/B had already shown the same
 independence. On those frames the judge is shown a crop in which nothing small
 can be seen — the failure `TILING.md` measures and partly repairs.
 
 That also trims the "nothing tuned on 1762 transfers" line to what is actually
-measured: the DINOv2 gate (8 % of regions removed on 39T against 57 % on 1762)
-and tiling (buys recall on 39T, costs specificity on 1762). Two settings, not
+measured: the DINOv2 gate (8 % of regions removed on 3333 against 57 % on 1762)
+and tiling (buys recall on 3333, costs specificity on 1762). Two settings, not
 three — the merge transfers fine.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

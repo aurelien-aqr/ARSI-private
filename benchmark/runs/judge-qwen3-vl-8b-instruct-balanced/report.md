@@ -68,19 +68,19 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| 39T_cam52_084637 | anomaly | **TP** | 3/3 | 4 | Sunlight reflection on seat, purple bag hanging from pole, White cat sitting behind pole, Brown bag behind seat, White smudge on seat, Small object on seat, White fluffy animal-like object |
-| 39T_cam52_085124 | anomaly | **TP** | 1/2 | 8 | Black phone on seat, wallet left behind, Red object near blue seats, White stripe on floor, wallet on seat, White object on seat, Phone hanging from seat, Small dark object attached, white object attached |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow cloth on seat, Yellow bag on floor |
-| 39T_cam53_084021 | anomaly | **TP** | 2/2 | 2 | yellow cloth on seat, Colorful items on seat, green bottle attached to handle, Yellow bag on seat |
-| 39T_cam53_084637 | anomaly | **TP** | 1/1 | 2 | green bottle on seat, White plastic bag visible, Shadowy figure silhouette |
-| 39T_cam53_085124 | anomaly | **TP** | 1/1 | 4 | White smudge on floor, Pink strap hanging down, Blurry shadowy figure, White cloth on floor, White paper towel roll |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 2 | plastic bag on floor, White powdery substance, Steps visible on right side |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 4 | crumpled plastic bag, laptop on seat, Green sticker on pole, White circular mark on wall, Wooden panel slightly darker, Yellowish liquid stain |
-| 39T_cam54_085124 | anomaly | **TP** | 3/3 | 3 | crumpled trash bag, litter left behind, blurry shadowy figure, bottle lying between seats, Yellowish vertical smear, Metallic object on seat |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 3 | crumpled plastic bag, laptop leaning against seat, Black shadow on floor, Light streak on wall, Brown seat cover torn |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 4 | crumpled plastic bag, laptop resting on seat, bright light streak, White fabric draped over seat, Small white object near top right, White smear on right side |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 3 | pinkish patch on seat back, crumpled trash bag, laptop on seat, white cord dangling from seat, Blurry white object |
-| 39T_cam55_085124 | anomaly | **TP** | 2/2 | 3 | bottle and notebook, laptop and bottle, Black circular object attached, Towel hanging down, Metallic reflective stripe |
+| 3333_cam52_084637\* | anomaly | **TP** | 3/3 | 4 | Sunlight reflection on seat, purple bag hanging from pole, White cat sitting behind pole, Brown bag behind seat, White smudge on seat, Small object on seat, White fluffy animal-like object |
+| 3333_cam52_085124 | anomaly | **TP** | 1/2 | 8 | Black phone on seat, wallet left behind, Red object near blue seats, White stripe on floor, wallet on seat, White object on seat, Phone hanging from seat, Small dark object attached, white object attached |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow cloth on seat, Yellow bag on floor |
+| 3333_cam53_084021 | anomaly | **TP** | 2/2 | 2 | yellow cloth on seat, Colorful items on seat, green bottle attached to handle, Yellow bag on seat |
+| 3333_cam53_084637 | anomaly | **TP** | 1/1 | 2 | green bottle on seat, White plastic bag visible, Shadowy figure silhouette |
+| 3333_cam53_085124 | anomaly | **TP** | 1/1 | 4 | White smudge on floor, Pink strap hanging down, Blurry shadowy figure, White cloth on floor, White paper towel roll |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 2 | plastic bag on floor, White powdery substance, Steps visible on right side |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 4 | crumpled plastic bag, laptop on seat, Green sticker on pole, White circular mark on wall, Wooden panel slightly darker, Yellowish liquid stain |
+| 3333_cam54_085124 | anomaly | **TP** | 3/3 | 3 | crumpled trash bag, litter left behind, blurry shadowy figure, bottle lying between seats, Yellowish vertical smear, Metallic object on seat |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 3 | crumpled plastic bag, laptop leaning against seat, Black shadow on floor, Light streak on wall, Brown seat cover torn |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 4 | crumpled plastic bag, laptop resting on seat, bright light streak, White fabric draped over seat, Small white object near top right, White smear on right side |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 3 | pinkish patch on seat back, crumpled trash bag, laptop on seat, white cord dangling from seat, Blurry white object |
+| 3333_cam55_085124 | anomaly | **TP** | 2/2 | 3 | bottle and notebook, laptop and bottle, Black circular object attached, Towel hanging down, Metallic reflective stripe |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 0 | black suitcase on floor |
 | gpt_02_multi | anomaly | **TP** | 4/4 | 4 | brown paper bag, Black backpack on seat, bottle on seat, Black backpack appears, Black backpack on seat, Graffiti: MD written on panel, Torn seat fabric visible |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 0 | Graffiti: XRP written |
@@ -98,7 +98,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | real_f0205 | anomaly | **TP** | 2/2 | 4 | jacket draped over seat, backpacks appear, green leaf visible, digital display showing lock icon, Black cylindrical object, Purple light glow |
 | real_f0219 | anomaly | **TP** | 2/2 | 3 | Grey jacket draped over seat, Black backpack appears, black backpack appears, Black bag under seat, Blue glowing light streak |
 | variant_01 | anomaly | **TP** | 6/7 | 2 | backpack on seat, bottle lying on floor, torn seat cushion, graffiti written on wall, torn seat cushion, damaged seat cushion, small yellow object |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
 | 1760_cam04_t120 | clean | **FP** | - | 3 | Red emergency handle, Small white reflective object, Red object attached to wall |
 | 1760_cam04_t220 | clean | **FP** | - | 3 | white object near seat, white plastic bag visible, white object near window |
 | 1760_cam04_t320 | clean | **FP** | - | 3 | sunlight pattern change, White spray paint mark, orange smoke cloud |
@@ -117,11 +117,11 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam13_t420 | clean | **FP** | - | 12 | bright yellow light patch, white object under seat, Sunlight pattern difference, White rectangular panel visible, Yellow object under seat, Yellowish wooden panel, Metal vent grille added, Yellow seat cover visible, White object under seat, White box-like object under seat, White object under seat, white ball visible |
 | 1760_cam13_t520 | clean | **FP** | - | 2 | Black strap hanging down, Human silhouette visible |
 | 1760_cam13_t570 | clean | **FP** | - | 3 | Faint figure visible behind panel, Metal pole bent downward, Green sticker on right side |
-| 39T_cam52_ref_t120_clean | clean | **FP** | - | 5 | White light reflection, Black rectangular panel, Dark rectangular patch, Dark shape behind panel, White specks along edge |
-| 39T_cam53_085954_clean | clean | **FP** | - | 4 | Dark object lying flat, Shadow of vertical bars, metal pole with bent section, White object on floor |
-| 39T_cam54_085954_clean | clean | **FP** | - | 4 | Shadow of hanging object, Long shadow cast across floor, White sticker on wall, Shadow cast by unseen object |
-| 39T_cam54_ref_t120_clean | clean | **FP** | - | 6 | white plastic bottle, Black box-like object, white cloth on floor, White curved object visible, Small white object near rail, Small dark spots on surface |
-| 39T_cam55_085954_clean | clean | **FP** | - | 7 | black circular object, white paper on seat, White paper on seat, Brownish stain on wood panel, Red mark on seat edge, Small green object visible, White object protruding from right side of the tram's roof structure — possibly a damaged or added component. |
+| 3333_cam52_ref_t120_clean | clean | **FP** | - | 5 | White light reflection, Black rectangular panel, Dark rectangular patch, Dark shape behind panel, White specks along edge |
+| 3333_cam53_085954_clean | clean | **FP** | - | 4 | Dark object lying flat, Shadow of vertical bars, metal pole with bent section, White object on floor |
+| 3333_cam54_085954_clean | clean | **FP** | - | 4 | Shadow of hanging object, Long shadow cast across floor, White sticker on wall, Shadow cast by unseen object |
+| 3333_cam54_ref_t120_clean | clean | **FP** | - | 6 | white plastic bottle, Black box-like object, white cloth on floor, White curved object visible, Small white object near rail, Small dark spots on surface |
+| 3333_cam55_085954_clean | clean | **FP** | - | 7 | black circular object, white paper on seat, White paper on seat, Brownish stain on wood panel, Red mark on seat edge, Small green object visible, White object protruding from right side of the tram's roof structure — possibly a damaged or added component. |
 | neg_gpt_06_clean | clean | **FP** | - | 2 | Dark stain on floor, dark stain on seat |
 | neg_v1_f0151 | clean | **FP** | - | 2 | Blue light reflection, Purple light glow |
 | neg_v2_f0001_person | clean | **FP** | - | 1 | laptop computer |
@@ -129,8 +129,8 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_v4_f0004 | clean | **FP** | - | 4 | dark object under seat, dark object under seat, Framed picture slightly blurred, Darkened area with no detail |
 | neg_v4_f0016 | clean | **FP** | - | 6 | black bag appears, Black backpack visible, vertical crease / wrinkle, Blue light glow visible, Small white object behind seat, phone screen lit up |
 | neg_v4_f0022 | clean | **FP** | - | 9 | Black backpack visible, screen displaying image, Small box-like object, Brown stain on seat back, Pinkish paper stuck to seat, Metallic box-like object, Small white speck on surface, Small dark object on floor, Small metallic object |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_v1_f0181 | clean | **TN** | - | 0 | - |
 | neg_v1_f0211 | clean | **TN** | - | 0 | - |
@@ -138,3 +138,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
 
 Annotated images: `benchmark/runs/cli-latest/annotated/<id>.jpg` (blue = ground-truth boxes, green = correct detections, red = false-positive boxes). Raw results: `benchmark/runs/judge-qwen3-vl-8b-instruct-balanced/results.json`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

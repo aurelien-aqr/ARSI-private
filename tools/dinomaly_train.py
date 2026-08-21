@@ -76,12 +76,12 @@ def nominal_frames(camera: str = "tram_1762", stride: int = 1):
 
       tram_1762  759 masked frames were already in data/masked/, so the session
                  rules and the benchmark holdout are applied HERE, below.
-      1760 / 39T no frames existed at all. tools/build_nominal_frames.py cuts
+      1760 / 3333 no frames existed at all. tools/build_nominal_frames.py cuts
                  them out of the source videos and applies the same holdout plus
                  a person filter at extraction time, so by the time they land in
                  data/nominal/<camera>/ the selection is already done. Read that
                  file for what each family can and cannot support - 1760 is
-                 within-session only, and the 39T negatives are too.
+                 within-session only, and the 3333 negatives are too.
     """
     if camera != "tram_1762":
         # `stride` is deliberately NOT applied here: build_nominal_frames.py
@@ -214,7 +214,7 @@ def main():
     by_session = {}
     for f in files:
         mt = FRAME_RE.search(f.name)
-        # 1760 has one session; 39T names its moment between camera and t
+        # 1760 has one session; 3333 names its moment between camera and t
         key = mt.group(2) if mt else (f.stem.split("_")[1] if "_t" in f.stem
                                       and len(f.stem.split("_")) > 2 else "run")
         by_session.setdefault(key, []).append(f)

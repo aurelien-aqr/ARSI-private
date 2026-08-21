@@ -38,7 +38,7 @@
 #      python benchmark/eval_localization.py
 #      python benchmark/eval_localization.py --variants shipped
 #      python benchmark/eval_localization.py --variants photo,shipped --cases gpt
-#      python benchmark/eval_localization.py --dataset 39T --variants shipped
+#      python benchmark/eval_localization.py --dataset 3333 --variants shipped
 # =============================================================================
 
 import sys, argparse, json
@@ -135,7 +135,7 @@ def main():
                     help="dataset id or path (default: the benchmark ground "
                          "truth, every case)")
     ap.add_argument("--ref", default="", help="only cases whose reference key "
-                    "contains this (e.g. --ref 39T for the 39T cameras)")
+                    "contains this (e.g. --ref 3333 for the 3333 cameras)")
     ap.add_argument("--json", default="", help="also write the summary here, "
                     "with a per-camera breakdown - what the reports read")
     args = ap.parse_args()
@@ -190,7 +190,7 @@ def main():
 
 
 def _by_family(cases, rows):
-    """Totals per camera family (tram_1762 / 1760 / 39T), keyed as the reports
+    """Totals per camera family (tram_1762 / 1760 / 3333), keyed as the reports
     name them. A case's family is read off its reference key, the same way
     camera_of() picks the checkpoint."""
     fam = {}

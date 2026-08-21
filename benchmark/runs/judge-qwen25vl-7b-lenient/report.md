@@ -55,19 +55,19 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 
 | id | truth | frame | instances hit | FP boxes | VLM kept-labels |
 |---|---|---|---|---|---|
-| 39T_cam52_084637 | anomaly | **TP** | 3/3 | 9 | shadow., Bag on seat., shadow., Reflection of light., small red mark., Seat damage., Seat damage., Reflection of light., torn seat., A torn seat., Paper bag on seat., damage or vandalism. |
-| 39T_cam52_085124 | anomaly | **TP** | 2/2 | 15 | Small black object., Phone on seat., Small black object., damage or vandalism., shadow., Wallet on floor., Handbag on seat., Bag on floor., Blood stain., Red sticker., Shadow., Seat damage., a small object appears., Shadow., Shadow., A small scratch appears on the right side of the image., A white object appears. |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 2 | Yellow cloth on seat., Trash can., white powder. |
-| 39T_cam53_084021 | anomaly | **TP** | 2/2 | 4 | Shadow., Yellow cloth on seat., scratch mark., Bag on seat., Green object attached., Trash bag. |
-| 39T_cam53_084637 | anomaly | **TP** | 1/1 | 2 | Green object on seat., Reflection., shadow. |
-| 39T_cam53_085124 | anomaly | **TP** | 1/1 | 3 | white object., pink bag., Forgotten object., Reflection changed. |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 5 | plastic bag., graffiti tag scribble., Shadow., torn seat., damage or vandalism., damage or vandalism. |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 13 | shadow., Shadow., Reflection of light., Cloth on seat., Laptop on seat., Seat damage., Shadow present., reflection., Seat damage., shadow., Yellow object., Reflection of light., An object appears., Yellow object., shadow. |
-| 39T_cam54_085124 | anomaly | **TP** | 3/3 | 9 | A discarded cloth., Bag on floor., Reflection of dog., Broken glass., shadow., Shadow., Reflection of light., Reflection of light., Flame damage., Reflection of light., Reflection of light., graffiti tag. |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 9 | Purple plastic bag., damage or vandalism., Folded seat back., damage or vandalism., Reflection of light., damage or vandalism., Scratch on metal., Scratch on wood., damage or vandalism., Seat damage., A torn or slashed seat. |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 8 | Paper bag., Seat cushion appears damaged., Reflection of light., Scratch on surface., Seat damage., damage or vandalism., Reflection of light., A bottle., damage or vandalism., An object appears. |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 6 | Seat damage., Bag on floor., Laptop on seat., Mask on seat., A small object appears., Bag on floor., damage or vandalism., A torn seat. |
-| 39T_cam55_085124 | anomaly | **TP** | 2/2 | 9 | reflection., Reflection of bottle., Bottle and book on seat., Paper bag., Scratch on metal., shadow., A bag appears., shadow., graffiti tag., Shadow., Reflection of light. |
+| 3333_cam52_084637\* | anomaly | **TP** | 3/3 | 9 | shadow., Bag on seat., shadow., Reflection of light., small red mark., Seat damage., Seat damage., Reflection of light., torn seat., A torn seat., Paper bag on seat., damage or vandalism. |
+| 3333_cam52_085124 | anomaly | **TP** | 2/2 | 15 | Small black object., Phone on seat., Small black object., damage or vandalism., shadow., Wallet on floor., Handbag on seat., Bag on floor., Blood stain., Red sticker., Shadow., Seat damage., a small object appears., Shadow., Shadow., A small scratch appears on the right side of the image., A white object appears. |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 2 | Yellow cloth on seat., Trash can., white powder. |
+| 3333_cam53_084021 | anomaly | **TP** | 2/2 | 4 | Shadow., Yellow cloth on seat., scratch mark., Bag on seat., Green object attached., Trash bag. |
+| 3333_cam53_084637 | anomaly | **TP** | 1/1 | 2 | Green object on seat., Reflection., shadow. |
+| 3333_cam53_085124 | anomaly | **TP** | 1/1 | 3 | white object., pink bag., Forgotten object., Reflection changed. |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 5 | plastic bag., graffiti tag scribble., Shadow., torn seat., damage or vandalism., damage or vandalism. |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 13 | shadow., Shadow., Reflection of light., Cloth on seat., Laptop on seat., Seat damage., Shadow present., reflection., Seat damage., shadow., Yellow object., Reflection of light., An object appears., Yellow object., shadow. |
+| 3333_cam54_085124 | anomaly | **TP** | 3/3 | 9 | A discarded cloth., Bag on floor., Reflection of dog., Broken glass., shadow., Shadow., Reflection of light., Reflection of light., Flame damage., Reflection of light., Reflection of light., graffiti tag. |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 9 | Purple plastic bag., damage or vandalism., Folded seat back., damage or vandalism., Reflection of light., damage or vandalism., Scratch on metal., Scratch on wood., damage or vandalism., Seat damage., A torn or slashed seat. |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 8 | Paper bag., Seat cushion appears damaged., Reflection of light., Scratch on surface., Seat damage., damage or vandalism., Reflection of light., A bottle., damage or vandalism., An object appears. |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 6 | Seat damage., Bag on floor., Laptop on seat., Mask on seat., A small object appears., Bag on floor., damage or vandalism., A torn seat. |
+| 3333_cam55_085124 | anomaly | **TP** | 2/2 | 9 | reflection., Reflection of bottle., Bottle and book on seat., Paper bag., Scratch on metal., shadow., A bag appears., shadow., graffiti tag., Shadow., Reflection of light. |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 5 | Luggage appears., scratch on wood., damage or vandalism., Shadow., damage or vandalism., damage or vandalism. |
 | gpt_02_multi | anomaly | **TP** | 2/4 | 7 | Backpack on seat., Bottle on seat., Backpack., Scribble drawn on surface., Seat damage., Scratch on window., poster on window., reflection., A small black mark appears on the right side that isn't present on the left. It looks like a scratch or scuff mark. |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 10 | Scribble drawn on surface., A small object appears on the right side., damage or vandalism., torn seat., damage or vandalism., shadow., Damage to window frame., damage or vandalism., damage or vandalism., Seat damage., a small white object. |
@@ -85,7 +85,7 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | real_f0205 | anomaly | **TP** | 2/2 | 11 | Clothing item on seat., backpack., Seat damage., damage or vandalism., debris., A small mark appears on the right side that isn't present on the left. It looks like a scratch or scuff mark., Green sticker., scratch mark., reflection., Seat damage., graffiti tag., blue light reflection., A bottle. |
 | real_f0219 | anomaly | **TP** | 2/2 | 11 | Clothing on seat., backpack., Bag on floor., Scratch on metal., package., A blue light anomaly., Seat damage., Seat damage., scratch mark., damage or vandalism., Shadow., phone on seat., graffiti. |
 | variant_01 | anomaly | **TP** | 6/7 | 10 | backpack., Bottle on floor., torn seat., Graffiti., torn seat., Scratch on seat., sticker on window., a torn seat., shadow., Small orange object., damage or vandalism., shadow., Shadow., scratch mark., a shadow. |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
 | 1760_cam04_t120 | clean | **FP** | - | 5 | scratch mark., Scratch on surface., a small white object appears on the right side that is not present on the left side. It looks like a piece of debris or trash., Shadow., shadow. |
 | 1760_cam04_t220 | clean | **FP** | - | 10 | Shadow on right., Seat damage., Red light illuminated., Shadow present., Shadow on floor., Reflection of light., Shadow., Shadow., Reflection of light., Shadow. |
 | 1760_cam04_t320 | clean | **FP** | - | 8 | Reflection., shadow., Fur on floor., Seat damage., Shadow of dog., A small object appears on the right side., small metal object., Shadow. |
@@ -104,12 +104,12 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | 1760_cam13_t420 | clean | **FP** | - | 12 | reflection., Seat damage., Reflection of light., damage or vandalism., yellow object., damage or vandalism., Vent cover., Seat damage., Paper bag., Paper on seat., Paper bag on floor., Seat damage. |
 | 1760_cam13_t520 | clean | **FP** | - | 5 | Seat damage., Reflection of light., damage or vandalism., A phone appears., Scratch on metal. |
 | 1760_cam13_t570 | clean | **FP** | - | 5 | Seat damage., Seat damage., Yellow scribble., reflection of light fixture., A torn seat appears on the right side. |
-| 39T_cam52_ref_t120_clean | clean | **FP** | - | 20 | scratch mark., Bottle on floor., A small object appears on the right side., torn seat., Seat damage., Seat damage., Seat damage., graffiti tag scribble., damage or vandalism., Seat damage., damage or vandalism., damage or vandalism., Seat damage., a damaged seat., Seat damage., Seat damage., Scratch on metal., damage or vandalism., a small object., Damage to surface. |
-| 39T_cam53_085954_clean | clean | **FP** | - | 6 | shadow., shadow., graffiti., reflection., cable., scribble drawn on surface. |
-| 39T_cam54_085954_clean | clean | **FP** | - | 14 | shadow., shadow., Shadow of object., Shadow present., Shadow., Shadow., Shadow., shadow., Seat damage., Reflection of light., Shadow., Shadow present., Reflection of object., Shadow. |
-| 39T_cam54_ref_t120_clean | clean | **FP** | - | 8 | Shadow., Shadow of object., Paper bag., Shadow., bottle., scratch mark., Scribble drawn on surface., Shadow. |
-| 39T_cam55_085954_clean | clean | **FP** | - | 16 | Seat damage., damage or vandalism., Black object., reflection., damage or vandalism., a forgotten object., A small red mark appears on the right side., scratch mark., Graffiti tag scribble., scratch on wood., reflection., Shadow., Scratch on seat., damage or vandalism., A small object appears on the right side., A small white object appears on the right side that isn't present on the left. It looks like a piece of paper or a small card. |
-| 39T_cam55_ref_t120_clean | clean | **FP** | - | 9 | Seat damage., reflection., damage or vandalism., scratch mark., Shadow., damage or vandalism., Reflection of object., A torn seat., damage or vandalism. |
+| 3333_cam52_ref_t120_clean | clean | **FP** | - | 20 | scratch mark., Bottle on floor., A small object appears on the right side., torn seat., Seat damage., Seat damage., Seat damage., graffiti tag scribble., damage or vandalism., Seat damage., damage or vandalism., damage or vandalism., Seat damage., a damaged seat., Seat damage., Seat damage., Scratch on metal., damage or vandalism., a small object., Damage to surface. |
+| 3333_cam53_085954_clean | clean | **FP** | - | 6 | shadow., shadow., graffiti., reflection., cable., scribble drawn on surface. |
+| 3333_cam54_085954_clean | clean | **FP** | - | 14 | shadow., shadow., Shadow of object., Shadow present., Shadow., Shadow., Shadow., shadow., Seat damage., Reflection of light., Shadow., Shadow present., Reflection of object., Shadow. |
+| 3333_cam54_ref_t120_clean | clean | **FP** | - | 8 | Shadow., Shadow of object., Paper bag., Shadow., bottle., scratch mark., Scribble drawn on surface., Shadow. |
+| 3333_cam55_085954_clean | clean | **FP** | - | 16 | Seat damage., damage or vandalism., Black object., reflection., damage or vandalism., a forgotten object., A small red mark appears on the right side., scratch mark., Graffiti tag scribble., scratch on wood., reflection., Shadow., Scratch on seat., damage or vandalism., A small object appears on the right side., A small white object appears on the right side that isn't present on the left. It looks like a piece of paper or a small card. |
+| 3333_cam55_ref_t120_clean | clean | **FP** | - | 9 | Seat damage., reflection., damage or vandalism., scratch mark., Shadow., damage or vandalism., Reflection of object., A torn seat., damage or vandalism. |
 | neg_gpt_06_clean | clean | **FP** | - | 8 | Scribble drawn on surface., damage or vandalism., torn seat., torn seat., Shadow., damage or vandalism., A torn or slashed seat., graffiti. |
 | neg_v1_f0151 | clean | **FP** | - | 9 | blue light reflection., damage or vandalism., damage or vandalism., damage or vandalism., graffiti., damage or vandalism., a small white object appears on the right side that is not present on the left side. It looks like a piece of paper or a small card., a dark object., damage or vandalism. |
 | neg_v1_f0181 | clean | **FP** | - | 4 | scratch mark., Reflection of light., graffiti., damage or vandalism. |
@@ -120,8 +120,12 @@ Reply with YES or NO, then name what appeared in 2-4 words.
 | neg_v4_f0004 | clean | **FP** | - | 16 | damage or vandalism., Red scribble., Shadow., Shadow., shadow., graffiti tag scribble., Shadow., graffiti tag., A small object appears., Damage to seat., damage or vandalism., damage or vandalism., damage or vandalism., damage or vandalism., Scratch on window frame., reflection. |
 | neg_v4_f0016 | clean | **FP** | - | 15 | Shadow., Reflection of window., a small object., a torn seat., scratch mark., Shadow., Reflection of light., Scratch on metal., damage or vandalism., a small scratch., damage or vandalism., Seat damage., dirt buildup., reflection., graffiti tag scribble. |
 | neg_v4_f0022 | clean | **FP** | - | 9 | torn seat., Scratch on seat., Shadow., Seat damage., Reflection on surface., Scratch mark., a small object., scratch mark., small mark on metal. |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
 
 Annotated images: `benchmark/runs/cli-latest/annotated/<id>.jpg` (blue = ground-truth boxes, green = correct detections, red = false-positive boxes). Raw results: `benchmark/runs/judge-qwen25vl-7b-lenient/results.json`.
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

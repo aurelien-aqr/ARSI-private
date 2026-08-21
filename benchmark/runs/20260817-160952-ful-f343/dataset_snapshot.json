@@ -3,10 +3,10 @@
  "references": {
   "real": "data/reference/tram_1762_v1_f0227_masked_reference.jpg",
   "variant": "data/reference/tram_variant/tram_variant_reference.png",
-  "39T-cam52": "data/benchmark_39T/39T-cam52_08-55-37_t60.jpg",
-  "39T-cam53": "data/benchmark_39T/39T-cam53_08-55-37_t60.jpg",
-  "39T-cam54": "data/benchmark_39T/39T-cam54_08-55-37_t60.jpg",
-  "39T-cam55": "data/benchmark_39T/39T-cam55_08-55-37_t60.jpg"
+  "3333-cam52": "data/benchmark_3333/3333-cam52_08-55-37_t60.jpg",
+  "3333-cam53": "data/benchmark_3333/3333-cam53_08-55-37_t60.jpg",
+  "3333-cam54": "data/benchmark_3333/3333-cam54_08-55-37_t60.jpg",
+  "3333-cam55": "data/benchmark_3333/3333-cam55_08-55-37_t60.jpg"
  },
  "cases": [
   {

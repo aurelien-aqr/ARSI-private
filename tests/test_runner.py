@@ -193,7 +193,7 @@ def test_cancel_lands_mid_frame_and_keeps_what_was_judged(fake_client, img_facto
 
 def test_per_frame_references_reach_the_right_frame(fake_client, img_factory,
                                                     tmp_path):
-    """A benchmark protocol can give every frame its own clean reference (39T:
+    """A benchmark protocol can give every frame its own clean reference (3333:
     four cameras, four references, one run). Getting this wrong would diff a
     frame against another camera's view and score the whole viewpoint as
     anomalous."""

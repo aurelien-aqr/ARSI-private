@@ -29,7 +29,7 @@ ranking inverts, and it inverts on the column the table above cannot see:
     photo+dino             65/73    42/73              727
     dino (z4, floor .08)   69/73    58/73             1228
 
-On tram 39T the pixel diff scores 5/26 strict against "dino"'s 19/26 - it boxes
+On tram 3333 the pixel diff scores 5/26 strict against "dino"'s 19/26 - it boxes
 almost the whole frame - and no gate can repair that, because a gate deletes
 regions and never redraws one. "photo+dino" remains the right pick on the 1762
 camera and is a pure cost lever everywhere; "dino" is the quality pick on the
@@ -101,7 +101,7 @@ LOCALIZERS = {
                    "channel, person veto, salience cap, merge.",
         "measured": "Localizes all 45 instances of the 1762 benchmark, but on "
                     "the full 68-case set it boxes only 42/73 at strict IoU, and "
-                    "5/26 on 39T where its worst box covers 98.9% of the frame. "
+                    "5/26 on 3333 where its worst box covers 98.9% of the frame. "
                     "Its noise is purely photometric: a cross-session empty frame "
                     "still yields 15-37 candidate regions from lighting alone.",
         "needs": [],
@@ -128,7 +128,7 @@ LOCALIZERS = {
         "measured": "Loses on the 1762 camera alone (strict IoU 32/45 vs 37/45, "
                     "patch-grid boxes) and WINS across the fleet: 58/73 strict "
                     "against the pixel diff's 42/73 on the 68-case set, and 19/26 "
-                    "against 5/26 on 39T. It sends no fewer regions to the VLM "
+                    "against 5/26 on 3333. It sends no fewer regions to the VLM "
                     "(1228 vs 1192), so it buys box quality, not cost. End to "
                     "end it lifts frame F1 0.931 -> 0.984 and region precision "
                     "0.694 -> 0.896 at unchanged object recall (55/73).",
@@ -226,7 +226,7 @@ def resolve_camera(reference: str, params: dict = None):
     The reference PATH is the evidence, because it is the one thing every
     caller already has: the app names an uploaded reference after its camera,
     and the benchmark's reference paths are literally
-    `data/benchmark_39T/39T-cam53_...jpg`. `camera_of` in
+    `data/benchmark_3333/3333-cam53_...jpg`. `camera_of` in
     tools/localizer_specs.py reads the same fact off the benchmark's reference
     KEY - same convention, the copy each caller can actually see.
 

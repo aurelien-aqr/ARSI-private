@@ -273,24 +273,24 @@ def test_the_picker_warns_before_the_run_that_a_veto_cannot_fire(api, monkeypatc
     The rule lives server-side so the UI cannot fork resolve_camera's matching."""
     from arsi_core import localizers
     client, _ = api()
-    monkeypatch.setattr(localizers, "checkpoint_cameras", lambda: ["39T-cam53"])
+    monkeypatch.setattr(localizers, "checkpoint_cameras", lambda: ["3333-cam53"])
 
     def row(**q):
         body = client.get("/api/localizers", params=q).json()
         return body, {l["key"]: l for l in body["localizers"]}["dino+dinomaly"]
 
-    body, covered = row(reference="data/benchmark_39T/39T-cam53_08-55-37_t60.jpg")
-    assert covered["reference_ok"] is True and "39T-cam53" in covered["reference_note"]
-    assert body["dinomaly_cameras"] == ["39T-cam53"]
+    body, covered = row(reference="data/benchmark_3333/3333-cam53_08-55-37_t60.jpg")
+    assert covered["reference_ok"] is True and "3333-cam53" in covered["reference_note"]
+    assert body["dinomaly_cameras"] == ["3333-cam53"]
 
     _, orphan = row(reference="some_other_camera_ref.png")
     assert orphan["reference_ok"] is False
     assert orphan["available"] is True          # a WARNING, not a block
-    assert "39T-cam53" in orphan["reference_note"]     # names what IS trained
+    assert "3333-cam53" in orphan["reference_note"]     # names what IS trained
 
     # the reference is matched by NAME, never opened: the wizard asks about a
     # reference the operator has not committed to yet
-    _, unknown = row(reference="/nowhere/39T-cam53_whatever.jpg")
+    _, unknown = row(reference="/nowhere/3333-cam53_whatever.jpg")
     assert unknown["reference_ok"] is True
 
     # and the arms that need no checkpoint stay silent rather than saying "n/a"

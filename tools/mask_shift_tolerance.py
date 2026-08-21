@@ -1,6 +1,6 @@
 """How many pixels of offset can a mask absorb before it becomes wrong?
 
-Each 39T mask is artificially shifted by k pixels (8 directions) and compared
+Each 3333 mask is artificially shifted by k pixels (8 directions) and compared
 with the original: IoU, plus the glass area left visible. The curve gives a
 numeric mounting tolerance instead of an arbitrary figure.
 
@@ -18,7 +18,7 @@ import cv2
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-MASKS = ROOT / "data" / "masks_labelme" / "39T"
+MASKS = ROOT / "data" / "masks_labelme" / "3333"
 OUT = ROOT / "docs" / "camera_alignment"
 HFOV_DEG = 100.0
 
@@ -87,13 +87,13 @@ def main():
         cv2.line(fig, (x_of(px), pad), (x_of(px), Hc - pad), col, 2)
         label(fig, f"{txt} {px} px ({deg_from_px(px, W, HFOV_DEG):.1f} deg) -> IoU {by_shift[px]['iou_median']:.2f}",
               (x_of(px) + 8, pad + 26 + (0 if txt == "target" else 24)), col, 0.5)
-    # offset actually observed between 1760 and 39T, for scale
+    # offset actually observed between 1760 and 3333, for scale
     cv2.line(fig, (x_of(70), pad), (x_of(70), Hc - pad), (90, 90, 230), 1)
-    label(fig, "median observed 1760 -> 39T : 71 px", (x_of(70) + 8, Hc - pad - 20), (110, 110, 235), 0.5)
+    label(fig, "median observed 1760 -> 3333 : 71 px", (x_of(70) + 8, Hc - pad - 20), (110, 110, 235), 0.5)
 
     label(fig, "Mounting tolerance : IoU of a mask shifted by k pixels against the original",
           (pad, 40), (235, 235, 235), 0.6)
-    label(fig, "15 39T masks x 8 shift directions", (pad, 64), (140, 140, 140), 0.48)
+    label(fig, "15 3333 masks x 8 shift directions", (pad, 64), (140, 140, 140), 0.48)
     label(fig, "applied shift (pixels, and degrees at an assumed 100 deg field)",
           (pad, Hc - 20), (140, 140, 140), 0.48)
     cv2.imwrite(str(OUT / "_tolerance.jpg"), fig, [cv2.IMWRITE_JPEG_QUALITY, 92])

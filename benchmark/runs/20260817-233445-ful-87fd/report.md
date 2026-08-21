@@ -40,16 +40,16 @@
 
 | id | truth | frame | instances hit | FP boxes | kept labels |
 |---|---|---|---|---|---|
-| 39T_cam52_085124 | anomaly | **TP** | 0/2 | 1 | phone |
-| 39T_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow bag on seat, a yellow bag on the seat |
-| 39T_cam53_084021 | anomaly | **TP** | 1/2 | 1 | yellow item on seat, yellow bag on seat |
-| 39T_cam54_084021 | anomaly | **TP** | 1/1 | 0 | a crumpled wrapper, plastic bag |
-| 39T_cam54_084637 | anomaly | **TP** | 2/2 | 3 | cloth on seat, cloth on seat, laptop, laptop, a plastic bag |
-| 39T_cam54_085124 | anomaly | **TP** | 1/3 | 3 | a crumpled bag with green items, litter (trash bag), bottle, a bag and food wrapper |
-| 39T_cam55_083517 | anomaly | **TP** | 2/2 | 0 | laptop and cloth, laptop |
-| 39T_cam55_084021 | anomaly | **TP** | 2/2 | 0 | a crumpled bag on the floor |
-| 39T_cam55_084637 | anomaly | **TP** | 2/2 | 2 | laptop and cloth, cloth on seat, laptop on left seat, laptop |
-| 39T_cam55_085124 | anomaly | **TP** | 1/2 | 0 | bottle |
+| 3333_cam52_085124\* | anomaly | **TP** | 0/2 | 1 | phone |
+| 3333_cam53_083517 | anomaly | **TP** | 1/2 | 1 | yellow bag on seat, a yellow bag on the seat |
+| 3333_cam53_084021 | anomaly | **TP** | 1/2 | 1 | yellow item on seat, yellow bag on seat |
+| 3333_cam54_084021 | anomaly | **TP** | 1/1 | 0 | a crumpled wrapper, plastic bag |
+| 3333_cam54_084637 | anomaly | **TP** | 2/2 | 3 | cloth on seat, cloth on seat, laptop, laptop, a plastic bag |
+| 3333_cam54_085124 | anomaly | **TP** | 1/3 | 3 | a crumpled bag with green items, litter (trash bag), bottle, a bag and food wrapper |
+| 3333_cam55_083517 | anomaly | **TP** | 2/2 | 0 | laptop and cloth, laptop |
+| 3333_cam55_084021 | anomaly | **TP** | 2/2 | 0 | a crumpled bag on the floor |
+| 3333_cam55_084637 | anomaly | **TP** | 2/2 | 2 | laptop and cloth, cloth on seat, laptop on left seat, laptop |
+| 3333_cam55_085124 | anomaly | **TP** | 1/2 | 0 | bottle |
 | gpt_01_suitcase | anomaly | **TP** | 1/1 | 0 | black suitcase, black suitcase, suitcase, black suitcase |
 | gpt_02_multi | anomaly | **TP** | 4/4 | 2 | black backpack, brown paper bag, phone, bottle, plastic bottle, brown paper bag, plastic bottle |
 | gpt_03_faint_tag | anomaly | **TP** | 1/1 | 0 | graffiti (letters XRP) |
@@ -67,17 +67,17 @@
 | real_f0205 | anomaly | **TP** | 1/2 | 1 | jacket on seat, jacket on seat |
 | real_f0219 | anomaly | **TP** | 2/2 | 2 | jacket on seat, clothes on seat, backpack, backpack on seat, backpack |
 | variant_01 | anomaly | **TP** | 6/7 | 4 | bottle, backpack, backpack, graffiti "keep", torn seat fabric, bottle, bottle, backpack, plastic bottle, torn seat, torn seat, backpack |
-| 39T_cam52_084637 | anomaly | **FN** | 0/3 | 0 | - |
-| 39T_cam53_084637 | anomaly | **FN** | 0/1 | 0 | - |
-| 39T_cam53_085124 | anomaly | **FN** | 0/1 | 0 | - |
-| 39T_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
-| 39T_cam52_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam53_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam54_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam54_ref_t120_clean | clean | **TN** | - | 0 | - |
-| 39T_cam55_085954_clean | clean | **TN** | - | 0 | - |
-| 39T_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam52_084637 | anomaly | **FN** | 0/3 | 0 | - |
+| 3333_cam53_084637 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam53_085124 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam54_083517 | anomaly | **FN** | 0/1 | 0 | - |
+| 3333_cam52_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam53_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam54_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam54_ref_t120_clean | clean | **TN** | - | 0 | - |
+| 3333_cam55_085954_clean | clean | **TN** | - | 0 | - |
+| 3333_cam55_ref_t120_clean | clean | **TN** | - | 0 | - |
 | neg_gpt_06_clean | clean | **TN** | - | 0 | - |
 | neg_real_ref_self | clean | **TN** | - | 0 | - |
 | neg_v1_f0151 | clean | **TN** | - | 0 | - |
@@ -90,3 +90,7 @@
 | neg_v4_f0016 | clean | **TN** | - | 0 | - |
 | neg_v4_f0022 | clean | **TN** | - | 0 | - |
 | neg_variant_ref_self | clean | **TN** | - | 0 | - |
+
+---
+
+\* **3333** is a placeholder, not the tram's real fleet number - the vehicle number of the 2026-08-11 capture is unknown. It was called 39T before, but 39T is the Škoda type, which tram 1760 shares.

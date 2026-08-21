@@ -54,9 +54,9 @@ class Note:
 
 
 NOTES = {n.key: n for n in [
-    Note("camera-alignment", "Framing drift 1760 → 39T",
-         DOCS / "camera_alignment" / "camera_framing_drift_1760_39T.html",
-         "arsi-framing-drift-1760-39T.pdf", "Framing drift 1760 → 39T · ARSI"),
+    Note("camera-alignment", "Framing drift 1760 → 3333",
+         DOCS / "camera_alignment" / "camera_framing_drift_1760_3333.html",
+         "arsi-framing-drift-1760-3333.pdf", "Framing drift 1760 → 3333 · ARSI"),
     Note("dino-models", "Dinomaly & AnomalyDINO",
          DOCS / "dino_models" / "dino_models.html",
          "arsi-dino-models.pdf", "Dinomaly & AnomalyDINO · ARSI"),

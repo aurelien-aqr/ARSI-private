@@ -25,7 +25,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from tools.notes import NOTES                                     # noqa: E402
-from tools.report_style import foot, head                         # noqa: E402
+from tools.report_style import TRAM_FOOT, foot, head, tram_star                         # noqa: E402
 
 NOTE = NOTES["dino-models"]
 DOC = NOTE.html
@@ -151,7 +151,7 @@ def results_table(data) -> str:
         if not v:
             continue
         reg = v["regions_anomaly"] + v["regions_clean"]
-        f39 = v["by_family"]["39T"]
+        f39 = v["by_family"]["3333"]
         cls = ' class="base"' if key == "shipped" else ""
         win = " win" if v["strict"] >= best else ""
         out.append(f"""<tr{cls}>
@@ -204,7 +204,7 @@ def build() -> str:
     base, dino, dmly, best = (V["shipped"], V["dino4@0.08"],
                               V["dinomaly4@0.07"], V["ddgate0.05"])
     reg = lambda v: v["regions_anomaly"] + v["regions_clean"]        # noqa: E731
-    f39 = lambda v: v["by_family"]["39T"]                            # noqa: E731
+    f39 = lambda v: v["by_family"]["3333"]                            # noqa: E731
     inst = base["instances"]
     n_models = len(train)
     n_frames = sum(r["frames"] for r in train)
@@ -261,7 +261,7 @@ def build() -> str:
     <ol>
       <li><b>AnomalyDINO draws the best boxes.</b> It covers
         {dino['strict']}/{inst} objects properly against {base['strict']}/{inst}
-        for the current detector. Almost all of the gap is tram 39T, where the
+        for the current detector. Almost all of the gap is tram {tram_star()}, where the
         current detector manages
         {f39(base)['strict']}/{f39(base)['instances']} and AnomalyDINO
         {f39(dino)['strict']}/{f39(dino)['instances']}. It needs no training.</li>
@@ -400,7 +400,7 @@ def build() -> str:
     tram, taken one every 2 seconds from the source video, then filtered twice.
     Anything shot within 15 seconds of a test image is dropped, so no model is
     ever scored on what it learned from. A person detector then removes any image
-    with someone in it, which took out 18 % of the 39T candidates. One 39T
+    with someone in it, which took out 18 % of the 3333 candidates. One 3333
     recording was excluded by hand: it has two passengers <em>and</em> a bag on
     the floor, and the detector would have kept the frames where the bag sits
     alone.</figcaption>
@@ -427,7 +427,7 @@ def build() -> str:
     for this table.</p>
     <p><b>On its own, AnomalyDINO is the best of the three</b>, with
     {dino['strict']}/{inst} against {base['strict']}/{inst} for the pixel diff.
-    The gap is not spread evenly. Almost all of it comes from tram 39T, where the
+    The gap is not spread evenly. Almost all of it comes from tram 3333, where the
     pixel diff manages {f39(base)['strict']}/{f39(base)['instances']} and
     AnomalyDINO {f39(dino)['strict']}/{f39(dino)['instances']}. On those cameras
     the pixel diff's worst box covers 99 % of the image. AnomalyDINO's worst is
@@ -444,7 +444,7 @@ def build() -> str:
       <span class="key__l">objects boxed properly by AnomalyDINO, against
       {base['strict']}/{inst} for the pixel diff</span></div>
     <div class="key"><span class="key__v a1">{f39(dino)['strict']}/{f39(dino)['instances']}</span>
-      <span class="key__l">on tram 39T, where the pixel diff manages
+      <span class="key__l">on tram 3333, where the pixel diff manages
       {f39(base)['strict']}/{f39(base)['instances']}</span></div>
     <div class="key"><span class="key__v a2">−47 %</span>
       <span class="key__l">fewer crops sent to the VLM when Dinomaly filters
@@ -456,7 +456,7 @@ def build() -> str:
   <figure>
     <div class="tablewrap"><table>
       <thead><tr><th scope="col">Configuration</th><th scope="col">Model used</th>
-      <th scope="col">Boxed properly</th><th scope="col">On 39T</th>
+      <th scope="col">Boxed properly</th><th scope="col">On 3333</th>
       <th scope="col">Regions</th></tr></thead>
       <tbody>{results_table(data)}</tbody>
     </table></div>
@@ -479,15 +479,15 @@ def build() -> str:
       same run. Training images are kept 15 seconds away from any test image, but
       they still share its light. So nothing here tells us whether a 1760 model
       still works on another day.</li>
-      <li><b>The 39T clean frames are not independent either.</b> Of the nine
+      <li><b>The 3333 clean frames are not independent either.</b> Of the nine
       recordings, four contain the staged anomalies, one is the reference and one
       is used as a clean test case. The three that are unlabelled last 12, 8 and
       10 seconds, which is far too short to train on. There is simply no clean
       pool left, so training uses the two long clean recordings minus the images
-      held out. The 14 anomalous 39T cases are genuinely from sessions the model
-      never saw. The 7 clean ones are not, so the false-alarm rate on 39T looks
+      held out. The 14 anomalous 3333 cases are genuinely from sessions the model
+      never saw. The 7 clean ones are not, so the false-alarm rate on 3333 looks
       better than it should.</li>
-      <li><b>39T-cam52 is the weakest model of the eight.</b> It has only 90
+      <li><b>3333-cam52 is the weakest model of the eight.</b> It has only 90
       images, all from one recording, and it ends training with the highest
       error.</li>
       <li><b>On an unknown camera, Dinomaly goes quiet rather than wrong.</b> We
@@ -504,7 +504,8 @@ def build() -> str:
 </section>
 {foot("ARSI · tram anomaly detection · region proposal",
       "Pipeline: benchmark/eval_localization.py → tools/collect_e2e.py → tools/dump_training_sets.py",
-      "Raw data: docs/dino_models/metrics.json, end_to_end.json, training_sets.json")}
+      "Raw data: docs/dino_models/metrics.json, end_to_end.json, training_sets.json",
+      TRAM_FOOT)}
 """
 
 

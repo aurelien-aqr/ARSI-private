@@ -2,10 +2,10 @@
 # =============================================================================
 #  ARSI-VLM - tools/build_nominal_frames.py
 #  Extracts the NOMINAL training pool for the reference-free localizer
-#  (tools/dinomaly_train.py) on the 1760 and 39T cameras, from the source videos.
+#  (tools/dinomaly_train.py) on the 1760 and 3333 cameras, from the source videos.
 #
 #  WHY this file exists. Dinomaly was only ever trained on tram_1762, where 759
-#  masked frames were already sitting in data/masked/. On 1760 and 39T the only
+#  masked frames were already sitting in data/masked/. On 1760 and 3333 the only
 #  images in the repo are the 39 benchmark frames themselves, so "train a model
 #  per camera" first means "build a nominal set per camera" - and, as in
 #  dinomaly_train.py, THE TRAINING SET IS THE EXPERIMENT. It is therefore built
@@ -14,13 +14,13 @@
 #
 #  WHAT IS AND IS NOT AVAILABLE (measured 2026-08-19, durations from the videos):
 #
-#  39T has nine moments, and no leak-free pool. Four of them carry the staged
+#  3333 has nine moments, and no leak-free pool. Four of them carry the staged
 #  anomalies of the benchmark, 08-55-37 is the reference moment and 08-59-54 is
 #  a benchmark negative; the three that are unlabelled last 12.4 s, 7.8 s and
 #  10.4 s - ~30 s in total, not a training set. So we train on 08-55-37 and
 #  08-59-54 minus the holdout, and the consequence is STATED rather than hidden:
-#  the 14 anomalous 39T cases stay genuinely out-of-session, but the 7 negatives
-#  come from the sessions the model was trained on, so 39T specificity is
+#  the 14 anomalous 3333 cases stay genuinely out-of-session, but the 7 negatives
+#  come from the sessions the model was trained on, so 3333 specificity is
 #  optimistic and must be read as such.
 #
 #  1760 has ONE ten-minute run per camera and the benchmark samples it from
@@ -38,7 +38,7 @@
 #  use: every consumer must see the pixels the pipeline compares.
 #
 #  Run:  venv/bin/python tools/build_nominal_frames.py --family 1760
-#        venv/bin/python tools/build_nominal_frames.py --family 39T
+#        venv/bin/python tools/build_nominal_frames.py --family 3333
 # =============================================================================
 
 import argparse
@@ -65,28 +65,28 @@ STRIDE = 2.0          # seconds between sampled frames; 25 fps neighbours are
 #                       near-duplicates and cost encoder time for no new signal
 HOLDOUT = 15.0        # seconds on either side of a benchmark frame
 
-#: The 39T moments used as nominal. The other seven are anomalous or too short -
+#: The 3333 moments used as nominal. The other seven are anomalous or too short -
 #: see the header. Both of these are ALSO benchmark sessions, hence the holdout.
-NOMINAL_MOMENTS_39T = ("08-55-37", "08-59-54")
+NOMINAL_MOMENTS_3333 = ("08-55-37", "08-59-54")
 
 #: (camera, moment) pairs the person filter cannot save. cam52 at 08-59-54 has
-#: two passengers AND a bag at their feet (build_39T_benchmark.py, which refused
+#: two passengers AND a bag at their feet (build_3333_benchmark.py, which refused
 #: to label it for that reason): YOLO would drop the frames showing the people,
 #: and keep the ones where the bag sits alone - teaching the model that a left
 #: bag is nominal, on the very camera whose benchmark is about left objects.
 #: Human knowledge the detector cannot recover, so it is written down.
-EXCLUDE_39T = {("39T-cam52", "08-59-54")}
+EXCLUDE_3333 = {("3333-cam52", "08-59-54")}
 
 #: data/benchmark_1760/1760-cam04_t120.jpg  ->  ("1760-cam04", None, 120)
-#: data/benchmark_39T/39T-cam53_08-35-17_t60.jpg -> ("39T-cam53", "08-35-17", 60)
+#: data/benchmark_3333/3333-cam53_08-35-17_t60.jpg -> ("3333-cam53", "08-35-17", 60)
 RE_1760 = re.compile(r"(1760-cam\d+)_t(\d+)")
-RE_39T = re.compile(r"(39T-cam\d+)_(\d\d-\d\d-\d\d)_t(\d+)")
+RE_3333 = re.compile(r"(3333-cam\d+)_(\d\d-\d\d-\d\d)_t(\d+)")
 
 _masks = {}
 
 
 def mask_for(camera: str) -> MaskSpec:
-    """camera is '1760-cam04' / '39T-cam53' - the benchmark's own reference key."""
+    """camera is '1760-cam04' / '3333-cam53' - the benchmark's own reference key."""
     if camera not in _masks:
         family = camera.split("-")[0]
         path = MASKS / family / f"{camera}.json"
@@ -102,7 +102,7 @@ def benchmark_times():
     paths = [c["image"] for c in gt["cases"]] + list(gt["references"].values())
     out = {}
     for p in paths:
-        mt = RE_39T.search(p)
+        mt = RE_3333.search(p)
         if mt:
             out.setdefault(mt.group(1), set()).add((mt.group(2), int(mt.group(3))))
             continue
@@ -115,9 +115,9 @@ def benchmark_times():
 def video_for(camera: str, moment):
     if moment is None:
         return VIDEOS / "1760" / f"{camera}.mp4"
-    hits = sorted((VIDEOS / "39T").glob(f"*_{moment}"))
+    hits = sorted((VIDEOS / "3333").glob(f"*_{moment}"))
     if not hits:
-        raise FileNotFoundError(f"no 39T moment ending in {moment}")
+        raise FileNotFoundError(f"no 3333 moment ending in {moment}")
     return hits[0] / f"{camera}.mp4"
 
 
@@ -173,14 +173,14 @@ def build(family: str):
     cams = sorted(c for c in held if c.startswith(family + "-"))
     if not cams:
         raise SystemExit(f"no benchmark camera for family '{family}'")
-    moments = NOMINAL_MOMENTS_39T if family == "39T" else (None,)
+    moments = NOMINAL_MOMENTS_3333 if family == "3333" else (None,)
     total_kept = total_drop = 0
     for cam in cams:
         out_dir = OUT_ROOT / cam
         out_dir.mkdir(parents=True, exist_ok=True)
         cam_kept = cam_drop = 0
         for moment in moments:
-            if (cam, moment) in EXCLUDE_39T:
+            if (cam, moment) in EXCLUDE_3333:
                 print(f"  {cam} {moment:<10} EXCLUDED (passengers + a bag on the "
                       f"floor; not nominal)", flush=True)
                 continue
@@ -204,7 +204,7 @@ def build(family: str):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--family", required=True, choices=["1760", "39T"])
+    ap.add_argument("--family", required=True, choices=["1760", "3333"])
     args = ap.parse_args()
     build(args.family)
 

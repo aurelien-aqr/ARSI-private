@@ -33,7 +33,7 @@ class JobConfig:
     reference: str = None
     # Per-frame reference, parallel to `frames` (None entry -> `reference`). A
     # benchmark protocol can pair each frame with its OWN clean reference: the
-    # 39T dataset has four cameras, so scoring it in one run needs four
+    # 3333 dataset has four cameras, so scoring it in one run needs four
     # references. Left None for the ordinary one-camera case.
     frame_references: list = None
     mask: str = None                    # path to a MaskSpec JSON, or None
