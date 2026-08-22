@@ -1,0 +1,65 @@
+% =============================================================================
+%  preamble.tex - PUBLISHER-NEUTRAL setup.
+%
+%  Nothing in this file is specific to IEEE, MDPI, Springer or any other
+%  template. When the target venue is fixed, this is the ONE file that gets
+%  replaced (together with the \documentclass line in main.tex and the title
+%  block in metadata.tex). The sections/ directory must never need editing.
+%
+%  Conventions the section files rely on, and that any replacement preamble
+%  therefore has to keep providing:
+%     \keywords{...}        - typeset the keyword / index-term line
+%     \cite{...}            - numeric citation (works with IEEEtran.bst,
+%                             mdpi.bst, plainnat, unsrt)
+%     table environment with booktabs rules
+%     \figref / \tabref / \secref - cross-reference helpers
+% =============================================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+% microtype's font expansion needs scalable fonts (lmodern or a Type1 family).
+% Loaded WITHOUT expansion so the manuscript builds on a minimal TeX Live
+% install; a full install can safely drop the option.
+\usepackage[expansion=false]{microtype}
+
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+% Deliberately minimal package list: every package here is USED by sections/.
+% Adding one that a target template also loads is the usual source of
+% conversion pain, so keep it that way.
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,calc}
+\usepackage[hidelinks]{hyperref}
+
+% Numeric citations, sorted and compressed: [3], [5]-[7]. This is what both
+% IEEE and MDPI use, so no \citep/\citet asymmetry is introduced anywhere.
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{unsrtnat}
+
+% --- helpers used by the section files ---------------------------------------
+\providecommand{\keywords}[1]{%
+  \par\vspace{0.5em}\noindent\textbf{Keywords:} #1\par\vspace{0.5em}}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+
+% Consistent notation for the two pipeline stages, so a rename is one edit.
+\newcommand{\proposer}{proposal stage}
+\newcommand{\judge}{judge}
+
+% Localizer arm names, typeset consistently wherever they appear.
+\newcommand{\armphoto}{\textsc{photo}}
+\newcommand{\armphotodino}{\textsc{photo+dino}}
+\newcommand{\armdino}{\textsc{dino}}
+\newcommand{\armdinodinomaly}{\textsc{dino+dinomaly}}
+
+% Table look: no vertical rules, no double horizontal rules (IEEE and MDPI
+% house styles agree on this one).
+\renewcommand{\arraystretch}{1.15}

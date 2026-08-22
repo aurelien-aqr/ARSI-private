@@ -1,0 +1,74 @@
+% =============================================================================
+%  metadata.tex - title, authors, affiliations, abstract, keywords.
+%
+%  This is the SECOND publisher-specific file (preamble.tex is the first).
+%  Every journal expresses the title block differently: IEEE wants
+%  \author{...}\thanks{}, MDPI wants \Author{}\AuthorNames{}\address{},
+%  Springer wants \author{}\institute{}. The plain-article version below is a
+%  placeholder that compiles anywhere; replace it, and leave sections/ alone.
+%
+%  AUTHOR ORDER. Engineering and computer-vision convention, which this group
+%  follows: FIRST author = the person who did the work; LAST author = the
+%  senior researcher who supervised it; correspondence normally goes to the
+%  first author. Golej et al., Appl. Sci. 2024, 14(18):8555 - one of the format
+%  references - is exactly this shape: the student who ran the experiments is
+%  first, Partila is last, correspondence to the first author. Putting the
+%  supervisor first would signal that HE did the work, which is not what
+%  happened here.
+%
+%  TODO BEFORE SUBMISSION: Michal Plytik's department and e-mail are not known
+%  here - fill them in. Pavol Partila's affiliation string below is copied
+%  verbatim from his own published papers. Confirm the whole list with Pavol,
+%  including whether anyone else from the ARSI project belongs on it.
+% =============================================================================
+
+\title{\bfseries Who Proposes, Decides: Region Proposal Governs
+Reference-Based Anomaly Detection with Vision--Language Judges in Tram CCTV}
+
+\author{%
+  Aur\'elien Alquier$^{1,*}$
+  \quad Michal Plytik$^{2}$
+  \quad Pavol Partila$^{1}$
+  \\[0.6em]
+  \small $^{1}$Department of Telecommunications, Faculty of Electrical
+  Engineering and Computer Science,\\
+  \small VSB -- Technical University of Ostrava, 708~00 Ostrava, Czech Republic\\
+  \small $^{2}$\textit{[TODO: Michal Plytik's department and institution]}
+  \\[0.5em]
+  \small \texttt{aurelien1.alquier@gmail.com} \quad
+  \texttt{pavol.partila@vsb.cz}
+  \\[0.4em]
+  \small $^{*}$Corresponding author.
+}
+
+\date{}
+
+% -----------------------------------------------------------------------------
+%  Abstract. Four sentences, one job each: problem, what we do, the finding,
+%  external validity. Rewrite it LAST, after Table 2 is frozen.
+% -----------------------------------------------------------------------------
+\newcommand{\paperabstract}{%
+Detecting persistent appearance change inside public-transport vehicles ---
+forgotten objects, litter, graffiti, damage --- is a task that falls between
+industrial anomaly detection, clip-level video anomaly detection, and classical
+abandoned-object detection, and no public benchmark combines its three
+defining conditions: a fixed interior viewpoint, a per-camera clean reference,
+and an open set of anomaly classes. We present a fully local pipeline that
+proposes candidate regions against a per-camera clean reference and asks a
+9B-parameter vision--language model a single yes/no question about each
+proposed region, and, because the two stages are independently selectable, we
+sweep them one at a time. Under a frozen judge, replacing a photometric
+proposal stage with a DINOv2 feature-based one raises frame-level $F_1$ from
+0.931 to 0.984 and region precision from 0.694 to 0.896 while object recall
+does not move at all (55/73 in every arm), whereas twelve model $\times$ prompt
+arms fail to improve on the shipped judge at usable specificity --- the spatial
+proposal stage, not the language model, sets the accuracy ceiling. On CDnet
+2014 the same proposal stage recovers 77--100\,\% of annotated foreground
+across seven perturbation categories, and we report the two categories where a
+static reference fails, together with the deployment cost of the per-camera
+models the strongest variant requires.%
+}
+
+\newcommand{\paperkeywords}{anomaly detection; vision--language models; region
+proposal; public transport surveillance; abandoned object detection; DINOv2;
+change detection}

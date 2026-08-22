@@ -1,0 +1,33 @@
+% =============================================================================
+%  ARSI-VLM - manuscript, publisher-neutral.
+%
+%  Build:   make          (latexmk -pdf)
+%  Convert: see README.md - only main.tex's \documentclass, preamble.tex and
+%           metadata.tex change. sections/ is portable as-is.
+% =============================================================================
+\documentclass[11pt,a4paper]{article}
+
+\input{preamble}
+\input{metadata}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\paperabstract
+\end{abstract}
+\keywords{\paperkeywords}
+
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_methodology}
+\input{sections/04_experimental_setup}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+\input{sections/backmatter}
+
+\bibliography{references}
+
+\end{document}

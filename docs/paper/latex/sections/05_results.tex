@@ -1,0 +1,394 @@
+% =============================================================================
+%  5. Results
+%  The subsection ORDER is the argument: each one removes an objection to the
+%  one before it. 5.1 is the claim; 5.2 answers "you picked a weak judge";
+%  5.3 answers "is any of this needed?"; 5.4 answers "private data only";
+%  5.5 answers "why not one model per camera?".
+% =============================================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{Four proposal stages under a frozen judge}
+\label{sec:results:main}
+
+\tabref{tab:main} sweeps the \proposer{} with the \judge{} held fixed.
+
+\begin{table}[t]
+\centering
+\caption{Four proposal stages, judge held fixed. 68 cases, 73 instances, three
+trams, nine views. Object recall does not move; everything else does.}
+\label{tab:main}
+\small
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+\textbf{Proposal stage} & \textbf{Regions} & \textbf{Frame $F_1$} &
+\textbf{Frame Re} & \textbf{Frame Sp} & \textbf{Obj.\ recall} &
+\textbf{Strict} & \textbf{Reg.\ prec.} \\
+\midrule
+\armphoto{}          & 1192 & 0.931 & 0.871 & 1.000 & 55/73 & 0.534 & 0.694 \\
+\armphotodino{}      &  727 & 0.931 & 0.871 & 1.000 & 55/73 & 0.534 & 0.773 \\
+\armdino{}           & 1228 & \textbf{0.984} & \textbf{0.968} & 1.000 & 55/73 & \textbf{0.630} & \textbf{0.896} \\
+\armdinodinomaly{}   & \textbf{654} & \textbf{0.984} & \textbf{0.968} & 1.000 & 55/73 & \textbf{0.630} & \textbf{0.896} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The object-recall column is the one to read first: it does not move.
+Fifty-five of seventy-three instances, in all four arms, to the instance.
+Everything else does move --- frame recall from 0.871 to 0.968, region
+precision from 0.694 to 0.896, kept-but-wrong regions from 30 down to 7, and
+strict-IoU boxing from 0.534 to 0.630 --- while frame specificity stays at
+1.000 throughout, so none of this is bought with false alarms.
+
+Three consequences follow, and the third is the paper.
+
+First, \emph{``better boxes find more objects'' is the tempting reading of
+\tabref{tab:main} and it is false.} The localization-only view
+(\tabref{tab:localization}) shows the feature \proposer{} localizing four
+instances the photometric one misses --- and the \judge{} rejects them anyway.
+The \proposer{} sets the ceiling; the \judge{} decides where under it the
+system sits.
+
+Second, \emph{a veto is not a \proposer{}.} Rows 1--2 of \tabref{tab:main} are
+identical on every quality column and differ only in cost, because a veto
+deletes boxes and never redraws one; the same holds for rows 3--4, where
+\armdinodinomaly{} matches \armdino{} to the digit for 47\,\% fewer judge
+calls. Matching the ceiling means none of the 574 deleted boxes held a true
+instance. So the operative question is never \emph{which filter} but \emph{who
+proposes}.
+
+Third, \emph{the binding constraint is spatial, not linguistic.} With the
+\judge{} frozen, changing the \proposer{} moves frame $F_1$ by 0.053 and region
+precision by 0.202. \secref{sec:results:judge} shows what changing the
+\judge{} does instead.
+
+\begin{table}[t]
+\centering
+\caption{Localization only, no judge calls. The lenient rule barely separates
+the two families; the strict rule separates them decisively.}
+\label{tab:localization}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Proposal stage} & \textbf{Instances localized} & \textbf{Strict IoU} & \textbf{Regions} \\
+\midrule
+\armphoto{}             & 65/73 & 42/73 & 1192 \\
+\armphotodino{}         & 65/73 & 42/73 &  727 \\
+Dinomaly alone          & 62/73 & 48/73 &  813 \\
+\armdino{}              & \textbf{69/73} & \textbf{58/73} & 1228 \\
+\armdinodinomaly{}      & \textbf{69/73} & \textbf{58/73} &  654 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The mechanism behind the strict/lenient gap is blunt and measurable. On tram
+3333 the photometric \proposer{} scores 5/26 strict against the feature
+\proposer{}'s 19/26, and its worst box covers $911\,360$~px of a
+$1280 \times 720$ frame --- 98.9\,\% of the image. Such a box satisfies the
+lenient rule trivially and is worthless to a \judge{} that only ever sees the
+crop. \figref{fig:proposers} shows one frame where this happens, with the
+per-instance IoU printed on the image so the verdict can be checked without
+the caption: the photometric stage scores 0.042 on a laptop left on a seat and
+0.016 on a bag on the floor --- whose only photometric cover \emph{is} the
+98.9\,\% box --- against 0.555 and 0.408 for the feature stage. The figure also
+shows what the feature \proposer{} costs: 21 proposals against 8, which is why
+\tabref{tab:main} records no saving in judge calls for \armdino{} and why the
+veto arm exists at all.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{fig2_proposers.jpg}
+  \caption{The same inspection frame under both proposal families. Ground truth
+  in green, proposals in red, and the box covering 98.9\,\% of the frame
+  highlighted in orange. Each ground-truth box carries the best IoU achieved
+  and the verdict of the strict rule ($\mathrm{IoU} \ge 0.3$). Both instances
+  fail under the photometric stage and pass under the feature stage.}
+  \label{fig:proposers}
+\end{figure}
+
+\subsection{Twelve judges over a frozen set of boxes}
+\label{sec:results:judge}
+
+\tabref{tab:judge} inverts the experiment: the boxes are frozen at the 654
+crops produced by \armdinodinomaly{}, and four models are crossed with three
+prompts. The calibration anchor is that 73 instances among 654 regions imply
+that a calibrated judge answers YES about 11\,\% of the time.
+
+\begin{table}[t]
+\centering
+\caption{Judge sweep on a frozen set of 654 crops: four vision--language
+models $\times$ three prompts, 2\,h\,07 of GPU. Nothing improves on the shipped
+configuration at usable specificity.}
+\label{tab:judge}
+\small
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+\textbf{Model} & \textbf{Prompt} & \textbf{YES \%} & \textbf{Instances} &
+\textbf{Frame $F_1$} & \textbf{Frame Sp} & \textbf{Reg.\ prec.} \\
+\midrule
+GLM-V 9B (Flash) & conservative & 10.2 & \textbf{55/73} & \textbf{0.984} & \textbf{1.000} & 0.896 \\
+GLM-V 9B (Flash) & balanced     & 10.4 & 55/73 & 0.968 & 0.973 & 0.882 \\
+GLM-V 9B (Flash) & lenient      & 13.6 & 56/73 & 0.909 & 0.865 & 0.719 \\
+\midrule
+InternVL3.5-8B   & balanced     &  8.7 & 48/73 & 0.984 & 1.000 & 0.912 \\
+InternVL3.5-8B   & lenient      &  7.8 & 43/73 & 0.931 & 1.000 & 0.922 \\
+InternVL3.5-8B   & conservative &  6.9 & 39/73 & 0.893 & 1.000 & 0.933 \\
+\midrule
+Qwen3-VL-8B      & lenient      & 28.9 & 63/73 & 0.690 & 0.297 & 0.376 \\
+Qwen3-VL-8B      & balanced     & 40.5 & 63/73 & 0.659 & 0.189 & 0.268 \\
+Qwen3-VL-8B      & conservative & 39.6 & 63/73 & 0.645 & 0.135 & 0.274 \\
+\midrule
+Qwen2.5-VL-7B    & balanced     & 54.3 & 64/73 & 0.652 & 0.162 & 0.200 \\
+Qwen2.5-VL-7B    & conservative & 48.3 & 63/73 & 0.645 & 0.135 & 0.222 \\
+Qwen2.5-VL-7B    & lenient      & 88.5 & 63/73 & 0.632 & 0.081 & 0.123 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+No arm improves on the shipped configuration at usable specificity. That is a
+result and not a null result: it is the control that keeps
+\secref{sec:results:main} honest, since the first objection to ``the
+\proposer{} decides'' is that we chose a weak \judge{}.
+
+Three readings follow. \emph{The 63/73 of the Qwen arms is not detection but
+non-rejection}: at an 88.5\,\% YES rate a judge mechanically recovers almost
+everything handed to it, and frame specificity collapses to 0.081. This is the
+concrete demonstration of why every recall in this literature must be read next
+to the YES rate. \emph{The prompt is a real lever only where there is slack}: on
+InternVL3.5, which under-fires at 6.9\,\%, the balanced prompt moves 39/73 to
+48/73 at specificity 1.000 unchanged; on the GLM-V judge, already calibrated at
+10.2\,\%, the same prompt gains zero instances and costs specificity.
+\emph{Therefore prompting is calibration rather than capability} --- at this
+scale, for this set of models, and without adaptation. All three qualifiers are
+necessary: VERA~\cite{Ye_2025} treats prompts as learnable parameters and gains
+from it, and Borodin et al.~\cite{Borodin_2025} report that prompt sensitivity
+drops sharply after parameter-efficient fine-tuning. Our result and theirs are
+two halves of one finding, and the joint statement is that the next lever for
+this class of system is adaptation, not further prompt engineering.
+
+\subsection{Are the learned baselines enough?}
+\label{sec:results:baselines}
+
+\tabref{tab:baselines} runs anomalib~2.6 reference implementations on the same
+cameras, each model fitted on that camera's nominal frames and tested on that
+camera's cases. Scores are each method's native image score; I-AUROC is
+rank-based, so the comparison is valid despite differing score definitions.
+
+\begin{table}[t]
+\centering
+\caption{Image-level AUROC per camera, own-camera models. Only the
+\texttt{tram\_1762} column carries enough pairs to support a claim
+(\secref{sec:setup:sizes}).}
+\label{tab:baselines}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\textbf{Method} & \textbf{3333-c52} & \textbf{3333-c53} & \textbf{3333-c54} &
+\textbf{3333-c55} & \textbf{tram\_1762} \\
+ & \emph{2 pairs} & \emph{8 pairs} & \emph{8 pairs} & \emph{8 pairs} & \emph{176 pairs} \\
+\midrule
+PaDiM~\cite{Defard_2021}      & 1.000 & 0.875 & 1.000 & 1.000 & \textbf{0.915} \\
+PatchCore~\cite{Roth_2022}    & 1.000 & 0.625 & 1.000 & 1.000 & \textbf{0.841} \\
+Dinomaly~\cite{Guo_2025} \emph{(anomalib)}    & 1.000 & 1.000 & 1.000 & 1.000 & \textbf{0.886} \\
+AnomalyDINO~\cite{Damm_2025} \emph{(anomalib)} & 1.000 & 0.750 & 1.000 & 1.000 & \textbf{0.835} \\
+\midrule
+Dinomaly \emph{(ours)}        & 1.000 & 0.750 & 1.000 & 1.000 & \textbf{0.920} \\
+Dinomaly2 \emph{(ours)}       & 1.000 & 1.000 & 1.000 & 1.000 & \textbf{0.801} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two things fall out, and the second matters more than the table. Our
+re-implementation is sound: it matches the anomalib reference on four of five
+cameras, closes the fifth with the Dinomaly2 variant, and on the only column
+with real statistics sits slightly above the reference (0.920 against 0.886).
+A re-implementation cannot be reported without such a check, and it passes.
+
+More importantly, \emph{frame-level anomaly detection on this data is not the
+hard part}. Every standard method, untuned, lands between 0.835 and 0.920 on
+the 176-pair column and saturates at 1.000 on three of the four remaining
+views. ``Does this frame contain an anomaly'' is close to solved by a 2021
+memory-bank baseline that takes nine seconds to fit. This is why the claims of
+this paper are made at region and verdict level: \emph{which} region, and
+\emph{what} it is --- a language verdict a human can read, which no row of
+\tabref{tab:baselines} produces --- and at what operating point that holds.
+
+\subsection{The proposal stage on public data}
+\label{sec:results:cdnet}
+
+\tabref{tab:cdnet} evaluates the photometric proposal stage on seven CDnet 2014
+categories, without the \judge{} in the loop, so that a pipeline failure can be
+attributed: the region was never proposed, or it was proposed and misjudged.
+
+\begin{table}[t]
+\centering
+\caption{CDnet 2014, photometric proposal stage, pooled over all evaluated
+frames. \emph{Mask} is the per-pixel change mask; \emph{boxes} is the
+rasterised proposals, which is what reaches the judge. Read the two families of
+column separately: the stage is a recall-first proposer by design.}
+\label{tab:cdnet}
+\small
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+\multirow{2}{*}{\textbf{Category}} & \multirow{2}{*}{\textbf{Seq.}} &
+\multirow{2}{*}{\textbf{Frames}} &
+\multicolumn{4}{c}{\textbf{Mask}} & \multicolumn{2}{c}{\textbf{Boxes}} \\
+\cmidrule(lr){4-7}\cmidrule(l){8-9}
+ & & & $F_1$ & Re & Pr & FPR & Re & Pr \\
+\midrule
+\texttt{badWeather}    & 4 &  899 & \textbf{0.675} & 0.557 & 0.856 & 0.0014 & 0.918 & 0.095 \\
+\texttt{cameraJitter}  & 4 &  159 & 0.566 & 0.647 & 0.504 & 0.0266 & 0.924 & 0.105 \\
+\texttt{shadow}        & 6 &  710 & 0.496 & 0.618 & 0.415 & 0.0463 & 0.942 & 0.178 \\
+\texttt{nightVideos}   & 6 &  619 & 0.434 & 0.466 & 0.406 & 0.0100 & 0.886 & 0.129 \\
+\texttt{intermittentObjectMotion} & 6 & 1216 & 0.406 & 0.487 & 0.349 & 0.0350 & 0.812 & 0.139 \\
+\texttt{dynamicBackground} & 6 & 667 & 0.234 & 0.808 & 0.137 & 0.0714 & 0.998 & 0.028 \\
+\texttt{lowFramerate}  & 4 &  264 & \textbf{0.207} & 0.278 & 0.164 & 0.0277 & 0.767 & 0.052 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The category that is our task.}
+CDnet's \texttt{intermittentObjectMotion} is defined by its authors as videos
+containing background objects moving away, abandoned objects, and objects
+stopping for a while before moving away --- our task, almost word for word.
+Per sequence, the mask $F_1$ ranges from 0.978 on \texttt{streetLight} --- a
+fixed camera, stable light, a car that stops, a score that would be competitive
+on the CDnet leaderboard --- down to 0.143 on \texttt{winterDriveway} (snow,
+changing daylight) and 0.138 on \texttt{tramstop} (outdoor light drift). The
+stage is excellent exactly while its reference stays valid and collapses when
+it does not, and CDnet finds that failure mode in one afternoon.
+
+\paragraph{Read recall and precision separately.}
+Across all seven categories the boxes recall 0.767--0.998 while their precision
+stays between 0.028 and 0.178. This is by design, not by accident: our proposal
+stage is a recall-first proposer whose false positives are meant to be removed
+downstream by a \judge{} that CDnet does not run. Reporting only $F_1$ would
+say the stage is weak; reporting both columns says what is true --- it rarely
+misses, and it over-proposes on purpose. It should also be noted that the boxes
+row is scored against pixel-accurate ground truth by a method that emits
+rectangles, which structurally caps its precision.
+
+\paragraph{Which of our assumptions are load-bearing.}
+Read top to bottom, \tabref{tab:cdnet} ranks them. \texttt{badWeather} (0.675)
+and \texttt{cameraJitter} (0.566) are the good news and are the two categories
+that matter most for a tram: snow and rain against a median reference cost
+almost nothing (FPR 0.0014), and camera shake --- a tram vibrates continuously
+--- is survivable. \texttt{dynamicBackground} (0.234) and
+\texttt{lowFramerate} (0.207) are failures, and both lie outside our
+deployment: moving water and foliage do not exist inside a vehicle, and we
+control the sampling rate. \texttt{shadow} (0.496) and \texttt{nightVideos}
+(0.434) are the honest middle, and these two \emph{are} ours: a tram runs at
+night and through moving shade. That is the number to quote when asked what the
+proposal stage does under illumination change, and it is mediocre.
+
+\paragraph{Two claims of \secref{sec:results:main} reproduce on public data.}
+The gated variant \armphotodino{} scores 0.252 mean $F_1$ against the ungated
+diff's 0.254, at slightly lower recall (0.898 against 0.921) --- independent
+confirmation, on data we did not build, that a veto is a cost lever and never a
+quality one. Conversely, the feature \proposer{} does \emph{not} transfer to
+CDnet: it reaches 0.283 mean recall and fires not at all on
+\texttt{tramstop}. Two explanations were tested and ruled out. Sweeping its
+$z$ threshold from 4.0 to 1.5 and its floor from 0.08 to 0.02 moves recall from
+0.616 to 1.000 while precision stays pinned between 0.011 and 0.022 and the
+false-positive rate climbs to 0.98 --- there is no threshold at which it is
+useful; it goes from silent to covering the frame. Rebuilding the reference
+from a single real frame rather than a 50-frame median leaves it unchanged
+($F_1$ 0.029 against 0.028) while making the photometric stage distinctly
+worse, so the composite reference is not the cause. What remains is the
+assumption itself: the feature stage compares each patch to the same grid
+position of a reference from that same fixed camera, and quantises its boxes to
+the patch grid. That is a good trade on a tram interior, where an anomaly spans
+a large fraction of a patch, and a bad one on $320\times240$ outdoor footage
+scored against pixel-accurate ground truth. \emph{Our best proposal stage is
+best conditionally}, and the condition is the deployment geometry.
+
+\subsection{The cost of per-camera models}
+\label{sec:results:transfer}
+
+The strongest arm of \tabref{tab:main} needs one trained checkpoint per camera.
+Whether that is a genuine cost or an implementation detail depends on whether a
+foreign checkpoint actually fails, which we measured across eight cameras.
+
+It fails, and how it fails is the finding. A foreign checkpoint scores a clean
+frame $2.13\times$ higher than the correct checkpoint does (median 0.163
+against 0.077), and its anomalous-minus-clean margin collapses from
+$+0.017 \ldots +0.061$ to a median of $+0.0009$ --- a factor of 41. The
+distinction matters more than any AUROC: a model that were merely \emph{offset}
+could be rescued by a per-camera threshold, and this one is not offset. On an
+unfamiliar camera, ``this view is unfamiliar'' dominates the reconstruction
+error and drowns ``this patch is anomalous''. The cause is the viewpoint and
+not the illumination: the four \texttt{3333} cameras were filmed in the same
+two sessions minutes apart, under identical light, and transfer \emph{within}
+that family still fails. One nuance is worth preserving: on the only column
+with 176 pairs, foreign checkpoints still reach AUROC 0.665--0.909, so transfer
+preserves a weak ordering while destroying the operating point --- exactly the
+failure a deployed system cares about and exactly the one an AUROC-only report
+would hide.
+
+We then tested the authors' own answer to this objection. Dinomaly2
+\cite{Guo_2025_dinomaly2} introduces context-aware recentering (CAR), which
+subtracts a global summary of the image from every reconstruction target ---
+precisely the global, view-dependent term our measurement implicates. We ported
+its four elements and trained eight further checkpoints on identical data,
+crops, schedule and holdout, then ablated CAR alone.
+\tabref{tab:dinomaly2} attributes the effect cleanly. Because CAR normalises
+the reconstruction targets, absolute score levels are not comparable across
+variants and only the ratios are; every entry in the first two columns is a
+ratio for that reason.
+
+\begin{table}[t]
+\centering
+\caption{Cross-camera ablation. Context-aware recentering is the only element
+that touches the margin --- and it is also what costs the home camera.}
+\label{tab:dinomaly2}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Variant} & \textbf{Clean inflation} & \textbf{Margin collapse} &
+\textbf{Transfer} & \textbf{tram\_1762} \\
+ & \emph{foreign\,$\div$\,own} & \emph{own\,$\div$\,foreign} &
+ \emph{median, pooled} & \emph{self, 176 pairs} \\
+\midrule
+Dinomaly (v1)          & $2.13\times$ & $41\times$ & 0.367 & \textbf{0.920} \\
+Dinomaly2, CAR off     & $1.73\times$ & $43\times$ & 0.393 & \textbf{0.903} \\
+Dinomaly2, CAR on      & $\mathbf{1.52\times}$ & $\mathbf{10\times}$ & 0.449 & \textbf{0.801} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Without CAR the margin collapse is $43\times$, statistically indistinguishable
+from v1's $41\times$; with it, $10\times$. The loose loss, the bottleneck shape
+and the reversed decoder pairing do nothing at all for cross-camera behaviour
+--- what they fix is the diagonal, where \texttt{3333-cam53} goes from 0.750 to
+1.000 with CAR disabled. The mechanism proposed above is therefore confirmed by
+removing exactly the term it implicates and watching the effect disappear. CAR
+is also what costs the home camera: 0.903 without it, essentially v1's 0.920,
+against 0.801 with it. Recentering subtracts a global term carrying nuisance
+\emph{and} signal, and on the camera where we have the most data that trade is
+negative.
+
+The honest summary is a trade-off rather than an improvement: context-aware
+recentering buys a fourfold better cross-camera margin and pays about 0.10
+image-level AUROC at home, and even the improved margin leaves transfer at
+chance. Per-camera training is therefore a measured requirement of this design,
+not a cost we chose --- and to our knowledge it is not reported by the works
+citing either Dinomaly or AnomalyDINO, whose benchmarks contain no notion of a
+viewpoint that a model could fail to transfer across.
+
+\subsection{Qualitative check on abandoned objects}
+\label{sec:results:aboda}
+
+ABODA is the one public dataset whose anomaly class is ours, and it ships no
+annotations, so \figref{fig:aboda} is a figure and not a number. It shows the
+proposal stage on an outdoor night sequence it was never tuned for: while
+people are present the stage proposes them, and once they leave, the bag they
+left behind is proposed alone. The behaviour is the one the design intends in a
+domain --- outdoor, night, crowded --- that shares nothing with a tram
+interior except the observation geometry.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\linewidth]{fig4_aboda.jpg}
+  \caption{Proposal stage on ABODA, qualitative. The reference is the median of
+  the opening frames and the person veto is disabled, as on CDnet. Once the
+  people have left, the abandoned bag is the only proposal.}
+  \label{fig:aboda}
+\end{figure}

@@ -1,0 +1,120 @@
+% =============================================================================
+%  6. Discussion
+%  Every limitation here is one WE measured. Writing them before a reviewer
+%  finds them is the point; each paragraph names the number that bounds it.
+% =============================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{The boundary of our own claim}
+
+Object recall is pinned at 55/73 and no proposal stage moves it. Eighteen
+instances are localized and then rejected, four of them by the feature
+\proposer{} alone --- that is, the \proposer{} found them and the \judge{}
+said no. This is the exact boundary of the claim this paper makes: the
+proposal stage sets the ceiling, and the remaining headroom sits at the
+\judge{}, where \tabref{tab:judge} shows prompt and model selection to be
+exhausted for this class of local model. The next lever is therefore
+adaptation --- parameter-efficient fine-tuning of the \judge{} on human-labelled
+crops from this deployment --- which is consistent with the enabling role that
+Borodin et al.~\cite{Borodin_2025} report for PEFT in a neighbouring task. We
+consider that the natural continuation of this work rather than an afterthought.
+
+\subsection{Threats to validity}
+
+\paragraph{Dataset scale and provenance.}
+Sixty-eight cases, 31 of them anomalous, from a single deployment, with eleven
+cases carrying inpainted rather than naturally occurring anomalies. Two of the
+four anomaly types are represented by six and seven instances respectively.
+Nothing in \secref{sec:results:main} should be read as a precise operating
+point; what it supports is a comparison \emph{within} the table, where all four
+arms see exactly the same 68 cases and the same ground truth. The
+public-data evaluation of \secref{sec:results:cdnet} is the mitigation, and it
+is a partial one: it validates the component carrying the claim, on 5\,000-plus
+annotated frames we did not build, but it cannot validate the pipeline
+end to end because CDnet has no notion of a semantic verdict.
+
+\paragraph{The dataset cannot be released.}
+The footage is operational CCTV of a public-transport interior and contains
+identifiable passengers. This is a real limitation of the work and the reason
+every component-level claim in this paper is also measured on public data. It
+is not, however, a peculiarity of this project: the application-oriented review
+of in-vehicle monitoring by Caetano et al.~\cite{Caetano_2022} reports that
+work in this domain remains ``fully dependent on the availability of private
+datasets'', and identifies the extension of outdoor abandoned-object detection
+to vehicle interiors as an opportunity the accessible literature has
+overlooked. Their proposed remedy for the scarcity --- synthetic augmentation
+--- is the family our eleven inpainted cases belong to, and we regard building
+a releasable in-vehicle benchmark as the field-level work this paper cannot do
+on its own.
+
+\paragraph{A single judge family carries the end-to-end numbers.}
+\tabref{tab:main} uses one \judge{} across all four arms by construction ---
+that is what makes it a controlled comparison --- so the invariance of object
+recall is established for that \judge{}. \tabref{tab:judge} shows that the
+three alternative model families reach 39--64 instances over a fixed set of
+boxes, which bounds but does not eliminate the concern that the invariance is
+model-specific.
+
+\paragraph{Statistical power of the per-camera AUROCs.}
+Four of the five columns in \tabref{tab:baselines} and
+\tabref{tab:dinomaly2} rest on eight image pairs or fewer, where a single
+swapped pair moves the AUROC by 0.125. We report them for completeness and
+draw conclusions only from the 176-pair column and from the score-level
+statistics, which pool many more measurements than the AUROCs do.
+
+\subsection{What the deployment requires}
+
+\paragraph{One model per camera.}
+\secref{sec:results:transfer} establishes this as a measured requirement rather
+than an implementation choice: a foreign checkpoint is blind rather than
+miscalibrated, so no per-camera threshold rescues it, and the authors' own
+remedy --- context-aware recentering --- halves the gap while leaving transfer
+at chance and costing about 0.10 AUROC on the home camera. For a fleet, the
+consequence is a per-camera training step of a few minutes on nominal footage,
+which is operationally acceptable but must be planned for. It also means that a
+camera whose aim is adjusted needs retraining, not merely rethresholding.
+
+\paragraph{The reference must stay valid.}
+This is the single assumption on which everything rests, and CDnet quantifies
+what happens when it breaks: \texttt{tramstop} at $F_1$ 0.138 and
+\texttt{winterDriveway} at 0.143 are sequences whose reference goes stale under
+drifting outdoor light. In a tram the natural refresh point is the end-of-service
+inspection, when the vehicle is known to be empty. A system that cannot
+guarantee that refresh should expect the proposal stage to degrade toward those
+numbers rather than toward the 0.978 of \texttt{streetLight}.
+
+\paragraph{The strongest proposal stage is strongest conditionally.}
+The feature \proposer{} wins decisively on our fleet and fails on CDnet
+(\secref{sec:results:cdnet}), for a reason we could isolate: it assumes a fixed
+camera whose reference shares its grid, and it quantises boxes to a 24~px
+patch. That is a good trade when the anomaly spans a substantial fraction of a
+patch and a bad one on low-resolution outdoor footage evaluated against
+pixel-accurate masks. Practitioners should read our recommendation as
+conditional on the deployment geometry, not as a general ranking of proposal
+mechanisms.
+
+\subsection{Prompting, stated carefully}
+
+Our sweep shows a prompt moving an under-firing model from 39/73 to 48/73 at
+unchanged specificity and moving a calibrated model not at all. We read that as
+calibration rather than capability, \emph{at this scale, for these models, and
+without adaptation}. We deliberately do not generalise further: VERA
+\cite{Ye_2025} obtains real gains by treating prompts as learnable parameters,
+which is a different intervention from selecting among hand-written
+formulations, and the prompt-sensitivity literature surveyed
+in~\cite{Ren_2025} reports the effect varying widely across tasks and model
+scales. What our result does support is a practical rule --- measure the YES
+rate before attributing a recall difference to a prompt --- and a direction:
+once a model is calibrated, further formulation work has no headroom to
+exploit.
+
+\subsection{What we could not do}
+
+The event-level protocol of Luna et al.~\cite{Luna_2018} would let us report
+per-object precision, recall and $F_1$ on abandoned-object sequences, and is
+the natural complement to \secref{sec:results:cdnet}. We were unable to obtain
+the temporal annotation package it requires, and ABODA ships none of its own,
+which is why \secref{sec:results:aboda} is qualitative. This is a missing
+measurement, not a missing capability: the evaluation code exists and the
+sequences are public.

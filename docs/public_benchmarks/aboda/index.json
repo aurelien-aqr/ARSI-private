@@ -1,0 +1,219 @@
+{
+ "_about": "Qualitative only - ABODA ships no annotations, so nothing here is scored. Reference = median of the opening frames. Person filter OFF.",
+ "localizer": "photo",
+ "sequences": {
+  "video1": {
+   "frames": 2189,
+   "shots": [
+    {
+     "frame": 1641,
+     "fraction": 0.75,
+     "n_regions": 1,
+     "image": "docs/public_benchmarks/aboda/video1_f001641_photo.jpg",
+     "bboxes": [
+      [
+       120,
+       316,
+       196,
+       384
+      ]
+     ]
+    },
+    {
+     "frame": 1970,
+     "fraction": 0.9,
+     "n_regions": 2,
+     "image": "docs/public_benchmarks/aboda/video1_f001970_photo.jpg",
+     "bboxes": [
+      [
+       120,
+       316,
+       196,
+       384
+      ],
+      [
+       620,
+       64,
+       640,
+       92
+      ]
+     ]
+    }
+   ]
+  },
+  "video2": {
+   "frames": 2818,
+   "shots": [
+    {
+     "frame": 2113,
+     "fraction": 0.75,
+     "n_regions": 5,
+     "image": "docs/public_benchmarks/aboda/video2_f002113_photo.jpg",
+     "bboxes": [
+      [
+       224,
+       128,
+       280,
+       312
+      ],
+      [
+       660,
+       0,
+       720,
+       100
+      ],
+      [
+       672,
+       172,
+       720,
+       360
+      ],
+      [
+       424,
+       0,
+       484,
+       120
+      ],
+      [
+       704,
+       416,
+       720,
+       456
+      ]
+     ]
+    },
+    {
+     "frame": 2536,
+     "fraction": 0.9,
+     "n_regions": 5,
+     "image": "docs/public_benchmarks/aboda/video2_f002536_photo.jpg",
+     "bboxes": [
+      [
+       520,
+       0,
+       612,
+       120
+      ],
+      [
+       660,
+       0,
+       720,
+       100
+      ],
+      [
+       672,
+       172,
+       720,
+       360
+      ],
+      [
+       704,
+       416,
+       720,
+       456
+      ],
+      [
+       448,
+       72,
+       484,
+       120
+      ]
+     ]
+    }
+   ]
+  },
+  "video5": {
+   "frames": 3297,
+   "shots": [
+    {
+     "frame": 2472,
+     "fraction": 0.75,
+     "n_regions": 5,
+     "image": "docs/public_benchmarks/aboda/video5_f002472_photo.jpg",
+     "bboxes": [
+      [
+       392,
+       344,
+       504,
+       404
+      ],
+      [
+       284,
+       316,
+       364,
+       396
+      ],
+      [
+       124,
+       192,
+       180,
+       240
+      ],
+      [
+       396,
+       28,
+       440,
+       72
+      ],
+      [
+       228,
+       56,
+       252,
+       84
+      ]
+     ]
+    },
+    {
+     "frame": 2967,
+     "fraction": 0.9,
+     "n_regions": 7,
+     "image": "docs/public_benchmarks/aboda/video5_f002967_photo.jpg",
+     "bboxes": [
+      [
+       124,
+       192,
+       180,
+       240
+      ],
+      [
+       140,
+       60,
+       208,
+       152
+      ],
+      [
+       396,
+       28,
+       440,
+       72
+      ],
+      [
+       272,
+       340,
+       300,
+       372
+      ],
+      [
+       476,
+       340,
+       500,
+       364
+      ],
+      [
+       352,
+       368,
+       376,
+       392
+      ],
+      [
+       228,
+       56,
+       252,
+       84
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,153 @@
+% =============================================================================
+%  4. Experimental setup
+%  Data, metrics, protocols, reproducibility. Deliberately separate from
+%  Section 3: the METHOD is what we built, the SETUP is what we measured it
+%  with, and a reviewer checking whether a number is fair reads this section.
+% =============================================================================
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Data}
+\label{sec:setup:data}
+
+The private evaluation set comprises 68 labelled cases over three trams and
+nine camera views: 31 anomalous and 37 clean frames carrying 73 ground-truth
+instances. \tabref{tab:data} gives the composition. Every case names the
+reference it is compared against, and instance boxes are expressed in that
+reference's pixel space.
+
+\begin{table}[t]
+\centering
+\caption{Composition of the private evaluation set: 68 cases, 73 instances,
+3 trams, 9 camera views.}
+\label{tab:data}
+\begin{tabular}{@{}llr@{\hspace{2em}}llr@{}}
+\toprule
+\multicolumn{3}{@{}l}{\textbf{Instances by type}} &
+\multicolumn{3}{l@{}}{\textbf{Cases by provenance}} \\
+\midrule
+& forgotten object & 53 & & real camera frame        & 54 \\
+& graffiti         &  7 & & inpainted anomaly        & 11 \\
+& litter           &  7 & & self-staged              &  2 \\
+& damage           &  6 & & viewpoint variant        &  1 \\
+\cmidrule(r){2-3}\cmidrule(l){5-6}
+& \textbf{total}   & \textbf{73} & & \textbf{total}  & \textbf{68} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Eleven cases carry an anomaly composited into a real frame of the same camera
+by image inpainting. They are labelled as such and exist because two of the
+four anomaly types --- damage and graffiti --- are rare enough in a working
+tram that waiting for them was not possible within the study period. Synthetic
+augmentation of this kind is what Caetano et al.~\cite{Caetano_2022} recommend
+for exactly this domain, where they report the lack of public in-vehicle data
+as the binding constraint. People are
+never instances: a kept box on a person counts as a false-positive region.
+
+We state the obvious limitation once, here, and return to it in
+\secref{sec:discussion}: this is a small, single-deployment, non-public
+dataset. \secref{sec:results:cdnet} is the mitigation.
+
+\subsection{Metrics}
+\label{sec:setup:metrics}
+
+Three levels are reported, because the central claim of the paper is precisely
+that they move independently.
+
+\paragraph{Frame level.} Each case is a binary decision --- a frame is flagged
+when at least one region survives the \judge{}. We report $F_1$, recall and
+specificity over the 68 cases.
+
+\paragraph{Object level.} A ground-truth instance counts as detected if any
+kept region overlaps it under a lenient rule ($\mathrm{IoU} > 0.1$ or centre
+containment). A strict count at $\mathrm{IoU} \ge 0.3$ is reported alongside,
+and \emph{the gap between the two is the box-quality signal} --- a proposal
+covering most of the frame satisfies the lenient rule trivially and is useless
+to a judge that only sees the crop. Kept regions matching no instance are
+false-positive regions, and region precision is the fraction of kept regions
+that match one.
+
+\paragraph{Image-level AUROC.} For the comparisons against industrial
+anomaly-detection models (\secref{sec:results:baselines},
+\secref{sec:results:transfer}), which produce score maps rather than regions,
+we use the standard metric of that literature,
+%
+\begin{equation}
+  \mathrm{score}(x) = \operatorname{mean}\bigl( \text{top } 1\,\% \text{ of patch scores of } x \bigr),
+  \qquad
+  \text{I-AUROC} = \Pr\bigl[\, \mathrm{score}(x^{-}) > \mathrm{score}(x^{+}) \,\bigr],
+  \label{eq:iauroc}
+\end{equation}
+%
+with $x^{-}$ anomalous, $x^{+}$ clean, and masked patches excluded from the
+top-$1\,\%$ pool.
+
+\paragraph{One reporting rule.} Any recall is read next to the \judge{}'s YES
+rate. With 73 instances among 654 proposed regions, a calibrated judge answers
+YES about 11\,\% of the time; a judge answering YES to 88\,\% of crops also
+recovers most instances, and reporting that as detection would be an artefact
+of the proposal distribution rather than a property of the model. This follows
+the sampling concern made explicit by POPE~\cite{Li_2023}.
+
+\subsection{Per-camera sample sizes}
+\label{sec:setup:sizes}
+
+The AUROC comparisons are per camera, and their sample sizes differ by an
+order of magnitude, so we state them once and let them bound every claim that
+follows. Camera \texttt{tram\_1762} contributes 16 anomalous and 11 clean
+frames (176 pairs); the four \texttt{3333} cameras contribute 14 anomalous and
+7 clean frames in total (98 pairs), of which no individual camera exceeds 8
+pairs; the three \texttt{1760} cameras have no labelled anomalies and
+contribute score levels rather than AUROCs. Only the \texttt{tram\_1762}
+column and the \texttt{3333}-pooled column carry enough pairs to support an
+AUROC claim, and individual \texttt{3333} columns are reported for completeness
+only.
+
+\subsection{Public-data protocol}
+\label{sec:setup:cdnet}
+
+To evaluate the proposal stage on data we did not build, we run it on CDnet
+2014~\cite{Wang_2014} across seven categories. The reference is the per-pixel
+median of up to 50 frames preceding each sequence's \texttt{temporalROI},
+which reproduces our clean reference by construction; every $k$-th ROI frame is
+then evaluated. The official label semantics (static, hard shadow, outside ROI,
+unknown, motion) and the spatial ROI are respected, and the ROI is resampled
+with nearest-neighbour interpolation where a sequence ships an ROI of different
+size from its frames.
+
+The person veto is \textbf{disabled} for these runs. On CDnet the annotated
+foreground \emph{is} people, so leaving it enabled would measure the veto
+rather than the \proposer{}. Two views of each configuration are reported: the
+per-pixel change mask, and the rasterised proposal boxes --- the latter being
+what actually reaches the \judge{} --- both scored with the official CDnet
+metrics.
+
+We also report a qualitative check on ABODA, the one public dataset whose
+anomaly class is ours. It ships eleven CCTV sequences and no annotations, so it
+yields figures and not numbers; the event-level protocol of Luna et
+al.~\cite{Luna_2018} would require the temporal annotation package we were
+unable to obtain (\secref{sec:discussion}).
+
+\subsection{Implementation and reproducibility}
+\label{sec:setup:repro}
+
+All experiments run on a single NVIDIA RTX~3080~Ti (12~GB). Models: DINOv2
+ViT-S/14 with registers (frozen)~\cite{Oquab_2023}, YOLOv8-nano for the person
+veto~\cite{Jocher_2023_yolov8}, a 9B GLM-V--family
+judge~\cite{VTeam_2025_glm45v} in 4-bit via Ollama, and our Dinomaly
+re-implementation~\cite{Guo_2025}. The judge sweep additionally covers
+Qwen2.5-VL-7B~\cite{Bai_2025_qwen25vl}, Qwen3-VL-8B and
+InternVL3.5-8B~\cite{Wang_2025_internvl35}. Baselines use the anomalib~2.6
+reference implementations~\cite{Akcay_2022}.
+
+Per-region judge verdicts are cached on a key covering image, reference, box,
+model, prompt and occlusion mask, so a re-run reproduces a previous run exactly
+while a changed mask or prompt correctly invalidates it. The cache key
+deliberately excludes the \proposer{}: a box is a box, so identical coordinates
+from two \proposer{}s share one verdict --- which is also what makes the sweep
+of \secref{sec:results:main} affordable.
+
+Code, ground truth, per-run reports and a decision log are available in the
+project repository. The tram footage itself cannot be released, which is the
+reason \secref{sec:results:cdnet} exists.

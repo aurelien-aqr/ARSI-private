@@ -1,0 +1,84 @@
+% =============================================================================
+%  Figure 1 - pipeline diagram, TikZ so it survives a two-column conversion.
+%  Only `positioning', `fit' and `backgrounds' are used - all ship with any
+%  TeX Live. `arrows.meta' is deliberately avoided: older pgf installs lack it.
+%
+%  Absolute coordinates rather than relative placement, on purpose: the two
+%  rows have to line up with the LEFT margin, and chaining `below=of ...' off a
+%  right-hand node silently pushes row 2 off the page.
+%
+%  The diagram encodes the paper's design claim: exactly ONE box is swappable
+%  (the proposal stage, dashed), and everything after it is frozen - which is
+%  what makes Section 5.1 a controlled comparison rather than a comparison of
+%  two different pipelines.
+% =============================================================================
+\begin{tikzpicture}[
+  font=\small,
+  >=stealth,
+  x=1cm, y=1cm,
+  box/.style     = {draw, rounded corners=2pt, align=center,
+                    minimum height=9mm, inner xsep=4pt},
+  input/.style   = {box, fill=black!4, minimum width=27mm},
+  stage/.style   = {box, fill=black!8},
+  alt/.style     = {draw, rounded corners=2pt, align=center, font=\footnotesize,
+                    minimum height=5.5mm, minimum width=42mm, fill=white},
+  verdict/.style = {box, fill=black!12, font=\small\bfseries},
+  flow/.style    = {->, thick, black!65},
+]
+
+% ---- row 1 -----------------------------------------------------------------
+\node[input]                       (ref)  at (1.45, 0.75) {Clean reference\\[-1pt]
+                                                           \footnotesize (one per camera)};
+\node[input]                       (insp) at (1.45,-0.45) {Inspection frame};
+\node[stage, minimum width=25mm]   (mask) at (5.05, 0.15) {Occlusion mask\\[-1pt]
+                                                           \footnotesize identical on both};
+
+\node[alt] (a1) at (10.9, 1.25) {\armphoto{}: pixel diff};
+\node[alt] (a2) at (10.9, 0.62) {\armphotodino{}: {\raisebox{0.3ex}{$+$}} feature veto};
+\node[alt] (a3) at (10.9,-0.01) {\armdino{}: DINOv2 features};
+\node[alt] (a4) at (10.9,-0.64) {\armdinodinomaly{}: {\raisebox{0.3ex}{$+$}} per-camera veto};
+
+\begin{scope}[on background layer]
+  \node[draw, dashed, rounded corners=3pt, fill=black!3,
+        fit=(a1)(a4), inner sep=3.5mm] (prop) {};
+\end{scope}
+\node[anchor=south, font=\footnotesize\itshape, inner sep=2pt] at (prop.north)
+  {Proposal stage --- \textbf{swappable}};
+
+\draw[flow] (ref.east)  -- ++(0.30,0) |- (mask.west);
+\draw[flow] (insp.east) -- ++(0.30,0) |- (mask.west);
+\draw[flow] (mask.east) -- (prop.west);
+
+% ---- row 2: everything held fixed ------------------------------------------
+\def\rowtwo{-3.35}
+\node[stage, minimum width=57mm] (post)  at (2.90,\rowtwo)
+  {Shared post-processing\\[-1pt]
+   \footnotesize merge $\rightarrow$ person veto $\rightarrow$ salience cap};
+\node[stage, minimum width=23mm] (crop)  at (7.15,\rowtwo)
+  {Side-by-side\\[-1pt]crop pair};
+\node[stage, minimum width=23mm] (judge) at (10.05,\rowtwo)
+  {\judge{}\\[-1pt]\footnotesize 9B VLM, local};
+\node[verdict, minimum width=20mm] (out)  at (13.20,\rowtwo)
+  {Frame\\[-1pt]flagged};
+
+\draw[flow] (prop.south) -- ++(0,-0.75) -| (post.north);
+\draw[flow] (post.east)  -- (crop.west);
+\draw[flow] (crop.east)  -- (judge.west);
+\draw[flow] (judge.east) -- node[above, font=\footnotesize, inner sep=1.5pt] {YES}
+                            (out.west);
+\draw[flow] (judge.south) -- ++(0,-0.78)
+  node[right, font=\footnotesize, inner sep=2.5pt] {NO: region dropped};
+
+\begin{scope}[on background layer]
+  \node[draw, dotted, rounded corners=3pt,
+        fit=(post)(out), inner sep=3.5mm] (frozen) {};
+\end{scope}
+% The label sits BELOW the dotted box: anchoring it inside collides with the
+% post-processing node, which is the widest thing in the row.
+% Anchored at the LEFT edge so it never meets the NO label, which hangs below
+% the judge on the right.
+\node[anchor=north west, font=\footnotesize\itshape, inner sep=3pt]
+  at (frozen.south west)
+  {held fixed across all four arms of Table~2};
+
+\end{tikzpicture}

@@ -1,0 +1,85 @@
+% =============================================================================
+%  1. Introduction
+%  Four paragraphs, one per positioning claim, then the contributions list.
+%  Written LAST in drafting order (see docs/paper/OUTLINE.md 6) - it is here
+%  first only because that is where a reader expects it.
+% =============================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Public-transport operators inspect vehicle interiors for objects left behind,
+litter, graffiti and damage. On a tram, the inspection happens at the end of
+service, by eye, and it scales with the number of vehicles rather than with the
+number of incidents. Interior CCTV is already installed for other reasons, so
+the appealing idea is to have it flag the carriages that are worth walking
+through. What makes the automated version of this task specific is not the
+anomaly classes but the observation geometry: the camera never moves, the
+scene is rigid, and a clean state of that exact viewpoint is available. A
+detector therefore never has to learn what a tram looks like in general --- it
+only has to notice that this camera's scene differs from this camera's clean
+reference.
+
+That framing puts the task between three literatures without belonging to any
+of them. Industrial anomaly detection~\cite{Bergmann_2019,Roth_2022} assumes
+object-centric images of a single category and reports image-level scores;
+video anomaly detection~\cite{Sultani_2018,Duong_2023} assumes a moving or
+uncontrolled camera and decides which \emph{clip} is anomalous; classical
+abandoned-object detection~\cite{Luna_2018,Miguel_2008} matches our observation
+geometry closely but was built around background subtraction and a
+closed-vocabulary classifier, with illumination change as its acknowledged
+failure mode~\cite{Park_2020,Park_2019}. Vision--language models change what
+the last stage of such a system can be: instead of classifying a region into a
+fixed label set, one can \emph{ask} about it. Our system does exactly that,
+locally, on a single workstation.
+
+The contribution of this paper is not the system but a measurement made
+possible by how it is built. Because the region-proposal stage and the
+vision--language judge are independently selectable components sharing one box
+contract and one set of post-filters, each can be swept while the other is
+frozen. Doing so gives a result we did not expect: with the judge held fixed,
+replacing a photometric proposal stage by a DINOv2 feature-based one raises
+frame-level $F_1$ from 0.931 to 0.984 and region precision from 0.694 to 0.896,
+while object recall does not move by a single instance (55/73 in all four
+arms). With the boxes held fixed instead, twelve model $\times$ prompt arms
+fail to improve on the shipped judge at usable specificity. In this pipeline
+the binding constraint is spatial, not linguistic: \emph{the proposal stage
+sets the accuracy ceiling, and the judge decides where under that ceiling the
+system sits}. To our knowledge this statement cannot be made --- or even posed
+--- in the closest training-free vision--language anomaly pipelines:
+LAVAD~\cite{Zanella_2024}, VERA~\cite{Ye_2025} and
+AnomalyRuler~\cite{Yang_2024} all caption or score whole frames and segments
+and decide \emph{temporally}, so none of them contains a spatial proposal
+stage to vary.
+
+A companion result concerns prompting. Across our sweep, a prompt is a real
+lever exactly where a model is miscalibrated --- on an under-firing model it
+moves instance recall from 39/73 to 48/73 at unchanged specificity --- and no
+lever at all on a model that is already calibrated. Read together with the
+finding of Borodin et al.~\cite{Borodin_2025} that prompt sensitivity drops
+sharply \emph{after} parameter-efficient fine-tuning, the honest joint
+statement is that prompting is calibration rather than capability, and that the
+next lever for this class of system is adaptation, not further prompt
+engineering. We state this as a limit of our setting, not as a general law:
+VERA~\cite{Ye_2025} treats prompts as learnable parameters and gains from doing
+so.
+
+\medskip
+\noindent\textbf{Contributions.}
+\begin{enumerate}
+  \item A fully local, reference-based anomaly-detection pipeline for
+        in-vehicle CCTV in which the region-proposal stage and the
+        vision--language judge are independently selectable components over a
+        shared box contract (\secref{sec:method}).
+  \item A controlled two-stage sweep --- four proposal stages under a frozen
+        judge, twelve judges over a frozen set of boxes --- showing that the
+        proposal stage sets the accuracy ceiling while object recall stays
+        invariant (\secref{sec:results}).
+  \item Evidence that prompt and model selection behave as calibration and are
+        exhausted at this scale without adaptation, stated jointly with the
+        post-fine-tuning prompt insensitivity reported
+        in~\cite{Borodin_2025}.
+  \item An evaluation of the proposal stage on public data --- CDnet
+        2014~\cite{Wang_2014}, seven perturbation categories --- so that the
+        component carrying our main claim is verifiable outside the private
+        dataset, including the two categories in which it fails.
+\end{enumerate}

@@ -1,0 +1,12 @@
+# latexmk build artefacts. main.pdf IS tracked - it is the deliverable, and the
+# repo already tracks the rendered PDFs of the other design docs.
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.toc
+*.synctex.gz
+sections/*.aux

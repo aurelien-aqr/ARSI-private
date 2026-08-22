@@ -1,0 +1,241 @@
+% =============================================================================
+%  3. Methodology
+%  Every constant here is the shipped value, read out of the code rather than
+%  remembered (vlm_05_reference_diff.py, tools/dino_localizer.py,
+%  tools/dinomaly.py, arsi_core/localizers.py). Where a value was chosen by
+%  measurement, the measurement is named in the text.
+% =============================================================================
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Task and design principle}
+\label{sec:method:task}
+
+The system observes the fixed interior cameras of a tram at
+$1280 \times 720$~px. The scene is rigid, the viewpoint never changes, and the
+vehicle is emptied and inspected at the end of each service, so a clean state
+of each view is available. The task is to flag \emph{persistent appearance
+change}: a forgotten object, litter, a graffiti tag, or damage to a fitting.
+People are explicitly not anomalies, and neither is anything a person is
+wearing, holding or sitting on --- a distinction that matters more than it
+sounds, since a jacket on a seat is an anomaly and the same jacket on a
+passenger is not.
+
+The pipeline has two stages, illustrated in \figref{fig:pipeline}: a
+\emph{\proposer} that proposes candidate rectangles by comparing the inspection
+frame to a nominal reference of the same view, and a \emph{\judge} that answers
+a yes/no question about each proposed region. The design principle of this
+paper is that the two stages fail for different reasons and are improved by
+different work, so they are implemented as independently selectable components
+sharing a single contract --- a list of boxes in reference pixel space --- and
+a single set of post-filters. Swapping the \proposer{} therefore changes which
+regions reach the \judge{}, and nothing else, which is what makes the
+controlled comparison of \secref{sec:results:main} possible rather than a
+comparison of two different pipelines.
+
+Everything runs locally on one workstation (NVIDIA RTX~3080~Ti, 12~GB); no
+frame leaves the machine. This rules out hosted vision--language APIs and caps
+the judge at roughly nine billion parameters in 4-bit quantisation, which is
+why model selection is reported as a measurement (\secref{sec:results:judge})
+rather than assumed.
+
+\begin{figure}[t]
+  \centering
+  \input{figures/fig1_pipeline}
+  \caption{Overview of the two-stage pipeline. The occlusion mask is applied
+  identically to the reference and to the inspection frame; the
+  \protect\proposer{} emits boxes in reference pixel space; the shared
+  post-processing (merge, person veto, salience cap) is identical for every
+  \protect\proposer{}; the \protect\judge{} sees one side-by-side crop pair at
+  a time and never the whole frame.}
+  \label{fig:pipeline}
+\end{figure}
+
+\subsection{Reference and occlusion mask}
+\label{sec:method:reference}
+
+A \emph{reference} is one manually selected frame of a camera in its clean
+state. Windows are the dominant nuisance in a tram: exterior motion and
+daylight change produce large, fast and entirely uninteresting differences.
+They are removed by a camera-wide occlusion mask --- polygons drawn once per
+view and filled with black --- applied identically to the reference and to
+every inspection frame at pipeline input. Masking only one side would make the
+mask itself the largest detected change. Masked pixels are excluded from every
+downstream statistic: the photometric channels ignore them, and the
+feature-based stages drop the patches falling inside them before computing any
+scale estimate.
+
+\subsection{Proposal stage I: photometric difference (\armphoto)}
+\label{sec:method:photo}
+
+Let $R$ and $I$ be the masked reference and inspection frames in grayscale, and
+$G_\sigma$ a Gaussian blur of radius $\sigma = 3$~px. The base change map is
+%
+\begin{equation}
+  D(x) = \bigl| G_\sigma(I)(x) - G_\sigma(R)(x) \bigr|,
+  \qquad
+  M_{\mathrm{base}}(x) = \mathbf{1}\!\left[\, D(x) > \tau_1 \,\right],
+  \label{eq:photo}
+\end{equation}
+%
+with $\tau_1 = 40$. $M_{\mathrm{base}}$ is downscaled by 4, dilated by 2, and
+its connected components become boxes retained when their area lies in
+$[5\times10^{2},\, 4\times10^{5}]$~px.
+
+A single global threshold cannot both catch faint anomalies and keep the region
+count bounded: lowering $\tau_1$ to 25 merges busy frames into single large
+blobs that the area gate then deletes. The base detector is therefore left
+untouched and two channels only \emph{add} candidates, as a union of region
+lists rather than of masks --- a mask union would merge the boxes back
+together:
+
+\begin{itemize}
+  \item a second photometric pass at $\tau_2 = 30$, contributing at most eight
+        boxes that overlap no base region, ranked by salience. This recovers
+        low-contrast solid objects, such as a dark bottle on a dark floor,
+        which appear at $\tau \in [30,35]$ but not at $\tau_1$;
+  \item an \emph{added-edge-energy} channel
+        %
+        \begin{equation}
+          E(x) = \operatorname{relu}\!\bigl(\|\nabla I(x)\| - \|\nabla R(x)\|\bigr)
+                 \cdot \mathbf{1}\!\left[\, \|\nabla R(x)\| < \tau_{\mathrm{flat}} \,\right],
+          \label{eq:edge}
+        \end{equation}
+        %
+        blurred and thresholded at $\tau_E = 1.5$ with
+        $\tau_{\mathrm{flat}} = 6.0$, contributing at most four boxes. Sensor
+        and JPEG noise is symmetric between the two frames and cancels in this
+        one-sided difference, whereas a faint tag adds stroke edges on a flat
+        panel. This is what reaches faint graffiti that no global photometric
+        threshold can reach without flooding: on our single-camera benchmark
+        the two channels lift localization recall from 41/45 to 45/45
+        instances, at a 52\,\% increase in candidate regions on anomalous
+        frames.
+\end{itemize}
+
+\subsection{Proposal stage II: DINOv2 patch features (\armdino)}
+\label{sec:method:dino}
+
+Both frames are resized to 1120~px wide and encoded by a frozen
+\texttt{dinov2\_vits14\_reg} backbone~\cite{Oquab_2023} (22\,M parameters),
+giving an $80 \times 45$ patch grid at 24~px per patch. Let $f_I(p)$ and
+$f_R(q)$ denote patch embeddings and $\mathcal{N}(p)$ the $\pm 1$-patch
+neighbourhood of $p$ in the reference grid. Each patch is scored by
+%
+\begin{equation}
+  s(p) = \min_{q \in \mathcal{N}(p)}
+         \left( 1 - \frac{\langle f_I(p),\, f_R(q) \rangle}
+                          {\|f_I(p)\|\,\|f_R(q)\|} \right).
+  \label{eq:dino}
+\end{equation}
+%
+Where AnomalyDINO~\cite{Damm_2025} builds one memory bank over all nominal
+patches --- appropriate for object images that are centred but not aligned ---
+our camera is fixed, so a patch is compared only to nominal patches at the same
+grid position, up to $\pm 1$ patch of slack absorbing sub-patch jitter. That is
+a far tighter null hypothesis: a seat cushion is compared to \emph{that} seat,
+not to any seat in the image.
+
+A patch is flagged when it exceeds both a robust $z$-score and an absolute
+floor,
+%
+\begin{equation}
+  z(p) = \frac{s(p) - \operatorname{med}(s)}{1.4826 \cdot \operatorname{MAD}(s)},
+  \qquad
+  \text{flag}(p) = \mathbf{1}\!\left[\, z(p) \ge 4.0 \;\wedge\; s(p) \ge 0.08 \,\right],
+  \label{eq:dinothr}
+\end{equation}
+%
+with median and MAD taken over valid (unmasked) patches only. Both conditions
+are necessary, and this was measured rather than assumed: the per-frame MAD
+varies fivefold across our cases (0.006 on a same-session pair, 0.030 on a
+frame containing a person), so a single $z$ threshold corresponds to an
+absolute cut of 0.043 on one frame and 0.225 on another. On a genuinely
+near-identical pair the MAD collapses and the $z$ amplifies feature jitter into
+more than eighty spurious regions; the floor removes those, since such frames
+sit at $p_{99} \approx 0.07$, while the $z$ continues to handle cross-session
+pairs, where the whole distance map shifts upward. For scale, truly anomalous
+patches reach $s \in [0.37, 0.69]$ and the faintest true instance we measured
+peaks at $s = 0.126$. The resulting binary map is passed through the same
+connected-component routine as the photometric channels, so box geometry is
+produced identically in both families.
+
+\subsection{Proposal stage III: reconstruction veto (\armdinodinomaly)}
+\label{sec:method:veto}
+
+An optional third arm keeps the feature \proposer{} and adds a per-camera model
+that deletes the boxes it can reconstruct. We re-implemented
+Dinomaly~\cite{Guo_2025} --- a reconstruction model over frozen DINOv2 features
+with a noisy bottleneck, linear attention and a loose reconstruction constraint
+--- trained on nominal footage of that camera, and apply it as a veto at a
+reconstruction-error threshold of 0.05 inside each proposed box. A veto can
+only delete boxes, so this arm's accuracy ceiling is exactly that of the
+\proposer{} it filters; it is included because reaching that ceiling at half
+the cost is itself informative, and because it requires one checkpoint per
+camera, a deployment cost quantified in \secref{sec:results:transfer}. For
+completeness the sweep also includes \armphotodino{}, in which the photometric
+diff proposes and DINOv2 features veto --- an arm that shares the photometric
+\proposer{}'s boxes exactly and therefore isolates the proposer/veto
+distinction.
+
+\subsection{Shared post-processing}
+\label{sec:method:post}
+
+Every \proposer{} feeds the same four steps. Holding them fixed is what makes
+\secref{sec:results:main} a controlled comparison.
+
+\begin{enumerate}
+  \item \textbf{Merge.} One real object rarely produces one connected
+        component: a backpack and its strap, or a phone and the sliver of seat
+        edge beside it, land separately, and the extra channels add their own
+        boxes on top. Boxes whose gap is below 24~px are merged when the union
+        box is at least 50\,\% filled by its parts; a union emptier than that
+        is treated as two objects and left apart. Without this step the same
+        object reached the \judge{} as two to five independent fragments.
+  \item \textbf{Person veto.} YOLOv8-nano~\cite{Jocher_2023_yolov8} runs once
+        per inspection frame ($\approx$20~ms on GPU), and candidate regions
+        whose intersection over their own area with a person box reaches 0.6
+        are dropped before the \judge{}. This is what separates a worn jacket
+        from a forgotten one, which no label blacklist can do. It was verified
+        to lose zero ground-truth instances, and degrades to a warning if the
+        detector is unavailable.
+  \item \textbf{Salience cap.} At most 25 regions per frame, ranked by
+        salience, bounding worst-case judge cost.
+  \item \textbf{Crop rendering.} Each surviving box is rendered as a
+        side-by-side pair --- reference on the left, inspection on the right ---
+        with 40~px plus 75\,\% of the region size as context, each half
+        upscaled to at least 320~px on its shorter side. The upscale is not
+        cosmetic: a phone on a seat occupies about 50~px, and without it the
+        \judge{} dismisses small dark objects as reflections.
+\end{enumerate}
+
+Regions dropped at steps 2 and 3 never reach the \judge{} and are recorded as
+counts only; every region that does reach it is recorded with its verdict and
+its outcome, which is what allows the localization-only and end-to-end views of
+one run to be reconciled.
+
+\subsection{The judge}
+\label{sec:method:judge}
+
+The \judge{} is a local vision--language model served through Ollama and asked
+a yes/no question about \emph{one crop pair at a time}. It never sees the whole
+frame and is never asked to localize anything: the box is already drawn. This
+is a deliberate restriction of the language model to the operation the
+hallucination literature finds it most reliable at --- a binary
+probe~\cite{Li_2023} --- and it is what makes the two stages separable in the
+first place.
+
+The shipped \judge{} is a 9B GLM-V--family model~\cite{VTeam_2025_glm45v} at
+temperature 0.1, 4096 context, 512 predicted tokens. The prompt states the four
+anomaly classes, states three explicit NO conditions (a brightness, shadow or
+reflection change only; a person or anything they wear, hold or sit on;
+scratches and glare on metal or glass), and instructs the model to answer YES
+only if it can name a specific new object, marking or damage. The reply is
+\texttt{YES}/\texttt{NO} followed by a two- to four-word name.
+
+The named answer is used: three post-filters override a YES when the label
+names a person or body part, when it reports a \emph{disappearance} rather than
+an appearance, or when a small-object word is attached to a region larger than
+$6\times10^{3}$~px. These fire only on a YES, so a rejection is never
+misattributed to a filter. A frame is flagged when at least one region
+survives.

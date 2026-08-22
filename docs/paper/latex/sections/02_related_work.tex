@@ -1,0 +1,176 @@
+% =============================================================================
+%  2. Related work
+%  Organised on OUR pipeline's axis (propose regions -> judge regions) rather
+%  than by chronology, so that every cited work attaches to a claim we make.
+%  Compressed from docs/paper/related_work.md, which keeps the full citation
+%  ledger and the verbatim passages behind each statement.
+%
+%  NOTE FOR THE MDPI CONVERSION: MDPI papers in this family (e.g. Golej et al.,
+%  Appl. Sci. 2024) fold related work into the Introduction and a "2.1
+%  Background" subsection rather than giving it a numbered section of its own.
+%  If that is the target, move 2.1-2.2 into the Introduction and 2.3-2.6 into
+%  Materials and Methods / Background; the text below is written so that it
+%  survives the move without rewriting.
+% =============================================================================
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Anomaly detection without language}
+\label{sec:related:novlm}
+
+The industrial line of work defines the modern setting: train on nominal
+images only, score anomalies at image and pixel level, and evaluate on
+MVTec~AD~\cite{Bergmann_2019}. Its strongest representatives are memory-based
+--- PatchCore~\cite{Roth_2022} stores a coreset of nominal patch features and
+scores by nearest-neighbour distance --- distribution-based
+--- PaDiM~\cite{Defard_2021} fits a per-position Gaussian over pretrained
+features --- or distillation-based, where EfficientAD~\cite{Batzner_2024}
+pushes latency to the millisecond range. The anomalib
+library~\cite{Akcay_2022} makes these directly comparable, and we use its
+reference implementations as baselines (\secref{sec:results:baselines}).
+Two properties of this family matter here. First, it is object-centric: images
+are crops of one category, not scenes. Second, it produces a score map, not a
+region proposal with a semantic verdict, so it answers ``how anomalous'' rather
+than ``what is this''.
+
+Multi-class unified models remove the one-model-per-category assumption.
+Dinomaly~\cite{Guo_2025} reconstructs frozen DINOv2~\cite{Oquab_2023} features
+through a deliberately weakened decoder --- a noisy bottleneck, linear
+attention, and a loose reconstruction constraint --- so that the model cannot
+learn to reproduce anomalies it has never seen, and reports that a single
+model matches per-category specialists. Its recent
+successor~\cite{Guo_2025_dinomaly2} adds context-aware recentering of the
+reconstruction targets among other changes. We re-implemented both and report
+what they do on our cameras in \secref{sec:results:transfer}, including a
+transfer result that this literature does not measure, because its benchmarks
+have no notion of a \emph{viewpoint} that a model could fail to transfer
+across.
+
+Closest to our proposal stage is AnomalyDINO~\cite{Damm_2025}, which shows that
+frozen DINOv2 patch features with a nearest-neighbour memory bank are a
+strong training-free anomaly detector and, notably, that this vision-only
+approach outperforms vision--language alternatives in the few-shot regime. Our
+proposal stage adopts its scoring idea and specialises it to a fixed camera
+(\secref{sec:method:dino}).
+
+\subsection{Change detection and abandoned objects}
+\label{sec:related:aod}
+
+Comparing a frame against a nominal reference is change detection, and CDnet
+2014~\cite{Wang_2014} is its reference benchmark: eleven categories of
+perturbation --- shadows, camera jitter, night, dynamic background,
+intermittent object motion --- with per-pixel ground truth and a fixed metric
+suite. Its \texttt{intermittentObjectMotion} category is our task almost word
+for word, and we use CDnet to evaluate the proposal stage in isolation
+(\secref{sec:results:cdnet}).
+
+Abandoned-object detection (AOD) is the task whose \emph{semantics} match ours.
+Luna et al.~\cite{Luna_2018} survey the field and propose a unified evaluation
+protocol; the representative modern pipeline still combines dual background
+models with a CNN classifier~\cite{Park_2020,Park_2019}, and recent
+benchmarks~\cite{Xu_2024} stay outdoors and road-side. Two things stand out for
+our purposes. The architecture is unchanged since the AVSS
+era~\cite{Miguel_2008} --- background subtraction proposes, a closed-vocabulary
+classifier decides --- and illumination change remains the openly stated
+failure mode. Our pipeline replaces the classifier with an open-vocabulary
+judge and the illumination problem with an explicit occlusion mask plus a
+feature-space comparison that is largely exposure-invariant.
+
+\subsection{Language-guided anomaly detection}
+\label{sec:related:lvlm}
+
+One family puts language inside the scoring function.
+WinCLIP~\cite{Jeong_2023} scores windows against handcrafted normal/anomalous
+prompts; AnomalyCLIP~\cite{Zhou_2023} learns object-agnostic prompt vectors so
+that one prompt set transfers across datasets. A second family uses a large
+vision--language model as the detector itself: AnomalyGPT~\cite{Gu_2024}
+produces threshold-free textual verdicts and reports that such models are weak
+on \emph{localized} detail --- which is precisely why our judge is never asked
+to localize. The survey of Ren et al.~\cite{Ren_2025} organises the field into
+foundation models used as encoder, as detector, or as interpreter, and names
+prompt sensitivity as a recurring obstacle. Our judge is an
+\emph{interpreter} in that taxonomy: it never produces the box.
+
+\subsection{Video anomaly detection and training-free VLM pipelines}
+\label{sec:related:vad}
+
+The weakly supervised mainstream, anchored by UCF-Crime~\cite{Sultani_2018} and
+surveyed in~\cite{Duong_2023,Li_2025}, learns from video-level labels and
+outputs a per-frame anomaly score. It is not our benchmark: its anomalies are
+events with temporal extent, ours are static changes that persist
+indefinitely, and its cameras are uncontrolled.
+
+Three recent systems are our closest competitors because they, like us, use a
+vision--language model without task-specific training.
+LAVAD~\cite{Zanella_2024} captions frames with an off-the-shelf captioner,
+cleans the captions with an LLM, and scores temporally.
+VERA~\cite{Ye_2025} learns \emph{verbalized} guiding questions as parameters
+and aggregates segment scores into frame scores.
+AnomalyRuler~\cite{Yang_2024} induces normality rules from a few normal frames
+and applies them as language. All three decide \emph{when} something is
+anomalous, and all three consume \emph{whole frames}. AnomalyRuler is explicit
+about it: its visual perception module ``utilizes a VLM to convert video frames
+into text descriptions'', prompted with \emph{``What are people doing? What are
+in the images other than people?''} --- a question about the frame, not about a
+region of it. None of the three contains a spatial region-proposal stage that
+could be varied while the language model is held fixed, which is why the
+experiment of \secref{sec:results:main} has no counterpart in this line of
+work.
+
+\subsection{Can the judge be trusted?}
+\label{sec:related:judge}
+
+Our judge answers a binary question about a crop, which is exactly the probing
+format of POPE~\cite{Li_2023}: POPE shows that state-of-the-art vision--language
+models hallucinate objects at high rates under yes/no probing, and that the
+measured rate depends strongly on how the negative examples are sampled. That
+is the reason we report every recall next to the judge's YES rate
+(\secref{sec:setup:metrics}): a model that answers YES to most crops recovers
+most instances mechanically, and calling that detection would be an artefact of
+the sampling. The broader concern of using a model as an evaluator is by now a
+named methodological problem~\cite{Gu_2026}.
+
+\subsection{Region proposal and in-vehicle CCTV}
+\label{sec:related:proposal}
+
+Open-vocabulary detectors --- Grounding DINO~\cite{Liu_2023},
+YOLO-World~\cite{Cheng_2024} --- propose boxes from text and are an obvious
+alternative proposal stage; SAHI~\cite{Akyon_2022} shows that tiled inference
+substantially improves small-object detection, which is the regime a forgotten
+phone falls into at CCTV resolution.
+
+Closest to our optional veto stage is BEM~\cite{Park_2026_bem}, a
+training-free, weight-frozen module attached to a pretrained detector at
+inference: it estimates a background embedding from recent unlabelled frames of
+a fixed camera, keeps a prototype memory, and re-scores the detector's logits
+with an inverse-similarity penalty, reducing false positives while preserving
+recall. Its premise is ours --- on a fixed camera the quasi-static background is
+a stable, label-free prior --- and its position in a pipeline is ours too: it
+acts \emph{after} a proposal stage and can only suppress. It is therefore
+independent corroboration of one half of our finding
+(\secref{sec:results:main}), from a different task and a different detector
+family. Two things separate it from our work: its prior is a single global
+frame embedding rather than a per-position reference, and it re-scores the
+outputs of a closed-vocabulary detector, so what it can never do is put a box
+around something the detector did not already propose.
+
+The in-vehicle deployment domain itself is thinly covered, and the review by
+Caetano et al.~\cite{Caetano_2022} says so in terms that match our setting
+closely. It identifies the extension of outdoor abandoned-object and
+abnormal-behaviour work to in-vehicle monitoring as ``a relevant research
+opportunity that has been overlooked in the accessible literature'', names
+moving backgrounds and frequent illumination changes as the specific issues
+previous surveys ignore, and reports that work in this domain remains ``fully
+dependent on the availability of private datasets''. It also states the
+operational priority --- the identification of unattended objects as the main
+safety challenge in public transport --- and the very heuristic our person veto
+implements: an object counts as abandoned when its presence is not expected
+\emph{without a person present in the frame}. Its proposed remedy for the data
+scarcity is synthetic augmentation, which is the family our inpainted cases
+belong to (\secref{sec:setup:data}). On the benchmark side, Bus
+Violence~\cite{Ciampi_2022} is, to our knowledge, the only public in-vehicle
+CCTV anomaly benchmark, and it targets violent \emph{behaviour} --- an event,
+with people as the subject --- rather than persistent change with people as the
+principal nuisance. The gap our data occupies is therefore documented, not
+assumed, and it is also the reason we cannot fill it publicly
+(\secref{sec:discussion}).

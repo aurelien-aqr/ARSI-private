@@ -1,0 +1,40 @@
+% =============================================================================
+%  7. Conclusion
+%  Three sentences of what was found, then future work. Nothing new appears
+%  here that was not measured above.
+% =============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented a reference-based anomaly-detection pipeline for fixed in-vehicle
+CCTV in which a region-proposal stage and a local vision--language judge are
+independently selectable components over a shared box contract, and we used
+that separation to sweep each stage while the other was frozen. With the judge
+fixed, replacing a photometric proposal stage by a DINOv2 feature-based one
+raised frame-level $F_1$ from 0.931 to 0.984 and region precision from 0.694 to
+0.896 while object recall stayed at 55/73 in every arm; with the boxes fixed,
+twelve model $\times$ prompt arms failed to improve on the shipped judge at
+usable specificity. In this pipeline the accuracy ceiling is set by the spatial
+proposal stage rather than by the language model, and a filter placed after the
+proposal stage can only ever reduce cost, never raise quality --- a distinction
+that the current training-free vision--language anomaly pipelines cannot express,
+because they decide temporally over whole frames.
+
+Two negative results are reported alongside, both measured rather than assumed:
+standard industrial baselines already reach 0.835--0.920 image-level AUROC on
+our main camera, so frame-level detection is not where a contribution can be
+made here; and a per-camera reconstruction model does not transfer between
+viewpoints, with context-aware recentering halving the gap while leaving
+transfer at chance and costing 0.10 AUROC at home. On CDnet 2014 the proposal
+stage recovers 77--100\,\% of annotated foreground across seven perturbation
+categories, with its two failure categories lying outside the in-vehicle
+deployment and its weakest in-domain result --- illumination change --- stated
+explicitly.
+
+Future work follows directly from the boundary of the claim. Eighteen instances
+are proposed and then rejected by the judge, and prompt and model selection are
+exhausted at this scale, so the next lever is parameter-efficient adaptation of
+the judge on labelled crops from the deployment. On the evaluation side, the
+event-level protocol of Luna et al.~\cite{Luna_2018} on public
+abandoned-object sequences is the missing measurement, and it needs annotations
+rather than method development.
